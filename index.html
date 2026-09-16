@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANANSE - Weaving Ghana's Stories into the Digital Age</title>
+    <script src="https://kit.fontawesome.com/17eac40b74.js"></script>
+
+    <!-- Google Fonts for sleek typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="src/style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR SECTION -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <!-- ADD PICTURE HERE: Ananse Spider Logo / Icon -->
+                <!-- <img src="path/to/logo.png" alt="Ananse Logo" class="logo-img"> -->
+                <div class="logo-placeholder-icon">
+                    <i class="fa-solid fa-spider"></i> <!-- Placeholder Icon -->
+                </div>
+                <div class="logo-text">
+                    <span class="brand-name">ANANSE</span>
+                    <span class="tagline">Our Stories. Our Heritage. Your Journey.</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="pages/explore.html" class="nav-link">Explore</a>
+                <a href="pages/map.html" class="nav-link">Map</a>
+                <a href="pages/passport.html" class="nav-link">Passport</a>
+                <a href="pages/about.html" class="nav-link">About</a>
+            </nav> 
+
+            <!-- Nav Action Buttons -->
+            <div class="nav-actions">
+                <button class="icon-btn" aria-label="Search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <a href="pages/signin.html" class="btn-secondary">Sign In</a>
+                <a href="pages/get-started.html" class="btn-primary">Get Started</a>
+
+                <!-- Mobile Menu Hamburger Button -->
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <!-- ADD PICTURE HERE: Hero background image (Cape Coast Castle / Sunset scene) -->
+        <div class="hero-bg"
+            style="background-image: url('images/Cape\ Coast\ Castle\,\ Ghana.jpeg');">
+            <!-- Note: Replace the background-image URL above with your own image path -->
+        </div>
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <span class="hero-badge">WELCOME TO ANANSE</span>
+            <h1 class="hero-title">Weaving Ghana's Stories into the Digital Age</h1>
+            <p class="hero-description">
+                Explore our rich heritage, discover hidden stories, and experience Ghana's culture like never before.
+            </p>
+
+            <!-- Hero Search Bar -->
+            <div class="hero-search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" placeholder="Search for a site, story or location...">
+                <button class="btn-primary search-btn">
+                    Explore <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="hero-footer-quote">
+            <p>Same stories.<br><em>New ways to explore.</em></p>
+        </div>
+    </section>
+
+    <!-- QUICK FEATURES GRID -->
+    <section class="features-section">
+        <div class="container">
+            <div class="features-grid">
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-teal">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <h3>Discover</h3>
+                    <p>Find heritage sites across Ghana</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-cyan">
+                        <i class="fa-solid fa-magnifying-glass-location"></i>
+                    </div>
+                    <h3>Explore</h3>
+                    <p>Learn about history, culture & people</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-amber">
+                        <i class="fa-solid fa-qrcode"></i>
+                    </div>
+                    <h3>Scan</h3>
+                    <p>Unlock stories with QR experiences</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-blue">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <h3>Ask Naa</h3>
+                    <p>Get answers from our AI guide</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-green">
+                        <i class="fa-solid fa-passport"></i>
+                    </div>
+                    <h3>Get Your Passport</h3>
+                    <p>Visit, learn, collect badges</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon icon-gold">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h3>Earn Badges</h3>
+                    <p>Celebrate your journey</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED HERITAGE SITES SECTION -->
+    <section class="sites-section">
+        <div class="container">
+
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title"><span class="title-dash">—</span> Featured Heritage Sites</h2>
+                    <p class="section-subtitle">Explore some of Ghana's most iconic and culturally significant
+                        landmarks.</p>
+                </div>
+                <a href="pages/heritage-sites.html" class="view-all-link">View All <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Cards Grid -->
+            <div class="cards-grid">
+
+                <!-- Card 1 -->
+                <div class="site-card">
+                    <div class="card-image-wrapper">
+                        <!-- ADD PICTURE HERE: Cape Coast Castle image -->
+                        <img src="images/Cape Coast Castle photo, Ghana Africa.jpeg"
+                            alt="Cape Coast Castle">
+                        <span class="card-tag">Historical</span>
+                        <button class="card-action-btn" aria-label="View site">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Cape Coast Castle</h3>
+                        <p class="card-location"><i class="fa-solid fa-location-dot"></i> Central Region</p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="site-card">
+                    <div class="card-image-wrapper">
+                        <!--  PICTURE : Independence Arch image -->
+                        <img src="images/INDEPENDENCE ARCH (1).jpeg"
+                            alt="Independence Arch">
+                        <span class="card-tag">Monument</span>
+                        <button class="card-action-btn" aria-label="View site">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Independence Arch</h3>
+                        <p class="card-location"><i class="fa-solid fa-location-dot"></i> Accra</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="site-card">
+                    <div class="card-image-wrapper">
+                        <!-- ADD PICTURE HERE: Kwame Nkrumah Memorial Park image -->
+                        <img src="images/kwame Nkrumah memorial park.jpeg"
+                            alt="Kwame Nkrumah Memorial Park">
+                        <span class="card-tag">Cultural</span>
+                        <button class="card-action-btn" aria-label="View site">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Kwame Nkrumah Park</h3>
+                        <p class="card-location"><i class="fa-solid fa-location-dot"></i> Accra</p>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="site-card">
+                    <div class="card-image-wrapper">
+                        <!-- ADD PICTURE HERE: Elmina Castle image -->
+                        <img src="images/Elmina Castle, Ghana (1).jpeg"
+                            alt="Elmina Castle">
+                        <span class="card-tag">Historical</span>
+                        <button class="card-action-btn" aria-label="View site">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Elmina Castle</h3>
+                        <p class="card-location"><i class="fa-solid fa-location-dot"></i> Central Region</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION BANNER -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-banner">
+
+                <div class="cta-image-col">
+                    <!-- ADD PICTURE HERE: Woman portrait with traditional African headwrap -->
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
+                        alt="Cultural Heritage Portrait" class="cta-portrait">
+                </div>
+
+                <div class="cta-content-col">
+                    <span class="cta-subhead">MORE THAN A WEBSITE</span>
+                    <h2 class="cta-title">A Journey Through Ghana's Heritage</h2>
+                    <p class="cta-bullets">Discover &bull; Learn &bull; Be Part of the Story</p>
+                </div>
+
+                <div class="cta-button-col">
+                    <a href="#" class="btn-primary">Start Exploring <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- WELCOME EXPERIENCE -->
+    <div class="welcome-modal-overlay" id="welcomeModalOverlay" aria-hidden="true"></div>
+
+    <div class="welcome-modal" id="welcomeModal" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle" aria-describedby="welcomeDescription" aria-hidden="true">
+        <button class="welcome-speaker-btn" id="welcomeSpeakerBtn" type="button" aria-label="Replay the welcome message">
+            <i class="fa-solid fa-volume-high"></i>
+        </button>
+
+        <div class="modal-accent" aria-hidden="true"></div>
+
+        <span class="modal-tag">Ananse — A Place to Tell a Story</span>
+        <h2 id="welcomeTitle">Welcome to Ananse</h2>
+
+        <p class="modal-main-text">
+            A place to tour, discover, and learn the stories behind Ghanaian culture and heritage.
+        </p>
+
+        <p class="modal-voice-text" id="welcomeDescription">
+            Welcome, traveller. I am Anansi. Come, let me take you on a journey through the stories, places, and culture that make Ghana extraordinary.
+        </p>
+
+        <div class="modal-actions">
+            <button class="modal-btn modal-btn-secondary" id="skipWelcomeBtn" type="button" aria-label="Skip the welcome message">
+                Skip
+            </button>
+            <button class="modal-btn modal-btn-primary" id="startExploreBtn" type="button" aria-label="Start exploring Ananse">
+                Start Exploring
+            </button>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="src/script.js"></script>
+</body>
+
+</html>
