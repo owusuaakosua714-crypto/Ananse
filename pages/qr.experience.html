@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Experience | ANANSE - Ghana Heritage Platform</title>
+
+  <!-- Google Fonts for ANANSE Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://kit.fontawesome.com/17eac40b74.js"></script>
+  <link rel="stylesheet" href="../src/style.css">
+</head>
+<body>
+
+  <!-- MAIN SCOPED WRAPPER TO PREVENT GLOBAL CSS/JS CONFLICTS -->
+  <div id="qr-experience-page">
+
+    <!-- ========================================================================= -->
+    <!-- HEADER / NAVIGATION BAR                                                  -->
+    <!-- ========================================================================= -->
+    <header class="qr-header">
+      <div class="qr-nav-container">
+        
+        <!-- Brand Logo -->
+        <a href="../index.html" class="qr-brand-logo">
+          <div class="qr-logo-icon">
+            <!-- Adinkra Spider Web SVG Icon -->
+            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="18" cy="18" r="16" stroke="#D99B26" stroke-width="1.8"/>
+              <path d="M18 4V32M4 18H32M8 8L28 28M8 28L28 8" stroke="#D99B26" stroke-width="1" stroke-dasharray="2 2"/>
+              <polygon points="18,10 24,18 18,26 12,18" stroke="#D99B26" stroke-width="1.5" fill="none"/>
+            </svg>
+          </div>
+          <div class="qr-brand-text">
+            <span class="qr-brand-title">ANANSE</span>
+            <span class="qr-brand-sub">Our Stories. Our Heritage. Your Journey.</span>
+          </div>
+        </a>
+
+        <!-- Main Navigation Links -->
+        <nav class="qr-nav-menu" id="qrNavMenu">
+          <a href="../index.html" class="qr-nav-link">Home</a>
+          <a href="explore.html" class="qr-nav-link">Explore</a>
+          <a href="map.html" class="qr-nav-link">Map</a>
+          <a href="passport.html" class="qr-nav-link">Passport</a>
+          <a href="about.html" class="qr-nav-link">About</a>
+        </nav>
+
+        <!-- Right Side Nav Actions -->
+        <div class="qr-nav-actions">
+          <button class="qr-icon-btn" aria-label="Search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </button>
+          <button class="qr-icon-btn" aria-label="Notifications">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          </button>
+          <div class="qr-user-profile">
+            <!-- ADD USER AVATAR IMAGE HERE -->
+            <div class="qr-avatar-placeholder">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 14c-5.33 0-8 2.67-8 4v1h16v-1c0-1.33-2.67-4-8-4z"/></svg>
+            </div>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+
+          <!-- Mobile Menu Hamburger Button -->
+          <button class="qr-mobile-menu-btn" id="qrMobileMenuBtn" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- ========================================================================= -->
+    <!-- HERO SECTION                                                             -->
+    <!-- ========================================================================= -->
+    <section class="qr-hero">
+      <!-- ADD HERO BACKGROUND IMAGE HERE -->
+      <div class="qr-hero-bg-wrapper">
+        <img src="../assets/images/cape-coast-castle-hero.jpg" alt="Cape Coast Castle Background" class="qr-hero-bg-img" id="qrHeroBgImg">
+        <div class="qr-hero-overlay"></div>
+      </div>
+
+      <div class="qr-adinkra-left-pattern"></div>
+
+      <div class="qr-container qr-hero-content-grid">
+        <!-- Hero Left Column -->
+        <div class="qr-hero-left">
+          <span class="qr-gold-tag">QR EXPERIENCE</span>
+          <h1 class="qr-hero-heading">Step Into<br>the Story</h1>
+          <p class="qr-hero-subtext">
+            Point your camera, scan the QR code, and bring the heritage site to life — with stories, images, audio and more.
+          </p>
+        </div>
+
+        <!-- Hero Right Column -->
+        <div class="qr-hero-right">
+          <h2 class="qr-script-heading">Scan. Discover. Experience.</h2>
+          <p class="qr-hero-info">
+            Use the QR code at heritage sites to unlock stories, videos, and immersive experiences from Ghana's rich past.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- MAIN CONTENT SECTION (3 COLUMNS)                                         -->
+    <!-- ========================================================================= -->
+    <main class="qr-main-section">
+      <div class="qr-container qr-three-column-grid">
+        
+        <!-- --------------------------------------------------------------------- -->
+        <!-- COLUMN 1: QR SCANNER CARD (DARK TEAL)                                 -->
+        <!-- --------------------------------------------------------------------- -->
+        <div class="qr-card qr-scanner-card" id="qrScannerContainer">
+          <div class="qr-scanner-header">
+            <div class="qr-scanner-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"></path><rect x="7" y="7" width="10" height="10" rx="1"></rect></svg>
+            </div>
+            <h2 class="qr-card-title-light">Scan QR Code</h2>
+          </div>
+
+          <p class="qr-scanner-instruction">
+            Align the QR code within the frame to start your heritage experience.
+          </p>
+
+          <!-- Interactive Camera Scanner Box -->
+          <div class="qr-camera-frame-wrapper" id="qrScanBox">
+            <!-- Camera Feed Container for html5-qrcode -->
+            <div id="qr-reader"></div>
+
+            <!-- Visual Overlay Frame with Corner Brackets -->
+            <div class="qr-frame-corners" id="qrFrameOverlay">
+              <span class="qr-corner top-left"></span>
+              <span class="qr-corner top-right"></span>
+              <span class="qr-corner bottom-left"></span>
+              <span class="qr-corner bottom-right"></span>
+
+              <!-- ADD STATIC QR PLACEHOLDER IMAGE HERE -->
+              <div class="qr-static-graphic" id="qrStaticGraphic">
+                <img src="../assets/images/sample-qr-code.png" alt="Sample QR Code" id="qrPlaceholderImg">
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Scan Status Banner -->
+          <div class="qr-scanner-status" id="qrScannerStatus">
+            Click frame or button below to activate camera
+          </div>
+
+          <!-- Flashlight Toggle Button -->
+          <button class="qr-flashlight-btn" id="qrFlashlightBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+            <span id="qrFlashlightLabel">Tap to turn on flashlight</span>
+          </button>
+        </div>
+
+
+        <!-- --------------------------------------------------------------------- -->
+        <!-- COLUMN 2: WHAT YOU'LL DISCOVER (CENTER CARD)                          -->
+        <!-- --------------------------------------------------------------------- -->
+        <div class="qr-card qr-discover-card">
+          <div class="qr-discover-header">
+            <div class="qr-gold-badge-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+            </div>
+            <h2 class="qr-card-title-dark">What You'll Discover</h2>
+          </div>
+
+          <!-- Site Video / Main Image Banner -->
+          <div class="qr-site-media-box" id="qrMediaBox">
+            <!-- ADD HERITAGE SITE MAIN IMAGE HERE -->
+            <img src="../assets/images/cape-coast-castle-preview.jpg" alt="Cape Coast Castle" class="qr-site-main-img" id="qrSiteMainImg">
+            <span class="qr-category-badge" id="qrSiteCategory">Historical Site</span>
+            
+            <button class="qr-play-overlay-btn" id="qrMainPlayBtn" aria-label="Play video tour">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            </button>
+          </div>
+
+          <!-- Dynamic Site Details -->
+          <div class="qr-site-info-content">
+            <h3 class="qr-site-name" id="qrSiteName">Cape Coast Castle</h3>
+            <div class="qr-site-location">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              <span id="qrSiteLocationText">Central Region, Ghana</span>
+            </div>
+            <p class="qr-site-desc" id="qrSiteDesc">
+              Built in 1653, this historic castle was one of the key slave forts used during the transatlantic slave trade. Discover the stories of resilience, strength and the enduring spirit of the African people.
+            </p>
+          </div>
+
+          <!-- 5 Feature Action Pillars -->
+          <div class="qr-feature-pillars-row">
+            <!-- Pillar 1: Video Tour -->
+            <button class="qr-pillar-btn" id="qrPillarVideo">
+              <div class="qr-pillar-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              </div>
+              <span>Video Tour</span>
+            </button>
+
+            <!-- Pillar 2: Audio Story -->
+            <button class="qr-pillar-btn" id="qrPillarAudio">
+              <div class="qr-pillar-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+              </div>
+              <span>Audio Story</span>
+            </button>
+
+            <!-- Pillar 3: Photo Gallery -->
+            <button class="qr-pillar-btn" id="qrPillarGallery">
+              <div class="qr-pillar-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              </div>
+              <span>Photo Gallery</span>
+            </button>
+
+            <!-- Pillar 4: Fun Facts -->
+            <button class="qr-pillar-btn" id="qrPillarFacts">
+              <div class="qr-pillar-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+              </div>
+              <span>Fun Facts</span>
+            </button>
+
+            <!-- Pillar 5: Related Sites -->
+            <button class="qr-pillar-btn" id="qrPillarRelated">
+              <div class="qr-pillar-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+              </div>
+              <span>Related Sites</span>
+            </button>
+          </div>
+
+          <!-- Bottom Main CTA Button -->
+          <button class="qr-btn-primary-gold" id="qrScanAtSiteBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"></path><rect x="7" y="7" width="10" height="10" rx="1"></rect></svg>
+            <span>Scan at the Site</span>
+            <span class="qr-arrow">→</span>
+          </button>
+        </div>
+
+
+        <!-- --------------------------------------------------------------------- -->
+        <!-- COLUMN 3: RIGHT SIDEBAR STACK                                         -->
+        <!-- --------------------------------------------------------------------- -->
+        <div class="qr-right-sidebar">
+          
+          <!-- Quote Card -->
+          <div class="qr-card qr-quote-card">
+            <div class="qr-quote-mark">“</div>
+            <p class="qr-quote-text">
+              "Every scan unlocks a new chapter of Ghana's story."
+            </p>
+            <div class="qr-quote-watermark">
+              <!-- Adinkra Golden Sun/Star Icon -->
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D99B26" stroke-width="1.5"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"></path></svg>
+            </div>
+          </div>
+
+          <!-- Phone Hand Image Container -->
+          <div class="qr-card qr-phone-img-card">
+            <!-- ADD HAND SCANNING PHONE IMAGE HERE -->
+            <img src="../assets/images/hand-holding-phone-qr.jpg" alt="Scanning QR code on phone" class="qr-phone-img">
+          </div>
+
+          <!-- Tips Card -->
+          <div class="qr-card qr-tips-card">
+            <div class="qr-tips-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#053238" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+              <h3>Tips</h3>
+            </div>
+            <ul class="qr-tips-list">
+              <li><span class="qr-check">✓</span> Ensure good lighting</li>
+              <li><span class="qr-check">✓</span> Keep the QR code in frame</li>
+              <li><span class="qr-check">✓</span> Allow camera access</li>
+            </ul>
+          </div>
+
+          <!-- Decorative Adinkra Pattern Bar -->
+          <div class="qr-adinkra-bar-bottom"></div>
+
+        </div>
+
+      </div>
+    </main>
+
+
+    <!-- ========================================================================= -->
+    <!-- INTERACTIVE MODAL OVERLAYS (FOR VIDEO, AUDIO, GALLERY, FACTS, RELATED)   -->
+    <!-- ========================================================================= -->
+
+    <!-- Modal 1: Video Tour Player -->
+    <div class="qr-modal-backdrop" id="qrVideoModal">
+      <div class="qr-modal-content qr-modal-lg">
+        <button class="qr-modal-close" id="qrVideoCloseBtn" aria-label="Close modal">&times;</button>
+        <h3 class="qr-modal-title" id="qrVideoTitle">Video Tour - Cape Coast Castle</h3>
+        <div class="qr-video-player-container">
+          <!-- ADD VIDEO PATH HERE -->
+          <video id="qrModalVideoPlayer" controls poster="../assets/images/cape-coast-castle-preview.jpg">
+            <source src="../assets/videos/cape-coast-castle-tour.mp4" type="video/mp4">
+            Your browser does not support HTML5 video playback.
+          </video>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 2: Audio Story Player -->
+    <div class="qr-modal-backdrop" id="qrAudioModal">
+      <div class="qr-modal-content qr-modal-md">
+        <button class="qr-modal-close" id="qrAudioCloseBtn" aria-label="Close modal">&times;</button>
+        <div class="qr-audio-player-wrapper">
+          <div class="qr-audio-art">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#D99B26" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+          </div>
+          <h3 class="qr-modal-title" id="qrAudioTitle">Audio Story - Cape Coast Castle</h3>
+          <p class="qr-audio-subtitle" id="qrAudioSubtitle">Narrated by ANANSE Heritage Voice</p>
+          
+          <!-- ADD AUDIO FILE PATH HERE -->
+          <audio id="qrModalAudioPlayer" controls class="qr-custom-audio-element">
+            <source src="../assets/audio/cape-coast-castle-narration.mp3" type="audio/mpeg">
+            Your browser does not support HTML5 audio playback.
+          </audio>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 3: Photo Gallery Lightbox -->
+    <div class="qr-modal-backdrop" id="qrGalleryModal">
+      <div class="qr-modal-content qr-modal-lg">
+        <button class="qr-modal-close" id="qrGalleryCloseBtn" aria-label="Close modal">&times;</button>
+        <h3 class="qr-modal-title" id="qrGalleryTitle">Photo Gallery</h3>
+        <div class="qr-gallery-lightbox">
+          <button class="qr-gallery-nav prev" id="qrGalleryPrevBtn">&#10094;</button>
+          <div class="qr-gallery-slide">
+            <!-- ADD GALLERY IMAGE HERE -->
+            <img src="../assets/images/cape-coast-castle-1.jpg" alt="Gallery View" id="qrGalleryCurrentImg">
+            <p class="qr-gallery-caption" id="qrGalleryCaption">Cape Coast Castle Exterior View</p>
+          </div>
+          <button class="qr-gallery-nav next" id="qrGalleryNextBtn">&#10095;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 4: Fun Facts Popup -->
+    <div class="qr-modal-backdrop" id="qrFactsModal">
+      <div class="qr-modal-content qr-modal-md">
+        <button class="qr-modal-close" id="qrFactsCloseBtn" aria-label="Close modal">&times;</button>
+        <h3 class="qr-modal-title">Verified Heritage Facts</h3>
+        <ul class="qr-facts-list" id="qrFactsContainer">
+          <!-- Populated by JavaScript -->
+        </ul>
+      </div>
+    </div>
+
+    <!-- Modal 5: Related Sites Selector -->
+    <div class="qr-modal-backdrop" id="qrRelatedModal">
+      <div class="qr-modal-content qr-modal-md">
+        <button class="qr-modal-close" id="qrRelatedCloseBtn" aria-label="Close modal">&times;</button>
+        <h3 class="qr-modal-title">Explore Related Heritage Sites</h3>
+        <div class="qr-related-sites-list" id="qrRelatedContainer">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ========================================================================= -->
+    <!-- FOOTER SECTION                                                           -->
+    <!-- ========================================================================= -->
+    <footer class="qr-footer">
+      <div class="qr-container qr-footer-content">
+        
+        <!-- Left Footer Brand -->
+        <a href="../index.html" class="qr-brand-logo">
+          <div class="qr-logo-icon">
+            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="18" cy="18" r="16" stroke="#D99B26" stroke-width="1.8"/>
+              <path d="M18 4V32M4 18H32M8 8L28 28M8 28L28 8" stroke="#D99B26" stroke-width="1" stroke-dasharray="2 2"/>
+              <polygon points="18,10 24,18 18,26 12,18" stroke="#D99B26" stroke-width="1.5" fill="none"/>
+            </svg>
+          </div>
+          <div class="qr-brand-text">
+            <span class="qr-brand-title">ANANSE</span>
+            <span class="qr-brand-sub">Our Stories. Our Heritage. Your Journey.</span>
+          </div>
+        </a>
+
+        <!-- Center Script Motto -->
+        <div class="qr-footer-motto">
+          Scan today. Experience forever.
+        </div>
+
+        <!-- Right Social Icons & Secondary Links -->
+        <div class="qr-footer-right">
+          <div class="qr-social-icons">
+            <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+            <a href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+            <a href="#" aria-label="X Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg></a>
+            <a href="#" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg></a>
+          </div>
+          <div class="qr-footer-links">
+            <a href="explore.html">Explore</a> • <a href="about.html">Learn</a> • <a href="map.html">Preserve</a>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Relative Path to Scoped JavaScript File -->
+  <script src="../src/script.js"></script>
+</body>
+</html>

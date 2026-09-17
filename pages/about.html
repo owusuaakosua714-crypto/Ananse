@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | ANANSE - Ghana Heritage Platform</title>
+
+    <!-- Google Fonts for Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/17eac40b74.js"></script>
+    <link rel="stylesheet" href="../src/style.css">
+</head>
+
+<body class="about-page">
+
+    <!-- ================= HEADER / NAVIGATION ================= -->
+    <header class="about-nav-header">
+        <div class="about-nav-container">
+
+            <!-- Brand Logo -->
+            <a href="../index.html" class="about-brand">
+                <!-- SVG Spider Web Logo Icon Fallback -->
+                <div class="about-logo-icon">
+                    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="18" cy="18" r="16" stroke="#D99B26" stroke-width="1.8" />
+                        <path d="M18 4V32M4 18H32M8 8L28 28M8 28L28 8" stroke="#D99B26" stroke-width="1"
+                            stroke-dasharray="2 2" />
+                        <polygon points="18,10 24,18 18,26 12,18" stroke="#D99B26" stroke-width="1.5" fill="none" />
+                    </svg>
+                </div>
+                <div class="about-brand-text">
+                    <span class="about-brand-name">ANANSE</span>
+                    <span class="about-brand-tagline">Our Stories. Our Heritage. Your Journey.</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="about-nav-menu" id="aboutNavMenu">
+                <!-- LINK PLACEHOLDERS: Update paths to match your project structure -->
+                <a href="../index.html" class="about-nav-link">Home</a>
+                <a href="explore.html" class="about-nav-link">Explore</a>
+                <a href="map.html" class="about-nav-link">Map</a>
+                <a href="passport.html" class="about-nav-link">Passport</a>
+                <a href="about.html" class="about-nav-link active">About</a>
+            </nav>
+
+            <!-- Right Nav Actions -->
+            <div class="about-nav-actions">
+                <button class="about-action-btn" aria-label="Search">
+                    <!-- Font Awesome: <i class="fa-solid fa-magnifying-glass"></i> -->
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+                <button class="about-action-btn" aria-label="Notifications">
+                    <!-- Font Awesome: <i class="fa-regular fa-bell"></i> -->
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                </button>
+                <div class="about-user-profile">
+                    <!-- IMAGE PLACEHOLDER: Put user avatar image URL here -->
+                    <div class="about-avatar-placeholder">
+                        <!-- Replace with: <img src="../assets/images/user-avatar.jpg" alt="User Profile"> -->
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 14c-5.33 0-8 2.67-8 4v1h16v-1c0-1.33-2.67-4-8-4z" />
+                        </svg>
+                    </div>
+                    <svg class="about-dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+
+                <!-- Mobile Hamburger Toggle -->
+                <button class="about-mobile-toggle" id="aboutMobileToggle" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- ================= HERO SECTION ================= -->
+    <section class="about-hero-section">
+        <!-- Traditional Pattern Background Accents -->
+        <div class="about-kente-pattern-left"></div>
+        <div class="about-kente-pattern-right"></div>
+
+        <div class="about-container about-hero-grid">
+
+            <!-- Hero Left Text Content -->
+            <div class="about-hero-text">
+                <span class="about-section-subtitle">ABOUT ANANSE</span>
+                <h1 class="about-hero-title">
+                    More Than a Platform.<br>
+                    <span class="about-highlight-line">It's a Movement.</span>
+                </h1>
+                <p class="about-hero-description">
+                    ANANSE is a digital heritage platform built to bring Ghana's rich history, culture and people to
+                    life — connecting the past, present and future.
+                </p>
+                <div class="about-hero-motto">
+                    Our Heritage. Our Pride. Our Story.
+                </div>
+            </div>
+
+            <!-- Hero Right Image Container -->
+            <div class="about-hero-image-wrapper">
+                <!-- ========================================================================= -->
+                <!-- IMAGE PLACEHOLDER: Replace src with your Cape Coast Castle image path    -->
+                <!-- Example: src="../assets/images/cape-coast-castle.jpg"                    -->
+                <!-- ========================================================================= -->
+                <div class="about-image-frame">
+                    <img src="https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?auto=format&fit=crop&w=1200&q=80"
+                        alt="Cape Coast Castle Ghana" class="about-hero-img" loading="lazy">
+                    <div class="about-img-overlay"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= 4 CORE CARDS GRID ================= -->
+    <section class="about-values-section">
+        <div class="about-container">
+            <div class="about-cards-grid">
+
+                <!-- Card 1: Our Mission -->
+                <div class="about-card">
+                    <div class="about-card-icon-badge blue-badge">
+                        <!-- Font Awesome: <i class="fa-solid fa-bullseye"></i> -->
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <circle cx="12" cy="12" r="6"></circle>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="about-card-title">Our Mission</h3>
+                    <p class="about-card-text">
+                        To make Ghana's heritage accessible, engaging and unforgettable through technology, storytelling
+                        and immersive experiences.
+                    </p>
+                </div>
+
+                <!-- Card 2: Our Vision -->
+                <div class="about-card">
+                    <div class="about-card-icon-badge gold-badge">
+                        <!-- Font Awesome: <i class="fa-solid fa-eye"></i> -->
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="about-card-title">Our Vision</h3>
+                    <p class="about-card-text">
+                        A world where everyone can explore, learn and celebrate Ghana's heritage — anytime, anywhere.
+                    </p>
+                </div>
+
+                <!-- Card 3: Our Values -->
+                <div class="about-card">
+                    <div class="about-card-icon-badge teal-badge">
+                        <!-- Font Awesome: <i class="fa-solid fa-leaf"></i> -->
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.4 19 2c1 2 2 4.1 2 7 0 6-4.5 11-10 11z">
+                            </path>
+                            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                        </svg>
+                    </div>
+                    <h3 class="about-card-title">Our Values</h3>
+                    <ul class="about-values-list">
+                        <li><span class="about-list-dot"></span>Cultural pride</li>
+                        <li><span class="about-list-dot"></span>Innovation</li>
+                        <li><span class="about-list-dot"></span>Education</li>
+                        <li><span class="about-list-dot"></span>Inclusivity</li>
+                        <li><span class="about-list-dot"></span>Sustainability</li>
+                    </ul>
+                </div>
+
+                <!-- Card 4: Quote -->
+                <div class="about-card about-quote-card">
+                    <div class="about-adinkra-watermark"></div>
+                    <div class="about-quote-mark">“</div>
+                    <blockquote class="about-quote-text">
+                        “Heritage is not just what we inherit, but what we pass on.”
+                    </blockquote>
+                    <div class="about-quote-author">— ANANSE</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================= OUR TECHNOLOGY SECTION ================= -->
+    <section class="about-tech-section">
+        <div class="about-container about-tech-grid">
+
+            <!-- Tech Section Left Side -->
+            <div class="about-tech-left">
+                <div class="about-dash-label">
+                    <span class="about-dash">—</span> Our Technology
+                </div>
+                <h2 class="about-tech-heading">Our Technology</h2>
+                <p class="about-tech-description">
+                    ANANSE combines modern technology with traditional storytelling to create meaningful, interactive
+                    experiences.
+                </p>
+                <!-- LINK PLACEHOLDER: Update href button target -->
+                <a href="explore.html" class="about-btn-primary">
+                    Learn More <span class="about-btn-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- Tech Section Right Side (5 Feature Pillars) -->
+            <div class="about-tech-columns">
+
+                <!-- Pillar 1 -->
+                <div class="about-tech-col">
+                    <div class="about-tech-icon-circle">
+                        <!-- Font Awesome: <i class="fa-solid fa-code"></i> -->
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                    </div>
+                    <h4 class="about-tech-title">Frontend</h4>
+                    <span class="about-tech-subtitle">HTML, CSS, JavaScript</span>
+                    <p class="about-tech-detail">Beautiful, responsive user experience.</p>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="about-tech-col">
+                    <div class="about-tech-icon-circle">
+                        <!-- Font Awesome: <i class="fa-solid fa-server"></i> -->
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                            <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                            <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                        </svg>
+                    </div>
+                    <h4 class="about-tech-title">Backend</h4>
+                    <span class="about-tech-subtitle">FastAPI / Python</span>
+                    <p class="about-tech-detail">Powering the platform and user features.</p>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="about-tech-col">
+                    <div class="about-tech-icon-circle">
+                        <!-- Font Awesome: <i class="fa-solid fa-database"></i> -->
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                        </svg>
+                    </div>
+                    <h4 class="about-tech-title">Database</h4>
+                    <span class="about-tech-subtitle">MySQL</span>
+                    <p class="about-tech-detail">Securely storing heritage data & user progress.</p>
+                </div>
+
+                <!-- Pillar 4 -->
+                <div class="about-tech-col">
+                    <div class="about-tech-icon-circle">
+                        <!-- Font Awesome: <i class="fa-solid fa-robot"></i> -->
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+                            <circle cx="12" cy="5" r="2"></circle>
+                            <path d="M12 7v4"></path>
+                            <line x1="8" y1="16" x2="8" y2="16"></line>
+                            <line x1="16" y1="16" x2="16" y2="16"></line>
+                        </svg>
+                    </div>
+                    <h4 class="about-tech-title">AI Guide</h4>
+                    <span class="about-tech-subtitle">Naa</span>
+                    <p class="about-tech-detail">Your smart cultural assistant.</p>
+                </div>
+
+                <!-- Pillar 5 -->
+                <div class="about-tech-col">
+                    <div class="about-tech-icon-circle">
+                        <!-- Font Awesome: <i class="fa-solid fa-qrcode"></i> -->
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </div>
+                    <h4 class="about-tech-title">QR Technology</h4>
+                    <span class="about-tech-subtitle">Scan • Discover • Explore</span>
+                    <p class="about-tech-detail">Bringing physical sites to digital stories.</p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= DUAL SPLIT FEATURE SECTION ================= -->
+    <section class="about-dual-section">
+        <div class="about-container about-dual-grid">
+
+            <!-- Left Banner: Preserving Ghana's Heritage -->
+            <div class="about-banner-left">
+                <!-- ========================================================================= -->
+                <!-- IMAGE PLACEHOLDER: Replace src with Ghanaian cultural portrait image      -->
+                <!-- Example: src="../assets/images/ghana-heritage-portrait.jpg"              -->
+                <!-- ========================================================================= -->
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=80"
+                    alt="Preserving Ghana's Heritage" class="about-banner-img" loading="lazy">
+                <div class="about-banner-overlay"></div>
+                <div class="about-banner-text-content">
+                    <h3 class="about-banner-script-title">
+                        Preserving<br>
+                        Ghana's Heritage<br>
+                        for Generations
+                    </h3>
+                </div>
+            </div>
+
+            <!-- Right Column: The Team + Be Part of the Journey -->
+            <div class="about-banner-right-stack">
+
+                <!-- Top Box: The Team Behind ANANSE -->
+                <div class="about-team-box">
+                    <div class="about-dash-label">
+                        <span class="about-dash">—</span> The Team Behind ANANSE
+                    </div>
+                    <p class="about-team-description">
+                        We are a passionate team of designers, developers, storytellers and culture lovers, dedicated to
+                        building a platform that celebrates Ghana's heritage and inspires future generations.
+                    </p>
+
+                    <div class="about-team-roles">
+                        <div class="about-role-item">
+                            <!-- Font Awesome: <i class="fa-solid fa-pen-nib"></i> -->
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                            </svg>
+                            <span>Design</span>
+                        </div>
+                        <div class="about-role-item">
+                            <!-- Font Awesome: <i class="fa-solid fa-code"></i> -->
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="16 18 22 12 16 6"></polyline>
+                                <polyline points="8 6 2 12 8 18"></polyline>
+                            </svg>
+                            <span>Development</span>
+                        </div>
+                        <div class="about-role-item">
+                            <!-- Font Awesome: <i class="fa-solid fa-book-open"></i> -->
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                            </svg>
+                            <span>Content</span>
+                        </div>
+                        <div class="about-role-item">
+                            <!-- Font Awesome: <i class="fa-solid fa-users"></i> -->
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <span>Community</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Box: Be Part of the Journey -->
+                <div class="about-journey-card">
+                    <div class="about-journey-watermark"></div>
+
+                    <div class="about-journey-header">
+                        <div class="about-journey-icon">
+                            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="18" cy="18" r="16" stroke="#D99B26" stroke-width="1.8" />
+                                <path d="M18 4V32M4 18H32M8 8L28 28M8 28L28 8" stroke="#D99B26" stroke-width="1"
+                                    stroke-dasharray="2 2" />
+                                <polygon points="18,10 24,18 18,26 12,18" stroke="#D99B26" stroke-width="1.5"
+                                    fill="none" />
+                            </svg>
+                        </div>
+                        <h3 class="about-journey-title">Be Part of the Journey</h3>
+                    </div>
+
+                    <p class="about-journey-text">
+                        Whether you're a curious traveler, a proud Ghanaian, or a lover of culture — ANANSE is for you.
+                    </p>
+
+                    <!-- LINK PLACEHOLDER: Update href button target -->
+                    <a href="explore.html" class="about-btn-gold">
+                        Explore Now <span class="about-btn-arrow">→</span>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="about-footer">
+        <div class="about-container">
+
+            <div class="about-footer-top">
+                <!-- Footer Brand -->
+                <a href="../index.html" class="about-brand">
+                    <div class="about-logo-icon">
+                        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="18" cy="18" r="16" stroke="#D99B26" stroke-width="1.8" />
+                            <path d="M18 4V32M4 18H32M8 8L28 28M8 28L28 8" stroke="#D99B26" stroke-width="1"
+                                stroke-dasharray="2 2" />
+                            <polygon points="18,10 24,18 18,26 12,18" stroke="#D99B26" stroke-width="1.5" fill="none" />
+                        </svg>
+                    </div>
+                    <div class="about-brand-text">
+                        <span class="about-brand-name">ANANSE</span>
+                        <span class="about-brand-tagline">Our Stories. Our Heritage. Your Journey.</span>
+                    </div>
+                </a>
+
+                <!-- Footer Nav Links -->
+                <!-- LINK PLACEHOLDERS: Update paths to match your project structure -->
+                <nav class="about-footer-nav">
+                    <a href="../index.html">Home</a>
+                    <a href="explore.html">Explore</a>
+                    <a href="map.html">Map</a>
+                    <a href="passport.html">Passport</a>
+                    <a href="about.html">About</a>
+                </nav>
+
+                <!-- Social Media Links -->
+                <div class="about-social-links">
+                    <!-- Font Awesome: <i class="fa-brands fa-instagram"></i> -->
+                    <a href="#" aria-label="Instagram" class="about-social-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <!-- Font Awesome: <i class="fa-brands fa-facebook-f"></i> -->
+                    <a href="#" aria-label="Facebook" class="about-social-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </a>
+                    <!-- Font Awesome: <i class="fa-brands fa-x-twitter"></i> -->
+                    <a href="#" aria-label="X Twitter" class="about-social-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+                            <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+                        </svg>
+                    </a>
+                    <!-- Font Awesome: <i class="fa-brands fa-youtube"></i> -->
+                    <a href="#" aria-label="YouTube" class="about-social-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z">
+                            </path>
+                            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="about-footer-bottom">
+                <p class="about-copyright">&copy; 2026 ANANSE. All rights reserved.</p>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- ================= JS SCRIPT PLACEHOLDER ================= -->
+    <!-- Relative path to scripts file in src/ -->
+    <script src="../src/scripts.js"></script>
+
+</body>
+
+</html>

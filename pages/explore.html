@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ananse - Explore</title>
+    <script src="https://kit.fontawesome.com/17eac40b74.js"></script>
+    <link rel="stylesheet" href="../src/style.css">
+</head>
+
+<body>
+
+    <!-- SCOPE WRAPPER: Ensures styles and scripts only affect the Explore page -->
+    <div id="explore-page-wrapper">
+
+        <!-- HEADER -->
+        <header class="ep-header">
+            <a href="../index.html" class="logo" aria-label="Ananse home">
+                <div class="logo-placeholder-icon">
+                    <i class="fa-solid fa-spider"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="brand-name">ANANSE</span>
+                    <span class="tagline">Our Stories. Our Heritage. Your Journey.</span>
+                </div>
+            </a>
+
+            <nav class="ep-nav">
+                <!-- ADD YOUR PAGE LINKS HERE -->
+                <a href="../index.html">Home</a>
+                <a href="explore.html" class="ep-active">Explore</a>
+                <a href="map.html">Map</a>
+                <a href="passport.html">Passport</a>
+                <a href="about.html">About</a>
+            </nav>
+
+            <div class="ep-user-actions">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <i class="fa-regular fa-bell"></i>
+                <div class="ep-profile">
+                    <!-- ADD YOUR PROFILE IMAGE HERE -->
+                    <!-- <img src="../src/assets/profile.jpg" alt="Profile"> -->
+                    <div class="ep-profile-placeholder"></div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- HERO SECTION -->
+        <section class="ep-hero">
+            <img src="../images/Cape Coast Castle, Ghana.jpeg" class="ep-hero-bg" alt="Hero Background">
+            <div class="ep-hero-content">
+                <p class="ep-hero-subtitle">EXPLORE GHANA'S HERITAGE</p>
+                <h2>Discover Amazing<br>Heritage Sites</h2>
+                <p class="ep-hero-desc">From ancient forts to royal palaces, explore the places that tell Ghana's rich
+                    and inspiring story.</p>
+            </div>
+            <div class="ep-hero-cursive">
+                <p>Same stories.<br>New ways to explore.</p>
+            </div>
+        </section>
+
+        <!-- MAIN CONTENT AREA -->
+        <div class="ep-main-container">
+
+            <!-- SIDEBAR: FILTER & SEARCH -->
+            <aside class="ep-sidebar">
+                <div class="ep-filter-header">
+                    <i class="fa-solid fa-filter"></i>
+                    <h3>Filter & Search</h3>
+                </div>
+
+                <div class="ep-search-box">
+                    <input type="text" placeholder="Search for a site, region or keyword...">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+
+                <div class="ep-filter-group">
+                    <h4><i class="fa-solid fa-location-dot"></i> Location</h4>
+                    <label><input type="checkbox" checked> Greater Accra</label>
+                    <label><input type="checkbox"> Ashanti</label>
+                    <label><input type="checkbox"> Central</label>
+                    <label><input type="checkbox"> Western</label>
+                    <label><input type="checkbox"> Northern</label>
+                    <label><input type="checkbox"> Eastern</label>
+                </div>
+
+                <div class="ep-filter-group">
+                    <h4><i class="fa-solid fa-border-all"></i> Category</h4>
+                    <label><input type="checkbox" checked> Historical</label>
+                    <label><input type="checkbox"> Cultural</label>
+                    <label><input type="checkbox"> Natural</label>
+                    <label><input type="checkbox"> Monument</label>
+                    <label><input type="checkbox"> Royal</label>
+                </div>
+
+                <div class="ep-filter-group">
+                    <h4><i class="fa-solid fa-arrow-down-a-z"></i> Sort By</h4>
+                    <label><input type="radio" name="sort" checked> Most Popular</label>
+                    <label><input type="radio" name="sort"> Nearest</label>
+                    <label><input type="radio" name="sort"> A - Z</label>
+                </div>
+
+                <button class="ep-reset-btn" id="ep-reset-filters">
+                    <i class="fa-solid fa-rotate-right"></i> Reset Filters
+                </button>
+            </aside>
+
+            <!-- RIGHT CONTENT AREA -->
+            <main class="ep-content">
+
+                <div class="ep-view-toggle-container">
+                    <div class="ep-view-toggle">
+                        <button class="ep-active-toggle">Map View</button>
+                        <button>List View</button>
+                    </div>
+                </div>
+
+                <!-- MAP AND FEATURED SITES -->
+                <div class="ep-top-grid">
+                    <div class="ep-map-section">
+                        <!-- ADD YOUR MAP IMAGE HERE -->
+                        <div class="ep-map-placeholder">
+                            <p>Map of Ghana</p>
+                        </div>
+                        <div class="ep-map-controls">
+                            <button><i class="fa-solid fa-location-arrow"></i></button>
+                            <button><i class="fa-solid fa-plus"></i></button>
+                            <button><i class="fa-solid fa-minus"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="ep-featured-section">
+                        <div class="ep-section-header">
+                            <h3>Featured Sites</h3>
+                            <a href="#">View All &rarr;</a>
+                        </div>
+
+                        <div class="ep-featured-list">
+                            <!-- Card 1 -->
+                            <div class="ep-list-card">
+                                <!-- ADD YOUR CARD IMAGE HERE -->
+                                <div class="ep-card-img-placeholder"></div>
+                                <div class="ep-card-info">
+                                    <span class="ep-tag ep-tag-historical">Historical</span>
+                                    <h4>Cape Coast Castle</h4>
+                                    <p><i class="fa-solid fa-location-dot"></i> Central Region</p>
+                                </div>
+                                <button class="ep-arrow-btn">&rarr;</button>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="ep-list-card">
+                                <div class="ep-card-img-placeholder"></div>
+                                <div class="ep-card-info">
+                                    <span class="ep-tag ep-tag-monument">Monument</span>
+                                    <h4>Independence Arch</h4>
+                                    <p><i class="fa-solid fa-location-dot"></i> Accra</p>
+                                </div>
+                                <button class="ep-arrow-btn">&rarr;</button>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="ep-list-card">
+                                <div class="ep-card-img-placeholder"></div>
+                                <div class="ep-card-info">
+                                    <span class="ep-tag ep-tag-cultural">Cultural</span>
+                                    <h4>Kwame Nkrumah Memorial Park</h4>
+                                    <p><i class="fa-solid fa-location-dot"></i> Accra</p>
+                                </div>
+                                <button class="ep-arrow-btn">&rarr;</button>
+                            </div>
+
+                            <!-- Card 4 -->
+                            <div class="ep-list-card">
+                                <div class="ep-card-img-placeholder"></div>
+                                <div class="ep-card-info">
+                                    <span class="ep-tag ep-tag-historical">Historical</span>
+                                    <h4>Elmina Castle</h4>
+                                    <p><i class="fa-solid fa-location-dot"></i> Central Region</p>
+                                </div>
+                                <button class="ep-arrow-btn">&rarr;</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALL HERITAGE SITES -->
+                <div class="ep-bottom-section">
+                    <div class="ep-section-header">
+                        <h3>All Heritage Sites</h3>
+                        <a href="#">View All &rarr;</a>
+                    </div>
+
+                    <div class="ep-sites-grid">
+                        <!-- Grid Card 1 -->
+                        <div class="ep-grid-card">
+                            <!-- ADD YOUR GRID IMAGE HERE -->
+                            <div class="ep-grid-img-placeholder"></div>
+                            <div class="ep-grid-card-body">
+                                <span class="ep-tag ep-tag-historical">Historical</span>
+                                <h4>Cape Coast Castle</h4>
+                                <p class="ep-location"><i class="fa-solid fa-location-dot"></i> Central Region</p>
+                                <div class="ep-card-footer">
+                                    <span class="ep-rating"><i class="fa-solid fa-star"></i> 4.8 (1.2k)</span>
+                                    <button class="ep-arrow-btn">&rarr;</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Grid Card 2 -->
+                        <div class="ep-grid-card">
+                            <div class="ep-grid-img-placeholder"></div>
+                            <div class="ep-grid-card-body">
+                                <span class="ep-tag ep-tag-historical">Historical</span>
+                                <h4>Elmina Castle</h4>
+                                <p class="ep-location"><i class="fa-solid fa-location-dot"></i> Central Region</p>
+                                <div class="ep-card-footer">
+                                    <span class="ep-rating"><i class="fa-solid fa-star"></i> 4.7 (980)</span>
+                                    <button class="ep-arrow-btn">&rarr;</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Grid Card 3 -->
+                        <div class="ep-grid-card">
+                            <div class="ep-grid-img-placeholder"></div>
+                            <div class="ep-grid-card-body">
+                                <span class="ep-tag ep-tag-monument">Monument</span>
+                                <h4>Independence Arch</h4>
+                                <p class="ep-location"><i class="fa-solid fa-location-dot"></i> Accra</p>
+                                <div class="ep-card-footer">
+                                    <span class="ep-rating"><i class="fa-solid fa-star"></i> 4.6 (760)</span>
+                                    <button class="ep-arrow-btn">&rarr;</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Grid Card 4 -->
+                        <div class="ep-grid-card">
+                            <div class="ep-grid-img-placeholder"></div>
+                            <div class="ep-grid-card-body">
+                                <span class="ep-tag ep-tag-natural">Natural</span>
+                                <h4>Kakum National Park</h4>
+                                <p class="ep-location"><i class="fa-solid fa-location-dot"></i> Central Region</p>
+                                <div class="ep-card-footer">
+                                    <span class="ep-rating"><i class="fa-solid fa-star"></i> 4.9 (1.1k)</span>
+                                    <button class="ep-arrow-btn">&rarr;</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="ep-footer">
+            <div class="ep-footer-content">
+                <div class="ep-logo">
+                    <div class="ep-logo-text">
+                        <h2>ANANSE</h2>
+                        <p>Our Stories. Our Heritage. Your Journey.</p>
+                    </div>
+                </div>
+                <div class="ep-footer-links">
+                    <div class="ep-socials">
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                    <div class="ep-footer-nav">
+                        <a href="#">Explore</a> &bull;
+                        <a href="#">Learn</a> &bull;
+                        <a href="#">Preserve</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Link to scoped JavaScript in the src folder -->
+    <script src="../src/script.js"></script>
+</body>
+
+</html>
