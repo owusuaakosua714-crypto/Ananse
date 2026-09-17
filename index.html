@@ -42,7 +42,7 @@
                 <a href="pages/map.html" class="nav-link">Map</a>
                 <a href="pages/passport.html" class="nav-link">Passport</a>
                 <a href="pages/about.html" class="nav-link">About</a>
-            </nav> 
+            </nav>
 
             <!-- Nav Action Buttons -->
             <div class="nav-actions">
@@ -63,8 +63,7 @@
     <!-- HERO SECTION -->
     <section class="hero">
         <!-- ADD PICTURE HERE: Hero background image (Cape Coast Castle / Sunset scene) -->
-        <div class="hero-bg"
-            style="background-image: url('images/Cape\ Coast\ Castle\,\ Ghana.jpeg');">
+        <div class="hero-bg" style="background-image: url('images/Cape\ Coast\ Castle\,\ Ghana.jpeg');">
             <!-- Note: Replace the background-image URL above with your own image path -->
         </div>
         <div class="hero-overlay"></div>
@@ -112,21 +111,23 @@
                     <p>Learn about history, culture & people</p>
                 </div>
 
-                <div class="feature-card">
+                <a class="feature-card" href="pages/qr.experience.html" aria-label="Scan"
+                    style="text-decoration: none; color: inherit;">
                     <div class="feature-icon icon-amber">
                         <i class="fa-solid fa-qrcode"></i>
                     </div>
                     <h3>Scan</h3>
                     <p>Unlock stories with QR experiences</p>
-                </div>
+                </a>
 
-                <div class="feature-card">
+                <a class="feature-card" href="pages/ai.html" aria-label="Ask Naa"
+                    style="text-decoration: none; color: inherit;">
                     <div class="feature-icon icon-blue">
                         <i class="fa-solid fa-comments"></i>
                     </div>
                     <h3>Ask Naa</h3>
                     <p>Get answers from our AI guide</p>
-                </div>
+                </a>
 
                 <div class="feature-card">
                     <div class="feature-icon icon-green">
@@ -136,13 +137,14 @@
                     <p>Visit, learn, collect badges</p>
                 </div>
 
-                <div class="feature-card">
+                <a class="feature-card" href="N-badge.html" aria-label="Earn Badges"
+                    style="text-decoration: none; color: inherit;">
                     <div class="feature-icon icon-gold">
                         <i class="fa-solid fa-award"></i>
                     </div>
                     <h3>Earn Badges</h3>
                     <p>Celebrate your journey</p>
-                </div>
+                </a>
 
             </div>
         </div>
@@ -158,7 +160,8 @@
                     <p class="section-subtitle">Explore some of Ghana's most iconic and culturally significant
                         landmarks.</p>
                 </div>
-                <a href="pages/heritage-sites.html" class="view-all-link">View All <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="pages/heritage-sites.html" class="view-all-link">View All <i
+                        class="fa-solid fa-arrow-right"></i></a>
             </div>
 
             <!-- Cards Grid -->
@@ -168,8 +171,7 @@
                 <div class="site-card">
                     <div class="card-image-wrapper">
                         <!-- ADD PICTURE HERE: Cape Coast Castle image -->
-                        <img src="images/Cape Coast Castle photo, Ghana Africa.jpeg"
-                            alt="Cape Coast Castle">
+                        <img src="images/Cape Coast Castle photo, Ghana Africa.jpeg" alt="Cape Coast Castle">
                         <span class="card-tag">Historical</span>
                         <button class="card-action-btn" aria-label="View site">
                             <i class="fa-solid fa-arrow-right"></i>
@@ -185,8 +187,7 @@
                 <div class="site-card">
                     <div class="card-image-wrapper">
                         <!--  PICTURE : Independence Arch image -->
-                        <img src="images/INDEPENDENCE ARCH (1).jpeg"
-                            alt="Independence Arch">
+                        <img src="images/INDEPENDENCE ARCH (1).jpeg" alt="Independence Arch">
                         <span class="card-tag">Monument</span>
                         <button class="card-action-btn" aria-label="View site">
                             <i class="fa-solid fa-arrow-right"></i>
@@ -202,8 +203,7 @@
                 <div class="site-card">
                     <div class="card-image-wrapper">
                         <!-- ADD PICTURE HERE: Kwame Nkrumah Memorial Park image -->
-                        <img src="images/kwame Nkrumah memorial park.jpeg"
-                            alt="Kwame Nkrumah Memorial Park">
+                        <img src="images/kwame Nkrumah memorial park.jpeg" alt="Kwame Nkrumah Memorial Park">
                         <span class="card-tag">Cultural</span>
                         <button class="card-action-btn" aria-label="View site">
                             <i class="fa-solid fa-arrow-right"></i>
@@ -219,8 +219,7 @@
                 <div class="site-card">
                     <div class="card-image-wrapper">
                         <!-- ADD PICTURE HERE: Elmina Castle image -->
-                        <img src="images/Elmina Castle, Ghana (1).jpeg"
-                            alt="Elmina Castle">
+                        <img src="images/Elmina Castle, Ghana (1).jpeg" alt="Elmina Castle">
                         <span class="card-tag">Historical</span>
                         <button class="card-action-btn" aria-label="View site">
                             <i class="fa-solid fa-arrow-right"></i>
@@ -265,8 +264,10 @@
     <!-- WELCOME EXPERIENCE -->
     <div class="welcome-modal-overlay" id="welcomeModalOverlay" aria-hidden="true"></div>
 
-    <div class="welcome-modal" id="welcomeModal" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle" aria-describedby="welcomeDescription" aria-hidden="true">
-        <button class="welcome-speaker-btn" id="welcomeSpeakerBtn" type="button" aria-label="Replay the welcome message">
+    <div class="welcome-modal" id="welcomeModal" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle"
+        aria-describedby="welcomeDescription" aria-hidden="true">
+        <button class="welcome-speaker-btn" id="welcomeSpeakerBtn" type="button"
+            aria-label="Replay the welcome message">
             <i class="fa-solid fa-volume-high"></i>
         </button>
 
@@ -280,14 +281,17 @@
         </p>
 
         <p class="modal-voice-text" id="welcomeDescription">
-            Welcome, traveller. I am Anansi. Come, let me take you on a journey through the stories, places, and culture that make Ghana extraordinary.
+            Welcome, traveller. I am Anansi. Come, let me take you on a journey through the stories, places, and culture
+            that make Ghana extraordinary.
         </p>
 
         <div class="modal-actions">
-            <button class="modal-btn modal-btn-secondary" id="skipWelcomeBtn" type="button" aria-label="Skip the welcome message">
+            <button class="modal-btn modal-btn-secondary" id="skipWelcomeBtn" type="button"
+                aria-label="Skip the welcome message">
                 Skip
             </button>
-            <button class="modal-btn modal-btn-primary" id="startExploreBtn" type="button" aria-label="Start exploring Ananse">
+            <button class="modal-btn modal-btn-primary" id="startExploreBtn" type="button"
+                aria-label="Start exploring Ananse">
                 Start Exploring
             </button>
         </div>
