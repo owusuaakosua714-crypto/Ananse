@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="src/style.css">
 </head>
 
-<body>
+<body class="home-page">
 
     <!-- NAVBAR SECTION -->
     <header class="navbar">
@@ -31,26 +31,25 @@
                 </div>
                 <div class="logo-text">
                     <span class="brand-name">ANANSE</span>
-                    <span class="tagline">Our Stories. Our Heritage. Your Journey.</span>
+                    <span class="tagline">Weaving Ghana's Stories into the Digital Age</span>
                 </div>
             </a>
 
             <!-- Navigation Links -->
             <nav class="nav-menu" id="navMenu">
                 <a href="index.html" class="nav-link active">Home</a>
+                <a href="pages/about.html" class="nav-link">About</a>
                 <a href="pages/explore.html" class="nav-link">Explore</a>
                 <a href="pages/map.html" class="nav-link">Map</a>
                 <a href="pages/passport.html" class="nav-link">Passport</a>
-                <a href="pages/about.html" class="nav-link">About</a>
+                <a href="pages/login.html" class="btn-nav btn-nav-login nav-menu-auth-link">Login</a>
+                <a href="pages/signup.html" class="btn-nav btn-nav-signup nav-menu-auth-link">Sign Up</a>
             </nav>
 
-            <!-- Nav Action Buttons -->
+            <!-- NAV ACTION BUTTONS: Homepage only changes -->
             <div class="nav-actions">
-                <button class="icon-btn" aria-label="Search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-                <a href="pages/signin.html" class="btn-secondary">Sign In</a>
-                <a href="pages/get-started.html" class="btn-primary">Get Started</a>
+                <a href="pages/login.html" class="btn-nav btn-nav-login">Login</a>
+                <a href="pages/signup.html" class="btn-nav btn-nav-signup">Sign Up</a>
 
                 <!-- Mobile Menu Hamburger Button -->
                 <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
@@ -74,15 +73,6 @@
             <p class="hero-description">
                 Explore our rich heritage, discover hidden stories, and experience Ghana's culture like never before.
             </p>
-
-            <!-- Hero Search Bar -->
-            <div class="hero-search-box">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="text" placeholder="Search for a site, story or location...">
-                <button class="btn-primary search-btn">
-                    Explore <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
         </div>
 
         <div class="hero-footer-quote">
@@ -205,9 +195,7 @@
                         <!-- ADD PICTURE HERE: Kwame Nkrumah Memorial Park image -->
                         <img src="images/kwame Nkrumah memorial park.jpeg" alt="Kwame Nkrumah Memorial Park">
                         <span class="card-tag">Cultural</span>
-                        <button class="card-action-btn" aria-label="View site">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </button>
+
                     </div>
                     <div class="card-body">
                         <h3 class="card-title">Kwame Nkrumah Park</h3>
@@ -221,13 +209,24 @@
                         <!-- ADD PICTURE HERE: Elmina Castle image -->
                         <img src="images/Elmina Castle, Ghana (1).jpeg" alt="Elmina Castle">
                         <span class="card-tag">Historical</span>
-                        <button class="card-action-btn" aria-label="View site">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </button>
+
                     </div>
                     <div class="card-body">
                         <h3 class="card-title">Elmina Castle</h3>
                         <p class="card-location"><i class="fa-solid fa-location-dot"></i> Central Region</p>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="site-card">
+                    <div class="card-image-wrapper">
+                        <img src="images/INDEPENDENCE ARCH (1).jpeg" alt="National Museum of Ghana">
+                        <span class="card-tag">Museum</span>
+
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">National Museum of Ghana</h3>
+                        <p class="card-location"><i class="fa-solid fa-location-dot"></i> Accra</p>
                     </div>
                 </div>
 
@@ -243,7 +242,7 @@
 
                 <div class="cta-image-col">
                     <!-- ADD PICTURE HERE: Woman portrait with traditional African headwrap -->
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
+                    <img src="images/profile .jpeg"
                         alt="Cultural Heritage Portrait" class="cta-portrait">
                 </div>
 
@@ -261,41 +260,6 @@
         </div>
     </section>
 
-    <!-- WELCOME EXPERIENCE -->
-    <div class="welcome-modal-overlay" id="welcomeModalOverlay" aria-hidden="true"></div>
-
-    <div class="welcome-modal" id="welcomeModal" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle"
-        aria-describedby="welcomeDescription" aria-hidden="true">
-        <button class="welcome-speaker-btn" id="welcomeSpeakerBtn" type="button"
-            aria-label="Replay the welcome message">
-            <i class="fa-solid fa-volume-high"></i>
-        </button>
-
-        <div class="modal-accent" aria-hidden="true"></div>
-
-        <span class="modal-tag">Ananse — A Place to Tell a Story</span>
-        <h2 id="welcomeTitle">Welcome to Ananse</h2>
-
-        <p class="modal-main-text">
-            A place to tour, discover, and learn the stories behind Ghanaian culture and heritage.
-        </p>
-
-        <p class="modal-voice-text" id="welcomeDescription">
-            Welcome, traveller. I am Anansi. Come, let me take you on a journey through the stories, places, and culture
-            that make Ghana extraordinary.
-        </p>
-
-        <div class="modal-actions">
-            <button class="modal-btn modal-btn-secondary" id="skipWelcomeBtn" type="button"
-                aria-label="Skip the welcome message">
-                Skip
-            </button>
-            <button class="modal-btn modal-btn-primary" id="startExploreBtn" type="button"
-                aria-label="Start exploring Ananse">
-                Start Exploring
-            </button>
-        </div>
-    </div>
 
     <!-- Custom JavaScript -->
     <script src="src/script.js"></script>
