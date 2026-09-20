@@ -92,6 +92,35 @@
             'home.featuredOsuLocation': 'Accra',
             'home.siteTitle': 'Featured Heritage Sites',
             'home.heroCaption': 'Same stories.<br><em>New ways to explore.</em>',
+            login: {
+                badge: '— WELCOME TO ANANSE',
+                heroTitle: 'Explore. Learn. Preserve.',
+                heroDescription: 'Log in to continue your journey through Ghana’s rich heritage, culture, and untold stories.',
+                featureDiscover: 'Discover',
+                featureDiscoverText: 'heritage sites',
+                featureLearn: 'Learn',
+                featureLearnText: 'amazing stories',
+                featureEarn: 'Earn',
+                featureEarnText: 'badges',
+                heroQuote: 'Our heritage lives in you.',
+                welcomeBack: 'Welcome Back',
+                subtext: 'Log in to continue your journey with Ananse.',
+                email: 'Email Address',
+                emailPlaceholder: 'Enter your email address',
+                password: 'Password',
+                passwordPlaceholder: 'Enter your password',
+                remember: 'Remember me',
+                forgot: 'Forgot password?',
+                submit: 'Login',
+                or: 'OR',
+                google: 'Continue with Google',
+                noAccount: "Don't have an account?",
+                signup: 'Sign Up',
+                footerScript: 'Scan today. Experience forever.',
+                formMissing: 'Please enter both your email and password.',
+                loggingIn: 'Logging in...',
+                loginSuccess: 'Welcome back to ANANSE!'
+            },
             'about.sectionTitle': 'ABOUT ANANSE',
             'about.heroTitle': 'More Than a Platform.<br><span>It\'s a Movement.</span>',
             'about.heroDescription': "ANANSE is a digital heritage platform built to bring Ghana's rich history, culture and people to life — connecting the past, present and future.",
@@ -276,6 +305,35 @@
             'home.featuredOsuDescription': 'Explorez le château d’Osu, également connu sous le nom de château de Christiansborg, un monument historique côtier à Accra qui a joué un rôle important dans l’histoire politique et coloniale du Ghana.',
             'home.featuredOsuAlt': 'Château d’Osu à Accra, au Ghana',
             'home.featuredOsuLocation': 'Accra',
+            login: {
+                badge: '— BIENVENUE À ANANSE',
+                heroTitle: 'Explorer. Apprendre. Préserver.',
+                heroDescription: 'Connectez-vous pour poursuivre votre voyage à travers le riche patrimoine, la culture et les histoires méconnues du Ghana.',
+                featureDiscover: 'Découvrir',
+                featureDiscoverText: 'sites du patrimoine',
+                featureLearn: 'Apprendre',
+                featureLearnText: 'histoires fascinantes',
+                featureEarn: 'Gagner',
+                featureEarnText: 'des badges',
+                heroQuote: 'Notre patrimoine vit en vous.',
+                welcomeBack: 'Bon retour',
+                subtext: 'Connectez-vous pour poursuivre votre voyage avec Ananse.',
+                email: 'Adresse e-mail',
+                emailPlaceholder: 'Entrez votre adresse e-mail',
+                password: 'Mot de passe',
+                passwordPlaceholder: 'Entrez votre mot de passe',
+                remember: 'Se souvenir de moi',
+                forgot: 'Mot de passe oublié ?',
+                submit: 'Connexion',
+                or: 'OU',
+                google: 'Continuer avec Google',
+                noAccount: 'Vous n’avez pas de compte ?',
+                signup: 'S’inscrire',
+                footerScript: 'Scannez aujourd’hui. Découvrez pour toujours.',
+                formMissing: 'Veuillez saisir à la fois votre e-mail et votre mot de passe.',
+                loggingIn: 'Connexion en cours...',
+                loginSuccess: 'Bon retour chez ANANSE !'
+            },
             'about.sectionTitle': 'À PROPOS D’ANANSE',
             'about.heroTitle': 'Plus qu’une plateforme.<br><span>C’est un mouvement.</span>',
             'about.heroDescription': 'ANANSE est une plateforme numérique du patrimoine conçue pour faire vivre l’histoire, la culture et les peuples du Ghana — en reliant le passé, le présent et le futur.',
@@ -456,6 +514,35 @@
             'home.featuredOsuDescription': 'Explora el Castillo de Osu, también conocido como Castillo de Christiansborg, un monumento histórico costero en Accra con un papel importante en la historia política y colonial de Ghana.',
             'home.featuredOsuAlt': 'Castillo de Osu en Accra, Ghana',
             'home.featuredOsuLocation': 'Acra',
+            login: {
+                badge: '— BIENVENIDO A ANANSE',
+                heroTitle: 'Explorar. Aprender. Preservar.',
+                heroDescription: 'Inicia sesión para continuar tu viaje a través del rico patrimonio, la cultura y las historias ocultas de Ghana.',
+                featureDiscover: 'Descubrir',
+                featureDiscoverText: 'sitios patrimoniales',
+                featureLearn: 'Aprender',
+                featureLearnText: 'historias asombrosas',
+                featureEarn: 'Ganar',
+                featureEarnText: 'insignias',
+                heroQuote: 'Nuestro patrimonio vive en ti.',
+                welcomeBack: 'Bienvenido de nuevo',
+                subtext: 'Inicia sesión para continuar tu viaje con Ananse.',
+                email: 'Correo electrónico',
+                emailPlaceholder: 'Ingresa tu correo electrónico',
+                password: 'Contraseña',
+                passwordPlaceholder: 'Ingresa tu contraseña',
+                remember: 'Recuérdame',
+                forgot: '¿Olvidaste tu contraseña?',
+                submit: 'Iniciar sesión',
+                or: 'O',
+                google: 'Continuar con Google',
+                noAccount: '¿No tienes una cuenta?',
+                signup: 'Registrarse',
+                footerScript: 'Escanea hoy. Vive la experiencia para siempre.',
+                formMissing: 'Por favor, introduce tanto tu correo electrónico como tu contraseña.',
+                loggingIn: 'Iniciando sesión...',
+                loginSuccess: '¡Bienvenido de nuevo a ANANSE!'
+            },
             'about.sectionTitle': 'SOBRE ANANSE',
             'about.heroTitle': 'Más que una plataforma.<br><span>Es un movimiento.</span>',
             'about.heroDescription': 'ANANSE es una plataforma digital del patrimonio creada para dar vida a la rica historia, la cultura y la gente de Ghana, conectando el pasado, el presente y el futuro.',
@@ -570,10 +657,32 @@
         }, value);
     }
 
+    function resolveTranslationValue(languageObject, key) {
+        if (!languageObject || typeof languageObject !== 'object') {
+            return undefined;
+        }
+
+        if (Object.prototype.hasOwnProperty.call(languageObject, key)) {
+            return languageObject[key];
+        }
+
+        const segments = key.split('.');
+        let current = languageObject;
+
+        for (const segment of segments) {
+            if (!current || typeof current !== 'object' || !Object.prototype.hasOwnProperty.call(current, segment)) {
+                return undefined;
+            }
+            current = current[segment];
+        }
+
+        return current;
+    }
+
     function getText(key, params = {}) {
         const fallbackLanguage = translations[DEFAULT_LANGUAGE] || {};
         const currentLanguage = translations[state.language] || translations[DEFAULT_LANGUAGE] || {};
-        const value = (currentLanguage[key] || fallbackLanguage[key] || key);
+        const value = resolveTranslationValue(currentLanguage, key) ?? resolveTranslationValue(fallbackLanguage, key) ?? key;
         return replacePlaceholders(value, params);
     }
 
