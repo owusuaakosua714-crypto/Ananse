@@ -43,12 +43,21 @@
             <!-- Navigation Links -->
             <nav class="about-nav-menu" id="aboutNavMenu">
                 <!-- LINK PLACEHOLDERS: Update paths to match your project structure -->
-                <a href="../index.html" class="about-nav-link">Home</a>
-                <a href="explore.html" class="about-nav-link">Explore</a>
-                <a href="map.html" class="about-nav-link">Map</a>
-                <a href="passport.html" class="about-nav-link">Passport</a>
-                <a href="about.html" class="about-nav-link active">About</a>
+                <a href="../index.html" class="about-nav-link" data-i18n="nav.home">Home</a>
+                <a href="explore.html" class="about-nav-link" data-i18n="nav.explore">Explore</a>
+                <a href="map.html" class="about-nav-link" data-i18n="nav.map">Map</a>
+                <a href="passport.html" class="about-nav-link" data-i18n="nav.passport">Passport</a>
+                <a href="about.html" class="about-nav-link active" data-i18n="nav.about">About</a>
             </nav>
+
+            <div class="language-switcher-wrap">
+                <select class="language-select" aria-label="Select website language"
+                    data-i18n-aria-label="common.languageSelect">
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                    <option value="es">Español</option>
+                </select>
+            </div>
 
             <!-- Right Nav Actions -->
             <div class="about-nav-actions">
@@ -101,16 +110,16 @@
 
             <!-- Hero Left Text Content -->
             <div class="about-hero-text">
-                <span class="about-section-subtitle">ABOUT ANANSE</span>
-                <h1 class="about-hero-title">
+                <span class="about-section-subtitle" data-i18n="about.sectionTitle">ABOUT ANANSE</span>
+                <h1 class="about-hero-title" data-i18n-html="about.heroTitle">
                     More Than a Platform.<br>
                     <span class="about-highlight-line">It's a Movement.</span>
                 </h1>
-                <p class="about-hero-description">
+                <p class="about-hero-description" data-i18n="about.heroDescription">
                     ANANSE is a digital heritage platform built to bring Ghana's rich history, culture and people to
                     life — connecting the past, present and future.
                 </p>
-                <div class="about-hero-motto">
+                <div class="about-hero-motto" data-i18n="about.heroMotto">
                     Our Heritage. Our Pride. Our Story.
                 </div>
             </div>
@@ -148,8 +157,8 @@
                             <circle cx="12" cy="12" r="2"></circle>
                         </svg>
                     </div>
-                    <h3 class="about-card-title">Our Mission</h3>
-                    <p class="about-card-text">
+                    <h3 class="about-card-title" data-i18n="about.missionTitle">Our Mission</h3>
+                    <p class="about-card-text" data-i18n="about.missionText">
                         To make Ghana's heritage accessible, engaging and unforgettable through technology, storytelling
                         and immersive experiences.
                     </p>
@@ -165,8 +174,8 @@
                             <circle cx="12" cy="12" r="3"></circle>
                         </svg>
                     </div>
-                    <h3 class="about-card-title">Our Vision</h3>
-                    <p class="about-card-text">
+                    <h3 class="about-card-title" data-i18n="about.visionTitle">Our Vision</h3>
+                    <p class="about-card-text" data-i18n="about.visionText">
                         A world where everyone can explore, learn and celebrate Ghana's heritage — anytime, anywhere.
                     </p>
                 </div>
@@ -182,13 +191,18 @@
                             <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
                         </svg>
                     </div>
-                    <h3 class="about-card-title">Our Values</h3>
+                    <h3 class="about-card-title" data-i18n="about.valuesTitle">Our Values</h3>
                     <ul class="about-values-list">
-                        <li><span class="about-list-dot"></span>Cultural pride</li>
-                        <li><span class="about-list-dot"></span>Innovation</li>
-                        <li><span class="about-list-dot"></span>Education</li>
-                        <li><span class="about-list-dot"></span>Inclusivity</li>
-                        <li><span class="about-list-dot"></span>Sustainability</li>
+                        <li><span class="about-list-dot"></span><span data-i18n="about.valueCultural">Cultural
+                                pride</span></li>
+                        <li><span class="about-list-dot"></span><span
+                                data-i18n="about.valueInnovation">Innovation</span></li>
+                        <li><span class="about-list-dot"></span><span data-i18n="about.valueEducation">Education</span>
+                        </li>
+                        <li><span class="about-list-dot"></span><span
+                                data-i18n="about.valueInclusivity">Inclusivity</span></li>
+                        <li><span class="about-list-dot"></span><span
+                                data-i18n="about.valueSustainability">Sustainability</span></li>
                     </ul>
                 </div>
 
@@ -196,10 +210,10 @@
                 <div class="about-card about-quote-card">
                     <div class="about-adinkra-watermark"></div>
                     <div class="about-quote-mark">“</div>
-                    <blockquote class="about-quote-text">
+                    <blockquote class="about-quote-text" data-i18n="about.quoteText">
                         “Heritage is not just what we inherit, but what we pass on.”
                     </blockquote>
-                    <div class="about-quote-author">— ANANSE</div>
+                    <div class="about-quote-author" data-i18n="about.quoteAuthor">— ANANSE</div>
                 </div>
 
             </div>
@@ -214,16 +228,16 @@
             <!-- Tech Section Left Side -->
             <div class="about-tech-left">
                 <div class="about-dash-label">
-                    <span class="about-dash">—</span> Our Technology
+                    <span class="about-dash">—</span> <span data-i18n="about.techTitle">Our Technology</span>
                 </div>
-                <h2 class="about-tech-heading">Our Technology</h2>
-                <p class="about-tech-description">
+                <h2 class="about-tech-heading" data-i18n="about.techTitle">Our Technology</h2>
+                <p class="about-tech-description" data-i18n="about.techDescription">
                     ANANSE combines modern technology with traditional storytelling to create meaningful, interactive
                     experiences.
                 </p>
                 <!-- LINK PLACEHOLDER: Update href button target -->
                 <a href="explore.html" class="about-btn-primary">
-                    Learn More <span class="about-btn-arrow">→</span>
+                    <span data-i18n="about.learnMore">Learn More</span> <span class="about-btn-arrow">→</span>
                 </a>
             </div>
 
@@ -240,9 +254,10 @@
                             <polyline points="8 6 2 12 8 18"></polyline>
                         </svg>
                     </div>
-                    <h4 class="about-tech-title">Frontend</h4>
+                    <h4 class="about-tech-title" data-i18n="about.frontend">Frontend</h4>
                     <span class="about-tech-subtitle">HTML, CSS, JavaScript</span>
-                    <p class="about-tech-detail">Beautiful, responsive user experience.</p>
+                    <p class="about-tech-detail" data-i18n="about.detailsBeautiful">Beautiful, responsive user
+                        experience.</p>
                 </div>
 
                 <!-- Pillar 2 -->
@@ -257,9 +272,10 @@
                             <line x1="6" y1="18" x2="6.01" y2="18"></line>
                         </svg>
                     </div>
-                    <h4 class="about-tech-title">Backend</h4>
+                    <h4 class="about-tech-title" data-i18n="about.backend">Backend</h4>
                     <span class="about-tech-subtitle">FastAPI / Python</span>
-                    <p class="about-tech-detail">Powering the platform and user features.</p>
+                    <p class="about-tech-detail" data-i18n="about.detailsPowering">Powering the platform and user
+                        features.</p>
                 </div>
 
                 <!-- Pillar 3 -->
@@ -273,9 +289,10 @@
                             <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
                         </svg>
                     </div>
-                    <h4 class="about-tech-title">Database</h4>
+                    <h4 class="about-tech-title" data-i18n="about.database">Database</h4>
                     <span class="about-tech-subtitle">MySQL</span>
-                    <p class="about-tech-detail">Securely storing heritage data & user progress.</p>
+                    <p class="about-tech-detail" data-i18n="about.detailsSecurely">Securely storing heritage data & user
+                        progress.</p>
                 </div>
 
                 <!-- Pillar 4 -->
@@ -291,9 +308,9 @@
                             <line x1="16" y1="16" x2="16" y2="16"></line>
                         </svg>
                     </div>
-                    <h4 class="about-tech-title">AI Guide</h4>
+                    <h4 class="about-tech-title" data-i18n="about.aiGuide">AI Guide</h4>
                     <span class="about-tech-subtitle">Naa</span>
-                    <p class="about-tech-detail">Your smart cultural assistant.</p>
+                    <p class="about-tech-detail" data-i18n="about.detailsAssistant">Your smart cultural assistant.</p>
                 </div>
 
                 <!-- Pillar 5 -->
@@ -308,9 +325,10 @@
                             <rect x="3" y="14" width="7" height="7"></rect>
                         </svg>
                     </div>
-                    <h4 class="about-tech-title">QR Technology</h4>
+                    <h4 class="about-tech-title" data-i18n="about.qrTechnology">QR Technology</h4>
                     <span class="about-tech-subtitle">Scan • Discover • Explore</span>
-                    <p class="about-tech-detail">Bringing physical sites to digital stories.</p>
+                    <p class="about-tech-detail" data-i18n="about.detailsStories">Bringing physical sites to digital
+                        stories.</p>
                 </div>
 
             </div>
@@ -333,7 +351,7 @@
                     alt="Preserving Ghana's Heritage" class="about-banner-img" loading="lazy">
                 <div class="about-banner-overlay"></div>
                 <div class="about-banner-text-content">
-                    <h3 class="about-banner-script-title">
+                    <h3 class="about-banner-script-title" data-i18n-html="about.bannerTitle">
                         Preserving<br>
                         Ghana's Heritage<br>
                         for Generations
@@ -347,9 +365,10 @@
                 <!-- Top Box: The Team Behind ANANSE -->
                 <div class="about-team-box">
                     <div class="about-dash-label">
-                        <span class="about-dash">—</span> The Team Behind ANANSE
+                        <span class="about-dash">—</span> <span data-i18n="about.teamTitle">The Team Behind
+                            ANANSE</span>
                     </div>
-                    <p class="about-team-description">
+                    <p class="about-team-description" data-i18n="about.teamDescription">
                         We are a passionate team of designers, developers, storytellers and culture lovers, dedicated to
                         building a platform that celebrates Ghana's heritage and inspires future generations.
                     </p>
@@ -362,7 +381,7 @@
                                 <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
                                 <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
                             </svg>
-                            <span>Design</span>
+                            <span data-i18n="about.roleDesign">Design</span>
                         </div>
                         <div class="about-role-item">
                             <!-- Font Awesome: <i class="fa-solid fa-code"></i> -->
@@ -371,7 +390,7 @@
                                 <polyline points="16 18 22 12 16 6"></polyline>
                                 <polyline points="8 6 2 12 8 18"></polyline>
                             </svg>
-                            <span>Development</span>
+                            <span data-i18n="about.roleDevelopment">Development</span>
                         </div>
                         <div class="about-role-item">
                             <!-- Font Awesome: <i class="fa-solid fa-book-open"></i> -->
@@ -380,7 +399,7 @@
                                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                             </svg>
-                            <span>Content</span>
+                            <span data-i18n="about.roleContent">Content</span>
                         </div>
                         <div class="about-role-item">
                             <!-- Font Awesome: <i class="fa-solid fa-users"></i> -->
@@ -391,7 +410,7 @@
                                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                             </svg>
-                            <span>Community</span>
+                            <span data-i18n="about.roleCommunity">Community</span>
                         </div>
                     </div>
                 </div>
@@ -410,16 +429,16 @@
                                     fill="none" />
                             </svg>
                         </div>
-                        <h3 class="about-journey-title">Be Part of the Journey</h3>
+                        <h3 class="about-journey-title" data-i18n="about.journeyTitle">Be Part of the Journey</h3>
                     </div>
 
-                    <p class="about-journey-text">
+                    <p class="about-journey-text" data-i18n="about.journeyText">
                         Whether you're a curious traveler, a proud Ghanaian, or a lover of culture — ANANSE is for you.
                     </p>
 
                     <!-- LINK PLACEHOLDER: Update href button target -->
                     <a href="explore.html" class="about-btn-gold">
-                        Explore Now <span class="about-btn-arrow">→</span>
+                        <span data-i18n="about.exploreNow">Explore Now</span> <span class="about-btn-arrow">→</span>
                     </a>
                 </div>
 
@@ -453,11 +472,11 @@
                 <!-- Footer Nav Links -->
                 <!-- LINK PLACEHOLDERS: Update paths to match your project structure -->
                 <nav class="about-footer-nav">
-                    <a href="../index.html">Home</a>
-                    <a href="explore.html">Explore</a>
-                    <a href="map.html">Map</a>
-                    <a href="passport.html">Passport</a>
-                    <a href="about.html">About</a>
+                    <a href="../index.html" data-i18n="nav.home">Home</a>
+                    <a href="explore.html" data-i18n="nav.explore">Explore</a>
+                    <a href="map.html" data-i18n="nav.map">Map</a>
+                    <a href="passport.html" data-i18n="nav.passport">Passport</a>
+                    <a href="about.html" data-i18n="nav.about">About</a>
                 </nav>
 
                 <!-- Social Media Links -->
@@ -508,7 +527,8 @@
 
     <!-- ================= JS SCRIPT PLACEHOLDER ================= -->
     <!-- Relative path to scripts file in src/ -->
-    <script src="../src/scripts.js"></script>
+    <script src="../src/js/language.js"></script>
+    <script src="../src/script.js"></script>
 
 </body>
 

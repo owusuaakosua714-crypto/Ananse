@@ -18,39 +18,38 @@
     <!-- ANANSE HEADER -->
     <header class="naa-header">
         <div class="naa-header-container">
-            <a href="../index.html" class="naa-logo" aria-label="Ananse Home">
+            <a href="../index.html" class="logo naa-logo" aria-label="Ananse Home">
                 <i class="fa-solid fa-spider naa-logo-icon"></i>
-                <div class="naa-logo-text">
-                    <span class="naa-brand-name">ANANSE</span>
-                    <span class="naa-brand-tagline">Our Stories. Our Heritage. Your Journey.</span>
+                <div class="logo-text naa-logo-text">
+                    <span class="brand-name naa-brand-name">ANANSE</span>
+                    <span class="tagline naa-brand-tagline" data-i18n="site.tagline">Weaving Ghana’s Story into the
+                        Digital Age</span>
                 </div>
             </a>
 
             <!-- NAVIGATION -->
             <nav class="naa-nav" id="naaNav">
-                <a href="../index.html" class="naa-nav-link">Home</a>
-                <a href="explore.html" class="naa-nav-link">Explore</a>
-                <a href="map.html" class="naa-nav-link">Map</a>
-                <a href="passport.html" class="naa-nav-link">Passport</a>
-                <a href="about.html" class="naa-nav-link">About</a>
+                <a href="../index.html" class="naa-nav-link" data-i18n="nav.home">Home</a>
+                <a href="explore.html" class="naa-nav-link" data-i18n="nav.explore">Explore</a>
+                <a href="map.html" class="naa-nav-link" data-i18n="nav.map">Map</a>
+                <a href="passport.html" class="naa-nav-link" data-i18n="nav.passport">Passport</a>
+                <a href="about.html" class="naa-nav-link" data-i18n="nav.about">About</a>
             </nav>
 
-            <!-- HEADER ACTIONS -->
-            <div class="naa-header-actions">
-                <button class="naa-icon-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                <button class="naa-icon-btn" aria-label="Notifications"><i class="fa-regular fa-bell"></i></button>
-
-                <a href="profile.html" class="naa-profile-avatar" aria-label="User Profile">
-                    <!-- USER AVATAR IMAGE: Replace path with user profile image -->
-                    <img src="../images/profile.jpeg" alt="User Profile"
-                        onerror="this.src='https://ui-avatars.com/api/?name=User&background=133742&color=fff'">
-                </a>
-
-                <!-- MOBILE HAMBURGER MENU -->
-                <button class="naa-hamburger" id="naaHamburger" aria-label="Toggle Navigation Menu">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
+            <div class="language-switcher-wrap">
+                <select class="language-select" aria-label="Select website language"
+                    data-i18n-aria-label="common.languageSelect">
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                    <option value="es">Español</option>
+                </select>
             </div>
+
+            <!-- HEADER ACTIONS -->
+            <!-- MOBILE HAMBURGER MENU -->
+            <button class="naa-hamburger" id="naaHamburger" aria-label="Toggle Navigation Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
     </header>
 
@@ -62,26 +61,25 @@
             <div class="naa-hero-container">
                 <div class="naa-hero-media">
                     <!-- NAA INTRO VIDEO: Replace this path with your final Naa introduction video -->
-                    <video class="naa-video" autoplay loop playsinline webkit-playsinline preload="auto"
+                    <video class="naa-video" autoplay playsinline webkit-playsinline preload="auto"
                         disablepictureinpicture controlslist="nodownload nofullscreen noplaybackrate"
-                        poster="../images/profile.jpeg">
+                        poster="../images/profile%20.jpeg">
                         <source src="../video/ai speaking.mp4" type="video/mp4">
-                        <!-- NAA IMAGE FALLBACK: Replace this path with your final Naa image -->
-                        <img src="../images/profile.jpegi wang " alt="Naa - Your AI Heritage Guide" class="naa-hero-img"
-                            onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80'">
+                        <img src="../images/profile%20.jpeg" alt="Naa - Your AI Heritage Guide" class="naa-hero-img">
+
                     </video>
                 </div>
 
                 <div class="naa-hero-info">
                     <div class="naa-badge-pill">
-                        <span>Naa</span>
+                        <span data-i18n="ai.badge">Naa</span>
                     </div>
-                    <h1 class="naa-hero-title">Your AI Heritage Guide</h1>
-                    <p class="naa-hero-description">
+                    <h1 class="naa-hero-title" data-i18n="ai.title">Your AI Heritage Guide</h1>
+                    <p class="naa-hero-description" data-i18n="ai.subtitle">
                         Ask questions, get instant answers, discover Ghana’s history, culture and hidden gems — all in
                         one place.
                     </p>
-                    <p class="naa-hero-greeting">
+                    <p class="naa-hero-greeting" data-i18n="ai.greeting">
                         <em>Hi! I’m Naa. How can I help you explore Ghana today?</em>
                     </p>
                 </div>
@@ -95,32 +93,33 @@
             <aside class="naa-sidebar-left">
                 <div class="naa-card naa-suggested-card">
                     <h2 class="naa-card-title">
-                        <i class="fa-regular fa-lightbulb"></i> Suggested Questions
+                        <i class="fa-regular fa-lightbulb"></i> <span data-i18n="ai.suggestedQuestions">Suggested
+                            Questions</span>
                     </h2>
                     <div class="naa-suggested-list">
                         <button class="naa-suggested-btn" data-question="Tell me about Cape Coast Castle.">
-                            <span>Tell me about Cape Coast Castle.</span>
+                            <span data-i18n="ai.questionCapeCoast">Tell me about Cape Coast Castle.</span>
                             <i class="fa-solid fa-arrow-right"></i>
                         </button>
                         <button class="naa-suggested-btn" data-question="What is the history of the Ashanti Empire?">
-                            <span>What is the history of the Ashanti Empire?</span>
+                            <span data-i18n="ai.questionAshanti">What is the history of the Ashanti Empire?</span>
                             <i class="fa-solid fa-arrow-right"></i>
                         </button>
                         <button class="naa-suggested-btn" data-question="Which heritage sites are near Accra?">
-                            <span>Which heritage sites are near Accra?</span>
+                            <span data-i18n="ai.questionAccra">Which heritage sites are near Accra?</span>
                             <i class="fa-solid fa-arrow-right"></i>
                         </button>
                         <button class="naa-suggested-btn" data-question="What cultural events happen in Ghana?">
-                            <span>What cultural events happen in Ghana?</span>
+                            <span data-i18n="ai.questionEvents">What cultural events happen in Ghana?</span>
                             <i class="fa-solid fa-arrow-right"></i>
                         </button>
                         <button class="naa-suggested-btn"
                             data-question="How do I earn badges on the Cultural Passport?">
-                            <span>How do I earn badges on the Cultural Passport?</span>
+                            <span data-i18n="ai.questionPassport">How do I earn badges on the Cultural Passport?</span>
                             <i class="fa-solid fa-arrow-right"></i>
                         </button>
                         <button class="naa-suggested-btn" data-question="Can you recommend a 1-day heritage trip?">
-                            <span>Can you recommend a 1-day heritage trip?</span>
+                            <span data-i18n="ai.questionTrip">Can you recommend a 1-day heritage trip?</span>
                             <i class="fa-solid fa-arrow-right"></i>
                         </button>
                     </div>
@@ -128,7 +127,8 @@
 
                 <div class="naa-card naa-quote-card">
                     <i class="fa-solid fa-quote-left naa-quote-icon"></i>
-                    <p class="naa-quote-text">“Ask about our past, plan your present, be part of our future.”</p>
+                    <p class="naa-quote-text" data-i18n="ai.quote">“Ask about our past, plan your present, be part of
+                        our future.”</p>
                     <div class="naa-quote-accent-line"></div>
                 </div>
             </aside>
@@ -141,18 +141,19 @@
                     <div class="naa-chat-header">
                         <div class="naa-chat-status">
                             <div class="naa-chat-avatar-wrap">
-                                <img src="../images/profile.jpeg" alt="Naa Avatar" class="naa-avatar-img">
+                                <img src="../images/profile%20.jpeg" alt="Naa Avatar" class="naa-avatar-img">
 
                                 <span class="naa-online-dot"></span>
                             </div>
                             <div class="naa-status-text">
                                 <span class="naa-chat-name">Naa</span>
-                                <span class="naa-status-label">Online</span>
+                                <span class="naa-status-label" data-i18n="ai.online">Online</span>
                             </div>
                         </div>
 
-                        <button id="naaClearChatBtn" class="naa-clear-btn" type="button" aria-label="Clear Chat">
-                            <i class="fa-regular fa-trash-can"></i> Clear chat
+                        <button id="naaClearChatBtn" class="naa-clear-btn" type="button" aria-label="Clear Chat"
+                            data-i18n-aria-label="common.clearChat">
+                            <i class="fa-regular fa-trash-can"></i> <span data-i18n="common.clearChat">Clear chat</span>
                         </button>
                     </div>
 
@@ -161,15 +162,15 @@
                         <!-- INITIAL WELCOME MESSAGE FROM NAA -->
                         <div class="naa-message-row naa-msg-naa">
                             <div class="naa-msg-avatar">
-                                <img src="../images/profile.jpeg" alt="Naa">
+                                <img src="../images/profile%20.jpeg" alt="Naa">
                             </div>
                             <div class="naa-msg-content-wrapper">
-                                <div class="naa-msg-bubble">
+                                <div class="naa-msg-bubble" data-i18n="ai.defaultWelcome">
                                     Hello! I’m Naa, your AI heritage guide. I’m here to help you learn about Ghana’s
                                     history, explore amazing heritage sites, and discover our culture. What would you
                                     like to explore today? 👋
                                 </div>
-                                <span class="naa-msg-timestamp">Just now</span>
+                                <span class="naa-msg-timestamp" data-i18n="common.justNow">Just now</span>
                             </div>
                         </div>
                     </div>
@@ -177,14 +178,14 @@
                     <!-- TYPING / LOADING INDICATOR -->
                     <div class="naa-typing-indicator" id="naaTypingIndicator" style="display: none;">
                         <div class="naa-msg-avatar">
-                            <img src="../images/profile.jpeg" alt="Naa">
+                            <img src="../images/profile%20.jpeg" alt="Naa">
                         </div>
                         <div class="naa-typing-bubbles">
                             <span></span>
                             <span></span>
                             <span></span>
                         </div>
-                        <span class="naa-typing-text">Naa is thinking...</span>
+                        <span class="naa-typing-text" data-i18n="ai.thinking">Naa is thinking...</span>
                     </div>
 
                     <!-- CHAT INPUT FORM -->
@@ -193,8 +194,10 @@
                             <i class="fa-solid fa-paperclip"></i>
                         </button>
                         <input type="text" id="naaUserInput" class="naa-input-field" placeholder="Type your message..."
-                            autocomplete="off" aria-label="Type your message for Naa">
-                        <button type="submit" id="naaSendBtn" class="naa-send-btn" aria-label="Send Message">
+                            data-i18n-placeholder="ai.chatPlaceHolder" autocomplete="off"
+                            aria-label="Type your message for Naa" data-i18n-aria-label="ai.chatPlaceHolder">
+                        <button type="submit" id="naaSendBtn" class="naa-send-btn" aria-label="Send Message"
+                            data-i18n-aria-label="ai.sendMessage">
                             <i class="fa-solid fa-paper-plane"></i>
                         </button>
                     </form>
@@ -207,34 +210,34 @@
                 <div class="naa-card naa-info-card">
                     <div class="naa-info-header">
                         <i class="fa-regular fa-star naa-star-icon"></i>
-                        <h2 class="naa-info-title">Smart. Friendly. Always here.</h2>
+                        <h2 class="naa-info-title" data-i18n="ai.smartFriendly">Smart. Friendly. Always here.</h2>
                     </div>
 
                     <ul class="naa-info-list">
                         <li>
                             <i class="fa-solid fa-circle-check"></i>
-                            <span>Instant answers</span>
+                            <span data-i18n="ai.instantAnswers">Instant answers</span>
                         </li>
                         <li>
                             <i class="fa-solid fa-circle-check"></i>
-                            <span>Site information</span>
+                            <span data-i18n="ai.siteInformation">Site information</span>
                         </li>
                         <li>
                             <i class="fa-solid fa-circle-check"></i>
-                            <span>Cultural facts</span>
+                            <span data-i18n="ai.culturalFacts">Cultural facts</span>
                         </li>
                         <li>
                             <i class="fa-solid fa-circle-check"></i>
-                            <span>Travel tips</span>
+                            <span data-i18n="ai.travelTips">Travel tips</span>
                         </li>
                         <li>
                             <i class="fa-solid fa-circle-check"></i>
-                            <span>Language support</span>
+                            <span data-i18n="ai.languageSupport">Language support</span>
                         </li>
                     </ul>
 
                     <div class="naa-info-callout">
-                        <p><em>Chat with Naa and make the most of your journey!</em></p>
+                        <p><em data-i18n="ai.chatPrompt">Chat with Naa and make the most of your journey!</em></p>
                         <i class="fa-solid fa-heart naa-heart-icon"></i>
                     </div>
 
@@ -254,7 +257,8 @@
                 <a href="../index.html" class="naa-footer-logo">
                     <i class="fa-solid fa-spider"></i> ANANSE
                 </a>
-                <p class="naa-footer-tagline">Our Stories. Our Heritage. Your Journey.</p>
+                <p class="tagline naa-footer-tagline" data-i18n="ai.footerTagline">Weaving Ghana’s Story into the
+                    Digital Age</p>
             </div>
             <div class="naa-footer-socials">
                 <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
@@ -263,15 +267,16 @@
                 <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
             </div>
             <div class="naa-footer-links">
-                <a href="explore.html">Explore</a>
+                <a href="explore.html" data-i18n="nav.explore">Explore</a>
                 <span>•</span>
-                <a href="about.html">Learn</a>
+                <a href="about.html" data-i18n="nav.learn">Learn</a>
                 <span>•</span>
-                <a href="#">Preserve</a>
+                <a href="#" data-i18n="nav.preserve">Preserve</a>
             </div>
         </div>
     </footer>
 
+    <script src="../src/js/language.js"></script>
     <script src="../src/script.js"></script>
 </body>
 
