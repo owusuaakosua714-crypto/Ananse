@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANANSE - Login</title>
+    <script src="https://kit.fontawesome.com/17eac40b74.js"></script>
+    <!-- Scoped CSS for Login Page -->
+    <link rel="stylesheet" href="../src/style.css">
+</head>
+
+<body class="login-page-body">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="login-site-header">
+        <div class="login-header-container">
+            <!-- Brand / Logo -->
+            <a href="../index.html" class="login-brand-logo" aria-label="ANANSE Homepage">
+                <div class="login-logo-icon">
+                    <i class="fa-solid fa-spider"></i>
+                </div>
+                <div class="login-brand-text">
+                    <span class="login-brand-title">ANANSE</span>
+                    <span class="login-brand-slogan" data-i18n="site.tagline">Weaving Ghana’s Story into the Digital
+                        Age</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links (Login & Sign Up Omitted as requested) -->
+            <nav class="login-desktop-nav" aria-label="Main Navigation">
+                <a href="../index.html" class="login-nav-link" data-i18n="nav.home">Home</a>
+                <a href="./about.html" class="login-nav-link" data-i18n="nav.about">About</a>
+                <a href="./explore.html" class="login-nav-link" data-i18n="nav.explore">Explore</a>
+                <a href="./map.html" class="login-nav-link" data-i18n="nav.map">Map</a>
+                <a href="./passport.html" class="login-nav-link" data-i18n="nav.passport">Passport</a>
+            </nav>
+
+            <!-- Language Switcher & Hamburger Controls -->
+            <div class="login-nav-controls">
+                <div class="login-lang-wrapper">
+                    <select class="language-select login-lang-select" aria-label="Select language">
+                        <option value="en">English</option>
+                        <option value="fr">French</option>
+                        <option value="es">Spanish</option>
+                    </select>
+                </div>
+
+                <!-- Hamburger Toggle Button -->
+                <button class="login-hamburger-btn" id="loginHamburgerBtn" aria-label="Toggle navigation menu"
+                    aria-expanded="false">
+                    <span class="login-hamburger-bar"></span>
+                    <span class="login-hamburger-bar"></span>
+                    <span class="login-hamburger-bar"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div class="login-mobile-drawer" id="loginMobileDrawer" aria-hidden="true">
+            <nav class="login-mobile-nav">
+                <a href="../index.html" class="login-mobile-link" data-i18n="nav.home">Home</a>
+                <a href="./about.html" class="login-mobile-link" data-i18n="nav.about">About</a>
+                <a href="./explore.html" class="login-mobile-link" data-i18n="nav.explore">Explore</a>
+                <a href="./map.html" class="login-mobile-link" data-i18n="nav.map">Map</a>
+                <a href="./passport.html" class="login-mobile-link" data-i18n="nav.passport">Passport</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN LOGIN SECTION -->
+    <main class="login-main-section">
+        <div class="login-split-container">
+
+            <!-- Left Column: Hero Content & Heritage Info -->
+            <section class="login-hero-info">
+                <div class="login-kente-pattern" aria-hidden="true"></div>
+                <div class="login-hero-content">
+                    <div class="login-badge" data-i18n="login.badge">— WELCOME TO ANANSE</div>
+                    <h1 class="login-hero-title" data-i18n="login.heroTitle">Explore. Learn. Preserve.</h1>
+                    <p class="login-hero-desc" data-i18n="login.heroDescription">Log in to continue your journey through
+                        Ghana's rich heritage, culture,
+                        and untold stories.</p>
+
+                    <div class="login-features-list">
+                        <div class="login-feature-item">
+                            <div class="login-feature-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+                                </svg>
+                            </div>
+                            <div>
+                                <strong data-i18n="login.featureDiscover">Discover</strong>
+                                <span data-i18n="login.featureDiscoverText">heritage sites</span>
+                            </div>
+                        </div>
+
+                        <div class="login-feature-item">
+                            <div class="login-feature-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <strong data-i18n="login.featureLearn">Learn</strong>
+                                <span data-i18n="login.featureLearnText">amazing stories</span>
+                            </div>
+                        </div>
+
+                        <div class="login-feature-item">
+                            <div class="login-feature-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                                </svg>
+                            </div>
+                            <div>
+                                <strong data-i18n="login.featureEarn">Earn</strong>
+                                <span data-i18n="login.featureEarnText">badges</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="login-hero-quote" data-i18n="login.heroQuote">Our heritage lives in you.</p>
+                </div>
+            </section>
+
+            <!-- Right Column: Card & Form -->
+            <section class="login-form-area">
+                <div class="login-card">
+                    <div class="login-card-header">
+                        <div class="login-sunburst-icon" aria-hidden="true"></div>
+                        <h2 data-i18n="login.welcomeBack">Welcome Back</h2>
+                        <p data-i18n="login.subtext">Log in to continue your journey with Ananse.</p>
+                    </div>
+
+                    <form id="loginForm" class="login-form" novalidate>
+                        <!-- Email Input -->
+                        <div class="login-field-group">
+                            <label for="loginEmail" data-i18n="login.email">Email Address</label>
+                            <div class="login-input-wrapper">
+                                <svg class="login-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <polyline points="22,6 12,13 2,6" />
+                                </svg>
+                                <input type="email" id="loginEmail" required placeholder="Enter your email address"
+                                    data-i18n-placeholder="login.emailPlaceholder">
+                            </div>
+                        </div>
+
+                        <!-- Password Input -->
+                        <div class="login-field-group">
+                            <label for="loginPassword" data-i18n="login.password">Password</label>
+                            <div class="login-input-wrapper">
+                                <svg class="login-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg>
+                                <input type="password" id="loginPassword" required placeholder="Enter your password"
+                                    data-i18n-placeholder="login.passwordPlaceholder">
+                                <button type="button" class="login-password-toggle" id="togglePasswordBtn"
+                                    aria-label="Toggle password visibility">
+                                    <svg class="login-eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Options Row -->
+                        <div class="login-options-row">
+                            <label class="login-checkbox-label">
+                                <input type="checkbox" id="rememberMe">
+                                <span class="login-custom-checkbox"></span>
+                                <span data-i18n="login.remember">Remember me</span>
+                            </label>
+                            <a href="#" class="login-forgot-link" data-i18n="login.forgot">Forgot password?</a>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="login-submit-btn">
+                            <span data-i18n="login.submit">Login</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </button>
+
+                        <div class="login-divider">
+                            <span data-i18n="login.or">OR</span>
+                        </div>
+
+                        <!-- Google SSO Button -->
+                        <button type="button" class="login-google-btn">
+                            <svg viewBox="0 0 24 24">
+                                <path fill="#4285F4"
+                                    d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z" />
+                                <path fill="#34A853"
+                                    d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.13C3.26 21.3 7.31 24 12 24z" />
+                                <path fill="#FBBC05"
+                                    d="M5.28 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.63H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.37l3.99-3.13z" />
+                                <path fill="#EA4335"
+                                    d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.63l3.99 3.13c.95-2.85 3.6-4.96 6.72-4.96z" />
+                            </svg>
+                            <span data-i18n="login.google">Continue with Google</span>
+                        </button>
+
+                        <!-- Sign Up Footer link -->
+                        <p class="login-signup-prompt">
+                            <span data-i18n="login.noAccount">Don't have an account?</span>
+                            <a href="./signup.html" data-i18n="login.signup">Sign Up</a>
+                        </p>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="login-site-footer">
+        <div class="login-footer-container">
+            <div class="login-footer-brand">
+                <a href="../index.html" class="login-footer-logo">
+                    <div class="login-logo-icon">
+                        <i class="fa-solid fa-spider"></i>
+                    </div>
+                    <span class="login-brand-title">ANANSE</span>
+                </a>
+                <p class="login-footer-slogan" data-i18n="site.tagline">Weaving Ghana’s Story into the Digital Age</p>
+            </div>
+
+            <div class="login-footer-center">
+                <p class="login-footer-script" data-i18n="login.footerScript">Scan today. Experience forever.</p>
+                <div class="login-social-links">
+                    <a href="#" aria-label="Instagram">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Facebook">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="X (Twitter)">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="YouTube">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
+                            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="login-footer-links">
+                <a href="./explore.html" data-i18n="nav.explore">Explore</a>
+                <span>•</span>
+                <a href="./about.html" data-i18n="nav.learn">Learn</a>
+                <span>•</span>
+                <a href="./passport.html" data-i18n="nav.preserve">Preserve</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shared language script -->
+    <script src="../src/js/language.js"></script>
+    <!-- Scoped login page script -->
+    <script src="../src/script.js"></script>
+</body>
+
+</html>
