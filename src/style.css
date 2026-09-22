@@ -1812,3 +1812,578 @@ body.naa-page {
     }
 }
 
+
+
+
+
+
+/* ==========================================================================
+   ANANSE — "Weaving Ghana's Story into the Digital Age"
+   Explore page stylesheet
+   ========================================================================== */
+
+/* ---------- Design tokens (from the brief's exact palette) ---------- */
+:root{
+  --deep-teal: #073B40;
+  --dark-blue: #0F4C81;
+  --teal:      #168B9F;
+  --green:     #2E8B57;
+  --gold:      #D9A21B;
+  --orange:    #E58A00;
+  --bg-light:  #F5F5F5;
+  --white:     #FFFFFF;
+  --text-dark: #1F2937;
+  --text-sec:  #6B7280;
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --shadow-sm: 0 2px 10px rgba(7,59,64,.08);
+  --shadow-md: 0 10px 30px rgba(7,59,64,.14);
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  background: var(--white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img, svg{ max-width: 100%; display: block; }
+a{ color: inherit; text-decoration: none; }
+ul{ margin: 0; padding: 0; list-style: none; }
+button{ font-family: inherit; cursor: pointer; }
+input, select{ font-family: inherit; font-size: inherit; }
+h1,h2,h3,h4{ font-family: var(--font-display); margin: 0; color: var(--deep-teal); line-height: 1.2; }
+p{ margin: 0; }
+:focus-visible{ outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.container{ max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+@media (max-width: 640px){ .container{ padding: 0 20px; } }
+
+/* Subtle Adinkra-inspired corner motif, used sparingly */
+.pattern-corner{
+  position: absolute; top: 0; right: 0; width: 10px; height: 100%;
+  background-image:
+    repeating-linear-gradient(45deg, var(--gold) 0 3px, transparent 3px 20px),
+    repeating-linear-gradient(-45deg, var(--teal) 0 3px, transparent 3px 20px);
+  opacity: .85;
+}
+
+/* ==========================================================================
+   HEADER — recreated from the ANANSE mobile screenshot
+   ========================================================================== */
+.site-header{ background: var(--deep-teal); position: sticky; top: 0; z-index: 200; }
+.header-inner{
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  padding: 18px 0;
+}
+.brand{ display: flex; align-items: center; gap: 14px; min-width: 0; }
+.brand__mark{ width: 46px; height: 46px; flex-shrink: 0; color: var(--gold); }
+.brand__text{ min-width: 0; }
+.brand__name{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: .04em;
+  color: var(--white);
+}
+.brand__tagline{
+  font-size: 11.5px;
+  color: var(--gold);
+  margin-top: 2px;
+  max-width: 230px;
+}
+
+.nav-links{ display: flex; align-items: center; gap: 30px; }
+.nav-links a{
+  color: rgba(255,255,255,.8); font-weight: 500; font-size: 14.5px;
+  padding-bottom: 4px; border-bottom: 2px solid transparent;
+}
+.nav-links a:hover{ color: var(--white); }
+.nav-links a.active{ color: var(--white); border-color: var(--gold); }
+
+.header-right{ display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.lang-select{
+  display: flex; align-items: center; gap: 8px;
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,.4);
+  color: var(--white);
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 14px; font-weight: 600;
+}
+.menu-toggle{
+  display: none;
+  background: transparent; border: none; color: var(--white);
+  width: 40px; height: 40px; align-items: center; justify-content: center;
+}
+.mobile-nav{ display: none; flex-direction: column; background: #052b2f; }
+.mobile-nav.is-open{ display: flex; }
+.mobile-nav a{ color: rgba(255,255,255,.85); padding: 13px 28px; font-weight: 500; }
+.mobile-nav a.active{ color: var(--gold); }
+
+@media (max-width: 860px){
+  .nav-links{ display: none; }
+  .menu-toggle{ display: flex; }
+  .brand__name{ font-size: 19px; }
+  .brand__tagline{ font-size: 10.5px; max-width: 190px; }
+}
+
+/* ==========================================================================
+   HERO + SEARCH
+   ========================================================================== */
+.explore-hero{
+  background: linear-gradient(135deg, var(--deep-teal), var(--dark-blue));
+  color: var(--white);
+  padding: 52px 0 44px;
+  position: relative;
+  overflow: hidden;
+}
+.explore-hero h1{ color: var(--white); font-size: clamp(28px, 4vw, 40px); }
+.explore-hero .lead{
+  margin-top: 12px; color: rgba(255,255,255,.82); max-width: 620px; font-size: 16px;
+}
+.search-bar{
+  margin-top: 26px;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--white);
+  border-radius: 999px;
+  padding: 6px 6px 6px 20px;
+  max-width: 560px;
+  box-shadow: var(--shadow-md);
+}
+.search-bar svg{ color: var(--text-sec); flex-shrink: 0; }
+.search-bar input{
+  flex: 1; border: none; outline: none; background: transparent; font-size: 15px; color: var(--text-dark);
+}
+.search-bar button{
+  width: 42px; height: 42px; border-radius: 50%; border: none; flex-shrink: 0;
+  background: var(--orange); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+}
+.search-bar button:hover{ background: var(--dark-blue); }
+
+/* ==========================================================================
+   FILTERS
+   ========================================================================== */
+.filters-bar{
+  background: var(--bg-light);
+  padding: 22px 0;
+  border-bottom: 1px solid #E7E7E7;
+}
+.filters-row{
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 18px; flex-wrap: wrap;
+}
+.category-filters{ display: flex; gap: 10px; flex-wrap: wrap; }
+.chip{
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1.5px solid #D9D9D9;
+  background: var(--white);
+  color: var(--text-sec);
+  font-weight: 600;
+  font-size: 13.5px;
+  transition: all .15s ease;
+}
+.chip:hover{ border-color: var(--teal); color: var(--teal); }
+.chip.is-active{
+  background: var(--dark-blue); border-color: var(--dark-blue); color: var(--white);
+}
+.region-select-wrap{ display: flex; align-items: center; gap: 10px; }
+.region-select-wrap label{ font-size: 13.5px; font-weight: 600; color: var(--text-dark); white-space: nowrap; }
+.region-select-wrap select{
+  padding: 10px 14px; border-radius: 10px; border: 1.5px solid #D9D9D9; background: var(--white); color: var(--text-dark);
+}
+
+.results-meta{
+  padding: 18px 0 0;
+  font-size: 13.5px; color: var(--text-sec);
+}
+.results-meta strong{ color: var(--deep-teal); }
+
+/* ==========================================================================
+   HERITAGE CARDS
+   ========================================================================== */
+.cards-section{ padding: 30px 0 80px; background: var(--bg-light); }
+.card-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  margin-top: 20px;
+}
+@media (max-width: 980px){ .card-grid{ grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px){ .card-grid{ grid-template-columns: 1fr; } }
+
+.heritage-card{
+  background: var(--white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.heritage-card:hover{ transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.heritage-card.is-hidden{ display: none; }
+
+.card-media{
+  position: relative; height: 178px;
+  display: flex; align-items: flex-end; padding: 14px;
+  overflow: hidden;
+}
+.card-media svg.motif{ position: absolute; inset: 0; margin: auto; opacity: .9; }
+.card-media .category-badge{
+  background: rgba(7,59,64,.72);
+  color: var(--white);
+  font-size: 11.5px; font-weight: 700;
+  padding: 5px 12px; border-radius: 999px; z-index: 1;
+}
+.card-media .bookmark-btn{
+  position: absolute; top: 12px; right: 12px; z-index: 2;
+  width: 34px; height: 34px; border-radius: 50%; border: none;
+  background: rgba(255,255,255,.92); color: var(--dark-blue);
+  display: flex; align-items: center; justify-content: center;
+}
+.card-media .bookmark-btn.is-active{ background: var(--gold); color: var(--deep-teal); }
+.card-media .bookmark-btn svg{ pointer-events: none; }
+
+.card-body{ padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.card-body h3{ font-size: 18.5px; color: var(--deep-teal); }
+.card-loc{
+  display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--teal); font-weight: 600;
+}
+.card-desc{ font-size: 13.5px; color: var(--text-sec); flex: 1; }
+
+.verify-badge{
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 700; color: var(--green);
+  background: #EAF6EE; padding: 6px 10px; border-radius: 999px;
+  border: none; width: fit-content; margin-top: 4px;
+}
+.verify-badge:hover{ background: #DCF0E2; }
+
+.card-foot{ margin-top: 10px; }
+.explore-story-btn{
+  width: 100%;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--dark-blue); color: var(--white);
+  padding: 13px; border-radius: 12px; border: none; font-weight: 700; font-size: 14.5px;
+}
+.explore-story-btn:hover{ background: var(--deep-teal); }
+
+/* Placeholder "photo" gradients per site (until real licensed photos are added) */
+.media--cape-coast-castle{ background: linear-gradient(135deg,#073B40,#168B9F); }
+.media--independence-arch{ background: linear-gradient(135deg,#0F4C81,#3C7FBF); }
+.media--kwame-nkrumah-memorial-park{ background: linear-gradient(135deg,#0F4C81,#2E8B57); }
+.media--osu-castle{ background: linear-gradient(135deg,#073B40,#0F4C81); }
+.media--manhyia-palace{ background: linear-gradient(135deg,#B9820E,#D9A21B); }
+
+.no-results{
+  display: none; text-align: center; padding: 60px 20px; color: var(--text-sec);
+  background: var(--white); border-radius: var(--radius-md); border: 1px dashed #D9D9D9; margin-top: 20px;
+}
+.no-results.is-visible{ display: block; }
+.no-results h3{ color: var(--deep-teal); margin-bottom: 8px; }
+
+/* ==========================================================================
+   HERITAGE DETAIL MODAL
+   ========================================================================== */
+.modal-overlay{
+  position: fixed; inset: 0; background: rgba(7,15,20,.6);
+  display: none; align-items: flex-start; justify-content: center;
+  padding: 40px 16px; overflow-y: auto; z-index: 500;
+}
+.modal-overlay.is-open{ display: flex; }
+.modal{
+  background: var(--white); border-radius: var(--radius-lg);
+  max-width: 760px; width: 100%;
+  box-shadow: 0 30px 70px rgba(0,0,0,.35);
+  overflow: hidden;
+}
+.modal-close{
+  position: absolute; top: 18px; right: 18px; z-index: 3;
+  width: 38px; height: 38px; border-radius: 50%; border: none;
+  background: rgba(255,255,255,.92); color: var(--deep-teal);
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-hero{ position: relative; height: 220px; display: flex; align-items: flex-end; padding: 20px; }
+.modal-hero .category-badge{
+  background: var(--gold); color: var(--deep-teal); font-size: 12px; font-weight: 800;
+  padding: 6px 14px; border-radius: 999px; position: absolute; top: 20px; left: 20px;
+}
+.modal-hero h2{ color: var(--white); font-size: 26px; }
+.modal-hero .loc{ color: rgba(255,255,255,.85); margin-top: 6px; display: flex; align-items: center; gap: 6px; font-size: 13.5px; }
+.image-caption{ font-size: 12px; color: var(--text-sec); padding: 8px 28px 0; font-style: italic; }
+
+.modal-body{ padding: 26px 28px 32px; display: flex; flex-direction: column; gap: 26px; }
+.modal-section h4{
+  font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--dark-blue);
+  margin-bottom: 10px; font-family: var(--font-body); font-weight: 700;
+}
+.modal-section p{ font-size: 14.5px; color: var(--text-dark); line-height: 1.65; }
+.event-list{ display: flex; flex-direction: column; gap: 8px; }
+.event-list li{ display: flex; gap: 9px; font-size: 14px; color: var(--text-dark); }
+.event-list svg{ color: var(--gold); flex-shrink: 0; margin-top: 3px; }
+
+/* Audio guide */
+.audio-guide{ background: var(--bg-light); border-radius: var(--radius-md); padding: 20px; }
+.voice-row{ display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+.voice-card{
+  flex: 1; min-width: 130px;
+  background: var(--white); border: 2px solid #E2E2E2; border-radius: 14px;
+  padding: 14px; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.voice-card .mic{
+  width: 40px; height: 40px; border-radius: 50%; background: var(--bg-light);
+  display: flex; align-items: center; justify-content: center; color: var(--dark-blue); margin-bottom: 4px;
+}
+.voice-card strong{ font-size: 14px; color: var(--deep-teal); }
+.voice-card span{ font-size: 11.5px; color: var(--text-sec); }
+.voice-card.is-active{ border-color: var(--dark-blue); background: #EDF3FB; }
+.voice-card.is-active .mic{ background: var(--dark-blue); color: var(--white); }
+
+.audio-controls{
+  display: flex; align-items: center; gap: 14px; margin-top: 16px;
+  background: var(--white); border-radius: 999px; padding: 10px 16px;
+}
+.audio-controls button{
+  width: 38px; height: 38px; border-radius: 50%; border: none;
+  background: var(--dark-blue); color: var(--white);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.audio-controls button:hover{ background: var(--deep-teal); }
+.audio-controls .track{ flex: 1; height: 6px; background: #E2E2E2; border-radius: 999px; overflow: hidden; }
+.audio-controls .track i{ display: block; height: 100%; width: 0%; background: var(--gold); }
+.audio-controls input[type="range"]{ width: 70px; accent-color: var(--dark-blue); }
+.audio-status{ font-size: 12px; color: var(--text-sec); margin-top: 8px; }
+
+/* Verified sources */
+.sources-box{ background: #EAF6EE; border-radius: var(--radius-md); padding: 20px; }
+.sources-box h4{ color: var(--green); }
+.sources-box .verified-note{ font-size: 13px; color: var(--text-dark); margin-bottom: 12px; }
+.source-chips{ display: flex; gap: 10px; flex-wrap: wrap; }
+.source-chip{
+  display: flex; align-items: center; gap: 8px;
+  background: var(--white); border: 1.5px solid #CFE8D6; border-radius: 999px;
+  padding: 9px 16px; font-size: 13px; font-weight: 600; color: var(--deep-teal);
+}
+.source-chip:hover{ border-color: var(--green); background: #F2FBF4; }
+.source-chip svg{ color: var(--green); flex-shrink: 0; }
+.last-verified{ font-size: 12px; color: var(--text-sec); margin-top: 12px; }
+
+/* Ask Naa + Passport actions */
+.modal-actions{ display: flex; gap: 12px; flex-wrap: wrap; }
+.action-btn{
+  flex: 1; min-width: 200px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px; border-radius: 12px; font-weight: 700; font-size: 14.5px; border: 2px solid transparent;
+}
+.action-btn--naa{ background: var(--teal); color: var(--white); }
+.action-btn--naa:hover{ background: var(--deep-teal); }
+.action-btn--passport{ background: var(--white); border-color: var(--gold); color: var(--deep-teal); }
+.action-btn--passport.is-added{ background: var(--gold); color: var(--deep-teal); }
+.action-btn--passport:hover{ background: var(--gold); }
+
+.ask-naa-prompt{ text-align: center; }
+.ask-naa-prompt p{ color: var(--text-sec); margin-bottom: 4px; }
+
+@media (max-width: 620px){
+  .modal-hero{ height: 180px; padding: 16px; }
+  .modal-body{ padding: 20px; }
+  .action-btn{ min-width: 100%; }
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.site-footer{ background: var(--deep-teal); color: rgba(255,255,255,.8); padding: 36px 0; }
+.footer-inner{ display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-inner p{ font-size: 13px; color: rgba(255,255,255,.6); }
+
+.visually-hidden{
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+/* ==========================================================================
+   ANANSE — Cultural Passport page additions
+   Loaded AFTER src/style.css on pages/passport.html. Same approach as
+   explore.css: reuses existing site-wide classes where possible (.container,
+   .page-hero, .btn-primary) and only adds what's new here.
+   ========================================================================== */
+
+.passport-page{
+  --deep-teal: #073B40;
+  --dark-blue: #0F4C81;
+  --teal:      #168B9F;
+  --green:     #2E8B57;
+  --gold:      #D9A21B;
+  --orange:    #E58A00;
+  --bg-light:  #F5F5F5;
+  --white:     #FFFFFF;
+  --text-dark: #1F2937;
+  --text-sec:  #6B7280;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --shadow-sm: 0 2px 10px rgba(7,59,64,.08);
+  --shadow-md: 0 10px 30px rgba(7,59,64,.14);
+}
+
+/* ---------- Stats panel ---------- */
+.passport-stats-section{ background: var(--bg-light); padding: 44px 0; }
+.stats-panel{
+  background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+  padding: 30px 32px; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;
+}
+.progress-ring-wrap{ display: flex; align-items: center; gap: 20px; }
+.progress-ring{ width: 100px; height: 100px; position: relative; flex-shrink: 0; }
+.progress-ring svg{ transform: rotate(-90deg); width: 100%; height: 100%; }
+.progress-ring .ring-bg{ fill: none; stroke: #E5E7EB; stroke-width: 10; }
+.progress-ring .ring-fill{ fill: none; stroke: var(--gold); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset .5s ease; }
+.progress-ring .ring-label{
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 800; color: var(--deep-teal);
+}
+.progress-ring-wrap h3{ margin: 0; font-size: 16px; color: var(--deep-teal); }
+.progress-ring-wrap p{ margin: 4px 0 0; font-size: 13.5px; color: var(--text-sec); }
+
+.stat-tiles{ display: flex; gap: 32px; flex-wrap: wrap; }
+.stat-tile{ text-align: center; }
+.stat-tile strong{ display: block; font-size: 26px; color: var(--dark-blue); font-weight: 800; }
+.stat-tile span{ font-size: 12.5px; color: var(--text-sec); }
+
+/* ---------- Badges section ---------- */
+.passport-badges-section{ padding: 56px 0 80px; }
+.passport-badges-section h2{ font-size: 26px; color: var(--deep-teal); margin: 0; }
+.section-sub{ color: var(--text-sec); font-size: 14.5px; margin-top: 8px; max-width: 640px; }
+
+.badges-grid{
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 30px;
+}
+@media (max-width: 980px){ .badges-grid{ grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px){ .badges-grid{ grid-template-columns: 1fr; } }
+
+.badge-card{
+  background: var(--white); border-radius: var(--radius-md); overflow: hidden;
+  box-shadow: var(--shadow-sm); display: flex; flex-direction: column;
+  border: 2px solid transparent; transition: transform .15s ease, box-shadow .15s ease;
+}
+.badge-card:hover{ transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.badge-card--complete{ border-color: var(--gold); }
+.badge-card--partial{ border-color: var(--teal); }
+
+.badge-card__media{
+  height: 140px; background-size: cover; background-position: center; position: relative;
+}
+.badge-card--none .badge-card__media{ filter: grayscale(65%) brightness(.75); }
+.badge-card__media::after{ content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(6,15,26,.55), transparent 60%); }
+.badge-card__tier-icon{
+  position: absolute; top: 12px; right: 12px; z-index: 1;
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+  background: rgba(255,255,255,.92); color: var(--text-sec);
+}
+.badge-card--partial .badge-card__tier-icon{ background: var(--teal); color: var(--white); }
+.badge-card--complete .badge-card__tier-icon{ background: var(--gold); color: var(--deep-teal); }
+.badge-card__category{ position: absolute; bottom: 10px; left: 12px; z-index: 1; color: var(--white); font-size: 12px; font-weight: 700; }
+
+.badge-card__body{ padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.badge-card__body h3{ font-size: 17px; color: var(--deep-teal); margin: 0; }
+.badge-card__loc{ font-size: 12.5px; color: var(--text-sec); margin: 0; display: flex; align-items: center; gap: 5px; }
+
+.mini-steps{ list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.mini-steps li{ display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-sec); }
+.mini-steps .dot{
+  width: 16px; height: 16px; border-radius: 50%; border: 2px solid #D1D5DB;
+  display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--white); flex-shrink: 0;
+}
+.mini-steps li.is-done{ color: var(--deep-teal); font-weight: 600; }
+.mini-steps li.is-done .dot{ background: var(--teal); border-color: var(--teal); }
+
+.badge-card__foot{ margin-top: auto; padding-top: 8px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.badge-chip{ display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 700; padding: 5px 11px; border-radius: 999px; }
+.badge-chip--none{ background: #E5E7EB; color: var(--text-sec); }
+.badge-chip--partial{ background: #DDF0F4; color: var(--teal); }
+.badge-chip--complete{ background: #FBF0D6; color: var(--gold); }
+
+.card-action-link{
+  font-size: 13px; font-weight: 700; color: var(--dark-blue); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.card-action-link:hover{ color: var(--deep-teal); }
+
+.empty-passport{
+  text-align: center; padding: 60px 20px; color: var(--text-sec);
+  background: var(--white); border-radius: var(--radius-md); border: 1px dashed #D9D9D9; margin-top: 24px;
+}
+.empty-passport h3{ color: var(--deep-teal); margin-bottom: 8px; }
+
+/* ==========================================================================
+   ANANSE — Explore page: five heritage sites (additions)
+   ========================================================================== */
+
+/* Real <img> now sits inside .card-media on top of its .media--* gradient
+   (the gradient shows through automatically if an image fails to load) */
+.card-media img{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Modal hero image, same pattern, plus a readability overlay for the title */
+.modal-hero{ overflow: hidden; }
+.modal-hero img{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.modal-hero::after{
+  content: "";
+  position: absolute; inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(0deg, rgba(6,15,26,.7) 0%, rgba(6,15,26,.15) 55%, transparent 80%);
+}
+.modal-hero .category-badge{ z-index: 1; }
+.modal-hero > div{ position: relative; z-index: 1; }
+
+/* Modal action buttons */
+.action-btn--learn{ background: var(--dark-blue); color: var(--white); }
+.action-btn--learn:hover{ background: var(--deep-teal); }
+.action-btn--listen{ background: var(--white); border-color: var(--teal); color: var(--deep-teal); }
+.action-btn--listen:hover{ background: #EAF6FA; }
+.action-btn--listen:disabled{ opacity: .7; cursor: default; }
+
+/* Simple journey indicator (Discover → Learn → Ask Naa → Earn a Badge) */
+.journey-strip{ background: var(--white); padding: 26px 0; border-bottom: 1px solid #E7E7E7; }
+.journey-track{ display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.journey-step{ display: flex; align-items: center; gap: 12px; }
+.journey-step .step-num{
+  width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-light); color: var(--text-sec); font-weight: 800; font-size: 13px;
+  border: 1.5px solid #D9D9D9;
+}
+.journey-step.is-current .step-num{ background: var(--dark-blue); color: var(--white); border-color: var(--dark-blue); }
+.journey-step strong{ display: block; font-size: 14px; color: var(--deep-teal); }
+.journey-step span{ font-size: 12px; color: var(--text-sec); }
+.step-arrow{ color: var(--gold); flex-shrink: 0; }
+@media (max-width: 700px){
+  .journey-track{ flex-direction: column; align-items: flex-start; }
+  .step-arrow{ display: none; }
+}
+
+/* Trusted sources section (reuses your existing .sources-box, outside the modal) */
+.trusted-section{ padding: 10px 0 60px; background: var(--bg-light); }
+.sources-box h4{ display: flex; align-items: center; gap: 8px; }
