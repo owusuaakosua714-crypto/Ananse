@@ -305,7 +305,6 @@ document.addEventListener("DOMContentLoaded", function () {
 // ==========================================
 // ANANSE — EXPLORE PAGE: HERITAGE SITES
 // ==========================================
-
 document.addEventListener("DOMContentLoaded", function () {
     const cardGrid = document.getElementById("cardGrid");
     if (!cardGrid) return; // only run this block on explore.html
@@ -577,6 +576,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // ---- Init ----
     applyFilters();
 });
+
 
 
 
