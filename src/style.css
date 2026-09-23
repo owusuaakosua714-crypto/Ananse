@@ -3320,3 +3320,535 @@ body.about-page .about-btn-gold:hover {
   }
 }
 
+
+
+
+
+
+/* ==========================================================================
+   ANANSE — "Weaving Ghana's Story into the Digital Age"
+   Explore page stylesheet
+   ========================================================================== */
+
+/* ---------- Design tokens (from the brief's exact palette) ---------- */
+:root{
+  --deep-teal: #073B40;
+  --dark-blue: #0F4C81;
+  --teal:      #168B9F;
+  --green:     #2E8B57;
+  --gold:      #D9A21B;
+  --orange:    #E58A00;
+  --bg-light:  #F5F5F5;
+  --white:     #FFFFFF;
+  --text-dark: #1F2937;
+  --text-sec:  #6B7280;
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --shadow-sm: 0 2px 10px rgba(7,59,64,.08);
+  --shadow-md: 0 10px 30px rgba(7,59,64,.14);
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  background: var(--white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img, svg{ max-width: 100%; display: block; }
+a{ color: inherit; text-decoration: none; }
+ul{ margin: 0; padding: 0; list-style: none; }
+button{ font-family: inherit; cursor: pointer; }
+input, select{ font-family: inherit; font-size: inherit; }
+h1,h2,h3,h4{ font-family: var(--font-display); margin: 0; color: var(--deep-teal); line-height: 1.2; }
+p{ margin: 0; }
+:focus-visible{ outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.container{ max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+@media (max-width: 640px){ .container{ padding: 0 20px; } }
+
+/* Subtle Adinkra-inspired corner motif, used sparingly */
+.pattern-corner{
+  position: absolute; top: 0; right: 0; width: 10px; height: 100%;
+  background-image:
+    repeating-linear-gradient(45deg, var(--gold) 0 3px, transparent 3px 20px),
+    repeating-linear-gradient(-45deg, var(--teal) 0 3px, transparent 3px 20px);
+  opacity: .85;
+}
+
+/* ==========================================================================
+   HEADER (recreated from an earlier mobile mock — not the markup actually
+   used by explore.html, which uses .navbar / .logo from the shared file.
+   Left in place since it was already part of the stylesheet; safe to
+   ignore or delete if you never use it.)
+   ========================================================================== */
+.site-header{ background: var(--deep-teal); position: sticky; top: 0; z-index: 200; }
+.header-inner{
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  padding: 18px 0;
+}
+.brand{ display: flex; align-items: center; gap: 14px; min-width: 0; }
+.brand__mark{ width: 46px; height: 46px; flex-shrink: 0; color: var(--gold); }
+.brand__text{ min-width: 0; }
+.brand__name{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: .04em;
+  color: var(--white);
+}
+.brand__tagline{
+  font-size: 11.5px;
+  color: var(--gold);
+  margin-top: 2px;
+  max-width: 230px;
+}
+
+.nav-links{ display: flex; align-items: center; gap: 30px; }
+.nav-links a{
+  color: rgba(255,255,255,.8); font-weight: 500; font-size: 14.5px;
+  padding-bottom: 4px; border-bottom: 2px solid transparent;
+}
+.nav-links a:hover{ color: var(--white); }
+.nav-links a.active{ color: var(--white); border-color: var(--gold); }
+
+.header-right{ display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.lang-select{
+  display: flex; align-items: center; gap: 8px;
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,.4);
+  color: var(--white);
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 14px; font-weight: 600;
+}
+.menu-toggle{
+  display: none;
+  background: transparent; border: none; color: var(--white);
+  width: 40px; height: 40px; align-items: center; justify-content: center;
+}
+.mobile-nav{ display: none; flex-direction: column; background: #052b2f; }
+.mobile-nav.is-open{ display: flex; }
+.mobile-nav a{ color: rgba(255,255,255,.85); padding: 13px 28px; font-weight: 500; }
+.mobile-nav a.active{ color: var(--gold); }
+
+@media (max-width: 860px){
+  .nav-links{ display: none; }
+  .menu-toggle{ display: flex; }
+  .brand__name{ font-size: 19px; }
+  .brand__tagline{ font-size: 10.5px; max-width: 190px; }
+}
+
+/* ==========================================================================
+   HERO + SEARCH
+   ========================================================================== */
+.explore-hero{
+  background-image:
+    linear-gradient(100deg,
+      rgba(7,59,64,.92) 0%,
+      rgba(7,59,64,.72) 42%,
+      rgba(7,59,64,.35) 78%,
+      rgba(7,59,64,.15) 100%),
+    url("../images/osu\ castle.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  padding: 64px 0;
+}
+.explore-hero .container{
+  position: relative;
+  z-index: 1;
+}
+.explore-hero h1{
+  color: var(--white);
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.15;
+  max-width: 620px;
+}
+.explore-hero h1 .hl{
+  color: var(--gold);
+}
+.explore-hero .lead{
+  margin-top: 12px;
+  color: rgba(255,255,255,.82);
+  font-size: 17px;
+  max-width: 540px;
+}
+
+.search-bar{
+  margin-top: 26px;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--white);
+  border-radius: 999px;
+  padding: 6px 6px 6px 20px;
+  max-width: 560px;
+  box-shadow: var(--shadow-md);
+}
+.search-bar svg{ color: var(--text-sec); flex-shrink: 0; }
+.search-bar input{
+  flex: 1; border: none; outline: none; background: transparent; font-size: 15px; color: var(--text-dark);
+}
+.search-bar button{
+  width: 42px; height: 42px; border-radius: 50%; border: none; flex-shrink: 0;
+  background: var(--orange); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+}
+.search-bar button:hover{ background: var(--dark-blue); }
+
+@media (max-width: 992px){
+  .explore-hero{ min-height: 400px; padding: 52px 0; }
+}
+@media (max-width: 768px){
+  .explore-hero{ min-height: 0; padding: 46px 0 40px; }
+  .explore-hero h1{ font-size: clamp(26px, 8vw, 34px); }
+  .explore-hero .lead{ font-size: 15px; }
+}
+@media (max-width: 480px){
+  .explore-hero{ padding: 40px 0 36px; }
+  .search-bar{ max-width: 100%; }
+}
+
+/* ==========================================================================
+   ANANSE LEARNING JOURNEY — Discover → Learn → Ask Naa → Earn a Badge
+   ========================================================================== */
+.journey-strip{ background: var(--white); padding: 26px 0; border-bottom: 1px solid #E7E7E7; }
+.journey-track{ display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.journey-step{ display: flex; align-items: center; gap: 12px; }
+.journey-step .step-num{
+  width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-light); color: var(--text-sec); font-weight: 800; font-size: 13px;
+  border: 1.5px solid #D9D9D9;
+}
+.journey-step.is-current .step-num{ background: var(--dark-blue); color: var(--white); border-color: var(--dark-blue); }
+.journey-step strong{ display: block; font-size: 14px; color: var(--deep-teal); }
+.journey-step span{ font-size: 12px; color: var(--text-sec); }
+.step-arrow{ color: var(--gold); flex-shrink: 0; }
+
+@media (max-width: 700px){
+  .journey-track{ flex-direction: column; align-items: flex-start; }
+  .step-arrow{ display: none; }
+}
+@media (max-width: 560px){
+  .journey-step .step-num{ width: 30px; height: 30px; font-size: 12px; }
+  .journey-step strong{ font-size: 13px; }
+  .journey-step span{ font-size: 11.5px; }
+}
+
+/* ==========================================================================
+   FILTERS
+   ========================================================================== */
+.filters-bar{
+  background: var(--bg-light);
+  padding: 22px 0;
+  border-bottom: 1px solid #E7E7E7;
+}
+.filters-row{
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 18px; flex-wrap: wrap;
+}
+.category-filters{ display: flex; gap: 10px; flex-wrap: wrap; }
+.chip{
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1.5px solid #D9D9D9;
+  background: var(--white);
+  color: var(--text-sec);
+  font-weight: 600;
+  font-size: 13.5px;
+  transition: all .15s ease;
+}
+.chip:hover{ border-color: var(--teal); color: var(--teal); }
+.chip.is-active{
+  background: var(--dark-blue); border-color: var(--dark-blue); color: var(--white);
+}
+.region-select-wrap{ display: flex; align-items: center; gap: 10px; }
+.region-select-wrap label{ font-size: 13.5px; font-weight: 600; color: var(--text-dark); white-space: nowrap; }
+.region-select-wrap select{
+  padding: 10px 14px; border-radius: 10px; border: 1.5px solid #D9D9D9; background: var(--white); color: var(--text-dark);
+}
+
+.results-meta{
+  padding: 18px 0 0;
+  font-size: 13.5px; color: var(--text-sec);
+}
+.results-meta strong{ color: var(--deep-teal); }
+
+@media (max-width: 768px){
+  .filters-row{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+  .category-filters{
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .category-filters .chip{ flex: none; }
+  .region-select-wrap{ justify-content: space-between; }
+  .region-select-wrap select{ flex: 1; }
+}
+
+/* ==========================================================================
+   HERITAGE CARDS
+   ========================================================================== */
+.cards-section{ padding: 30px 0 80px; background: var(--bg-light); }
+.card-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  margin-top: 20px;
+}
+@media (max-width: 980px){ .card-grid{ grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px){ .card-grid{ grid-template-columns: 1fr; } }
+
+.heritage-card{
+  background: var(--white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.heritage-card:hover{ transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.heritage-card.is-hidden{ display: none; }
+
+.card-media{
+  position: relative; height: 178px;
+  display: flex; align-items: flex-end; padding: 14px;
+  overflow: hidden;
+}
+/* Real photo sits on top of the .media--* gradient below, which now only
+   shows through if the <img> fails to load — a built-in placeholder. */
+.card-media img{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.card-media svg.motif{ position: absolute; inset: 0; margin: auto; opacity: .9; }
+.card-media .category-badge{
+  background: rgba(7,59,64,.72);
+  color: var(--white);
+  font-size: 11.5px; font-weight: 700;
+  padding: 5px 12px; border-radius: 999px; z-index: 1;
+}
+.card-media .bookmark-btn{
+  position: absolute; top: 12px; right: 12px; z-index: 2;
+  width: 34px; height: 34px; border-radius: 50%; border: none;
+  background: rgba(255,255,255,.92); color: var(--dark-blue);
+  display: flex; align-items: center; justify-content: center;
+}
+.card-media .bookmark-btn.is-active{ background: var(--gold); color: var(--deep-teal); }
+.card-media .bookmark-btn svg{ pointer-events: none; }
+
+.card-body{ padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.card-body h3{ font-size: 18.5px; color: var(--deep-teal); }
+.card-loc{
+  display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--teal); font-weight: 600;
+}
+.card-desc{ font-size: 13.5px; color: var(--text-sec); flex: 1; }
+
+.verify-badge{
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 700; color: var(--green);
+  background: #EAF6EE; padding: 6px 10px; border-radius: 999px;
+  border: none; width: fit-content; margin-top: 4px;
+}
+.verify-badge:hover{ background: #DCF0E2; }
+
+.card-foot{ margin-top: 10px; }
+.explore-story-btn{
+  width: 100%;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--dark-blue); color: var(--white);
+  padding: 13px; border-radius: 12px; border: none; font-weight: 700; font-size: 14.5px;
+}
+.explore-story-btn:hover{ background: var(--deep-teal); }
+
+/* Placeholder "photo" gradients per site — the fallback behind each card's
+   real <img>, shown only if that image fails to load. */
+.media--cape-coast-castle{ background: linear-gradient(135deg,#073B40,#168B9F); }
+.media--independence-arch{ background: linear-gradient(135deg,#0F4C81,#3C7FBF); }
+.media--kwame-nkrumah-memorial-park{ background: linear-gradient(135deg,#0F4C81,#2E8B57); }
+.media--osu-castle{ background: linear-gradient(135deg,#073B40,#0F4C81); }
+.media--manhyia-palace{ background: linear-gradient(135deg,#B9820E,#D9A21B); }
+
+.no-results{
+  display: none; text-align: center; padding: 60px 20px; color: var(--text-sec);
+  background: var(--white); border-radius: var(--radius-md); border: 1px dashed #D9D9D9; margin-top: 20px;
+}
+.no-results.is-visible{ display: block; }
+.no-results h3{ color: var(--deep-teal); margin-bottom: 8px; }
+
+/* ==========================================================================
+   TRUSTED HERITAGE INFORMATION (reuses .sources-box, used outside the modal too)
+   ========================================================================== */
+.trusted-section{ padding: 10px 0 60px; background: var(--bg-light); }
+.sources-box h4{ display: flex; align-items: center; gap: 8px; }
+
+/* ==========================================================================
+   HERITAGE DETAIL MODAL
+   ========================================================================== */
+.modal-overlay{
+  position: fixed; inset: 0; background: rgba(7,15,20,.6);
+  display: none; align-items: flex-start; justify-content: center;
+  padding: 40px 16px; overflow-y: auto; z-index: 2000;
+}
+.modal-overlay.is-open{ display: flex; }
+.modal{
+  background: var(--white); border-radius: var(--radius-lg);
+  max-width: 760px; width: 100%;
+  box-shadow: 0 30px 70px rgba(0,0,0,.35);
+  overflow: hidden;
+}
+.modal-close{
+  position: absolute; top: 18px; right: 18px; z-index: 3;
+  width: 38px; height: 38px; border-radius: 50%; border: none;
+  background: rgba(255,255,255,.92); color: var(--deep-teal);
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-hero{
+  position: relative; height: 220px; display: flex; align-items: flex-end; padding: 20px;
+  overflow: hidden;
+}
+.modal-hero img{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.modal-hero::after{
+  content: "";
+  position: absolute; inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(0deg, rgba(6,15,26,.7) 0%, rgba(6,15,26,.15) 55%, transparent 80%);
+}
+.modal-hero .category-badge{
+  background: var(--gold); color: var(--deep-teal); font-size: 12px; font-weight: 800;
+  padding: 6px 14px; border-radius: 999px; position: absolute; top: 20px; left: 20px;
+  z-index: 1;
+}
+.modal-hero > div{ position: relative; z-index: 1; }
+.modal-hero h2{ color: var(--white); font-size: 26px; }
+.modal-hero .loc{ color: rgba(255,255,255,.85); margin-top: 6px; display: flex; align-items: center; gap: 6px; font-size: 13.5px; }
+.image-caption{ font-size: 12px; color: var(--text-sec); padding: 8px 28px 0; font-style: italic; }
+
+.modal-body{ padding: 26px 28px 32px; display: flex; flex-direction: column; gap: 26px; }
+.modal-section h4{
+  font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--dark-blue);
+  margin-bottom: 10px; font-family: var(--font-body); font-weight: 700;
+}
+.modal-section p{ font-size: 14.5px; color: var(--text-dark); line-height: 1.65; }
+.event-list{ display: flex; flex-direction: column; gap: 8px; }
+.event-list li{ display: flex; gap: 9px; font-size: 14px; color: var(--text-dark); }
+.event-list svg{ color: var(--gold); flex-shrink: 0; margin-top: 3px; }
+
+/* Audio guide */
+.audio-guide{ background: var(--bg-light); border-radius: var(--radius-md); padding: 20px; }
+.voice-row{ display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+.voice-card{
+  flex: 1; min-width: 130px;
+  background: var(--white); border: 2px solid #E2E2E2; border-radius: 14px;
+  padding: 14px; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.voice-card .mic{
+  width: 40px; height: 40px; border-radius: 50%; background: var(--bg-light);
+  display: flex; align-items: center; justify-content: center; color: var(--dark-blue); margin-bottom: 4px;
+}
+.voice-card strong{ font-size: 14px; color: var(--deep-teal); }
+.voice-card span{ font-size: 11.5px; color: var(--text-sec); }
+.voice-card.is-active{ border-color: var(--dark-blue); background: #EDF3FB; }
+.voice-card.is-active .mic{ background: var(--dark-blue); color: var(--white); }
+
+.audio-controls{
+  display: flex; align-items: center; gap: 14px; margin-top: 16px;
+  background: var(--white); border-radius: 999px; padding: 10px 16px;
+}
+.audio-controls button{
+  width: 38px; height: 38px; border-radius: 50%; border: none;
+  background: var(--dark-blue); color: var(--white);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.audio-controls button:hover{ background: var(--deep-teal); }
+.audio-controls .track{ flex: 1; height: 6px; background: #E2E2E2; border-radius: 999px; overflow: hidden; }
+.audio-controls .track i{ display: block; height: 100%; width: 0%; background: var(--gold); }
+.audio-controls input[type="range"]{ width: 70px; accent-color: var(--dark-blue); }
+.audio-status{ font-size: 12px; color: var(--text-sec); margin-top: 8px; }
+
+/* Verified sources (inside modal) */
+.sources-box{ background: #EAF6EE; border-radius: var(--radius-md); padding: 20px; }
+.sources-box h4{ color: var(--green); }
+.sources-box .verified-note{ font-size: 13px; color: var(--text-dark); margin-bottom: 12px; }
+.source-chips{ display: flex; gap: 10px; flex-wrap: wrap; }
+.source-chip{
+  display: flex; align-items: center; gap: 8px;
+  background: var(--white); border: 1.5px solid #CFE8D6; border-radius: 999px;
+  padding: 9px 16px; font-size: 13px; font-weight: 600; color: var(--deep-teal);
+}
+.source-chip:hover{ border-color: var(--green); background: #F2FBF4; }
+.source-chip svg{ color: var(--green); flex-shrink: 0; }
+.last-verified{ font-size: 12px; color: var(--text-sec); margin-top: 12px; }
+
+/* Ask Naa + Passport / Learn / Listen actions */
+.modal-actions{ display: flex; gap: 12px; flex-wrap: wrap; }
+.action-btn{
+  flex: 1; min-width: 200px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px; border-radius: 12px; font-weight: 700; font-size: 14.5px; border: 2px solid transparent;
+}
+.action-btn--naa{ background: var(--teal); color: var(--white); }
+.action-btn--naa:hover{ background: var(--deep-teal); }
+.action-btn--passport{ background: var(--white); border-color: var(--gold); color: var(--deep-teal); }
+.action-btn--passport.is-added{ background: var(--gold); color: var(--deep-teal); }
+.action-btn--passport:hover{ background: var(--gold); }
+
+.action-btn--learn{ background: var(--dark-blue); color: var(--white); }
+.action-btn--learn:hover{ background: var(--deep-teal); }
+.action-btn--listen{ background: var(--white); border-color: var(--teal); color: var(--deep-teal); }
+.action-btn--listen:hover{ background: #EAF6FA; }
+.action-btn--listen:disabled{ opacity: .7; cursor: default; }
+
+.ask-naa-prompt{ text-align: center; }
+.ask-naa-prompt p{ color: var(--text-sec); margin-bottom: 4px; }
+
+@media (max-width: 620px){
+  .modal-hero{ height: 180px; padding: 16px; }
+  .modal-body{ padding: 20px; }
+  .action-btn{ min-width: 100%; }
+}
+@media (max-width: 420px){
+  .modal-overlay{ padding: 20px 10px; }
+  .modal-body{ padding: 16px; }
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.site-footer{ background: var(--deep-teal); color: rgba(255,255,255,.8); padding: 36px 0; }
+.footer-inner{ display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-inner p{ font-size: 13px; color: rgba(255,255,255,.6); }
+
+.visually-hidden{
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
