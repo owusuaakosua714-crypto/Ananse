@@ -392,3 +392,41 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 })();
+
+// ==========================================================================
+// ABOUT PAGE SCOPED JAVASCRIPT
+// ==========================================================================
+document.addEventListener('DOMContentLoaded', function () {
+    // Safety check: Exit early if not on the About page
+    if (!document.body.classList.contains('about-page')) {
+        return;
+    }
+
+    // 1. Mobile Menu Toggle
+    const menuToggle = document.getElementById('aboutMenuToggle');
+    const navLinks = document.getElementById('aboutNavLinks');
+
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', function () {
+            navLinks.classList.toggle('show');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function (event) {
+            if (!menuToggle.contains(event.target) && !navLinks.contains(event.target)) {
+                navLinks.classList.remove('show');
+            }
+        });
+    }
+
+    // 2. Interactive Tech Cards Opacity/Hover Effect
+    const techCards = document.querySelectorAll('.about-tech-card');
+    techCards.forEach(function (card) {
+        card.addEventListener('mouseenter', function () {
+            this.style.opacity = '1';
+        });
+        card.addEventListener('mouseleave', function () {
+            this.style.opacity = '';
+        });
+    });
+});
