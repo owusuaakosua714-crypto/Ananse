@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Heritage Passport — ANANSE</title>
+    <meta name="description" content="Collect digital heritage badges as you explore Ghana's heritage sites with ANANSE.">
+    <script src="https://kit.fontawesome.com/17eac40b74.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../src/css/passport.css">
+    <link rel="stylesheet" href="../src/css/style.css">
+</head>
+
+<body class="home-page passport-page">
+
+    <!-- NAVBAR SECTION -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-placeholder-icon">
+                    <i class="fa-solid fa-spider"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="brand-name">ANANSE</span>
+                    <span class="tagline" data-i18n="site.tagline">Weaving Ghana's Story into the Digital Age</span>
+                </div>
+            </a>
+
+            <nav class="nav-menu" id="navMenu">
+                <a href="../index.html" class="nav-link" data-i18n="nav.home">Home</a>
+                <a href="about.html" class="nav-link" data-i18n="nav.about">About</a>
+                <a href="explore.html" class="nav-link" data-i18n="nav.explore">Explore</a>
+                <a href="map.html" class="nav-link" data-i18n="nav.map">Map</a>
+                <a href="passport.html" class="nav-link active" aria-current="page" data-i18n="nav.passport">Passport</a>
+                <!-- <a href="login.html" class="btn-nav btn-nav-login nav-menu-auth-link" data-i18n="nav.login">Login</a>
+                <a href="signup.html" class="btn-nav btn-nav-signup nav-menu-auth-link" data-i18n="nav.signup">Sign Up</a> -->
+            </nav>
+
+            <div class="language-switcher-wrap">
+                <select class="language-select" aria-label="Select website language">
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                    <option value="es">Español</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+    <!-- ======================================================================
+         PASSPORT HERO BANNER
+         ====================================================================== -->
+    <section class="passport-hero">
+        <!-- REPLACE WITH YOUR OWN HERITAGE SITE HERO IMAGE -->
+        <img class="passport-hero__bg" src="../images/independence square.jpeg" alt="" onerror="this.style.display='none'">
+        <div class="passport-hero__inner container">
+            <div class="passport-hero__text">
+                <p class="passport-hero__eyebrow">Your Heritage Passport</p>
+                <h1 class="passport-hero__title">Collect. <span class="hl">Learn.</span> Explore.</h1>
+                <p class="passport-hero__lead">Visit Ghana's heritage sites, complete your learning journey, and earn unique badges for each place you explore.</p>
+            </div>
+            <div class="passport-hero__book" aria-hidden="true">
+                <div class="mini-passport">
+                    <i class="fa-solid fa-spider"></i>
+                    <span class="mini-passport__brand">Ananse</span>
+                    <span class="mini-passport__label">Heritage<br>Passport</span>
+                    <span class="mini-passport__seal"></span>
+                </div>
+            </div>
+            <div class="passport-hero__quote">
+                <p>Real places.<br>True stories.<br>Your journey.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="container passport-layout">
+
+        <!-- ==================================================================
+             LEFT SIDEBAR
+             ================================================================== -->
+        <aside class="passport-sidebar">
+            <div class="user-card">
+                <div class="user-card__avatar"><i class="fa-solid fa-user"></i></div>
+                <div>
+                    <p class="user-card__name" id="userName">Username</p>
+                    <p class="user-card__role">Heritage Explorer</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav" aria-label="Passport sections">
+                <button type="button" class="sidebar-nav__item is-active" data-panel="passport">
+                    <i class="fa-solid fa-award"></i>
+                    <span><strong>My Passport</strong><small>View your heritage passport</small></span>
+                </button>
+                <button type="button" class="sidebar-nav__item" data-panel="badges">
+                    <i class="fa-solid fa-medal"></i>
+                    <span><strong>My Badges</strong><small>View your earned badges</small></span>
+                </button>
+                <button type="button" class="sidebar-nav__item" data-panel="progress">
+                    <i class="fa-solid fa-route"></i>
+                    <span><strong>My Progress</strong><small>Track your journey</small></span>
+                </button>
+                <button type="button" class="sidebar-nav__item" data-panel="favourites">
+                    <i class="fa-regular fa-heart"></i>
+                    <span><strong>My Favourites</strong><small>Saved heritage sites</small></span>
+                </button>
+                <button type="button" class="sidebar-nav__item" data-panel="activity">
+                    <i class="fa-regular fa-clock"></i>
+                    <span><strong>My Activity</strong><small>Recent actions</small></span>
+                </button>
+                <button type="button" class="sidebar-nav__item" data-panel="settings">
+                    <i class="fa-solid fa-gear"></i>
+                    <span><strong>Settings</strong><small>Manage your account</small></span>
+                </button>
+            </nav>
+
+            <blockquote class="sidebar-quote">
+                "The more you know about your heritage, the stronger your roots."
+            </blockquote>
+        </aside>
+
+        <!-- ==================================================================
+             CENTER: THE PASSPORT BOOK
+             ================================================================== -->
+        <section class="passport-book" aria-label="Heritage passport">
+
+            <!-- LEFT PAGE — dark cover -->
+            <div class="passport-page-left">
+                <p class="passport-page-left__country">Republic of Ghana</p>
+
+                <div class="coat-of-arms" aria-hidden="true">
+                    <img src="../images/coat of arm.jpeg" alt="Passport Coat of Arms">
+                </div>
+
+                <p class="passport-page-left__brand">Ananse</p>
+                <p class="passport-page-left__title">Heritage<br>Passport</p>
+
+                <div class="passport-page-left__chip" aria-hidden="true"><i class="fa-solid fa-microchip"></i></div>
+
+                <p class="passport-page-left__motto">Explore &bull; Learn &bull; Preserve</p>
+            </div>
+
+            <!-- RIGHT PAGE — cream data page -->
+            <div class="passport-page-right">
+                <div class="passport-page-right__head">
+                    <div>
+                        <p class="passport-page-right__title">Heritage Passport</p>
+                        <p class="passport-page-right__country">Republic of Ghana</p>
+                    </div>
+                    <div class="ghana-flag" aria-label="Flag of Ghana" role="img"></div>
+                </div>
+
+                <div class="passport-data">
+                    <div class="passport-data__photo"><i class="fa-solid fa-user"></i></div>
+                    <dl class="passport-data__fields">
+                        <div><dt>Name</dt><dd id="ppName">Username</dd></div>
+                        <div><dt>Nationality</dt><dd>Ghanaian</dd></div>
+                        <div><dt>Passport No.</dt><dd id="ppPassportId">AN-2025-001</dd></div>
+                        <div><dt>Issue Date</dt><dd id="ppIssueDate">27 Apr 2025</dd></div>
+                        <div><dt>Expiry Date</dt><dd id="ppExpiryDate">27 Apr 2030</dd></div>
+                    </dl>
+                </div>
+
+                <div class="visited-sites">
+                    <p class="visited-sites__label">Visited Heritage Sites</p>
+                    <div class="visited-sites__row" id="visitedStamps">
+                        <!-- REPLACE WITH your five site thumbnail images -->
+                        <button type="button" class="stamp" data-site="cape-coast">
+                            <span class="stamp__ring"><img src="../images/cape coast castle.jpeg" alt="Cape Coast Castle" onerror="this.style.display='none'"></span>
+                            <span class="stamp__name">Cape Coast Castle</span>
+                        </button>
+                        <button type="button" class="stamp" data-site="manhyia">
+                            <span class="stamp__ring"><img src="../images/manhyia.jpeg" alt="Manhyia Palace" onerror="this.style.display='none'"></span>
+                            <span class="stamp__name">Manhyia Palace</span>
+                        </button>
+                        <button type="button" class="stamp" data-site="osu">
+                            <span class="stamp__ring"><img src="../images/osu castle.jpeg" alt="Osu Castle" onerror="this.style.display='none'"></span>
+                            <span class="stamp__name">Osu Castle</span>
+                        </button>
+                        <button type="button" class="stamp" data-site="independence">
+                            <span class="stamp__ring"><img src="../images/independence square.jpeg" alt="Independence Square" onerror="this.style.display='none'"></span>
+                            <span class="stamp__name">Independence Square</span>
+                        </button>
+                        <button type="button" class="stamp" data-site="kwame-nkrumah">
+                            <span class="stamp__ring"><img src="../images/kwame Nkrumah memorial park.jpeg" alt="Kwame Nkrumah Memorial Park" onerror="this.style.display='none'"></span>
+                            <span class="stamp__name">Kwame Nkrumah Memorial Park</span>
+                        </button>
+                    </div>
+                </div>
+
+                <p class="passport-page-right__footnote">Ghana's heritage lives in you.</p>
+            </div>
+
+            <!-- PASSPORT COMPLETE overlay (hidden until 5/5 badges earned) -->
+            <div class="passport-complete" id="passportComplete" hidden>
+                <i class="fa-solid fa-crown"></i>
+                <h2>Passport Complete</h2>
+                <p>You have completed your ANANSE digital heritage journey.</p>
+                <p class="passport-complete__count">5 / 5 Badges Earned</p>
+                <p class="passport-complete__achievement">Achievement unlocked: <strong>Heritage Story Keeper</strong></p>
+                <p class="passport-complete__note">This marks completion of your digital learning journey — not a claim that you physically visited each site.</p>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             RIGHT SIDEBAR
+             ================================================================== -->
+        <aside class="passport-aside">
+
+            <div class="points-card">
+                <p class="points-card__label"><i class="fa-regular fa-star"></i> Your Points</p>
+                <div class="points-card__row">
+                    <span class="points-card__star"><i class="fa-solid fa-star"></i></span>
+                    <span class="points-card__value"><span id="pointsValue">0</span> <small>/ <span id="pointsMax">375</span> pts</small></span>
+                </div>
+                <div class="points-card__bar"><div class="points-card__fill" id="pointsFill"></div></div>
+                <div class="points-card__next" id="nextRewardBox">
+                    <span class="points-card__next-icon"><i class="fa-solid fa-star"></i></span>
+                    <span>
+                        <strong>Next reward</strong>
+                        <small id="nextRewardText">Complete your journey to earn your first badge!</small>
+                    </span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <div class="badges-preview-card">
+                <div class="badges-preview-card__head">
+                    <p>Your Badges (<span id="badgesEarnedCount">0</span>/5)</p>
+                    <button type="button" class="view-all-btn" data-panel="badges">View all</button>
+                </div>
+                <div class="badges-preview-card__row" id="badgesPreviewRow"><!-- rendered by JS --></div>
+            </div>
+
+            <div class="journey-card">
+                <p class="journey-card__label">Your Journey</p>
+                <ol class="journey-card__steps" id="journeyStepsRow">
+                    <li class="journey-card__step" data-step="discover">
+                        <span class="journey-card__icon"><i class="fa-solid fa-book-open"></i></span>
+                        <strong>Discover</strong>
+                        <small><span data-count="discover">0</span>/5</small>
+                    </li>
+                    <li class="journey-card__step" data-step="learn">
+                        <span class="journey-card__icon"><i class="fa-solid fa-award"></i></span>
+                        <strong>Learn</strong>
+                        <small><span data-count="learn">0</span>/5</small>
+                    </li>
+                    <li class="journey-card__step" data-step="asknaa">
+                        <span class="journey-card__icon"><i class="fa-solid fa-bell"></i></span>
+                        <strong>Ask Naa</strong>
+                        <small><span data-count="asknaa">0</span>/5</small>
+                    </li>
+                    <li class="journey-card__step" data-step="badge">
+                        <span class="journey-card__icon"><i class="fa-solid fa-award"></i></span>
+                        <strong>Earn Badge</strong>
+                        <small><span data-count="badge">0</span>/5</small>
+                    </li>
+                </ol>
+            </div>
+        </aside>
+    </div>
+
+    <!-- ======================================================================
+         BADGES PANEL (full grid — shown when "My Badges" / "View all" clicked)
+         ====================================================================== -->
+    <section class="badges-full-section container" id="badgesFullSection" hidden>
+        <div class="badges-full-head">
+            <div>
+                <h2>My Badges</h2>
+                <p>Complete Discover, Learn, Did You Know and Ask Naa for a site to unlock its badge.</p>
+            </div>
+            <p class="badges-full-count"><span id="badgesFullCount">0</span> / 5 earned</p>
+        </div>
+        <div class="badges-full-grid" id="badgesFullGrid"><!-- rendered by JS --></div>
+    </section>
+
+    </main>
+
+    <!-- ======================================================================
+         BOTTOM CTA
+         ====================================================================== -->
+    <section class="passport-cta">
+        <div class="container passport-cta__inner">
+            <div class="passport-cta__icon"><i class="fa-solid fa-spider"></i></div>
+            <div class="passport-cta__text">
+                <h2>Your heritage journey continues…</h2>
+                <p>Explore more sites. Learn more. Ask Naa. Earn more.</p>
+            </div>
+            <a href="explore.html" class="btn-primary">Explore More <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <!-- ======================================================================
+         BADGE DETAIL MODAL
+         ====================================================================== -->
+    <div class="badge-modal-overlay" id="badgeModalOverlay" aria-hidden="true">
+        <div class="badge-modal" id="badgeModalContent" role="dialog" aria-modal="true" aria-label="Badge details">
+            <!-- injected by JS -->
+        </div>
+    </div>
+
+    <!-- ======================================================================
+         DEV / DEMO CONTROLS
+         Not part of the design — lets you simulate progress locally until
+         the real Explore/Ask Naa pages write to the same localStorage keys.
+         Safe to delete once those pages are wired up.
+         ====================================================================== -->
+    <section class="container demo-controls" id="demoControls">
+        <p class="demo-controls__label">Demo controls (remove once Explore/Ask Naa write real progress)</p>
+        <div class="demo-controls__row" id="demoControlsRow"><!-- rendered by JS --></div>
+        <button type="button" class="demo-controls__reset" id="demoResetBtn">Reset all progress</button>
+    </section>
+
+    <script src="../src/js/language.js"></script>
+    <script src="../src/script.js"></script>
+    <script src="../src/js/passport.js"></script>
+</body>
+</html>
