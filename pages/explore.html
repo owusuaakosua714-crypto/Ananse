@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Ghana's Heritage — ANANSE</title>
+    <meta name="description" content="Discover the places, people, stories, and events that have shaped Ghana's history and identity with ANANSE.">
+    <script src="https://kit.fontawesome.com/17eac40b74.js"></script>
+
+    <!-- Google Fonts for sleek typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../src/style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR SECTION -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <!-- ADD PICTURE HERE: Ananse Spider Logo / Icon -->
+                <div class="logo-placeholder-icon">
+                    <i class="fa-solid fa-spider"></i> <!-- Placeholder Icon -->
+                </div>
+                <div class="logo-text">
+                    <span class="brand-name">ANANSE</span>
+                    <span class="tagline" data-i18n="site.tagline">Weaving Ghana’s Story into the Digital Age</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="nav-menu" id="navMenu">
+                <a href="../index.html" class="nav-link " data-i18n="nav.home">Home</a>
+                <a href="explore.html" class="nav-link  active" data-i18n="nav.explore">Explore</a>
+                <a href="map.html" class="nav-link" data-i18n="nav.map">Map</a>
+                <a href="passport.html" class="nav-link" data-i18n="nav.passport">Passport</a>
+                <a href="about.html" class="nav-link" data-i18n="nav.about">About</a>
+            </nav>
+
+            <div class="language-switcher-wrap">
+                <select class="language-select" aria-label="Select website language"
+                    data-i18n-aria-label="common.languageSelect">
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                    <option value="es">Español</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+    <section class="explore-hero">
+    <div class="container">
+      <h1>Explore Ghana's <span class="hl">Heritage</span></h1>
+      <p class="lead">Discover the places, people, stories, and events that have shaped Ghana's history and identity.</p>
+
+      <form class="search-bar" id="searchForm" role="search">
+        <label for="searchInput" class="visually-hidden">Search heritage sites</label>
+        <input type="text" id="searchInput" placeholder="Search heritage sites…" autocomplete="off">
+        <button id="searchBtn" type="submit" aria-label="Search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       ANANSE LEARNING JOURNEY 
+       ====================================================================== -->
+  <section class="journey-strip">
+    <div class="container journey-track">
+      <div class="journey-step is-current">
+        <span class="step-num">1</span>
+        <div><strong>Discover</strong><span>Find a heritage place.</span></div>
+      </div>
+      <span class="step-arrow" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span>
+      <div class="journey-step">
+        <span class="step-num">2</span>
+        <div><strong>Learn</strong><span>Read its story.</span></div>
+      </div>
+      <span class="step-arrow" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span>
+      <div class="journey-step">
+        <span class="step-num">3</span>
+        <div><strong>Ask Naa</strong><span>Test what you learned.</span></div>
+      </div>
+      <span class="step-arrow" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span>
+      <div class="journey-step">
+        <span class="step-num">4</span>
+        <div><strong>Earn a Badge</strong><span>Collect your achievement.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       CATEGORY + REGION FILTERS
+       ====================================================================== -->
+  <section class="filters-bar">
+    <div class="container filters-row">
+      <div class="category-filters" role="group" aria-label="Filter by category">
+        <button class="chip is-active" type="button" data-filter="all">All</button>
+        <button class="chip" type="button" data-filter="historical">Historical Sites</button>
+        <button class="chip" type="button" data-filter="monuments">Monuments</button>
+        <button class="chip" type="button" data-filter="palaces">Palaces</button>
+      </div>
+
+      <div class="region-select-wrap">
+        <label for="regionSelect">Explore by Region</label>
+        <select id="regionSelect">
+          <option value="all">All Regions</option>
+          <option value="greater-accra">Greater Accra</option>
+          <option value="ashanti">Ashanti</option>
+          <option value="central">Central</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="container results-meta">
+      Showing <strong id="resultsCount">5</strong> <span id="resultsNoun">heritage sites</span>
+    </div>
+  </section>
+
+  <section class="cards-section">
+    <div class="container">
+      <div class="card-grid" id="cardGrid"><!-- cards injected by JavaScript, from the data block below --></div>
+
+      <div class="no-results" id="noResults">
+        <h3>No heritage sites match your filters</h3>
+        <p>Try clearing the search box, choosing "All" categories, or selecting a different region.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       TRUSTED HERITAGE INFORMATION
+       ====================================================================== -->
+  <section class="trusted-section">
+    <div class="container">
+      <div class="sources-box">
+        <h4><i class="fa-solid fa-shield-halved"></i> Trusted Heritage Information</h4>
+        <p class="verified-note">Stories and heritage information on Ananse are carefully researched using trusted sources, including:</p>
+        <div class="source-chips">
+          <span class="source-chip"><i class="fa-solid fa-check"></i> VisitGhana</span>
+          <span class="source-chip"><i class="fa-solid fa-check"></i> UNESCO</span>
+          <span class="source-chip"><i class="fa-solid fa-check"></i> Ghana Tourism Authority</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       HERITAGE SITES DATA SOURCE
+       ====================================================================== -->
+  <div id="heritageSitesSource" hidden>
+
+    <!--  CAPE COAST CASTLE IMAGE -->
+    <article class="site-data"
+      data-id="cape-coast"
+      data-name="Cape Coast Castle"
+      data-location="Cape Coast, Central Region"
+      data-region="central"
+      data-category="historical"
+      data-category-label="Historical Sites"
+      data-media-class="media--cape-coast-castle"
+      data-description="Explore Cape Coast Castle and discover powerful stories of Ghana’s history, resilience, the transatlantic slave trade, and the journey toward freedom."
+      data-did-you-know="Cape Coast Castle is one of Ghana’s major historic castles along the coast and is an important site for learning about the transatlantic slave trade and Ghana’s history.">
+      <img src="../images/cape coast castle.jpeg" alt="Cape Coast Castle">
+    </article>
+
+    <!-- MANHYIA PALACE IMAGE -->
+    <article class="site-data"
+      data-id="manhyia"
+      data-name="Manhyia Palace"
+      data-location="Kumasi, Ashanti Region"
+      data-region="ashanti"
+      data-category="palaces"
+      data-category-label="Palaces"
+      data-media-class="media--manhyia-palace"
+      data-description="Discover the history, culture and traditions of the Ashanti Kingdom through the story of Manhyia Palace."
+      data-did-you-know="Manhyia Palace is closely connected to the history, culture and traditions of the Asante Kingdom.">
+      <img src="../images/manhyia.jpeg" alt="Manhyia Palace">
+    </article>
+
+    <!-- OSU CASTLE IMAGE -->
+    <article class="site-data"
+      data-id="osu"
+      data-name="Osu Castle"
+      data-location="Osu, Greater Accra Region"
+      data-region="greater-accra"
+      data-category="historical"
+      data-category-label="Historical Sites"
+      data-media-class="media--osu-castle"
+      data-description="Explore Osu Castle and uncover its place in Ghana’s coastal, colonial and political history."
+      data-did-you-know="Osu Castle, also known historically as Christiansborg Castle, is located along Ghana’s coast in Osu, Accra.">
+      <img src="../images/osu castle.jpeg" alt="Osu Castle">
+    </article>
+
+    <!-- INDEPENDENCE SQUARE IMAGE -->
+    <article class="site-data"
+      data-id="independence"
+      data-name="Independence Square"
+      data-location="Accra, Greater Accra Region"
+      data-region="greater-accra"
+      data-category="monuments"
+      data-category-label="Monuments"
+      data-media-class="media--independence-arch"
+      data-description="Discover the symbolic heart of Ghana’s independence and the national story represented by Independence Square."
+      data-did-you-know="Independence Square, also known as Black Star Square, is one of Ghana’s major national landmarks.">
+      <img src="../images/INDEPENDENCE ARCH (1).jpeg" alt="Independence Square">
+    </article>
+
+    <!-- KWAME NKRUMAH MEMORIAL PARK IMAGE -->
+    <article class="site-data"
+      data-id="kwame-nkrumah"
+      data-name="Kwame Nkrumah Memorial Park"
+      data-location="Accra, Greater Accra Region"
+      data-region="greater-accra"
+      data-category="monuments"
+      data-category-label="Monuments"
+      data-media-class="media--kwame-nkrumah-memorial-park"
+      data-description="Discover the legacy of Dr. Kwame Nkrumah and the story of Ghana’s independence at Kwame Nkrumah Memorial Park."
+      data-did-you-know="The memorial park is dedicated to Ghana’s first Prime Minister and President, Dr. Kwame Nkrumah.">
+      <img src="../images/kwame Nkrumah memorial park.jpeg" alt="Kwame Nkrumah Memorial Park">
+    </article>
+
+  </div>
+
+    </main>
+
+<div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+  <div class="modal" id="modalContent" role="dialog" aria-modal="true" aria-label="Heritage site details">
+    <!-- content injected by JavaScript -->
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© 2026 ANANSE. All rights reserved.</p>
+    <p>Weaving Ghana's Story into the Digital Age</p>
+  </div>
+</footer>
+
+<script src="../src/js/language.js"></script>
+<script src="../src/script.js"></script>
+</body>
+</html>
