@@ -437,10 +437,42 @@ document.addEventListener('DOMContentLoaded', function () {
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", function () {
+
+    // ---- Mobile Hamburger Menu Toggle ----
+    const hamburgerBtn = document.getElementById("hamburgerBtn");
+    const navMenu = document.getElementById("navMenu");
+
+    if (hamburgerBtn && navMenu) {
+        hamburgerBtn.addEventListener("click", function () {
+            const isOpen = navMenu.classList.toggle("is-active");
+            hamburgerBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            
+            const icon = hamburgerBtn.querySelector("i");
+            if (icon) {
+                icon.classList.toggle("fa-bars", !isOpen);
+                icon.classList.toggle("fa-xmark", isOpen);
+            }
+        });
+
+        // Close mobile nav menu when clicking outside or on a link
+        const navLinks = navMenu.querySelectorAll(".nav-link");
+        navLinks.forEach(function (link) {
+            link.addEventListener("click", function () {
+                navMenu.classList.remove("is-active");
+                hamburgerBtn.setAttribute("aria-expanded", "false");
+                const icon = hamburgerBtn.querySelector("i");
+                if (icon) {
+                    icon.classList.add("fa-bars");
+                    icon.classList.remove("fa-xmark");
+                }
+            });
+        });
+    }
+
     const cardGrid = document.getElementById("cardGrid");
     if (!cardGrid) return; // only run this block on explore.html
 
-    // ---- Read site data straight from the HTML (image paths live there) ----
+    // ---- Read site data straight from the HTML ----
     const sourceEls = document.querySelectorAll("#heritageSitesSource .site-data");
     const sites = Array.from(sourceEls).map(function (el) {
         const img = el.querySelector("img");
@@ -474,7 +506,7 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             window.localStorage.setItem(FAV_KEY, JSON.stringify(favs));
         } catch (err) {
-            // localStorage unavailable — favourites just won't persist
+            // localStorage unavailable
         }
     }
 
@@ -707,8 +739,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // ---- Init ----
     applyFilters();
 });
-
-
 
 
 
