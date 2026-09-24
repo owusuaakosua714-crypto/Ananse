@@ -443,6 +443,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const cards = Array.from(cardGrid.querySelectorAll(".heritage-card"));
     let visibleCount = cards.length;
 
+        // ---- Mobile menu (Explore page) ----
+    const hamburgerBtn = document.getElementById("hamburgerBtn");
+    const navMenu = document.getElementById("navMenu");
+    if (hamburgerBtn && navMenu) {
+        hamburgerBtn.addEventListener("click", function () {
+            const open = navMenu.classList.toggle("is-active");
+            hamburgerBtn.setAttribute("aria-expanded", open ? "true" : "false");
+            const icon = hamburgerBtn.querySelector("i");
+            if (icon) {
+                icon.classList.toggle("fa-xmark", open);
+                icon.classList.toggle("fa-bars", !open);
+            }
+        });
+    }
+
     // ---- Translation helper (falls back to English if a key is missing) ----
     function t(key, fallback, params) {
         const lang = window.ananseLanguage;
@@ -486,7 +501,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function saveFavourites(favs) {
         try { window.localStorage.setItem(FAV_KEY, JSON.stringify(favs)); }
-        catch (err) { /* localStorage unavailable — favourites just won't persist */ }
+        catch (err) { }
     }
 
     let favourites = loadFavourites();
@@ -708,8 +723,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     listenHTML +
                 '</div>' +
             '</div>';
-
-        // "Coming soon" behaviour only applies to sites without a Listen page yet
+    
         const listenBtn = modalContent.querySelector("#modalListenBtn");
         if (listenBtn) {
             listenBtn.addEventListener("click", function () {
