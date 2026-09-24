@@ -437,112 +437,91 @@ document.addEventListener('DOMContentLoaded', function () {
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", function () {
+    const cardGrid = document.getElementById("cardGrid");
+    if (!cardGrid) return; // only run on explore.html
 
-    // ---- Mobile Hamburger Menu Toggle ----
-    const hamburgerBtn = document.getElementById("hamburgerBtn");
-    const navMenu = document.getElementById("navMenu");
+    const cards = Array.from(cardGrid.querySelectorAll(".heritage-card"));
+    let visibleCount = cards.length;
 
-    if (hamburgerBtn && navMenu) {
-        hamburgerBtn.addEventListener("click", function () {
-            const isOpen = navMenu.classList.toggle("is-active");
-            hamburgerBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
-            
-            const icon = hamburgerBtn.querySelector("i");
-            if (icon) {
-                icon.classList.toggle("fa-bars", !isOpen);
-                icon.classList.toggle("fa-xmark", isOpen);
-            }
-        });
-
-        // Close mobile nav menu when clicking outside or on a link
-        const navLinks = navMenu.querySelectorAll(".nav-link");
-        navLinks.forEach(function (link) {
-            link.addEventListener("click", function () {
-                navMenu.classList.remove("is-active");
-                hamburgerBtn.setAttribute("aria-expanded", "false");
-                const icon = hamburgerBtn.querySelector("i");
-                if (icon) {
-                    icon.classList.add("fa-bars");
-                    icon.classList.remove("fa-xmark");
-                }
-            });
-        });
+    // ---- Translation helper (falls back to English if a key is missing) ----
+    function t(key, fallback, params) {
+        const lang = window.ananseLanguage;
+        if (!key || !lang || !lang.getText) return fallback;
+        const value = lang.getText(key, params || {});
+        return value === key ? fallback : value;
     }
 
-    const cardGrid = document.getElementById("cardGrid");
-    if (!cardGrid) return; // only run this block on explore.html
+    function cardText(card, selector, fallback) {
+        const el = card.querySelector(selector);
+        return el ? el.textContent : fallback;
+    }
 
-    // ---- Read site data straight from the HTML ----
-    const sourceEls = document.querySelectorAll("#heritageSitesSource .site-data");
-    const sites = Array.from(sourceEls).map(function (el) {
-        const img = el.querySelector("img");
-        return {
-            id: el.dataset.id,
-            name: el.dataset.name,
-            location: el.dataset.location,
-            region: el.dataset.region,
-            category: el.dataset.category,
-            categoryLabel: el.dataset.categoryLabel,
-            mediaClass: el.dataset.mediaClass,
-            description: el.dataset.description,
-            didYouKnow: el.dataset.didYouKnow,
-            image: img ? img.getAttribute("src") : "",
-            imageAlt: img ? img.getAttribute("alt") : ""
-        };
-    });
+    // ---- Dedicated story pages (sites without one fall back to site.html) ----
+    const STORY_PAGES = {
+        "cape-coast": "cape-coast.html" // change to your real Cape Coast filename
+        // "manhyia": "manhyia.html",
+        // "osu": "osu.html",
+    };
+
+    function getStoryUrl(siteId) {
+        return STORY_PAGES[siteId] || ("site.html?site=" + siteId);
+    }
+
+    // ---- Pages with a Listen experience (others show "coming soon") ----
+    const LISTEN_PAGES = {
+        "cape-coast": "cape-coast.html#listen" // filename must match above; #listen must match an id on that page
+    };
+
+    function getListenUrl(siteId) {
+        return LISTEN_PAGES[siteId] || null;
+    }
 
     // ---- Favourites (localStorage) ----
     const FAV_KEY = "ananseExploreFavourites";
 
     function loadFavourites() {
-        try {
-            return JSON.parse(window.localStorage.getItem(FAV_KEY)) || {};
-        } catch (err) {
-            return {};
-        }
+        try { return JSON.parse(window.localStorage.getItem(FAV_KEY)) || {}; }
+        catch (err) { return {}; }
     }
 
     function saveFavourites(favs) {
-        try {
-            window.localStorage.setItem(FAV_KEY, JSON.stringify(favs));
-        } catch (err) {
-            // localStorage unavailable
-        }
+        try { window.localStorage.setItem(FAV_KEY, JSON.stringify(favs)); }
+        catch (err) { /* localStorage unavailable — favourites just won't persist */ }
     }
 
     let favourites = loadFavourites();
 
-    // ---- Render cards ----
-    function renderCards(list) {
-        cardGrid.innerHTML = "";
+    function setFavouriteUI(btn, isFav) {
+        btn.classList.toggle("is-active", isFav);
+        btn.setAttribute("aria-pressed", isFav ? "true" : "false");
+        const icon = btn.querySelector("i");
+        if (icon) {
+            icon.classList.toggle("fa-solid", isFav);
+            icon.classList.toggle("fa-regular", !isFav);
+        }
+    }
 
-        list.forEach(function (site) {
-            const isFav = !!favourites[site.id];
+    function syncFavourites() {
+        cards.forEach(function (card) {
+            const btn = card.querySelector(".bookmark-btn");
+            if (btn) setFavouriteUI(btn, !!favourites[card.dataset.siteId]);
+        });
+    }
 
-            const card = document.createElement("article");
-            card.className = "heritage-card";
-            card.dataset.siteId = site.id;
+    // ---- Keyboard access + translated accessibility labels ----
+    cards.forEach(function (card) {
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("role", "button");
+    });
 
-            card.innerHTML =
-                '<div class="card-media ' + site.mediaClass + '">' +
-                    '<img src="' + site.image + '" alt="' + site.imageAlt + '" loading="lazy" onerror="this.style.display=\'none\'">' +
-                    '<span class="category-badge">' + site.categoryLabel + '</span>' +
-                    '<button type="button" class="bookmark-btn' + (isFav ? ' is-active' : '') + '" data-site-id="' + site.id + '" aria-pressed="' + isFav + '" aria-label="Save ' + site.name + ' to favourites">' +
-                        '<i class="fa-' + (isFav ? 'solid' : 'regular') + ' fa-heart"></i>' +
-                    '</button>' +
-                '</div>' +
-                '<div class="card-body">' +
-                    '<h3>' + site.name + '</h3>' +
-                    '<p class="card-loc"><i class="fa-solid fa-location-dot"></i> ' + site.location + '</p>' +
-                    '<p class="card-desc">' + site.description + '</p>' +
-                    '<div class="card-foot">' +
-                        '<button type="button" class="explore-story-btn" data-site-id="' + site.id + '">' +
-                            'Learn the Story <i class="fa-solid fa-arrow-right"></i>' +
-                        '</button>' +
-                    '</div>' +
-                '</div>';
-
-            cardGrid.appendChild(card);
+    function updateCardLabels() {
+        cards.forEach(function (card) {
+            const name = cardText(card, ".card-body h3", card.dataset.name);
+            card.setAttribute("aria-label", t("explorePage.openDetails", "Open details for " + name, { name: name }));
+            const favBtn = card.querySelector(".bookmark-btn");
+            if (favBtn) {
+                favBtn.setAttribute("aria-label", t("explorePage.saveFavourite", "Save " + name + " to favourites", { name: name }));
+            }
         });
     }
 
@@ -557,34 +536,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const state = { query: "", category: "all", region: "all" };
 
-    function matchesQuery(site, query) {
+    // Search matches both the English data and the currently displayed (translated) text
+    function matchesQuery(card, query) {
         if (!query) return true;
-        const haystack = (site.name + " " + site.location + " " + site.categoryLabel).toLowerCase();
+        const d = card.dataset;
+        const haystack = [
+            d.name, d.location, d.categoryLabel,
+            cardText(card, ".card-body h3", ""),
+            cardText(card, ".card-loc span", ""),
+            cardText(card, ".category-badge", "")
+        ].join(" ").toLowerCase();
         return haystack.indexOf(query.toLowerCase()) !== -1;
     }
 
     function updateResultsMeta(count) {
         if (resultsCountEl) resultsCountEl.textContent = count;
-        if (resultsNounEl) resultsNounEl.textContent = count === 1 ? "heritage site" : "heritage sites";
+        if (resultsNounEl) {
+            resultsNounEl.textContent = count === 1
+                ? t("explorePage.siteSingular", "heritage site")
+                : t("explorePage.sitePlural", "heritage sites");
+        }
     }
 
     function toggleNoResults(count, category) {
         if (!noResults) return;
 
+        const heading = noResults.querySelector("h3");
+        const body = noResults.querySelector("p");
+
+        if (category === "museums") {
+            if (heading) heading.textContent = t("explorePage.noMuseumsTitle", "No heritage sites in this category yet.");
+            if (body) body.textContent = t("explorePage.noMuseumsText", "We're still researching Ghana's museums for Ananse — check back soon.");
+        } else {
+            if (heading) heading.textContent = t("explorePage.noResultsTitle", "No heritage sites match your filters");
+            if (body) body.textContent = t("explorePage.noResultsText", "Try clearing the search box, choosing \"All\" categories, or selecting a different region.");
+        }
+
         if (count === 0) {
             noResults.classList.add("is-visible");
             cardGrid.style.display = "none";
-
-            const heading = noResults.querySelector("h3");
-            const body = noResults.querySelector("p");
-
-            if (category === "museums") {
-                if (heading) heading.textContent = "No heritage sites in this category yet.";
-                if (body) body.textContent = "We're still researching Ghana's museums for Ananse — check back soon.";
-            } else {
-                if (heading) heading.textContent = "No heritage sites match your filters";
-                if (body) body.textContent = "Try clearing the search box, choosing \"All\" categories, or selecting a different region.";
-            }
         } else {
             noResults.classList.remove("is-visible");
             cardGrid.style.display = "";
@@ -592,15 +582,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function applyFilters() {
-        const filtered = sites.filter(function (site) {
-            const matchCategory = state.category === "all" || site.category === state.category;
-            const matchRegion = state.region === "all" || site.region === state.region;
-            return matchCategory && matchRegion && matchesQuery(site, state.query);
+        let visible = 0;
+        cards.forEach(function (card) {
+            const show =
+                (state.category === "all" || card.dataset.category === state.category) &&
+                (state.region === "all" || card.dataset.region === state.region) &&
+                matchesQuery(card, state.query);
+            card.hidden = !show;
+            if (show) visible++;
         });
-
-        renderCards(filtered);
-        updateResultsMeta(filtered.length);
-        toggleNoResults(filtered.length, state.category);
+        visibleCount = visible;
+        updateResultsMeta(visible);
+        toggleNoResults(visible, state.category);
     }
 
     if (searchInput) {
@@ -642,76 +635,94 @@ document.addEventListener("DOMContentLoaded", function () {
             const id = favBtn.getAttribute("data-site-id");
             favourites[id] = !favourites[id];
             saveFavourites(favourites);
-
-            favBtn.classList.toggle("is-active");
-            favBtn.setAttribute("aria-pressed", favourites[id] ? "true" : "false");
-            const icon = favBtn.querySelector("i");
-            if (icon) {
-                icon.classList.toggle("fa-solid", !!favourites[id]);
-                icon.classList.toggle("fa-regular", !favourites[id]);
-            }
+            setFavouriteUI(favBtn, !!favourites[id]);
             return;
         }
 
         const card = e.target.closest(".heritage-card");
+        if (card) openModal(card);
+    });
+
+    // Open a card with Enter / Space (ignore keys pressed on the buttons inside it)
+    cardGrid.addEventListener("keydown", function (e) {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        if (e.target.closest("button")) return;
+        const card = e.target.closest(".heritage-card");
         if (card) {
-            openModal(card.getAttribute("data-site-id"));
+            e.preventDefault();
+            openModal(card);
         }
     });
 
     // ---- Modal ----
     const modalOverlay = document.getElementById("modalOverlay");
     const modalContent = document.getElementById("modalContent");
+    let lastFocusedCard = null;
 
-    function getSiteById(id) {
-        return sites.find(function (s) { return s.id === id; });
-    }
+    function openModal(card) {
+        if (!card || !modalOverlay || !modalContent) return;
 
-    function openModal(siteId) {
-        const site = getSiteById(siteId);
-        if (!site || !modalOverlay || !modalContent) return;
+        lastFocusedCard = card;
+
+        const d = card.dataset;
+        const img = card.querySelector(".card-media img");
+        const imageSrc = img ? img.getAttribute("src") : "";
+        const imageAlt = img ? img.getAttribute("alt") : "";
+
+        // Read the text currently shown on the card (already translated)
+        const name = cardText(card, ".card-body h3", d.name);
+        const location = cardText(card, ".card-loc span", d.location);
+        const categoryLabel = cardText(card, ".category-badge", d.categoryLabel);
+        const description = cardText(card, ".card-desc", "");
+        const didYouKnow = t(d.didYouKnowKey, d.didYouKnow);
+
+        const learnLabel = t("explorePage.learnStory", "Learn the Story");
+        const listenLabel = t("explorePage.listenStory", "Listen to the Story");
+
+        // Listen: real link if the site has a Listen page, otherwise a "coming soon" button
+        const listenUrl = getListenUrl(d.siteId);
+        const listenHTML = listenUrl
+            ? '<a class="action-btn action-btn--listen" href="' + listenUrl + '">' +
+                  '<i class="fa-solid fa-headphones"></i> ' + listenLabel + '</a>'
+            : '<button type="button" class="action-btn action-btn--listen" id="modalListenBtn">' +
+                  '<i class="fa-solid fa-headphones"></i> ' + listenLabel + '</button>';
 
         modalContent.innerHTML =
-            '<button type="button" class="modal-close" aria-label="Close">' +
+            '<button type="button" class="modal-close" aria-label="' + t("explorePage.close", "Close") + '">' +
                 '<i class="fa-solid fa-xmark"></i>' +
             '</button>' +
-            '<div class="modal-hero ' + site.mediaClass + '">' +
-                '<img src="' + site.image + '" alt="' + site.imageAlt + '" onerror="this.style.display=\'none\'">' +
-                '<span class="category-badge">' + site.categoryLabel + '</span>' +
+            '<div class="modal-hero ' + d.mediaClass + '">' +
+                '<img src="' + imageSrc + '" alt="' + imageAlt + '" onerror="this.style.display=\'none\'">' +
+                '<span class="category-badge">' + categoryLabel + '</span>' +
                 '<div>' +
-                    '<h2>' + site.name + '</h2>' +
-                    '<p class="loc"><i class="fa-solid fa-location-dot"></i> ' + site.location + '</p>' +
+                    '<h2>' + name + '</h2>' +
+                    '<p class="loc"><i class="fa-solid fa-location-dot"></i> ' + location + '</p>' +
                 '</div>' +
             '</div>' +
             '<div class="modal-body">' +
-                '<div class="modal-section">' +
-                    '<h4>About this site</h4>' +
-                    '<p>' + site.description + '</p>' +
-                '</div>' +
-                '<div class="modal-section">' +
-                    '<h4>Did You Know?</h4>' +
-                    '<p>' + site.didYouKnow + '</p>' +
-                '</div>' +
+                '<div class="modal-section"><h4>' + t("explorePage.aboutSite", "About this site") + '</h4><p>' + description + '</p></div>' +
+                '<div class="modal-section"><h4>' + t("explorePage.didYouKnow", "Did You Know?") + '</h4><p>' + didYouKnow + '</p></div>' +
                 '<div class="modal-actions">' +
-                    '<a class="action-btn action-btn--learn" href="site.html?site=' + site.id + '">' +
-                        '<i class="fa-solid fa-book-open"></i> Learn the Story' +
-                    '</a>' +
-                    '<button type="button" class="action-btn action-btn--listen" id="modalListenBtn">' +
-                        '<i class="fa-solid fa-headphones"></i> Listen to the Story' +
-                    '</button>' +
+                    '<a class="action-btn action-btn--learn" href="' + getStoryUrl(d.siteId) + '">' +
+                        '<i class="fa-solid fa-book-open"></i> ' + learnLabel + '</a>' +
+                    listenHTML +
                 '</div>' +
             '</div>';
 
+        // "Coming soon" behaviour only applies to sites without a Listen page yet
         const listenBtn = modalContent.querySelector("#modalListenBtn");
         if (listenBtn) {
             listenBtn.addEventListener("click", function () {
                 listenBtn.disabled = true;
-                listenBtn.innerHTML = '<i class="fa-solid fa-headphones"></i> Audio preview coming soon';
+                listenBtn.innerHTML = '<i class="fa-solid fa-headphones"></i> ' + t("explorePage.audioSoon", "Audio preview coming soon");
             });
         }
 
         const closeBtn = modalContent.querySelector(".modal-close");
-        if (closeBtn) closeBtn.addEventListener("click", closeModal);
+        if (closeBtn) {
+            closeBtn.addEventListener("click", closeModal);
+            closeBtn.focus();
+        }
 
         modalOverlay.classList.add("is-open");
         modalOverlay.setAttribute("aria-hidden", "false");
@@ -719,9 +730,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function closeModal() {
+        if (!modalOverlay) return;
         modalOverlay.classList.remove("is-open");
         modalOverlay.setAttribute("aria-hidden", "true");
         document.body.style.overflow = "";
+
+        if (lastFocusedCard) {
+            lastFocusedCard.focus();
+            lastFocusedCard = null;
+        }
     }
 
     if (modalOverlay) {
@@ -736,7 +753,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // ---- Re-apply dynamic text when the language changes ----
+    document.addEventListener("ananse:languagechange", function () {
+        updateResultsMeta(visibleCount);
+        toggleNoResults(visibleCount, state.category);
+        updateCardLabels();
+    });
+
     // ---- Init ----
+    syncFavourites();
+    updateCardLabels();
     applyFilters();
 });
 
