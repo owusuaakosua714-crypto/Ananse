@@ -4157,4 +4157,3 @@ body.about-page .about-btn-gold:hover {
 .demo-controls__row{ display: flex; flex-wrap: wrap; gap: 14px; }
 .demo-controls__site{ background: var(--pp-white); border: 1px dashed var(--pp-cream-line); border-radius: 12px; padding: 10px 12px; font-size: 11.5px; display: flex; flex-direction: column; gap: 4px; }
 .demo-controls__site strong{ font-size: 12px; margin-bottom: 2px; }
-.demo-controls__reset{ margin-top: 12px; background: none; border: 1px solid var(--pp-cream-line); border-radius: 8px; padding: 7px 14px; font-size: 12px; cursor: pointer; }

@@ -458,7 +458,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ---- Dedicated story pages (sites without one fall back to site.html) ----
     const STORY_PAGES = {
-        "cape-coast": "cape-coast.html" // change to your real Cape Coast filename
+        "cape-coast": "capecoast.html" // change to your real Cape Coast filename
         // "manhyia": "manhyia.html",
         // "osu": "osu.html",
     };
@@ -469,7 +469,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ---- Pages with a Listen experience (others show "coming soon") ----
     const LISTEN_PAGES = {
-        "cape-coast": "cape-coast.html#listen" // filename must match above; #listen must match an id on that page
+        "cape-coast": "capecoast.html#listen" // filename must match above; #listen must match an id on that page
     };
 
     function getListenUrl(siteId) {
@@ -1212,3 +1212,5 @@ document.addEventListener("DOMContentLoaded", function () {
         renderDemoControls();
     });
 })();
+
+
