@@ -4158,3 +4158,1131 @@ body.about-page .about-btn-gold:hover {
 .demo-controls__site{ background: var(--pp-white); border: 1px dashed var(--pp-cream-line); border-radius: 12px; padding: 10px 12px; font-size: 11.5px; display: flex; flex-direction: column; gap: 4px; }
 .demo-controls__site strong{ font-size: 12px; margin-bottom: 2px; }
 .demo-controls__reset{ margin-top: 12px; background: none; border: 1px solid var(--pp-cream-line); border-radius: 8px; padding: 7px 14px; font-size: 12px; cursor: pointer; }
+
+/* ==========================================================================
+   ANANSE MAP PAGE ISOLATED STYLESHEET (style.css / map.css)
+   Scoped under .ananse-map-page to avoid project conflicts
+   ========================================================================== */
+
+.ananse-map-page {
+    --ananse-green-dark: #003B2B;
+    --ananse-green-mid: #0D4738;
+    --ananse-green-light: #1A5445;
+    --ananse-yellow: #FFC72C;
+    --ananse-yellow-hover: #E5B122;
+    --ananse-red: #D32F2F;
+    --ananse-blue: #0288D1;
+    --ananse-purple: #7B1FA2;
+    --ananse-teal: #00796B;
+    --ananse-bg-gray: #F4F6F8;
+    --ananse-card-border: #E2E8F0;
+    --ananse-text-dark: #1E293B;
+    --ananse-text-muted: #64748B;
+    --ananse-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --ananse-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+    --ananse-shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.18);
+    --ananse-radius-sm: 8px;
+    --ananse-radius-md: 16px;
+    --ananse-radius-lg: 24px;
+    --ananse-font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    
+    font-family: var(--ananse-font-main);
+    background-color: var(--ananse-bg-gray);
+    color: var(--ananse-text-dark);
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.ananse-map-page * {
+    box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   HEADER & NAVIGATION
+   -------------------------------------------------------------------------- */
+.ananse-map-page .ananse-header {
+    background-color: var(--ananse-green-dark);
+    color: #FFFFFF;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--ananse-shadow-sm);
+}
+
+.ananse-map-page .header-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ananse-map-page .brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #FFFFFF;
+    flex-shrink: 0;
+}
+
+.ananse-map-page .logo-symbol {
+    width: 42px;
+    height: 42px;
+}
+
+.ananse-map-page .spider-logo {
+    width: 100%;
+    height: 100%;
+}
+
+.ananse-map-page .brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.ananse-map-page .brand-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--ananse-yellow);
+    line-height: 1.1;
+}
+
+.ananse-map-page .brand-tagline {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+}
+
+/* CENTERED DESKTOP NAVIGATION */
+.ananse-map-page .desktop-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    flex: 1;
+    margin: 0 20px;
+}
+
+.ananse-map-page .nav-link {
+    color: #FFFFFF; /* Pure white color for non-active links */
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 6px 0;
+    position: relative;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+}
+
+.ananse-map-page .nav-link:hover {
+    color: var(--ananse-yellow);
+}
+
+.ananse-map-page .nav-link.active {
+    color: #FFFFFF; /* Pure white text for active link */
+    font-weight: 700;
+}
+
+/* 3RD LINE (ACTIVE UNDERLINE) IN YELLOW */
+.ananse-map-page .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--ananse-yellow); /* Yellow line indicator */
+    border-radius: 2px;
+}
+
+/* HEADER CONTROLS (RIGHT ALIGNED) */
+.ananse-map-page .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+/* LANGUAGE DROPDOWN */
+.ananse-map-page .language-dropdown {
+    position: relative;
+}
+
+.ananse-map-page .lang-btn {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.ananse-map-page .lang-btn:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+.ananse-map-page .lang-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    background-color: #FFFFFF;
+    border-radius: var(--ananse-radius-sm);
+    box-shadow: var(--ananse-shadow-md);
+    display: none;
+    flex-direction: column;
+    min-width: 120px;
+    overflow: hidden;
+    z-index: 1001;
+}
+
+.ananse-map-page .lang-menu.show {
+    display: flex;
+}
+
+.ananse-map-page .lang-option {
+    background: none;
+    border: none;
+    padding: 10px 16px;
+    text-align: left;
+    font-size: 0.85rem;
+    color: var(--ananse-text-dark);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.ananse-map-page .lang-option:hover {
+    background-color: var(--ananse-bg-gray);
+    color: var(--ananse-green-dark);
+}
+
+/* HAMBURGER TOGGLE */
+.ananse-map-page .hamburger-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: #FFFFFF;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.ananse-map-page .hamburger-btn .icon-close {
+    display: none;
+}
+
+.ananse-map-page .hamburger-btn.is-active .icon-open {
+    display: none;
+}
+
+.ananse-map-page .hamburger-btn.is-active .icon-close {
+    display: block;
+}
+
+/* MOBILE NAV MENU */
+.ananse-map-page .mobile-nav {
+    display: none;
+    flex-direction: column;
+    background-color: var(--ananse-green-mid);
+    padding: 16px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ananse-map-page .mobile-nav.open {
+    display: flex;
+}
+
+.ananse-map-page .mobile-nav-link {
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 12px 0;
+    font-size: 1.05rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ananse-map-page .mobile-nav-link:last-child {
+    border-bottom: none;
+}
+
+.ananse-map-page .mobile-nav-link.active {
+    color: var(--ananse-yellow);
+    font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   MAP CONTAINER & OVERLAY CONTROLS
+   -------------------------------------------------------------------------- */
+.ananse-map-page .map-main-content {
+    position: relative;
+    width: 100%;
+    height: 720px;
+    overflow: hidden;
+}
+
+.ananse-map-page .mapbox-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.ananse-map-page .map-overlay-container {
+    position: absolute;
+    top: 24px;
+    left: 32px;
+    z-index: 10;
+    max-width: 480px;
+    pointer-events: none;
+}
+
+.ananse-map-page .map-overlay-container > * {
+    pointer-events: auto;
+}
+
+.ananse-map-page .map-hero-text h1 {
+    margin: 0 0 6px 0;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    letter-spacing: -0.5px;
+}
+
+.ananse-map-page .map-hero-text p {
+    margin: 0 0 16px 0;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    line-height: 1.4;
+}
+
+/* SEARCH INPUT */
+.ananse-map-page .map-search-wrapper {
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.ananse-map-page .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ananse-text-muted);
+    font-size: 1rem;
+}
+
+.ananse-map-page .map-search-input {
+    width: 100%;
+    padding: 14px 16px 14px 44px;
+    border-radius: 30px;
+    border: none;
+    background: #FFFFFF;
+    box-shadow: var(--ananse-shadow-md);
+    font-size: 0.95rem;
+    color: var(--ananse-text-dark);
+    outline: none;
+    transition: box-shadow 0.2s;
+}
+
+.ananse-map-page .map-search-input:focus {
+    box-shadow: 0 0 0 3px rgba(255, 199, 44, 0.5), var(--ananse-shadow-md);
+}
+
+/* CATEGORY FILTERS */
+.ananse-map-page .map-category-filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.ananse-map-page .filter-btn {
+    background: #FFFFFF;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ananse-text-dark);
+    cursor: pointer;
+    box-shadow: var(--ananse-shadow-sm);
+    transition: all 0.2s ease;
+}
+
+.ananse-map-page .filter-btn:hover {
+    background-color: #F8FAFC;
+    transform: translateY(-1px);
+}
+
+.ananse-map-page .filter-btn.active {
+    background-color: var(--ananse-yellow);
+    color: var(--ananse-green-dark);
+}
+
+/* CUSTOM MAP CONTROLS */
+.ananse-map-page .map-custom-controls {
+    position: absolute;
+    top: 24px;
+    right: calc(380px + 32px);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: right 0.3s ease;
+}
+
+.ananse-map-page .map-ctrl-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #FFFFFF;
+    border: 1px solid var(--ananse-card-border);
+    box-shadow: var(--ananse-shadow-sm);
+    color: var(--ananse-text-dark);
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+}
+
+.ananse-map-page .map-ctrl-btn:hover {
+    background-color: #F1F5F9;
+}
+
+/* --------------------------------------------------------------------------
+   CUSTOM MAPBOX MARKERS
+   -------------------------------------------------------------------------- */
+.ananse-marker-wrapper {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transform: translate(-50%, -100%);
+}
+
+.ananse-marker-pin {
+    width: 36px;
+    height: 36px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    border: 2px solid #FFFFFF;
+}
+
+.ananse-marker-pin i {
+    transform: rotate(45deg);
+    font-size: 0.9rem;
+}
+
+.ananse-marker-label {
+    background: #FFFFFF;
+    padding: 4px 10px;
+    border-radius: 12px;
+    box-shadow: var(--ananse-shadow-sm);
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+    color: var(--ananse-text-dark);
+    border: 1px solid var(--ananse-card-border);
+}
+
+.ananse-marker-label span {
+    font-weight: 400;
+    color: var(--ananse-text-muted);
+}
+
+.marker-bg-red { background-color: var(--ananse-red); }
+.marker-bg-gold { background-color: #D97706; }
+.marker-bg-blue { background-color: var(--ananse-blue); }
+.marker-bg-purple { background-color: var(--ananse-purple); }
+.marker-bg-teal { background-color: var(--ananse-teal); }
+
+.user-location-pulse {
+    width: 20px;
+    height: 20px;
+    background-color: #2563EB;
+    border: 3px solid #FFFFFF;
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(37, 99, 235, 0.6);
+    position: relative;
+}
+
+.user-location-label {
+    background-color: #2563EB;
+    color: #FFFFFF;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin-left: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   DETAILED POPUP CARD
+   -------------------------------------------------------------------------- */
+.ananse-map-page .site-popup-card {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    bottom: 20px;
+    width: 380px;
+    background: #FFFFFF;
+    border-radius: var(--ananse-radius-md);
+    box-shadow: var(--ananse-shadow-lg);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.ananse-map-page .site-popup-card.hidden {
+    transform: translateX(110%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.ananse-map-page .popup-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: #FFFFFF;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.ananse-map-page .popup-close-btn:hover {
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.ananse-map-page .popup-scroll-wrapper {
+    overflow-y: auto;
+    height: 100%;
+}
+
+.ananse-map-page .popup-image-container {
+    width: 100%;
+    height: 180px;
+    background-color: #E2E8F0;
+}
+
+.ananse-map-page .popup-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ananse-map-page .popup-content-body {
+    padding: 20px;
+}
+
+.ananse-map-page .popup-title {
+    margin: 0 0 4px 0;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--ananse-text-dark);
+}
+
+.ananse-map-page .popup-meta-location {
+    font-size: 0.85rem;
+    color: var(--ananse-text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.ananse-map-page .popup-category-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #FEE2E2;
+    color: var(--ananse-red);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+}
+
+.ananse-map-page .popup-description {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--ananse-text-dark);
+    margin: 0 0 18px 0;
+}
+
+/* BUTTON STACK IN POPUP */
+.ananse-map-page .popup-action-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.ananse-map-page .action-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: var(--ananse-radius-sm);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    box-sizing: border-box;
+}
+
+.ananse-map-page .action-btn i:first-child {
+    font-size: 0.95rem;
+    width: 22px;
+}
+
+.ananse-map-page .action-btn .arrow-end {
+    margin-left: auto;
+    font-size: 0.75rem;
+}
+
+.ananse-map-page .btn-primary-dark {
+    background-color: var(--ananse-green-dark);
+    color: #FFFFFF;
+}
+
+.ananse-map-page .btn-primary-dark:hover {
+    background-color: var(--ananse-green-mid);
+}
+
+.ananse-map-page .btn-amber {
+    background-color: var(--ananse-yellow);
+    color: var(--ananse-green-dark);
+}
+
+.ananse-map-page .btn-amber:hover {
+    background-color: var(--ananse-yellow-hover);
+}
+
+.ananse-map-page .btn-outline {
+    background-color: #FFFFFF;
+    color: var(--ananse-text-dark);
+    border: 1px solid var(--ananse-card-border);
+}
+
+.ananse-map-page .btn-outline:hover {
+    background-color: #F8FAFC;
+}
+
+/* TRAVEL ESTIMATE BOX */
+.ananse-map-page .travel-estimate-box {
+    background: #F1F5F9;
+    border-radius: var(--ananse-radius-sm);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.ananse-map-page .travel-estimate-box.hidden {
+    display: none;
+}
+
+.ananse-map-page .travel-icon {
+    color: var(--ananse-green-mid);
+    font-size: 1.1rem;
+}
+
+.ananse-map-page .travel-label {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--ananse-text-muted);
+}
+
+.ananse-map-page .travel-stats {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--ananse-text-dark);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ananse-map-page .travel-dist {
+    font-weight: 400;
+    color: var(--ananse-text-muted);
+}
+
+/* HIGHLIGHTS SECTION */
+.ananse-map-page .trail-highlights-section {
+    border-top: 1px solid var(--ananse-card-border);
+    padding-top: 16px;
+}
+
+.ananse-map-page .highlights-heading {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    color: var(--ananse-text-dark);
+}
+
+.ananse-map-page .highlight-item-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #F8FAFC;
+    border-radius: var(--ananse-radius-sm);
+    padding: 8px;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid var(--ananse-card-border);
+    transition: background 0.15s;
+}
+
+.ananse-map-page .highlight-item-card:hover {
+    background: #F1F5F9;
+}
+
+.ananse-map-page .highlight-thumb-container {
+    width: 60px;
+    height: 50px;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.ananse-map-page .highlight-thumb-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ananse-map-page .highlight-info {
+    flex: 1;
+}
+
+.ananse-map-page .highlight-title {
+    margin: 0 0 2px 0;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--ananse-text-dark);
+}
+
+.ananse-map-page .highlight-desc {
+    margin: 0;
+    font-size: 0.72rem;
+    color: var(--ananse-text-muted);
+    line-height: 1.25;
+}
+
+.ananse-map-page .highlight-arrow {
+    font-size: 0.75rem;
+    color: var(--ananse-text-muted);
+    padding-right: 6px;
+}
+
+.ananse-map-page .view-all-stops-wrapper {
+    margin-top: 12px;
+    text-align: left;
+}
+
+.ananse-map-page .view-all-stops-link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--ananse-green-mid);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.ananse-map-page .view-all-stops-link:hover {
+    text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   FEATURED HERITAGE SITES & PROMO BANNER SECTION
+   -------------------------------------------------------------------------- */
+.ananse-map-page .featured-section-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 32px 24px 60px 24px;
+}
+
+.ananse-map-page .featured-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.ananse-map-page .featured-header-row h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--ananse-text-dark);
+}
+
+.ananse-map-page .view-all-sites-link {
+    color: var(--ananse-text-dark);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* FIXED RESPONSIVE GRID */
+.ananse-map-page .featured-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+    width: 100%;
+}
+
+.ananse-map-page .site-card {
+    background: #FFFFFF;
+    border-radius: var(--ananse-radius-md);
+    overflow: hidden;
+    box-shadow: var(--ananse-shadow-sm);
+    border: 1px solid var(--ananse-card-border);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.ananse-map-page .site-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--ananse-shadow-md);
+}
+
+.ananse-map-page .card-media {
+    width: 100%;
+    height: 120px;
+    background-color: #E2E8F0;
+}
+
+.ananse-map-page .card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ananse-map-page .card-content {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.ananse-map-page .card-header-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.ananse-map-page .card-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+}
+
+.badge-red { background-color: var(--ananse-red); }
+.badge-gold { background-color: #D97706; }
+.badge-blue { background-color: var(--ananse-blue); }
+.badge-purple { background-color: var(--ananse-purple); }
+.badge-teal { background-color: var(--ananse-teal); }
+
+.ananse-map-page .card-titles {
+    flex: 1;
+    min-width: 0;
+}
+
+.ananse-map-page .card-titles h3 {
+    margin: 0 0 2px 0;
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ananse-map-page .card-loc {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--ananse-text-muted);
+}
+
+.ananse-map-page .card-arrow {
+    font-size: 0.75rem;
+    color: var(--ananse-text-muted);
+    margin-top: 4px;
+}
+
+.ananse-map-page .card-category-tag {
+    align-self: flex-start;
+    background-color: #FEF2F2;
+    color: var(--ananse-red);
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 10px;
+    margin-top: auto;
+}
+
+/* PROMOTIONAL BANNER */
+.ananse-map-page .promo-banner-card {
+    background-color: var(--ananse-green-dark);
+    border-radius: var(--ananse-radius-md);
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    color: #FFFFFF;
+}
+
+.ananse-map-page .promo-pattern-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0.35;
+    display: flex;
+    align-items: center;
+}
+
+.ananse-map-page .promo-body {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 2;
+    margin-left: 40px;
+}
+
+.ananse-map-page .promo-icon-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ananse-yellow);
+    font-size: 1.3rem;
+}
+
+.ananse-map-page .promo-text-content h3 {
+    margin: 0 0 2px 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.ananse-map-page .promo-text-content p {
+    margin: 0;
+    font-size: 1.25rem;
+    font-family: Georgia, serif;
+    font-style: italic;
+    color: var(--ananse-yellow);
+}
+
+.ananse-map-page .promo-action-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--ananse-yellow);
+    color: var(--ananse-green-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.1rem;
+    z-index: 2;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.ananse-map-page .promo-action-circle:hover {
+    transform: scale(1.08);
+    background-color: var(--ananse-yellow-hover);
+}
+
+/* FLOATING MY PLANS BUTTON */
+.ananse-map-page .floating-my-plans-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: var(--ananse-green-dark);
+    color: #FFFFFF;
+    box-shadow: var(--ananse-shadow-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    z-index: 900;
+    border: 2px solid var(--ananse-yellow);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.ananse-map-page .floating-my-plans-btn:hover {
+    transform: scale(1.05);
+    background-color: var(--ananse-green-mid);
+}
+
+.ananse-map-page .floating-my-plans-btn i {
+    font-size: 1.2rem;
+    color: var(--ananse-yellow);
+    margin-bottom: 2px;
+}
+
+.ananse-map-page .floating-my-plans-btn span {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE MEDIA QUERIES
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+    .ananse-map-page .site-popup-card {
+        width: 340px;
+    }
+    
+    .ananse-map-page .map-custom-controls {
+        right: calc(340px + 32px);
+    }
+    
+    .ananse-map-page .desktop-nav {
+        gap: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .ananse-map-page .desktop-nav {
+        display: none;
+    }
+
+    .ananse-map-page .hamburger-btn {
+        display: block;
+    }
+
+    .ananse-map-page .map-main-content {
+        height: 600px;
+    }
+
+    .ananse-map-page .map-overlay-container {
+        left: 16px;
+        right: 16px;
+        max-width: none;
+        top: 16px;
+    }
+
+    .ananse-map-page .map-hero-text h1 {
+        font-size: 1.6rem;
+    }
+
+    .ananse-map-page .map-custom-controls {
+        right: 16px;
+        top: auto;
+        bottom: 20px;
+    }
+
+    .ananse-map-page .site-popup-card {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-height: 80vh;
+        border-radius: var(--ananse-radius-md) var(--ananse-radius-md) 0 0;
+    }
+
+    .ananse-map-page .site-popup-card.hidden {
+        transform: translateY(100%);
+    }
+
+    .ananse-map-page .promo-body {
+        margin-left: 0;
+    }
+
+    .ananse-map-page .promo-text-content p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ananse-map-page .map-hero-text p {
+        display: none;
+    }
+
+    .ananse-map-page .promo-banner-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 20px;
+    }
+
+    .ananse-map-page .promo-action-circle {
+        align-self: flex-end;
+    }
+
+    .ananse-map-page .floating-my-plans-btn {
+        width: 54px;
+        height: 54px;
+        bottom: 16px;
+        right: 16px;
+    }
+    
+    .ananse-map-page .floating-my-plans-btn i {
+        font-size: 1rem;
+    }
+
+    .ananse-map-page .floating-my-plans-btn span {
+        font-size: 0.55rem;
+    }
+}
