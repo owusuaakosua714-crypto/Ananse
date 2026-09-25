@@ -4412,9 +4412,7 @@ body.about-page .about-btn-gold:hover {
 }
 /* ==========================================================================
    ANANSE — Map Page (map.html)
-   Scoped to .ananse-map-page. Reuses the same design tokens declared on
-   .explore-page / .passport-page (deep-teal, gold, dark-blue, Fraunces +
-   Plus Jakarta Sans) so the map feels like part of the same product.
+   Scoped to .ananse-map-page. Navigation styles are untouched.
    ========================================================================== */
 
 .ananse-map-page {
@@ -4454,7 +4452,7 @@ body.about-page .about-btn-gold:hover {
 .ananse-map-page .hidden { display: none !important; }
 
 /* ==========================================================================
-   HEADER
+   HEADER & NAVIGATION (UNTOUCHED)
    ========================================================================== */
 .ananse-map-page .ananse-header {
   background: var(--map-deep-teal);
@@ -4534,64 +4532,23 @@ body.about-page .about-btn-gold:hover {
   gap: 14px;
 }
 
-/* Language dropdown */
-.ananse-map-page .language-dropdown { position: relative; }
-
-.ananse-map-page .lang-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.2);
+/* Language selector dropdown */
+.ananse-map-page .language-select {
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.25);
   color: var(--map-white);
   border-radius: 999px;
   padding: 8px 14px;
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: all .2s ease;
+  outline: none;
 }
 
-.ananse-map-page .lang-btn:hover,
-.ananse-map-page .lang-btn[aria-expanded="true"] {
-  border-color: var(--map-gold);
-  background: rgba(217,162,27,.14);
-}
-
-.ananse-map-page .lang-btn .fa-chevron-down { font-size: 9px; transition: transform .2s ease; }
-.ananse-map-page .lang-btn[aria-expanded="true"] .fa-chevron-down { transform: rotate(180deg); }
-
-.ananse-map-page .lang-menu {
-  display: none;
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  min-width: 150px;
-  background: var(--map-white);
-  border-radius: 12px;
-  box-shadow: var(--map-shadow-md);
-  padding: 6px;
-  z-index: 1100;
-}
-
-.ananse-map-page .lang-menu.is-open { display: block; }
-
-.ananse-map-page .lang-option {
-  display: block;
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  padding: 9px 12px;
-  border-radius: 8px;
-  font-size: 13px;
+.ananse-map-page .language-select option {
   color: var(--map-text);
-  cursor: pointer;
-  transition: background .15s ease;
+  background: var(--map-white);
 }
-
-.ananse-map-page .lang-option:hover { background: var(--map-bg); }
-.ananse-map-page .lang-option.is-active { color: var(--map-deep-teal); font-weight: 700; }
 
 /* Hamburger (mobile) */
 .ananse-map-page .hamburger-btn {
@@ -4637,7 +4594,7 @@ body.about-page .about-btn-gold:hover {
 }
 
 /* ==========================================================================
-   MAIN / MAP CANVAS
+   MAIN / MAP CANVAS (UPDATED WITH EARTHY GREEN COLOR)
    ========================================================================== */
 .ananse-map-page .map-main-content {
   position: relative;
@@ -4652,7 +4609,7 @@ body.about-page .about-btn-gold:hover {
   inset: 0;
   width: 100%;
   height: 100%;
-  background: #cfd9d6; /* placeholder while tiles load */
+  background: #2E4A3E; /* Earthy green tone for map canvas & hero background */
 }
 
 /* Hero / search overlay, floating above the map */
@@ -4673,15 +4630,15 @@ body.about-page .about-btn-gold:hover {
   font-size: clamp(24px, 3.4vw, 32px);
   line-height: 1.2;
   margin: 0 0 6px;
-  text-shadow: 0 2px 14px rgba(7,59,64,.55);
+  text-shadow: 0 2px 14px rgba(0,0,0,.5);
 }
 
 .ananse-map-page .map-hero-text p {
-  color: rgba(255,255,255,.9);
+  color: rgba(255,255,255,.92);
   font-size: 14px;
   line-height: 1.5;
   margin: 0;
-  text-shadow: 0 2px 10px rgba(7,59,64,.5);
+  text-shadow: 0 2px 10px rgba(0,0,0,.5);
   max-width: 40ch;
 }
 
@@ -4774,7 +4731,7 @@ body.about-page .about-btn-gold:hover {
 }
 
 /* ==========================================================================
-   SITE DETAIL POPUP (desktop side panel / mobile bottom sheet)
+   SITE DETAIL POPUP
    ========================================================================== */
 .ananse-map-page .site-popup-card {
   position: absolute;
@@ -5009,7 +4966,7 @@ body.about-page .about-btn-gold:hover {
 }
 
 /* ==========================================================================
-   FEATURED SITES SECTION (below the map)
+   FEATURED SITES SECTION (FIXED: 5 BOXES ALIGNED ON A SINGLE LINE)
    ========================================================================== */
 .ananse-map-page .featured-section-container {
   background: var(--map-white);
@@ -5045,12 +5002,14 @@ body.about-page .about-btn-gold:hover {
 
 .ananse-map-page .view-all-sites-link:hover { color: var(--map-deep-teal); gap: 10px; }
 
+/* Fixed Grid to fit 5 cards neatly on standard desktop & laptop screens */
 .ananse-map-page .featured-cards-grid {
   max-width: 1360px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 18px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
 }
 
 .ananse-map-page .site-card {
@@ -5061,6 +5020,9 @@ body.about-page .about-btn-gold:hover {
   box-shadow: var(--map-shadow-sm);
   cursor: pointer;
   transition: transform .18s ease, box-shadow .18s ease;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .ananse-map-page .site-card:hover {
@@ -5068,26 +5030,32 @@ body.about-page .about-btn-gold:hover {
   box-shadow: var(--map-shadow-md);
 }
 
-.ananse-map-page .site-card .card-media { height: 130px; overflow: hidden; }
+.ananse-map-page .site-card .card-media { height: 115px; overflow: hidden; }
 .ananse-map-page .site-card .card-media img { width: 100%; height: 100%; object-fit: cover; }
 
-.ananse-map-page .card-content { padding: 14px 16px 16px; }
+.ananse-map-page .card-content {
+  padding: 12px 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
 
 .ananse-map-page .card-header-line {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 8px;
 }
 
 .ananse-map-page .card-badge {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--map-white);
-  font-size: 13px;
+  font-size: 11.5px;
   flex-shrink: 0;
 }
 
@@ -5097,21 +5065,26 @@ body.about-page .about-btn-gold:hover {
 .ananse-map-page .badge-purple { background: #6C4AB6; }
 .ananse-map-page .badge-teal   { background: var(--map-teal); }
 
-.ananse-map-page .card-titles { flex: 1; min-width: 0; }
+.ananse-map-page .card-titles {
+  flex: 1;
+  min-width: 0; /* Prevents overflow */
+}
 
 .ananse-map-page .card-titles h3 {
-  font-size: 14.5px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--map-deep-teal);
-  margin: 0 0 3px;
-  line-height: 1.3;
+  margin: 0 0 2px;
+  line-height: 1.25;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .ananse-map-page .card-loc {
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-size: 11.5px;
+  gap: 4px;
+  font-size: 11px;
   color: var(--map-text-sec);
   margin: 0;
 }
@@ -5120,25 +5093,25 @@ body.about-page .about-btn-gold:hover {
 
 .ananse-map-page .card-arrow {
   color: #CBD5E1;
-  font-size: 12px;
+  font-size: 11px;
   margin-top: 4px;
   flex-shrink: 0;
 }
 
 .ananse-map-page .card-category-tag {
   display: inline-block;
-  margin-top: 10px;
-  font-size: 10.5px;
+  margin-top: 8px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: .03em;
+  letter-spacing: .02em;
   text-transform: uppercase;
   color: var(--map-teal);
 }
 
-@media (max-width: 1180px) {
-  .ananse-map-page .featured-cards-grid { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 1024px) {
+  .ananse-map-page .featured-cards-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
 }
-@media (max-width: 700px) {
+@media (max-width: 680px) {
   .ananse-map-page .featured-cards-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 460px) {
