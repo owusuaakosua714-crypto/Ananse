@@ -23,43 +23,34 @@
         <header class="ananse-header">
             <div class="header-container">
                 <!-- LEFT: LOGO -->
-                <a href="index.html" class="brand-logo">
-                    <div class="logo-symbol">
-                        <svg viewBox="0 0 100 100" class="spider-logo">
-                            <path d="M50,15 L60,35 L40,35 Z" fill="#FFC72C"/>
-                            <circle cx="50" cy="50" r="18" fill="#FFC72C"/>
-                            <path d="M20,30 Q35,45 20,60 M80,30 Q65,45 80,60 M15,45 Q35,50 15,75 M85,45 Q65,50 85,75" stroke="#FFC72C" stroke-width="6" fill="none"/>
-                        </svg>
+                <a href="../index.html" class="logo">
+                    <div class="logo-placeholder-icon">
+                        <i class="fa-solid fa-spider"></i>
                     </div>
-                    <div class="brand-text">
-                        <span class="brand-title">Ananse</span>
-                        <span class="brand-tagline" data-lang-key="tagline">Waving Ghana’s story into the digital age</span>
+                    <div class="logo-text">
+                        <span class="brand-name">ANANSE</span>
+                        <span class="tagline" data-lang-key="tagline">Weaving Ghana’s Story into the Digital Age</span>
                     </div>
                 </a>
 
                 <!-- CENTER: DESKTOP NAVIGATION -->
                 <nav class="desktop-nav">
                     <a href="../index.html" class="nav-link" data-lang-key="navHome">Home</a>
-                    <a href="about.html" class="nav-link" data-lang-key="navAbout">About</a>
                     <a href="explore.html" class="nav-link" data-lang-key="navExplore">Explore</a>
                     <a href="map.html" class="nav-link active" data-lang-key="navMap">Map</a>
                     <a href="passport.html" class="nav-link" data-lang-key="navPassport">Passport</a>
+                    <a href="about.html" class="nav-link" data-lang-key="navAbout">About</a>
                 </nav>
 
                 <!-- RIGHT: CONTROLS (LANGUAGE SELECTOR & HAMBURGER ICON) -->
                 <div class="header-controls">
                     <!-- LANGUAGE SELECTOR (BEFORE HAMBURGER) -->
-                    <div class="language-dropdown">
-                        <button class="lang-btn" id="langSelectBtn" aria-expanded="false" aria-label="Select Language">
-                            <i class="fa-solid fa-globe"></i>
-                            <span id="currentLangLabel">English</span>
-                            <i class="fa-solid fa-chevron-down ms-1 text-xs"></i>
-                        </button>
-                        <div class="lang-menu" id="langMenu">
-                            <button class="lang-option" data-lang="en">English</button>
-                            <button class="lang-option" data-lang="fr">Français</button>
-                            <button class="lang-option" data-lang="es">Español</button>
-                        </div>
+                    <div class="language-switcher-wrap">
+                        <select class="language-select" aria-label="Select Language">
+                            <option value="en">English</option>
+                            <option value="fr">Français</option>
+                            <option value="es">Español</option>
+                        </select>
                     </div>
 
                     <!-- HAMBURGER BUTTON FOR MOBILE -->
@@ -73,10 +64,10 @@
             <!-- MOBILE NAVIGATION MENU -->
             <nav class="mobile-nav" id="mobileNav">
                 <a href="../index.html" class="mobile-nav-link" data-lang-key="navHome">Home</a>
-                <a href="about.html" class="mobile-nav-link" data-lang-key="navAbout">About</a>
                 <a href="explore.html" class="mobile-nav-link" data-lang-key="navExplore">Explore</a>
                 <a href="map.html" class="mobile-nav-link active" data-lang-key="navMap">Map</a>
                 <a href="passport.html" class="mobile-nav-link" data-lang-key="navPassport">Passport</a>
+                <a href="about.html" class="mobile-nav-link" data-lang-key="navAbout">About</a>
             </nav>
         </header>
 
