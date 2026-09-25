@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ananse - Explore Ghana's Heritage Map</title>
+    
+    <!-- MAPBOX GL JS CSS -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    
+    <!-- FONT AWESOME FOR ICONS -->
+    <script src="https://kit.fontawesome.com/17eac40b74.js" crossorigin="anonymous"></script>
+    
+    <!-- SCOPED MAP PAGE CSS -->
+    <link rel="stylesheet" href="../src/style.css">
+</head>
+<body>
+
+    <!-- WRAPPER: Scopes all styling to avoid conflicting with existing project styles -->
+    <div class="ananse-map-page">
+
+        <!-- HEADER SECTION -->
+        <header class="ananse-header">
+            <div class="header-container">
+                <!-- LEFT: LOGO -->
+                <a href="index.html" class="brand-logo">
+                    <div class="logo-symbol">
+                        <svg viewBox="0 0 100 100" class="spider-logo">
+                            <path d="M50,15 L60,35 L40,35 Z" fill="#FFC72C"/>
+                            <circle cx="50" cy="50" r="18" fill="#FFC72C"/>
+                            <path d="M20,30 Q35,45 20,60 M80,30 Q65,45 80,60 M15,45 Q35,50 15,75 M85,45 Q65,50 85,75" stroke="#FFC72C" stroke-width="6" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-title">Ananse</span>
+                        <span class="brand-tagline" data-lang-key="tagline">Waving Ghana’s story into the digital age</span>
+                    </div>
+                </a>
+
+                <!-- CENTER: DESKTOP NAVIGATION -->
+                <nav class="desktop-nav">
+                    <a href="../index.html" class="nav-link" data-lang-key="navHome">Home</a>
+                    <a href="about.html" class="nav-link" data-lang-key="navAbout">About</a>
+                    <a href="explore.html" class="nav-link" data-lang-key="navExplore">Explore</a>
+                    <a href="map.html" class="nav-link active" data-lang-key="navMap">Map</a>
+                    <a href="passport.html" class="nav-link" data-lang-key="navPassport">Passport</a>
+                </nav>
+
+                <!-- RIGHT: CONTROLS (LANGUAGE SELECTOR & HAMBURGER ICON) -->
+                <div class="header-controls">
+                    <!-- LANGUAGE SELECTOR (BEFORE HAMBURGER) -->
+                    <div class="language-dropdown">
+                        <button class="lang-btn" id="langSelectBtn" aria-expanded="false" aria-label="Select Language">
+                            <i class="fa-solid fa-globe"></i>
+                            <span id="currentLangLabel">English</span>
+                            <i class="fa-solid fa-chevron-down ms-1 text-xs"></i>
+                        </button>
+                        <div class="lang-menu" id="langMenu">
+                            <button class="lang-option" data-lang="en">English</button>
+                            <button class="lang-option" data-lang="fr">Français</button>
+                            <button class="lang-option" data-lang="es">Español</button>
+                        </div>
+                    </div>
+
+                    <!-- HAMBURGER BUTTON FOR MOBILE -->
+                    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Navigation Menu" aria-expanded="false">
+                        <i class="fa-solid fa-bars icon-open"></i>
+                        <i class="fa-solid fa-xmark icon-close"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- MOBILE NAVIGATION MENU -->
+            <nav class="mobile-nav" id="mobileNav">
+                <a href="../index.html" class="mobile-nav-link" data-lang-key="navHome">Home</a>
+                <a href="about.html" class="mobile-nav-link" data-lang-key="navAbout">About</a>
+                <a href="explore.html" class="mobile-nav-link" data-lang-key="navExplore">Explore</a>
+                <a href="map.html" class="mobile-nav-link active" data-lang-key="navMap">Map</a>
+                <a href="passport.html" class="mobile-nav-link" data-lang-key="navPassport">Passport</a>
+            </nav>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="map-main-content">
+            
+            <!-- HERO OVERLAY CONTROLS -->
+            <div class="map-overlay-container">
+                <div class="map-hero-text">
+                    <h1 data-lang-key="heroTitle">Explore Ghana’s Heritage</h1>
+                    <p data-lang-key="heroSub">Discover historic places, follow heritage trails, and experience Ghana’s stories.</p>
+                </div>
+
+                <!-- MAP SEARCH BAR -->
+                <div class="map-search-wrapper">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="mapSearchInput" class="map-search-input" placeholder="Search for a heritage site..." data-lang-placeholder="searchPlaceholder" aria-label="Search for a heritage site">
+                </div>
+
+                <!-- CATEGORY FILTER BUTTONS -->
+                <div class="map-category-filters" id="categoryFilters">
+                    <button class="filter-btn active" data-category="all" data-lang-key="filterAll">All</button>
+                    <button class="filter-btn" data-category="castles" data-lang-key="filterCastles">Castles</button>
+                    <button class="filter-btn" data-category="palaces" data-lang-key="filterPalaces">Palaces</button>
+                    <button class="filter-btn" data-category="monuments" data-lang-key="filterMonuments">Monuments</button>
+                    <button class="filter-btn" data-category="museums" data-lang-key="filterMuseums">Museums</button>
+                </div>
+            </div>
+
+            <!-- INTERACTIVE MAPBOX CONTAINER -->
+            <div id="mapbox-container" class="mapbox-canvas"></div>
+
+            <!-- CUSTOM MAP CONTROLS -->
+            <div class="map-custom-controls">
+                <button id="btnZoomIn" class="map-ctrl-btn" aria-label="Zoom In"><i class="fa-solid fa-plus"></i></button>
+                <button id="btnZoomOut" class="map-ctrl-btn" aria-label="Zoom Out"><i class="fa-solid fa-minus"></i></button>
+                <button id="btnLocateMe" class="map-ctrl-btn" aria-label="Find My Location"><i class="fa-solid fa-crosshairs"></i></button>
+            </div>
+
+            <!-- DETAILED SIDE POPUP / MOBILE BOTTOM SHEET -->
+            <aside class="site-popup-card hidden" id="sitePopupCard">
+                <button class="popup-close-btn" id="closePopupBtn" aria-label="Close details popup">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                
+                <div class="popup-scroll-wrapper">
+                    <div class="popup-image-container">
+                        <img src="../images/🇬🇭.jpeg" id="popupImage" alt="Heritage Site">
+                    </div>
+
+                    <div class="popup-content-body">
+                        <h2 class="popup-title" id="popupTitle">Cape Coast Castle</h2>
+                        <div class="popup-meta-location">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span id="popupLocationText">Cape Coast, Central Region</span>
+                        </div>
+                        <div class="popup-category-badge" id="popupCategoryBadge">
+                            <i class="fa-solid fa-landmark"></i> <span id="popupCategoryText">Historical Monument</span>
+                        </div>
+
+                        <p class="popup-description" id="popupDescription">
+                            Explore the castle and discover the powerful stories of the transatlantic slave trade, resilience and freedom.
+                        </p>
+
+                        <!-- ACTION STACK -->
+                        <div class="popup-action-stack">
+                            <button class="action-btn btn-primary-dark" id="btnGetDirections">
+                                <i class="fa-solid fa-location-arrow"></i>
+                                <span data-lang-key="btnDirections">Get Directions</span>
+                                <i class="fa-solid fa-chevron-right arrow-end"></i>
+                            </button>
+
+                            <a href="plan.html" class="action-btn btn-amber" id="btnBookVisit">
+                                <i class="fa-regular fa-calendar-check"></i>
+                                <span data-lang-key="btnBook">Book Visit</span>
+                                <i class="fa-solid fa-chevron-right arrow-end"></i>
+                            </a>
+
+                            <a href="explore.html" class="action-btn btn-outline" id="btnExploreSite">
+                                <i class="fa-solid fa-book-open"></i>
+                                <span data-lang-key="btnExplore">Explore Site</span>
+                                <i class="fa-solid fa-chevron-right arrow-end"></i>
+                            </a>
+
+                            <a href="heritage-trail.html" class="action-btn btn-outline" id="btnViewTrail">
+                                <i class="fa-solid fa-person-walking-luggage"></i>
+                                <span data-lang-key="btnViewTrail">View Heritage Trail</span>
+                                <i class="fa-solid fa-chevron-right arrow-end"></i>
+                            </a>
+
+                            <a href="plan.html" class="action-btn btn-outline" id="btnPopupMyPlans">
+                                <i class="fa-regular fa-calendar-days"></i>
+                                <span data-lang-key="myPlansLabel">My Plans</span>
+                                <i class="fa-solid fa-chevron-right arrow-end"></i>
+                            </a>
+                        </div>
+
+                        <!-- TRAVEL ESTIMATE BOX -->
+                        <div class="travel-estimate-box hidden" id="travelEstimateBox">
+                            <i class="fa-solid fa-route travel-icon"></i>
+                            <div class="travel-details">
+                                <span class="travel-label" data-lang-key="travelEstimateLabel">Estimated travel time from your location</span>
+                                <div class="travel-stats">
+                                    <i class="fa-solid fa-car"></i>
+                                    <span id="travelTimeText">2 hr 45 min</span>
+                                    <span class="travel-dist" id="travelDistText">(165 km)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="trail-highlights-section">
+                            <h3 class="highlights-heading" data-lang-key="trailHighlightsHeading">Heritage Trail Highlights</h3>
+                            
+                            <a href="heritage-trail.html?site=cape-coast-castle" class="highlight-item-card" id="primaryHighlightLink">
+                                <div class="highlight-thumb-container">
+                                    <img src="../images/The Door Of No Return At Cape Coast Castle photo, Ghana Africa.jpeg" id="highlightThumb" alt="Highlight Stop">
+                                </div>
+                                <div class="highlight-info">
+                                    <h4 class="highlight-title" id="highlightTitle">Door of No Return</h4>
+                                    <p class="highlight-desc" id="highlightDesc">The point where enslaved Africans were forced onto ships.</p>
+                                </div>
+                                <i class="fa-solid fa-chevron-right highlight-arrow"></i>
+                            </a>
+
+                            <div class="view-all-stops-wrapper">
+                                <a href="heritage-trail.html" class="view-all-stops-link" id="viewAllStopsLink">
+                                    <span id="viewAllStopsText" data-lang-key="viewAllStops">View all stops (7)</span>
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+        </main>
+
+        <!-- BOTTOM SECTION: FEATURED SITES & PROMO BANNER -->
+        <section class="featured-section-container">
+            <div class="featured-header-row">
+                <h2 data-lang-key="featuredTitle">Featured Heritage Sites</h2>
+                <a href="explore.html" class="view-all-sites-link">
+                    <span data-lang-key="viewAllSites">View all sites</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- GRID OF FEATURED CARDS -->
+            <div class="featured-cards-grid">
+                
+                <!-- SITE 1: CAPE COAST CASTLE -->
+                <div class="site-card" data-site-id="cape-coast-castle">
+                    <div class="card-media">
+                        <img src="../images/Cape Coast Castle photo, Ghana Africa.jpeg" alt="Cape Coast Castle">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header-line">
+                            <div class="card-badge badge-red">
+                                <i class="fa-solid fa-fort-awesome"></i>
+                            </div>
+                            <div class="card-titles">
+                                <h3 data-site-title-id="cape-coast-castle">Cape Coast Castle</h3>
+                                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <span data-site-shortloc-id="cape-coast-castle">Cape Coast</span></p>
+                            </div>
+                            <i class="fa-solid fa-chevron-right card-arrow"></i>
+                        </div>
+                        <div class="card-category-tag" data-lang-key="catHistorical">Historical Monument</div>
+                    </div>
+                </div>
+
+                <!-- SITE 2: MANHYIA PALACE -->
+                <div class="site-card" data-site-id="manhyia-palace">
+                    <div class="card-media">
+                        <img src="../images/Manhyia Palace.jpeg" alt="Manhyia Palace">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header-line">
+                            <div class="card-badge badge-gold">
+                                <i class="fa-solid fa-crown"></i>
+                            </div>
+                            <div class="card-titles">
+                                <h3 data-site-title-id="manhyia-palace">Manhyia Palace</h3>
+                                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <span data-site-shortloc-id="manhyia-palace">Kumasi</span></p>
+                            </div>
+                            <i class="fa-solid fa-chevron-right card-arrow"></i>
+                        </div>
+                        <div class="card-category-tag" data-lang-key="catPalace">Palace</div>
+                    </div>
+                </div>
+
+                <!-- SITE 3: OSU CASTLE -->
+                <div class="site-card" data-site-id="osu-castle">
+                    <div class="card-media">
+                        <img src="../images/osu castle (1).jpeg" alt="Osu Castle">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header-line">
+                            <div class="card-badge badge-blue">
+                                <i class="fa-solid fa-building-columns"></i>
+                            </div>
+                            <div class="card-titles">
+                                <h3 data-site-title-id="osu-castle">Osu Castle</h3>
+                                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <span data-site-shortloc-id="osu-castle">Accra</span></p>
+                            </div>
+                            <i class="fa-solid fa-chevron-right card-arrow"></i>
+                        </div>
+                        <div class="card-category-tag" data-lang-key="catCastle">Castle</div>
+                    </div>
+                </div>
+
+                <!-- SITE 4: INDEPENDENCE ARCH -->
+                <div class="site-card" data-site-id="independence-arch">
+                    <div class="card-media">
+                        <img src="../images/INDEPENDENCE ARCH (1).jpeg" alt="Independence Arch">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header-line">
+                            <div class="card-badge badge-purple">
+                                <i class="fa-solid fa-archway"></i>
+                            </div>
+                            <div class="card-titles">
+                                <h3 data-site-title-id="independence-arch">Independence Arch</h3>
+                                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <span data-site-shortloc-id="independence-arch">Accra</span></p>
+                            </div>
+                            <i class="fa-solid fa-chevron-right card-arrow"></i>
+                        </div>
+                        <div class="card-category-tag" data-lang-key="catMonument">Monument</div>
+                    </div>
+                </div>
+
+                <!-- SITE 5: KWAME NKRUMAH MEMORIAL PARK -->
+                <div class="site-card" data-site-id="kwame-nkrumah">
+                    <div class="card-media">
+                        <img src="../images/kwame Nkrumah memorial park.jpeg" alt="Kwame Nkrumah Memorial Park">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header-line">
+                            <div class="card-badge badge-teal">
+                                <i class="fa-solid fa-monument"></i>
+                            </div>
+                            <div class="card-titles">
+                                <h3 data-site-title-id="kwame-nkrumah">Kwame Nkrumah Memorial Park</h3>
+                                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <span data-site-shortloc-id="kwame-nkrumah">Accra</span></p>
+                            </div>
+                            <i class="fa-solid fa-chevron-right card-arrow"></i>
+                        </div>
+                        <div class="card-category-tag" data-lang-key="catMuseum">Museum</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- PROMOTIONAL BANNER CARD -->
+            <div class="promo-banner-card">
+                <div class="promo-pattern-left">
+                    <svg width="60" height="120" viewBox="0 0 60 120" class="kente-pattern">
+                        <path d="M0 0 L30 30 L0 60 L30 90 L0 120 M30 0 L60 30 L30 60 L60 90 L30 120" stroke="#FFC72C" stroke-width="4" fill="none"/>
+                        <path d="M15 15 L45 45 M15 75 L45 105" stroke="#E03C32" stroke-width="3" fill="none"/>
+                    </svg>
+                </div>
+                <div class="promo-body">
+                    <div class="promo-icon-circle">
+                        <i class="fa-solid fa-compass-drafting"></i>
+                    </div>
+                    <div class="promo-text-content">
+                        <h3 data-lang-key="promoTitle">Plan your next heritage adventure</h3>
+                        <p data-lang-key="promoSub">History is closer than you think.</p>
+                    </div>
+                </div>
+                <a href="plan.html" class="promo-action-circle" aria-label="Plan your trip">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- FLOATING MY PLANS CIRCULAR BUTTON -->
+        <a href="plan.html" class="floating-my-plans-btn" aria-label="My Plans">
+            <i class="fa-regular fa-calendar-days"></i>
+            <span data-lang-key="myPlansLabel">My Plans</span>
+        </a>
+
+    </div>
+
+    <!-- MAPBOX GL JS LIBRARY -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    
+    <!-- ISOLATED MAP PAGE SCRIPTS -->
+    <script src="../src/map.lang.js"></script>
+    <script src="../src/script.js"></script>
+</body>
+</html>
