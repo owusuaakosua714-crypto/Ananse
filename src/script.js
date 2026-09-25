@@ -472,12 +472,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ---- Dedicated story pages (sites without one fall back to site.html) ----
-    const STORY_PAGES = {
-        "cape-coast": "capecoast.html" // change to your real Cape Coast filename
-        // "manhyia": "manhyia.html",
-        // "osu": "osu.html",
-    };
-
+   const STORY_PAGES = {
+    "cape-coast": "capecoast.html",
+    "independence": "independence.html"
+    // "manhyia": "manhyia.html",
+    // "osu": "osu.html",
+};
     function getStoryUrl(siteId) {
         return STORY_PAGES[siteId] || ("site.html?site=" + siteId);
     }
@@ -780,6 +780,23 @@ document.addEventListener("DOMContentLoaded", function () {
     applyFilters();
 });
 
+    // ---- Journey strip: smooth-scroll links (Discover, Learn) ----
+    const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.querySelectorAll(".journey-step[data-scroll]").forEach(function (link) {
+        link.addEventListener("click", function (e) {
+            const target = document.querySelector(link.getAttribute("href"));
+            if (!target) return;
+            e.preventDefault();
+            target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+
+            // Discover also puts the cursor in the search box
+            const focusId = link.getAttribute("data-focus");
+            if (focusId) {
+                const el = document.getElementById(focusId);
+                if (el) setTimeout(function () { el.focus({ preventScroll: true }); }, reduceMotion ? 0 : 500);
+            }
+        });
+    });
 
 
 /* ==========================================================================
@@ -1228,3 +1245,51 @@ document.addEventListener("DOMContentLoaded", function () {
 })();
 
 
+// ANANSE - Interactive Features
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("ANANSE website loaded successfully.");
+
+  // Smooth scrolling for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener("click", function (event) {
+      const target = document.querySelector(this.getAttribute("href"));
+
+      if (target) {
+        event.preventDefault();
+
+        target.scrollIntoView({
+          behavior: "smooth"
+        });
+      }
+    });
+  });
+
+  // Explore button
+  const exploreButton = document.querySelector(".btn");
+
+  if (exploreButton) {
+    exploreButton.addEventListener("click", () => {
+      const cardsSection = document.querySelector(".info-section");
+
+      if (cardsSection) {
+        cardsSection.scrollIntoView({
+          behavior: "smooth"
+        });
+      }
+    });
+  }
+
+  // Simple card interaction
+  const cards = document.querySelectorAll(".card");
+
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      const title = card.querySelector("h3");
+
+      if (title) {
+        console.log(`You selected: ${title.textContent}`);
+      }
+    });
+  });
+});
