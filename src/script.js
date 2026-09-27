@@ -1184,3 +1184,551 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+// ==========================================================================
+// ANANSE — MAP PAGE (script.js)
+// Guarded so it's safe to append to the shared script.js: navigation code is 
+// untouched, map styling is updated to an earthy theme, and popups now fully translate.
+// ==========================================================================
+
+document.addEventListener("DOMContentLoaded", function () {
+    const mapContainer = document.getElementById("mapbox-container");
+    if (!mapContainer) return; // only run on map.html
+
+    // ----------------------------------------------------------------------
+    // LANGUAGE STATE & TRANSLATION HELPER
+    // ----------------------------------------------------------------------
+    function getCurrentLang() {
+        if (window.ananseLanguage && typeof window.ananseLanguage.getLanguage === "function") {
+            return window.ananseLanguage.getLanguage() || "en";
+        }
+        const langSelect = document.getElementById("languageSelect");
+        if (langSelect && langSelect.value) return langSelect.value;
+        return document.documentElement.lang || "en";
+    }
+
+    function getI18nVal(val, lang) {
+        if (!val) return "";
+        if (typeof val === "string") return val;
+        return val[lang] || val["en"] || "";
+    }
+
+    function t(key, fallback, params) {
+        const lang = window.ananseLanguage;
+        if (!key || !lang || !lang.getText) return fallback;
+        const value = lang.getText(key, params || {});
+        return value === key ? fallback : value;
+    }
+
+    // ----------------------------------------------------------------------
+    // MULTI-LANGUAGE SITE DATA
+    // ----------------------------------------------------------------------
+    const SITES = [
+        {
+            id: "cape-coast-castle",
+            name: {
+                en: "Cape Coast Castle",
+                fr: "Château de Cape Coast",
+                es: "Castillo de Cape Coast"
+            },
+            location: {
+                en: "Cape Coast, Central Region",
+                fr: "Cape Coast, Région du Centre",
+                es: "Cape Coast, Región Central"
+            },
+            category: "castles",
+            categoryLabel: {
+                en: "Historical Monument",
+                fr: "Monument Historique",
+                es: "Monumento Histórico"
+            },
+            lng: -1.2466,
+            lat: 5.1053,
+            image: "../images/Cape Coast Castle photo, Ghana Africa.jpeg",
+            description: {
+                en: "Explore the castle and discover the powerful stories of the transatlantic slave trade, resilience and freedom.",
+                fr: "Explorez le château et découvrez les récits marquants de la traite transatlantique des esclaves, de la résilience et de la liberté.",
+                es: "Explore el castillo y descubra las impactantes historias del comercio transatlántico de esclavos, la resiliencia y la libertad."
+            },
+            trail: {
+                totalStops: 7,
+                url: "heritage-trail.html?site=cape-coast-castle",
+                stop: {
+                    title: {
+                        en: "Door of No Return",
+                        fr: "Porte du Non-Retour",
+                        es: "Puerta del No Retorno"
+                    },
+                    desc: {
+                        en: "The point where enslaved Africans were forced onto ships.",
+                        fr: "Le point où les Africains réduits en esclavage étaient embarqués de force sur des navires.",
+                        es: "El punto donde los africanos esclavizados eran embarcados a la fuerza en los barcos."
+                    },
+                    image: "../images/The Door Of No Return At Cape Coast Castle photo, Ghana Africa.jpeg"
+                }
+            }
+        },
+        {
+            id: "manhyia-palace",
+            name: {
+                en: "Manhyia Palace",
+                fr: "Palais Manhyia",
+                es: "Palacio Manhyia"
+            },
+            location: {
+                en: "Kumasi, Ashanti Region",
+                fr: "Kumasi, Région d'Ashanti",
+                es: "Kumasi, Región Ashanti"
+            },
+            category: "palaces",
+            categoryLabel: {
+                en: "Palace",
+                fr: "Palais",
+                es: "Palacio"
+            },
+            lng: -1.6244,
+            lat: 6.6989,
+            image: "../images/Manhyia Palace.jpeg",
+            description: {
+                en: "The seat of the Asantehene and the Ashanti Kingdom, blending royal tradition with living Ashanti governance.",
+                fr: "Le siège de l'Asantehene et du royaume Ashanti, alliant tradition royale et gouvernance Ashanti vivante.",
+                es: "La sede del Asantehene y el Reino Ashanti, que combina la tradición real con el gobierno vivo de Ashanti."
+            }
+        },
+        {
+            id: "osu-castle",
+            name: {
+                en: "Osu Castle",
+                fr: "Château d'Osu",
+                es: "Castillo de Osu"
+            },
+            location: {
+                en: "Osu, Greater Accra Region",
+                fr: "Osu, Région du Grand Accra",
+                es: "Osu, Región del Gran Accra"
+            },
+            category: "castles",
+            categoryLabel: {
+                en: "Castle",
+                fr: "Château",
+                es: "Castillo"
+            },
+            lng: -0.1785,
+            lat: 5.5502,
+            image: "../images/osu castle (1).jpeg",
+            description: {
+                en: "A former seat of government perched on the Accra coastline, with a layered colonial and post-independence history.",
+                fr: "Ancien siège du gouvernement perché sur la côte d'Accra, avec une histoire coloniale et post-indépendance riche.",
+                es: "Antigua sede del gobierno ubicada en la costa de Acra, con una historia colonial y posterior a la independencia."
+            }
+        },
+        {
+            id: "independence-arch",
+            name: {
+                en: "Independence Arch",
+                fr: "Arc de l'Indépendance",
+                es: "Arco de la Independencia"
+            },
+            location: {
+                en: "Accra, Greater Accra Region",
+                fr: "Accra, Région du Grand Accra",
+                es: "Acra, Región del Gran Accra"
+            },
+            category: "monuments",
+            categoryLabel: {
+                en: "Monument",
+                fr: "Monument",
+                es: "Monumento"
+            },
+            lng: -0.1969,
+            lat: 5.5459,
+            image: "../images/INDEPENDENCE ARCH (1).jpeg",
+            description: {
+                en: "The centrepiece of Independence Square, marking Ghana's 1957 independence and its role as the first sub-Saharan nation to break from colonial rule.",
+                fr: "Pièce maîtresse de la place de l'Indépendance, marquant l'indépendance du Ghana en 1957 et son rôle pionnier en Afrique subsaharienne.",
+                es: "Pieza central de la Plaza de la Independencia, que marca la independencia de Ghana en 1957 y su papel fundamental en África."
+            }
+        },
+        {
+            id: "kwame-nkrumah",
+            name: {
+                en: "Kwame Nkrumah Memorial Park",
+                fr: "Parc Mémorial Kwame Nkrumah",
+                es: "Parque Conmemorativo Kwame Nkrumah"
+            },
+            location: {
+                en: "Accra, Greater Accra Region",
+                fr: "Accra, Région du Grand Accra",
+                es: "Acra, Región del Gran Accra"
+            },
+            category: "museums",
+            categoryLabel: {
+                en: "Museum",
+                fr: "Musée",
+                es: "Museo"
+            },
+            lng: -0.2058,
+            lat: 5.5449,
+            image: "../images/kwame Nkrumah memorial park.jpeg",
+            description: {
+                en: "The final resting place and museum dedicated to Ghana's first president and a leading figure of Pan-Africanism.",
+                fr: "Le lieu de repos final et le musée dédiés au premier président du Ghana et figure majeure du panafricanisme.",
+                es: "El lugar de descanso final y museo dedicado al primer presidente de Ghana y figura destacada del panafricanismo."
+            }
+        }
+    ];
+
+    let activeCategory = "all";
+    let activeSiteId = null;
+
+    // ----------------------------------------------------------------------
+    // MOBILE HAMBURGER MENU (UNTOUCHED)
+    // ----------------------------------------------------------------------
+    const hamburgerBtn = document.getElementById("hamburgerBtn");
+    const mobileNav = document.getElementById("mobileNav");
+
+    if (hamburgerBtn && mobileNav) {
+        hamburgerBtn.addEventListener("click", function () {
+            const isOpen = mobileNav.classList.toggle("is-open");
+            hamburgerBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!hamburgerBtn.contains(e.target) && !mobileNav.contains(e.target)) {
+                mobileNav.classList.remove("is-open");
+                hamburgerBtn.setAttribute("aria-expanded", "false");
+            }
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // LANGUAGE SELECTOR LISTENERS (FIXES POPUP DYNAMIC TRANSLATIONS)
+    // ----------------------------------------------------------------------
+    const langSelect = document.getElementById("languageSelect");
+    if (langSelect) {
+        langSelect.addEventListener("change", function () {
+            const newLang = langSelect.value;
+            if (window.ananseLanguage && window.ananseLanguage.setLanguage) {
+                window.ananseLanguage.setLanguage(newLang);
+            }
+            if (activeSiteId) {
+                openSitePopup(activeSiteId); // Refresh open popup in new language
+            }
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // MAPBOX INITIALISATION (EARTHY COLOR STYLING)
+    // ----------------------------------------------------------------------
+    const MAPBOX_TOKEN = "pk.eyJ1IjoiYWtvc3VhYWFhYWFhIiwiYSI6ImNtdWI3b2l6MzFza2EyenMyOHp0Z2U5dzgifQ.pRQHZhklYFeG0G6BGZ5NYw"; // Add your Mapbox token here
+    let map = null;
+    const markerById = {};
+
+    function initMap() {
+        if (!window.mapboxgl || !MAPBOX_TOKEN) {
+            mapContainer.innerHTML =
+                '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#E2E8F0;font:600 15px/1.5 sans-serif;text-align:center;padding:20px;background:#2E4A3E;">' +
+                'Map preview unavailable — add a Mapbox token in script.js to enable the live map.' +
+                '</div>';
+            return;
+        }
+
+        mapboxgl.accessToken = MAPBOX_TOKEN;
+        map = new mapboxgl.Map({
+            container: "mapbox-container",
+            style: "mapbox://styles/mapbox/outdoors-v12", // Outdoors/Earthy map style
+            center: [-1.0232, 6.0],
+            zoom: 6.2
+        });
+
+        map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "top-left");
+
+        map.on("load", function () {
+            SITES.forEach(function (site) {
+                const el = document.createElement("button");
+                el.type = "button";
+                el.className = "map-marker-pin";
+                const lang = getCurrentLang();
+                el.setAttribute("aria-label", getI18nVal(site.name, lang));
+                el.style.cssText =
+                    "width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);" +
+                    "background:#073B40;border:2px solid #D9A21B;cursor:pointer;";
+
+                el.addEventListener("click", function () {
+                    openSitePopup(site.id);
+                });
+
+                const marker = new mapboxgl.Marker({ element: el, anchor: "bottom" })
+                    .setLngLat([site.lng, site.lat])
+                    .addTo(map);
+
+                markerById[site.id] = marker;
+            });
+        });
+    }
+
+    initMap();
+
+    function flyToSite(site) {
+        if (map) {
+            map.flyTo({ center: [site.lng, site.lat], zoom: 12, essential: true });
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // CUSTOM MAP CONTROLS
+    // ----------------------------------------------------------------------
+    const btnZoomIn = document.getElementById("btnZoomIn");
+    const btnZoomOut = document.getElementById("btnZoomOut");
+    const btnLocateMe = document.getElementById("btnLocateMe");
+
+    if (btnZoomIn) {
+        btnZoomIn.addEventListener("click", function () {
+            if (map) map.zoomIn();
+        });
+    }
+
+    if (btnZoomOut) {
+        btnZoomOut.addEventListener("click", function () {
+            if (map) map.zoomOut();
+        });
+    }
+
+    let userLocation = null;
+
+    if (btnLocateMe) {
+        btnLocateMe.addEventListener("click", function () {
+            if (!navigator.geolocation) {
+                alert(t("mapPage.geoUnsupported", "Your browser doesn't support location services."));
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(
+                function (pos) {
+                    userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+                    if (map) {
+                        map.flyTo({ center: [userLocation.lng, userLocation.lat], zoom: 10, essential: true });
+                    }
+                    if (activeSiteId) updateTravelEstimate(activeSiteId);
+                },
+                function () {
+                    alert(t("mapPage.geoDenied", "We couldn't access your location. You can still browse the map manually."));
+                }
+            );
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // SEARCH & CATEGORY FILTERS
+    // ----------------------------------------------------------------------
+    const mapSearchInput = document.getElementById("mapSearchInput");
+
+    if (mapSearchInput) {
+        mapSearchInput.addEventListener("input", function () {
+            applyFilters();
+        });
+        mapSearchInput.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                const match = getVisibleSites()[0];
+                if (match) {
+                    flyToSite(match);
+                    openSitePopup(match.id);
+                }
+            }
+        });
+    }
+
+    const categoryFilters = document.getElementById("categoryFilters");
+
+    if (categoryFilters) {
+        categoryFilters.querySelectorAll(".filter-btn").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                categoryFilters.querySelectorAll(".filter-btn").forEach(function (b) {
+                    b.classList.remove("active");
+                });
+                btn.classList.add("active");
+                activeCategory = btn.getAttribute("data-category") || "all";
+                applyFilters();
+            });
+        });
+    }
+
+    function getVisibleSites() {
+        const query = mapSearchInput ? mapSearchInput.value.trim().toLowerCase() : "";
+        const lang = getCurrentLang();
+        return SITES.filter(function (site) {
+            const matchesCategory = activeCategory === "all" || site.category === activeCategory;
+            const siteName = getI18nVal(site.name, lang).toLowerCase();
+            const siteLoc = getI18nVal(site.location, lang).toLowerCase();
+            const matchesQuery = !query ||
+                siteName.indexOf(query) !== -1 ||
+                siteLoc.indexOf(query) !== -1;
+            return matchesCategory && matchesQuery;
+        });
+    }
+
+    function applyFilters() {
+        const visibleIds = getVisibleSites().map(function (s) { return s.id; });
+
+        Object.keys(markerById).forEach(function (id) {
+            const el = markerById[id].getElement();
+            el.style.display = visibleIds.indexOf(id) !== -1 ? "" : "none";
+        });
+
+        document.querySelectorAll(".featured-cards-grid .site-card").forEach(function (card) {
+            const id = card.getAttribute("data-site-id");
+            card.style.display = visibleIds.indexOf(id) !== -1 ? "" : "none";
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // SITE DETAIL POPUP (WITH TRANSLATIONS)
+    // ----------------------------------------------------------------------
+    const sitePopupCard = document.getElementById("sitePopupCard");
+    const closePopupBtn = document.getElementById("closePopupBtn");
+    const popupImage = document.getElementById("popupImage");
+    const popupTitle = document.getElementById("popupTitle");
+    const popupLocationText = document.getElementById("popupLocationText");
+    const popupCategoryText = document.getElementById("popupCategoryText");
+    const popupDescription = document.getElementById("popupDescription");
+    const btnGetDirections = document.getElementById("btnGetDirections");
+    const btnBookVisit = document.getElementById("btnBookVisit");
+    const btnExploreSite = document.getElementById("btnExploreSite");
+    const btnViewTrail = document.getElementById("btnViewTrail");
+
+    const travelEstimateBox = document.getElementById("travelEstimateBox");
+    const travelTimeText = document.getElementById("travelTimeText");
+    const travelDistText = document.getElementById("travelDistText");
+
+    const trailHighlightsSection = document.querySelector(".trail-highlights-section");
+    const primaryHighlightLink = document.getElementById("primaryHighlightLink");
+    const highlightThumb = document.getElementById("highlightThumb");
+    const highlightTitle = document.getElementById("highlightTitle");
+    const highlightDesc = document.getElementById("highlightDesc");
+    const viewAllStopsLink = document.getElementById("viewAllStopsLink");
+    const viewAllStopsText = document.getElementById("viewAllStopsText");
+
+    function haversineKm(a, b) {
+        const R = 6371;
+        const dLat = ((b.lat - a.lat) * Math.PI) / 180;
+        const dLng = ((b.lng - a.lng) * Math.PI) / 180;
+        const lat1 = (a.lat * Math.PI) / 180;
+        const lat2 = (b.lat * Math.PI) / 180;
+        const h =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);
+        return R * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+    }
+
+    function updateTravelEstimate(siteId) {
+        if (!travelEstimateBox) return;
+        const site = SITES.find(function (s) { return s.id === siteId; });
+
+        if (!site || !userLocation) {
+            travelEstimateBox.classList.add("hidden");
+            return;
+        }
+
+        const km = haversineKm(userLocation, site);
+        const avgSpeedKmh = 55;
+        const hours = km / avgSpeedKmh;
+        const h = Math.floor(hours);
+        const m = Math.round((hours - h) * 60);
+
+        if (travelTimeText) {
+            travelTimeText.textContent = h > 0 ? (h + " hr " + m + " min") : (m + " min");
+        }
+        if (travelDistText) {
+            travelDistText.textContent = "(" + Math.round(km) + " km)";
+        }
+        travelEstimateBox.classList.remove("hidden");
+    }
+
+    function openSitePopup(siteId) {
+        const site = SITES.find(function (s) { return s.id === siteId; });
+        if (!site || !sitePopupCard) return;
+
+        activeSiteId = siteId;
+        const lang = getCurrentLang();
+
+        if (popupImage) { popupImage.src = site.image; popupImage.alt = getI18nVal(site.name, lang); }
+        if (popupTitle) popupTitle.textContent = getI18nVal(site.name, lang);
+        if (popupLocationText) popupLocationText.textContent = getI18nVal(site.location, lang);
+        if (popupCategoryText) popupCategoryText.textContent = getI18nVal(site.categoryLabel, lang);
+        if (popupDescription) popupDescription.textContent = getI18nVal(site.description, lang);
+
+        if (btnGetDirections) {
+            btnGetDirections.onclick = function () {
+                const url = "https://www.google.com/maps/dir/?api=1&destination=" + site.lat + "," + site.lng;
+                window.open(url, "_blank", "noopener");
+            };
+        }
+        if (btnBookVisit) btnBookVisit.href = "plan.html?site=" + site.id;
+        if (btnExploreSite) btnExploreSite.href = "explore.html?site=" + site.id;
+
+        if (site.trail) {
+            if (btnViewTrail) { btnViewTrail.href = site.trail.url; btnViewTrail.classList.remove("hidden"); }
+            if (trailHighlightsSection) trailHighlightsSection.classList.remove("hidden");
+            if (primaryHighlightLink) primaryHighlightLink.href = site.trail.url;
+            if (highlightThumb) { 
+                highlightThumb.src = site.trail.stop.image; 
+                highlightThumb.alt = getI18nVal(site.trail.stop.title, lang); 
+            }
+            if (highlightTitle) highlightTitle.textContent = getI18nVal(site.trail.stop.title, lang);
+            if (highlightDesc) highlightDesc.textContent = getI18nVal(site.trail.stop.desc, lang);
+            if (viewAllStopsLink) viewAllStopsLink.href = site.trail.url;
+            if (viewAllStopsText) {
+                viewAllStopsText.textContent = t("mapPage.viewAllStops", "View all stops (" + site.trail.totalStops + ")", { count: site.trail.totalStops });
+            }
+        } else {
+            if (btnViewTrail) btnViewTrail.classList.add("hidden");
+            if (trailHighlightsSection) trailHighlightsSection.classList.add("hidden");
+        }
+
+        updateTravelEstimate(siteId);
+
+        sitePopupCard.classList.remove("hidden");
+        flyToSite(site);
+    }
+
+    function closeSitePopup() {
+        if (!sitePopupCard) return;
+        sitePopupCard.classList.add("hidden");
+        activeSiteId = null;
+    }
+
+    if (closePopupBtn) {
+        closePopupBtn.addEventListener("click", closeSitePopup);
+    }
+
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && sitePopupCard && !sitePopupCard.classList.contains("hidden")) {
+            closeSitePopup();
+        }
+    });
+
+    // ----------------------------------------------------------------------
+    // FEATURED SITE CARDS
+    // ----------------------------------------------------------------------
+    document.querySelectorAll(".featured-cards-grid .site-card").forEach(function (card) {
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("role", "button");
+
+        card.addEventListener("click", function () {
+            const id = card.getAttribute("data-site-id");
+            if (id) openSitePopup(id);
+        });
+
+        card.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                const id = card.getAttribute("data-site-id");
+                if (id) openSitePopup(id);
+            }
+        });
+    });
+
+    // ----------------------------------------------------------------------
+    // INIT
+    // ----------------------------------------------------------------------
+    applyFilters();
+});
