@@ -750,9 +750,16 @@
 
             const query = new URLSearchParams(window.location.search);
             const requestedSite = query.get('site');
+            const requestedTrailId = requestedSite && (requestedSite in TRAILS ? requestedSite : {
+                'cape-coast': 'cape-coast-castle',
+                'manhyia': 'manhyia-palace',
+                'osu': 'osu-castle',
+                'independence': 'independence-arch',
+                'kwame-nkrumah': 'kwame-nkrumah'
+            }[requestedSite] || requestedSite);
             const allTrailEntries = Object.keys(TRAILS);
 
-            const selectedTrailKey = TRAILS[requestedSite] ? requestedSite : allTrailEntries[0];
+            const selectedTrailKey = TRAILS[requestedTrailId] ? requestedTrailId : allTrailEntries[0];
             const trail = TRAILS[selectedTrailKey];
 
             const state = JSON.parse(localStorage.getItem(TRAIL_KEY) || '{}');

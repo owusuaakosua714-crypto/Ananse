@@ -1242,6 +1242,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // ----------------------------------------------------------------------
     // MULTI-LANGUAGE SITE DATA
     // ----------------------------------------------------------------------
+    const SITE_ALIASES = {
+        "cape-coast": "cape-coast-castle",
+        "manhyia": "manhyia-palace",
+        "osu": "osu-castle",
+        "independence": "independence-arch",
+        "kwame-nkrumah": "kwame-nkrumah"
+    };
+
     const SITES = [
         {
             id: "cape-coast-castle",
@@ -1270,8 +1278,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 es: "Explore el castillo y descubra las impactantes historias del comercio transatlántico de esclavos, la resiliencia y la libertad."
             },
             trail: {
-                totalStops: 7,
-                url: "heritage-trail.html?site=cape-coast-castle",
+                totalStops: 3,
+                url: "heritagetrails.html?site=cape-coast-castle",
                 stop: {
                     title: {
                         en: "Door of No Return",
@@ -1312,6 +1320,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 en: "The seat of the Asantehene and the Ashanti Kingdom, blending royal tradition with living Ashanti governance.",
                 fr: "Le siège de l'Asantehene et du royaume Ashanti, alliant tradition royale et gouvernance Ashanti vivante.",
                 es: "La sede del Asantehene y el Reino Ashanti, que combina la tradición real con el gobierno vivo de Ashanti."
+            },
+            trail: {
+                totalStops: 3,
+                url: "heritagetrails.html?site=manhyia-palace",
+                stop: {
+                    title: {
+                        en: "Royal court",
+                        fr: "Cour royale",
+                        es: "Corte real"
+                    },
+                    desc: {
+                        en: "Discover how the Asantehene and royal advisors shaped political life and cultural identity.",
+                        fr: "Découvrez comment l'Asantehene et les conseillers royaux ont façonné la vie politique et l'identité culturelle.",
+                        es: "Descubra cómo el Asantehene y los consejeros reales dieron forma a la vida política y a la identidad cultural."
+                    },
+                    image: "../images/Manhyia Palace.jpeg"
+                }
             }
         },
         {
@@ -1339,6 +1364,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 en: "A former seat of government perched on the Accra coastline, with a layered colonial and post-independence history.",
                 fr: "Ancien siège du gouvernement perché sur la côte d'Accra, avec une histoire coloniale et post-indépendance riche.",
                 es: "Antigua sede del gobierno ubicada en la costa de Acra, con una historia colonial y posterior a la independencia."
+            },
+            trail: {
+                totalStops: 3,
+                url: "heritagetrails.html?site=osu-castle",
+                stop: {
+                    title: {
+                        en: "Castle approach",
+                        fr: "Approche du château",
+                        es: "Enfoque del castillo"
+                    },
+                    desc: {
+                        en: "Take in the coastal setting and understand why the fortress dominated the cityscape.",
+                        fr: "Prenez le paysage côtier et comprenez pourquoi la forteresse dominait le paysage urbain.",
+                        es: "Observe el entorno costero y comprende por qué la fortaleza dominaba el paisaje urbano."
+                    },
+                    image: "../images/osu castle (1).jpeg"
+                }
             }
         },
         {
@@ -1366,6 +1408,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 en: "The centrepiece of Independence Square, marking Ghana's 1957 independence and its role as the first sub-Saharan nation to break from colonial rule.",
                 fr: "Pièce maîtresse de la place de l'Indépendance, marquant l'indépendance du Ghana en 1957 et son rôle pionnier en Afrique subsaharienne.",
                 es: "Pieza central de la Plaza de la Independencia, que marca la independencia de Ghana en 1957 y su papel fundamental en África."
+            },
+            trail: {
+                totalStops: 3,
+                url: "heritagetrails.html?site=independence-arch",
+                stop: {
+                    title: {
+                        en: "Independence Arch",
+                        fr: "Arc de l'Indépendance",
+                        es: "Arco de la Independencia"
+                    },
+                    desc: {
+                        en: "The icon of Ghana’s national pride and public memory of 1957.",
+                        fr: "L'icône de la fierté nationale du Ghana et de la mémoire publique de 1957.",
+                        es: "El símbolo del orgullo nacional de Ghana y la memoria pública de 1957."
+                    },
+                    image: "../images/INDEPENDENCE ARCH (1).jpeg"
+                }
             }
         },
         {
@@ -1393,6 +1452,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 en: "The final resting place and museum dedicated to Ghana's first president and a leading figure of Pan-Africanism.",
                 fr: "Le lieu de repos final et le musée dédiés au premier président du Ghana et figure majeure du panafricanisme.",
                 es: "El lugar de descanso final y museo dedicado al primer presidente de Ghana y figura destacada del panafricanismo."
+            },
+            trail: {
+                totalStops: 3,
+                url: "heritagetrails.html?site=kwame-nkrumah",
+                stop: {
+                    title: {
+                        en: "Tribute garden",
+                        fr: "Jardin du souvenir",
+                        es: "Jardín del recuerdo"
+                    },
+                    desc: {
+                        en: "See how the memorial turns memory into a public space for reflection and honour.",
+                        fr: "Voyez comment le mémorial transforme la mémoire en espace public de réflexion et d'hommage.",
+                        es: "Mire cómo el memorial convierte la memoria en un espacio público de reflexión y homenaje."
+                    },
+                    image: "../images/kwame Nkrumah memorial park.jpeg"
+                }
             }
         }
     ];
@@ -1664,10 +1740,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function openSitePopup(siteId) {
-        const site = SITES.find(function (s) { return s.id === siteId; });
+        const canonicalSiteId = SITE_ALIASES[siteId] || siteId;
+        const site = SITES.find(function (s) { return s.id === canonicalSiteId; });
         if (!site || !sitePopupCard) return;
 
-        activeSiteId = siteId;
+        activeSiteId = canonicalSiteId;
         const lang = getCurrentLang();
 
         if (popupImage) { popupImage.src = site.image; popupImage.alt = getI18nVal(site.name, lang); }
