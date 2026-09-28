@@ -1732,3 +1732,195 @@ document.addEventListener("DOMContentLoaded", function () {
     // ----------------------------------------------------------------------
     applyFilters();
 });
+
+/* =========================================================
+   ANANSE — SIGN UP PAGE LOGIC
+   Scoped strictly to pages/signup.html
+========================================================= */
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Check page root element to ensure logic only runs on signup page
+    const signupRoot = document.querySelector('[data-page="signup"]');
+    if (!signupRoot) return;
+
+    // Elements
+    const signupForm = document.getElementById('signupForm');
+    const fullNameInput = document.getElementById('signupFullName');
+    const emailInput = document.getElementById('signupEmail');
+    const passwordInput = document.getElementById('signupPassword');
+    const confirmPasswordInput = document.getElementById('signupConfirmPassword');
+    const termsCheckbox = document.getElementById('signupTerms');
+    
+    const togglePasswordBtn = document.getElementById('togglePassword');
+    const toggleConfirmPasswordBtn = document.getElementById('toggleConfirmPassword');
+    const signupAlert = document.getElementById('signupAlert');
+    const mobileToggleBtn = document.querySelector('.signup-mobile-toggle');
+    const mobileMenu = id = document.getElementById('signupMobileMenu');
+
+    /* ---------------------------------------------------------
+       PASSWORD VISIBILITY TOGGLE
+    --------------------------------------------------------- */
+    function setupPasswordToggle(button, input) {
+        if (!button || !input) return;
+        
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+            
+            const icon = button.querySelector('i');
+            if (icon) {
+                if (isPassword) {
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            }
+        });
+    }
+
+    setupPasswordToggle(togglePasswordBtn, passwordInput);
+    setupPasswordToggle(toggleConfirmPasswordBtn, confirmPasswordInput);
+
+    /* ---------------------------------------------------------
+       MOBILE MENU TOGGLE
+    --------------------------------------------------------- */
+    if (mobileToggleBtn && mobileMenu) {
+        mobileToggleBtn.addEventListener('click', () => {
+            const isExpanded = mobileMenu.classList.contains('active');
+            mobileMenu.classList.toggle('active');
+            mobileToggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+        });
+    }
+
+    /* ---------------------------------------------------------
+       FORM VALIDATION & SUBMISSION
+    --------------------------------------------------------- */
+    function showError(inputElement, errorElementId, messageKey, defaultMessage) {
+        const fieldGroup = inputElement.closest('.signup-field-group');
+        const errorSpan = document.getElementById(errorElementId);
+        
+        if (fieldGroup) fieldGroup.classList.add('has-error');
+        if (errorSpan) {
+            // Check if global language system function exists
+            if (window.ananseLanguage && typeof window.ananseLanguage.getText === 'function') {
+                errorSpan.textContent = window.ananseLanguage.getText(messageKey) || defaultMessage;
+            } else {
+                errorSpan.textContent = defaultMessage;
+            }
+        }
+    }
+
+    function clearError(inputElement, errorElementId) {
+        const fieldGroup = inputElement.closest('.signup-field-group');
+        const errorSpan = document.getElementById(errorElementId);
+        
+        if (fieldGroup) fieldGroup.classList.remove('has-error');
+        if (errorSpan) errorSpan.textContent = '';
+    }
+
+    function clearAllErrors() {
+        clearError(fullNameInput, 'fullNameError');
+        clearError(emailInput, 'emailError');
+        clearError(passwordInput, 'passwordError');
+        clearError(confirmPasswordInput, 'confirmPasswordError');
+        clearError(termsCheckbox, 'termsError');
+        if (signupAlert) {
+            signupAlert.style.display = 'none';
+            signupAlert.className = 'signup-alert';
+            signupAlert.textContent = '';
+        }
+    }
+
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    // Input blur listeners for real-time validation clearing
+    if (fullNameInput) fullNameInput.addEventListener('input', () => clearError(fullNameInput, 'fullNameError'));
+    if (emailInput) emailInput.addEventListener('input', () => clearError(emailInput, 'emailError'));
+    if (passwordInput) passwordInput.addEventListener('input', () => clearError(passwordInput, 'passwordError'));
+    if (confirmPasswordInput) confirmPasswordInput.addEventListener('input', () => clearError(confirmPasswordInput, 'confirmPasswordError'));
+    if (termsCheckbox) termsCheckbox.addEventListener('change', () => clearError(termsCheckbox, 'termsError'));
+
+    if (signupForm) {
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            clearAllErrors();
+
+            let isValid = true;
+
+            // Validate Full Name
+            if (!fullNameInput.value.trim()) {
+                showError(fullNameInput, 'fullNameError', 'signup.form.errorName', 'Please enter your full name.');
+                isValid = false;
+            }
+
+            // Validate Email
+            if (!emailInput.value.trim()) {
+                showError(emailInput, 'emailError', 'signup.form.errorEmailRequired', 'Please enter your email address.');
+                isValid = false;
+            } else if (!isValidEmail(emailInput.value.trim())) {
+                showError(emailInput, 'emailError', 'signup.form.errorEmailInvalid', 'Please enter a valid email address.');
+                isValid = false;
+            }
+
+            // Validate Password
+            if (!passwordInput.value) {
+                showError(passwordInput, 'passwordError', 'signup.form.errorPasswordRequired', 'Please enter a password.');
+                isValid = false;
+            } else if (passwordInput.value.length < 6) {
+                showError(passwordInput, 'passwordError', 'signup.form.errorPasswordLength', 'Password must be at least 6 characters.');
+                isValid = false;
+            }
+
+            // Validate Confirm Password
+            if (!confirmPasswordInput.value) {
+                showError(confirmPasswordInput, 'confirmPasswordError', 'signup.form.errorConfirmRequired', 'Please confirm your password.');
+                isValid = false;
+            } else if (passwordInput.value !== confirmPasswordInput.value) {
+                showError(confirmPasswordInput, 'confirmPasswordError', 'signup.form.errorPasswordMismatch', 'Passwords do not match.');
+                isValid = false;
+            }
+
+            // Validate Terms Checkbox
+            if (!termsCheckbox.checked) {
+                showError(termsCheckbox, 'termsError', 'signup.form.errorTerms', 'You must agree to the Terms & Privacy Policy.');
+                isValid = false;
+            }
+
+            if (isValid) {
+                // Show success state
+                if (signupAlert) {
+                    signupAlert.className = 'signup-alert success';
+                    const successMsg = (window.ananseLanguage && typeof window.ananseLanguage.getText === 'function')
+                        ? window.ananseLanguage.getText('signup.form.successMessage')
+                        : 'Account created successfully! Redirecting...';
+                    signupAlert.textContent = successMsg;
+                    signupAlert.style.display = 'block';
+                }
+
+                // Collect values for backend integration
+                const formData = {
+                    fullName: fullNameInput.value.trim(),
+                    email: emailInput.value.trim(),
+                    password: passwordInput.value
+                };
+
+                console.log('Front-end signup validation passed. Form data:', formData);
+
+                // TODO: Connect this form to the real authentication/backend API later.
+                // Example:
+                // fetch('/api/signup', { method: 'POST', body: JSON.stringify(formData) }) ...
+
+                setTimeout(() => {
+                    // Redirect to login page or dashboard upon completion
+                    window.location.href = 'login.html';
+                }, 2000);
+            }
+        });
+    }
+});
