@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Independence Square: The Story — ANANSE</title>
+<meta name="description" content="The story of Independence Square (Black Star Square) in Accra, Ghana's national parade ground, built after independence and home to the Independence Arch and the Black Star Gate.">
+<script src="https://kit.fontawesome.com/17eac40b74.js" crossorigin="anonymous"></script>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../src/style.css">
+
+<style>
+/* Story page colours (taken from the Explore page popup) */
+:root{--s-blue:#0F4C81;--s-deep:#05242C;--s-gold:#D9A21B;--s-teal:#168B9F;--s-bg:#F4F7FA;--s-ink:#1F2937;--s-muted:#5f6b7a;--s-line:#e1e7ee}
+html{scroll-behavior:smooth;scroll-padding-top:130px}
+body.story-page{background:var(--s-bg)}
+.s-hero,.s-main,.s-chapters{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--s-ink);line-height:1.7;font-size:1.02rem}
+.s-hero *,.s-main *{box-sizing:border-box}
+.s-hero h1,.s-hero p,.s-main h2,.s-main p{margin:0}
+.s-hero h1,.s-main h2{font-family:'Fraunces',Georgia,serif;line-height:1.2}
+.story-page :focus-visible{outline:3px solid var(--s-gold);outline-offset:3px}
+
+/* progress bar */
+.s-bar{position:fixed;top:0;left:0;height:4px;width:0;background:var(--s-gold);z-index:1000}
+
+/* hero */
+.s-hero{position:relative;min-height:72vh;display:flex;align-items:flex-end;color:#fff;
+ background:linear-gradient(180deg,rgba(5,36,44,.25) 0%,rgba(5,36,44,.92) 100%),url("../images/INDEPENDENCE\ ARCH\ \(1\).jpeg") center/cover no-repeat var(--s-deep)}
+.s-hero-inner{padding:0 5% 4rem;max-width:860px}
+.s-crumb{display:inline-block;color:#fff;opacity:.85;text-decoration:none;margin-bottom:1.2rem;font-size:.95rem}
+.s-crumb:hover{opacity:1;text-decoration:underline}
+.s-hero h1{font-size:clamp(2.4rem,6vw,4.2rem);margin-bottom:1rem;color:#fff}
+.s-hero p{font-size:1.15rem;max-width:620px;color:#eaf1f6}
+.s-go{display:inline-block;margin-top:1.8rem;background:var(--s-gold);color:#1a1300;padding:.8rem 1.6rem;border-radius:999px;text-decoration:none;font-weight:600}
+.s-go:hover{filter:brightness(1.08)}
+
+/* chapter nav */
+.s-chapters{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--s-line);display:flex;gap:.4rem;overflow-x:auto;padding:.6rem 5%}
+.s-chapters a{white-space:nowrap;padding:.45rem 1rem;border-radius:999px;text-decoration:none;color:var(--s-muted);font-size:.93rem;font-weight:500}
+.s-chapters a.on{background:var(--s-blue);color:#fff}
+
+.s-main{max-width:1000px;margin:0 auto;padding:0 5%}
+.s-main section{padding:4rem 0 1rem}
+.s-main section h2{font-size:clamp(1.7rem,3.5vw,2.3rem);color:var(--s-blue);margin-bottom:1.2rem}
+.s-prose{max-width:68ch}
+.s-prose p+p{margin-top:1.1rem}
+.s-note{margin-top:1.6rem;padding:1rem 1.3rem;border-left:4px solid var(--s-gold);background:#fff;max-width:68ch;color:var(--s-muted);font-size:.95rem;border-radius:0 8px 8px 0}
+
+/* listen panel (matches the Listen button in the Explore popup) */
+.s-listen{margin-top:2.5rem;padding:1.2rem 1.4rem;background:#fff;border:1px solid var(--s-line);border-radius:14px;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.s-listen p{flex:1;min-width:220px;color:var(--s-muted)}
+.s-listen button{background:#fff;color:var(--s-teal);border:2px solid var(--s-teal);padding:.75rem 1.4rem;border-radius:12px;font:inherit;font-weight:600;cursor:pointer}
+.s-listen button:hover{background:#eaf5f6}
+.s-listen:target{box-shadow:0 0 0 3px rgba(22,139,159,.35)}
+
+.s-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--s-line);border:1px solid var(--s-line);border-radius:12px;overflow:hidden;margin-top:2rem}
+.s-facts div{background:#fff;padding:1.1rem 1.3rem}
+.s-facts b{display:block;font-family:'Fraunces',Georgia,serif;font-size:1.3rem;color:var(--s-blue)}
+.s-facts span{color:var(--s-muted);font-size:.9rem}
+
+/* timeline: the sequence is real, so the markers are dates */
+.s-tools{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.6rem}
+.s-tools p{color:var(--s-muted)}
+.s-tools button{background:none;border:1px solid var(--s-blue);color:var(--s-blue);padding:.45rem 1rem;border-radius:999px;cursor:pointer;font:inherit;font-size:.92rem;font-weight:500}
+.s-tools button:hover{background:var(--s-blue);color:#fff}
+.s-timeline{border-left:3px solid var(--s-blue);margin-left:.4rem}
+.s-timeline details{position:relative;padding:.2rem 0 .2rem 1.6rem;margin-bottom:.4rem}
+.s-timeline details::before{content:"";position:absolute;left:-10px;top:1rem;width:17px;height:17px;border-radius:50%;background:var(--s-bg);border:3px solid var(--s-blue)}
+.s-timeline details[open]::before{background:var(--s-gold);border-color:var(--s-gold)}
+.s-main summary{cursor:pointer;list-style:none;padding:.6rem 0;display:flex;gap:1rem;align-items:baseline}
+.s-main summary::-webkit-details-marker{display:none}
+.s-main summary .yr{font-family:'Fraunces',Georgia,serif;font-weight:700;color:var(--s-blue);min-width:4.6rem;font-size:1.2rem}
+.s-main summary .t{font-weight:600}
+.s-timeline details p{padding:0 0 1rem 5.6rem;max-width:68ch;color:#374151}
+
+/* places accordion */
+.s-places{display:grid;gap:.8rem}
+.s-places details{background:#fff;border:1px solid var(--s-line);border-radius:12px;padding:0 1.3rem}
+.s-places summary{justify-content:space-between;font-family:'Fraunces',Georgia,serif;font-size:1.12rem;font-weight:500;color:var(--s-blue)}
+.s-places summary::after{content:"+";font-size:1.5rem;color:var(--s-gold);transition:transform .2s}
+.s-places details[open] summary::after{transform:rotate(45deg)}
+.s-places details p{padding:0 0 1.2rem;max-width:64ch;color:#374151}
+
+.s-next{margin:4rem 0 0;padding:2.4rem;background:var(--s-blue);color:#fff;border-radius:16px}
+.s-next h2{color:#fff;font-size:1.6rem;margin-bottom:.6rem}
+.s-next p{color:#e3edf5;max-width:56ch;margin-bottom:1.4rem}
+.s-next a{display:inline-block;margin:0 .6rem .6rem 0;padding:.75rem 1.4rem;border-radius:999px;text-decoration:none;font-weight:600;background:var(--s-gold);color:#1a1300}
+.s-next a.alt{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.55)}
+.s-spacer{height:4rem}
+
+@media(max-width:600px){.s-main summary .yr{min-width:3.8rem}.s-timeline details p{padding-left:0}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.story-page *{transition:none!important}}
+</style>
+</head>
+
+<body class="story-page explore-page">
+<div class="s-bar" id="sBar"></div>
+
+    <!-- NAVBAR SECTION (same as Explore) -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-placeholder-icon">
+                    <i class="fa-solid fa-spider"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="brand-name">ANANSE</span>
+                    <span class="tagline" data-i18n="site.tagline">Weaving Ghana’s Story into the Digital Age</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="nav-menu" id="navMenu">
+                <a href="../index.html" class="nav-link" data-i18n="nav.home">Home</a>
+                <a href="explore.html" class="nav-link active" data-i18n="nav.explore">Explore</a>
+                <a href="map.html" class="nav-link" data-i18n="nav.map">Map</a>
+                <a href="passport.html" class="nav-link" data-i18n="nav.passport">Passport</a>
+                <a href="about.html" class="nav-link" data-i18n="nav.about">About</a>
+            </nav>
+
+            <div class="language-switcher-wrap">
+                <select class="language-select" aria-label="Select website language" data-i18n-aria-label="common.languageSelect">
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                    <option value="es">Español</option>
+                </select>
+            </div>
+
+            <!-- Hamburger Toggle Button -->
+            <button class="hamburger-toggle" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+<div class="s-hero">
+  <div class="s-hero-inner">
+    <a class="s-crumb" href="explore.html">← Back to Explore</a>
+    <h1>Independence Square</h1>
+    <p>Ghana's national parade ground on the Accra coast, also known as Black Star Square, and the home of the Independence Arch and the Black Star Gate.</p>
+    <a class="s-go" href="#story">Read the story</a>
+  </div>
+</div>
+
+<nav class="s-chapters" id="sChapters" aria-label="Story sections">
+  <a href="#story" class="on">The story</a>
+  <a href="#timeline">Timeline</a>
+  <a href="#monuments">Monuments</a>
+  <a href="#visit">Visiting today</a>
+</nav>
+
+<main class="s-main">
+  <div id="listen" class="s-listen">
+    <button type="button" id="listenBtn"><i class="fa-solid fa-headphones"></i> Listen to the story</button>
+    <p>Hear the story of Independence Square read aloud.</p>
+  </div>
+
+  <section id="story">
+    <h2>A square built for a new nation</h2>
+    <div class="s-prose">
+      <p>Independence Square, widely known as Black Star Square, sits on the Accra coast between the Atlantic Ocean and the district of Osu. On 6 March 1957 the Gold Coast became Ghana, the first country in sub-Saharan Africa to gain independence from colonial rule. Kwame Nkrumah, Ghana's first prime minister and president, then commissioned a huge public square to celebrate the new nation.</p>
+      <p>The square was completed in 1961, in time for the state visit of Queen Elizabeth II, and the first parades were held there in her honour. Since then it has hosted Ghana's major national gatherings, festivals, military parades and concerts. Stands around the edges seat about 30,000 people.</p>
+      <p>Its monuments tell the story of the struggle for independence: the Independence Arch by the sea, the Memorial of the Unknown Soldier facing it, and the Black Star Gate just to the north. Every year on 6 March the square is the setting for the Independence Day parade.</p>
+    </div>
+    <div class="s-facts">
+      <div><b>1961</b><span>Completed, in time for the state visit of Queen Elizabeth II</span></div>
+      <div><b>Accra</b><span>Between the Atlantic Ocean and the district of Osu</span></div>
+      <div><b>30,000</b><span>Seats in the stands around the square</span></div>
+      <div><b>6 March</b><span>The annual Independence Day parade</span></div>
+    </div>
+    <p class="s-note">Why Black Star? The five-pointed black star on top of the Black Star Gate symbolises Africa in general and Ghana in particular.</p>
+  </section>
+
+  <section id="timeline">
+    <h2>Key moments in its history</h2>
+    <div class="s-tools">
+      <p>Tap a date to open it.</p>
+      <button type="button" id="toggleAll">Open all</button>
+    </div>
+    <div class="s-timeline">
+      <details open>
+        <summary><span class="yr">1957</span><span class="t">Ghana becomes independent</span></summary>
+        <p>On 6 March 1957 the Gold Coast becomes Ghana, the first sub-Saharan African country to gain independence from British colonial rule.</p>
+      </details>
+      <details>
+        <summary><span class="yr">1957–61</span><span class="t">Nkrumah commissions the square</span></summary>
+        <p>Soon after independence, Kwame Nkrumah orders the construction of a large public square to celebrate the new nation and promote national unity.</p>
+      </details>
+      <details>
+        <summary><span class="yr">1961</span><span class="t">The square is completed</span></summary>
+        <p>The square is finished in time for the state visit of Queen Elizabeth II, and the first parade is held there.</p>
+      </details>
+      <details>
+        <summary><span class="yr">Today</span><span class="t">The nation's ceremonial heart</span></summary>
+        <p>The square hosts civic and military parades, national festivals and concerts. The Independence Day parade on 6 March is the most important event of the year.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="monuments">
+    <h2>Monuments in the square</h2>
+    <div class="s-places">
+      <details>
+        <summary>The Independence Arch</summary>
+        <p>The arch stands at the southern end of the square with the Gulf of Guinea behind it, and is one of the monuments to Ghana's struggle for independence.</p>
+      </details>
+      <details>
+        <summary>The Black Star Gate</summary>
+        <p>This monument stands on a roundabout just north of the square and is topped by the Black Star of Africa. It bears the inscriptions AD 1957 and Freedom and Justice.</p>
+      </details>
+      <details>
+        <summary>The Memorial of the Unknown Soldier</summary>
+        <p>Facing the arch from the opposite side of the square, this memorial honours the Ghanaian soldiers who died fighting for their country.</p>
+      </details>
+      <details>
+        <summary>The eternal flame</summary>
+        <p>An eternal flame, first lit by Kwame Nkrumah, burns as a symbol of the undying spirit of independence and freedom.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="visit">
+    <h2>Visiting today</h2>
+    <div class="s-prose">
+      <p>Independence Square is an open public space, and many visitors come to photograph the Independence Arch and the Black Star Gate. It stands next to the Accra Sports Stadium and the Kwame Nkrumah Memorial Park, so all three are easy to see on one trip.</p>
+      <p>The square is used for national events, so parts of it can be busy or closed on parade and event days. Check ahead before you go.</p>
+    </div>
+  </section>
+
+  <div class="s-next">
+    <h2>Now test what you learned</h2>
+    <p>Ask Naa, the ANANSE guide, about Independence Square, then collect your Independence Square badge in your Cultural Passport.</p>
+    <a href="ai.html">Ask Naa</a>
+    <a href="passport.html" class="alt">Open my Passport</a>
+    <a href="explore.html" class="alt">More heritage sites</a>
+  </div>
+</main>
+
+<div class="s-spacer"></div>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p data-i18n="explorePage.footerRights">© 2026 ANANSE. All rights reserved.</p>
+            <p data-i18n="site.tagline">Weaving Ghana's Story into the Digital Age</p>
+        </div>
+    </footer>
+
+    <script src="../src/js/language.js"></script>
+    <script src="../src/script.js"></script>
+<script>
+(function(){
+  // Mobile menu
+  var menuBtn = document.getElementById('hamburgerBtn');
+  var navMenu = document.getElementById('navMenu');
+  if (menuBtn && navMenu) {
+    menuBtn.addEventListener('click', function(){
+      var isOpen = navMenu.classList.toggle('is-active');
+      menuBtn.setAttribute('aria-expanded', String(isOpen));
+      var icon = menuBtn.querySelector('i');
+      if (icon) {
+        icon.classList.toggle('fa-bars', !isOpen);
+        icon.classList.toggle('fa-xmark', isOpen);
+      }
+    });
+    navMenu.querySelectorAll('.nav-link').forEach(function(link){
+      link.addEventListener('click', function(){
+        navMenu.classList.remove('is-active');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        var icon = menuBtn.querySelector('i');
+        if (icon) {
+          icon.classList.remove('fa-xmark');
+          icon.classList.add('fa-bars');
+        }
+      });
+    });
+  }
+
+  // Keep the sticky chapter bar below the site navbar if the navbar is fixed/sticky
+  var chapters = document.getElementById('sChapters');
+  var nav = document.querySelector('.navbar');
+  if (nav && chapters && getComputedStyle(nav).position !== 'static') {
+    chapters.style.top = nav.offsetHeight + 'px';
+  }
+
+  // Reading progress bar
+  var bar = document.getElementById('sBar');
+  addEventListener('scroll', function(){
+    var h = document.documentElement;
+    bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  }, {passive:true});
+
+  // Highlight the current chapter in the sticky nav
+  var links = [].slice.call(document.querySelectorAll('#sChapters a'));
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting) {
+        links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id); });
+      }
+    });
+  }, {rootMargin:'-30% 0px -60% 0px'});
+  document.querySelectorAll('.s-main section').forEach(function(s){ io.observe(s); });
+
+  // Open / close all timeline entries
+  var toggle = document.getElementById('toggleAll');
+  var items = document.querySelectorAll('.s-timeline details');
+  toggle.addEventListener('click', function(){
+    var open = toggle.textContent === 'Open all';
+    items.forEach(function(d){ d.open = open; });
+    toggle.textContent = open ? 'Close all' : 'Open all';
+  });
+
+  // Listen to the story
+  var listenBtn = document.getElementById('listenBtn');
+  if (listenBtn && 'speechSynthesis' in window) {
+    var synth = window.speechSynthesis;
+    var playing = false;
+    var LISTEN_HTML = '<i class="fa-solid fa-headphones"></i> Listen to the story';
+    var STOP_HTML = '<i class="fa-solid fa-stop"></i> Stop listening';
+
+    var storyChunks = function(){
+      return [].slice.call(document.querySelectorAll(
+        '#story h2, #story .s-prose p, #timeline h2, #timeline details, #monuments h2, #monuments details, #visit h2, #visit .s-prose p'
+      )).map(function(el){
+        if (el.tagName === 'DETAILS') {
+          var s = el.querySelector('summary');
+          var yr = s.querySelector('.yr'), t = s.querySelector('.t');
+          var head = yr && t ? yr.textContent + '. ' + t.textContent : s.textContent;
+          return head + '. ' + el.querySelector('p').textContent;
+        }
+        return el.textContent;
+      });
+    };
+
+    var stopListening = function(){
+      synth.cancel();
+      playing = false;
+      listenBtn.innerHTML = LISTEN_HTML;
+    };
+
+    var startListening = function(){
+      var chunks = storyChunks();
+      chunks.forEach(function(text, i){
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = 'en-GB';
+        u.rate = 0.95;
+        if (i === chunks.length - 1) u.onend = stopListening;
+        synth.speak(u);
+      });
+      playing = true;
+      listenBtn.innerHTML = STOP_HTML;
+    };
+
+    listenBtn.addEventListener('click', function(){ playing ? stopListening() : startListening(); });
+    addEventListener('beforeunload', function(){ synth.cancel(); });
+  } else if (listenBtn) {
+    listenBtn.hidden = true;
+  }
+})();
+</script>
+</body>
+</html>

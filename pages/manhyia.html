@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manhyia Palace: The Story — ANANSE</title>
+<meta name="description" content="The story of Manhyia Palace in Kumasi, from the founding of the Asante Kingdom and Prempeh I's return from exile to the palace museum and the living royal court of today.">
+<script src="https://kit.fontawesome.com/17eac40b74.js" crossorigin="anonymous"></script>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../src/style.css">
+
+<style>
+/* Story page colours (taken from the Explore page popup) */
+:root{--s-blue:#0F4C81;--s-deep:#05242C;--s-gold:#D9A21B;--s-teal:#168B9F;--s-bg:#F4F7FA;--s-ink:#1F2937;--s-muted:#5f6b7a;--s-line:#e1e7ee}
+html{scroll-behavior:smooth;scroll-padding-top:130px}
+body.story-page{background:var(--s-bg)}
+.s-hero,.s-main,.s-chapters{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--s-ink);line-height:1.7;font-size:1.02rem}
+.s-hero *,.s-main *{box-sizing:border-box}
+.s-hero h1,.s-hero p,.s-main h2,.s-main p{margin:0}
+.s-hero h1,.s-main h2{font-family:'Fraunces',Georgia,serif;line-height:1.2}
+.story-page :focus-visible{outline:3px solid var(--s-gold);outline-offset:3px}
+
+/* progress bar */
+.s-bar{position:fixed;top:0;left:0;height:4px;width:0;background:var(--s-gold);z-index:1000}
+
+/* hero */
+.s-hero{position:relative;min-height:72vh;display:flex;align-items:flex-end;color:#fff;
+ background:linear-gradient(180deg,rgba(5,36,44,.25) 0%,rgba(5,36,44,.92) 100%),url("../images/Manhyia\ Palace.jpeg") center/cover no-repeat var(--s-deep)}
+.s-hero-inner{padding:0 5% 4rem;max-width:860px}
+.s-crumb{display:inline-block;color:#fff;opacity:.85;text-decoration:none;margin-bottom:1.2rem;font-size:.95rem}
+.s-crumb:hover{opacity:1;text-decoration:underline}
+.s-hero h1{font-size:clamp(2.4rem,6vw,4.2rem);margin-bottom:1rem;color:#fff}
+.s-hero p{font-size:1.15rem;max-width:620px;color:#eaf1f6}
+.s-go{display:inline-block;margin-top:1.8rem;background:var(--s-gold);color:#1a1300;padding:.8rem 1.6rem;border-radius:999px;text-decoration:none;font-weight:600}
+.s-go:hover{filter:brightness(1.08)}
+
+/* chapter nav */
+.s-chapters{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--s-line);display:flex;gap:.4rem;overflow-x:auto;padding:.6rem 5%}
+.s-chapters a{white-space:nowrap;padding:.45rem 1rem;border-radius:999px;text-decoration:none;color:var(--s-muted);font-size:.93rem;font-weight:500}
+.s-chapters a.on{background:var(--s-blue);color:#fff}
+
+.s-main{max-width:1000px;margin:0 auto;padding:0 5%}
+.s-main section{padding:4rem 0 1rem}
+.s-main section h2{font-size:clamp(1.7rem,3.5vw,2.3rem);color:var(--s-blue);margin-bottom:1.2rem}
+.s-prose{max-width:68ch}
+.s-prose p+p{margin-top:1.1rem}
+.s-note{margin-top:1.6rem;padding:1rem 1.3rem;border-left:4px solid var(--s-gold);background:#fff;max-width:68ch;color:var(--s-muted);font-size:.95rem;border-radius:0 8px 8px 0}
+
+/* listen panel (matches the Listen button in the Explore popup) */
+.s-listen{margin-top:2.5rem;padding:1.2rem 1.4rem;background:#fff;border:1px solid var(--s-line);border-radius:14px;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.s-listen p{flex:1;min-width:220px;color:var(--s-muted)}
+.s-listen button{background:#fff;color:var(--s-teal);border:2px solid var(--s-teal);padding:.75rem 1.4rem;border-radius:12px;font:inherit;font-weight:600;cursor:pointer}
+.s-listen button:hover{background:#eaf5f6}
+.s-listen:target{box-shadow:0 0 0 3px rgba(22,139,159,.35)}
+
+.s-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--s-line);border:1px solid var(--s-line);border-radius:12px;overflow:hidden;margin-top:2rem}
+.s-facts div{background:#fff;padding:1.1rem 1.3rem}
+.s-facts b{display:block;font-family:'Fraunces',Georgia,serif;font-size:1.3rem;color:var(--s-blue)}
+.s-facts span{color:var(--s-muted);font-size:.9rem}
+
+/* timeline: the sequence is real, so the markers are dates */
+.s-tools{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.6rem}
+.s-tools p{color:var(--s-muted)}
+.s-tools button{background:none;border:1px solid var(--s-blue);color:var(--s-blue);padding:.45rem 1rem;border-radius:999px;cursor:pointer;font:inherit;font-size:.92rem;font-weight:500}
+.s-tools button:hover{background:var(--s-blue);color:#fff}
+.s-timeline{border-left:3px solid var(--s-blue);margin-left:.4rem}
+.s-timeline details{position:relative;padding:.2rem 0 .2rem 1.6rem;margin-bottom:.4rem}
+.s-timeline details::before{content:"";position:absolute;left:-10px;top:1rem;width:17px;height:17px;border-radius:50%;background:var(--s-bg);border:3px solid var(--s-blue)}
+.s-timeline details[open]::before{background:var(--s-gold);border-color:var(--s-gold)}
+.s-main summary{cursor:pointer;list-style:none;padding:.6rem 0;display:flex;gap:1rem;align-items:baseline}
+.s-main summary::-webkit-details-marker{display:none}
+.s-main summary .yr{font-family:'Fraunces',Georgia,serif;font-weight:700;color:var(--s-blue);min-width:4.6rem;font-size:1.2rem}
+.s-main summary .t{font-weight:600}
+.s-timeline details p{padding:0 0 1rem 5.6rem;max-width:68ch;color:#374151}
+
+/* traditions accordion */
+.s-places{display:grid;gap:.8rem}
+.s-places details{background:#fff;border:1px solid var(--s-line);border-radius:12px;padding:0 1.3rem}
+.s-places summary{justify-content:space-between;font-family:'Fraunces',Georgia,serif;font-size:1.12rem;font-weight:500;color:var(--s-blue)}
+.s-places summary::after{content:"+";font-size:1.5rem;color:var(--s-gold);transition:transform .2s}
+.s-places details[open] summary::after{transform:rotate(45deg)}
+.s-places details p{padding:0 0 1.2rem;max-width:64ch;color:#374151}
+
+.s-next{margin:4rem 0 0;padding:2.4rem;background:var(--s-blue);color:#fff;border-radius:16px}
+.s-next h2{color:#fff;font-size:1.6rem;margin-bottom:.6rem}
+.s-next p{color:#e3edf5;max-width:56ch;margin-bottom:1.4rem}
+.s-next a{display:inline-block;margin:0 .6rem .6rem 0;padding:.75rem 1.4rem;border-radius:999px;text-decoration:none;font-weight:600;background:var(--s-gold);color:#1a1300}
+.s-next a.alt{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.55)}
+.s-spacer{height:4rem}
+
+@media(max-width:600px){.s-main summary .yr{min-width:3.8rem}.s-timeline details p{padding-left:0}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.story-page *{transition:none!important}}
+</style>
+</head>
+
+<body class="story-page explore-page">
+<div class="s-bar" id="sBar"></div>
+
+    <!-- NAVBAR SECTION (same as Explore) -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-placeholder-icon">
+                    <i class="fa-solid fa-spider"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="brand-name">ANANSE</span>
+                    <span class="tagline" data-i18n="site.tagline">Weaving Ghana’s Story into the Digital Age</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="nav-menu" id="navMenu">
+                <a href="../index.html" class="nav-link" data-i18n="nav.home">Home</a>
+                <a href="explore.html" class="nav-link active" data-i18n="nav.explore">Explore</a>
+                <a href="map.html" class="nav-link" data-i18n="nav.map">Map</a>
+                <a href="passport.html" class="nav-link" data-i18n="nav.passport">Passport</a>
+                <a href="about.html" class="nav-link" data-i18n="nav.about">About</a>
+            </nav>
+
+            <div class="language-switcher-wrap">
+                <select class="language-select" aria-label="Select website language" data-i18n-aria-label="common.languageSelect">
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                    <option value="es">Español</option>
+                </select>
+            </div>
+
+            <!-- Hamburger Toggle Button -->
+            <button class="hamburger-toggle" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+<div class="s-hero">
+  <div class="s-hero-inner">
+    <a class="s-crumb" href="explore.html">← Back to Explore</a>
+    <h1>Manhyia Palace</h1>
+    <p>The seat of the Asantehene in Kumasi, and a place to explore the history, leadership and traditions of the Asante Kingdom.</p>
+    <a class="s-go" href="#story">Read the story</a>
+  </div>
+</div>
+
+<nav class="s-chapters" id="sChapters" aria-label="Story sections">
+  <a href="#story" class="on">The story</a>
+  <a href="#timeline">Timeline</a>
+  <a href="#traditions">Traditions</a>
+  <a href="#visit">Visiting today</a>
+</nav>
+
+<main class="s-main">
+  <div id="listen" class="s-listen">
+    <button type="button" id="listenBtn"><i class="fa-solid fa-headphones"></i> Listen to the story</button>
+    <p>Hear the story of Manhyia Palace read aloud.</p>
+  </div>
+
+  <section id="story">
+    <h2>From exile to a royal home</h2>
+    <div class="s-prose">
+      <p>Manhyia Palace stands in Kumasi, the capital of the Asante Kingdom and the traditional seat of the Asantehene, the Asante king. The kingdom took shape around 1701, when Osei Tutu I and his priest and adviser Okomfo Anokye united the Asante states after their war against Denkyira. According to tradition, Okomfo Anokye called the Golden Stool down from the sky as the symbol of the bond between all Asante people.</p>
+      <p>The palace itself has a more recent story. In 1896 the British sent Asantehene Prempeh I into exile in the Seychelles, and the Asante kept his place on the royal stool empty for all the years he was away. When he returned in 1924, the colonial government built Manhyia Palace as his residence, and it was completed in 1925. He accepted it only after paying the cost in full.</p>
+      <p>Two kings lived and ruled from this building, Prempeh I and Prempeh II. Around 1974 Otumfuo Opoku Ware II built a new palace behind it, and in 1995 the old palace reopened as the Manhyia Palace Museum. The royal court is still very much alive: the current Asantehene, Otumfuo Osei Tutu II, lives in the new palace, and the courtyard is used for important Asante ceremonies.</p>
+    </div>
+    <div class="s-facts">
+      <div><b>1925</b><span>Built for Asantehene Prempeh I after his return from exile</span></div>
+      <div><b>Kumasi</b><span>Ashanti Region, Ghana</span></div>
+      <div><b>1995</b><span>The old palace opened as the Manhyia Palace Museum</span></div>
+      <div><b>Living court</b><span>The current Asantehene lives in the new palace nearby</span></div>
+    </div>
+    <p class="s-note">Manhyia is part of a living royal court, and the Golden Stool is sacred to the Asante. Please read and visit with respect for Asante traditions.</p>
+  </section>
+
+  <section id="timeline">
+    <h2>Key moments in its history</h2>
+    <div class="s-tools">
+      <p>Tap a date to open it.</p>
+      <button type="button" id="toggleAll">Open all</button>
+    </div>
+    <div class="s-timeline">
+      <details open>
+        <summary><span class="yr">1701</span><span class="t">The Asante Kingdom is formed</span></summary>
+        <p>Osei Tutu I and Okomfo Anokye bring the Asante states together after the war against Denkyira. Kumasi becomes the capital, and the Golden Stool becomes the symbol of Asante unity.</p>
+      </details>
+      <details>
+        <summary><span class="yr">1896</span><span class="t">Prempeh I is sent into exile</span></summary>
+        <p>The British remove Asantehene Prempeh I from Kumasi and send him into exile in the Seychelles. The Asante keep his place on the royal stool empty, so they never treat his absence as the end of his reign.</p>
+      </details>
+      <details>
+        <summary><span class="yr">1900</span><span class="t">Yaa Asantewaa leads an uprising</span></summary>
+        <p>When the British governor demands the Golden Stool, Yaa Asantewaa of Ejisu leads the last of the Asante wars against the British.</p>
+      </details>
+      <details>
+        <summary><span class="yr">1924</span><span class="t">Prempeh I returns home</span></summary>
+        <p>After twenty-eight years in exile, Prempeh I returns to Kumasi and is welcomed back as Asantehene.</p>
+      </details>
+      <details>
+        <summary><span class="yr">1925</span><span class="t">Manhyia Palace is built</span></summary>
+        <p>The British colonial government builds the palace as a private residence for Prempeh I. It is a two-storey building with open verandas and a large courtyard, and he accepts it after paying the full cost.</p>
+      </details>
+      <details>
+        <summary><span class="yr">1970s</span><span class="t">A new palace is built behind the old one</span></summary>
+        <p>Around 1974, Otumfuo Opoku Ware II builds a new palace behind the old one. Until then, the old palace had served as the administrative headquarters of the Asante nation.</p>
+      </details>
+      <details>
+        <summary><span class="yr">1995</span><span class="t">The old palace becomes a museum</span></summary>
+        <p>The old palace is rehabilitated and opened as the Manhyia Palace Museum on 12 August 1995, during the celebrations for the 25th anniversary of Opoku Ware II's reign.</p>
+      </details>
+      <details>
+        <summary><span class="yr">1999</span><span class="t">Otumfuo Osei Tutu II becomes Asantehene</span></summary>
+        <p>After the death of Opoku Ware II, Otumfuo Osei Tutu II is enstooled on 26 April 1999 as the sixteenth Asantehene. He lives in the new palace.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="traditions">
+    <h2>Traditions and symbols</h2>
+    <div class="s-places">
+      <details>
+        <summary>The Asantehene</summary>
+        <p>The Asantehene is the king of the Asante and the head of the Asante Kingdom. Otumfuo Osei Tutu II is the sixteenth to hold the office and a descendant of Osei Tutu I, the founder of the kingdom. Manhyia Palace is the centre of Asante traditional leadership.</p>
+      </details>
+      <details>
+        <summary>The Golden Stool</summary>
+        <p>The Golden Stool, Sika Dwa Kofi, is the most sacred symbol of the Asante. According to tradition, Okomfo Anokye brought it down from the sky, and it holds the spirit of the Asante nation. No king ever sits on it, and it is not displayed to visitors.</p>
+      </details>
+      <details>
+        <summary>The Adae festival</summary>
+        <p>Adae is held every 42 days. The Asantehene receives homage from his chiefs and subjects at the palace, and the grand Sunday observance is called Akwasidae. It is a formal occasion, and visitors can usually attend if they follow the customs.</p>
+      </details>
+      <details>
+        <summary>The Odwira festival</summary>
+        <p>Odwira is an annual national festival that dates back to the founding of the kingdom. It was created as a seal of unity among the Asante states and remains a central moment in the Asante calendar.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="visit">
+    <h2>Visiting today</h2>
+    <div class="s-prose">
+      <p>A visit to the Manhyia Palace Museum begins with a short film on the story of the Asante, followed by a guided tour of the old palace. Inside you will see the original furniture arranged as it was in the palace's early years, life-sized figures of Prempeh I, Nana Yaa Akyaa and Yaa Asantewaa, and gold weights and other royal items.</p>
+      <p>Because Manhyia is a working royal court, opening times, ceremonies and visitor rules can change. Check with the museum before you go.</p>
+    </div>
+  </section>
+
+  <div class="s-next">
+    <h2>Now test what you learned</h2>
+    <p>Ask Naa, the ANANSE guide, about Manhyia Palace, then collect your Manhyia Palace badge in your Cultural Passport.</p>
+    <a href="ai.html">Ask Naa</a>
+    <a href="passport.html" class="alt">Open my Passport</a>
+    <a href="explore.html" class="alt">More heritage sites</a>
+  </div>
+</main>
+
+<div class="s-spacer"></div>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p data-i18n="explorePage.footerRights">© 2026 ANANSE. All rights reserved.</p>
+            <p data-i18n="site.tagline">Weaving Ghana's Story into the Digital Age</p>
+        </div>
+    </footer>
+
+    <script src="../src/js/language.js"></script>
+    <script src="../src/script.js"></script>
+<script>
+(function(){
+  // Mobile menu
+  var menuBtn = document.getElementById('hamburgerBtn');
+  var navMenu = document.getElementById('navMenu');
+  if (menuBtn && navMenu) {
+    menuBtn.addEventListener('click', function(){
+      var isOpen = navMenu.classList.toggle('is-active');
+      menuBtn.setAttribute('aria-expanded', String(isOpen));
+      var icon = menuBtn.querySelector('i');
+      if (icon) {
+        icon.classList.toggle('fa-bars', !isOpen);
+        icon.classList.toggle('fa-xmark', isOpen);
+      }
+    });
+    navMenu.querySelectorAll('.nav-link').forEach(function(link){
+      link.addEventListener('click', function(){
+        navMenu.classList.remove('is-active');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        var icon = menuBtn.querySelector('i');
+        if (icon) {
+          icon.classList.remove('fa-xmark');
+          icon.classList.add('fa-bars');
+        }
+      });
+    });
+  }
+
+  // Keep the sticky chapter bar below the site navbar if the navbar is fixed/sticky
+  var chapters = document.getElementById('sChapters');
+  var nav = document.querySelector('.navbar');
+  if (nav && chapters && getComputedStyle(nav).position !== 'static') {
+    chapters.style.top = nav.offsetHeight + 'px';
+  }
+
+  // Reading progress bar
+  var bar = document.getElementById('sBar');
+  addEventListener('scroll', function(){
+    var h = document.documentElement;
+    bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  }, {passive:true});
+
+  // Highlight the current chapter in the sticky nav
+  var links = [].slice.call(document.querySelectorAll('#sChapters a'));
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting) {
+        links.forEach(function(l){ l.classList.toggle('on', l.getAttribute('href') === '#' + e.target.id); });
+      }
+    });
+  }, {rootMargin:'-30% 0px -60% 0px'});
+  document.querySelectorAll('.s-main section').forEach(function(s){ io.observe(s); });
+
+  // Open / close all timeline entries
+  var toggle = document.getElementById('toggleAll');
+  var items = document.querySelectorAll('.s-timeline details');
+  toggle.addEventListener('click', function(){
+    var open = toggle.textContent === 'Open all';
+    items.forEach(function(d){ d.open = open; });
+    toggle.textContent = open ? 'Close all' : 'Open all';
+  });
+
+  // Listen to the story
+  var listenBtn = document.getElementById('listenBtn');
+  if (listenBtn && 'speechSynthesis' in window) {
+    var synth = window.speechSynthesis;
+    var playing = false;
+    var LISTEN_HTML = '<i class="fa-solid fa-headphones"></i> Listen to the story';
+    var STOP_HTML = '<i class="fa-solid fa-stop"></i> Stop listening';
+
+    var storyChunks = function(){
+      return [].slice.call(document.querySelectorAll(
+        '#story h2, #story .s-prose p, #timeline h2, #timeline details, #traditions h2, #traditions details, #visit h2, #visit .s-prose p'
+      )).map(function(el){
+        if (el.tagName === 'DETAILS') {
+          var s = el.querySelector('summary');
+          var yr = s.querySelector('.yr'), t = s.querySelector('.t');
+          var head = yr && t ? yr.textContent + '. ' + t.textContent : s.textContent;
+          return head + '. ' + el.querySelector('p').textContent;
+        }
+        return el.textContent;
+      });
+    };
+
+    var stopListening = function(){
+      synth.cancel();
+      playing = false;
+      listenBtn.innerHTML = LISTEN_HTML;
+    };
+
+    var startListening = function(){
+      var chunks = storyChunks();
+      chunks.forEach(function(text, i){
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = 'en-GB';
+        u.rate = 0.95;
+        if (i === chunks.length - 1) u.onend = stopListening;
+        synth.speak(u);
+      });
+      playing = true;
+      listenBtn.innerHTML = STOP_HTML;
+    };
+
+    listenBtn.addEventListener('click', function(){ playing ? stopListening() : startListening(); });
+    addEventListener('beforeunload', function(){ synth.cancel(); });
+  } else if (listenBtn) {
+    listenBtn.hidden = true;
+  }
+})();
+</script>
+</body>
+</html>
