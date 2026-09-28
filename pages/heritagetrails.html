@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Heritage Trails — ANANSE</title>
+    <meta name="description"
+        content="Explore Ghana's heritage trails and earn a badge by completing a route through the country's most important historical sites." />
+    <script src="https://kit.fontawesome.com/17eac40b74.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:wght@600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="../src/style.css" />
+
+    <style>
+        :root {
+            --trail-blue: #0f4c81;
+            --trail-deep: #062a36;
+            --trail-gold: #d9a21b;
+            --trail-teal: #168b9f;
+            --trail-bg: #f4f7fa;
+            --trail-card: #ffffff;
+            --trail-text: #1f2937;
+            --trail-muted: #5f6b7a;
+            --trail-line: #e1e7ee;
+            --trail-success: #1f8f5f;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body.trail-page {
+            margin: 0;
+            background: var(--trail-bg);
+            color: var(--trail-text);
+            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        }
+
+        .trail-page a {
+            text-decoration: none;
+        }
+
+        .trail-page button {
+            font: inherit;
+        }
+
+        .trail-shell {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5% 4rem;
+        }
+
+        .trail-hero {
+            position: relative;
+            margin-top: 2rem;
+            padding: 3rem clamp(1.1rem, 2vw, 2rem);
+            border-radius: 24px;
+            background:
+                linear-gradient(120deg, rgba(6, 42, 54, 0.9), rgba(15, 76, 129, 0.8)),
+                url('../images/kwame Nkrumah memorial park.jpeg') center/cover no-repeat;
+            color: #fff;
+            box-shadow: 0 18px 40px rgba(15, 76, 129, 0.18);
+        }
+
+        .trail-crumb {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            color: rgba(255, 255, 255, .85);
+            font-size: .95rem;
+            margin-bottom: 1rem;
+        }
+
+        .trail-crumb:hover {
+            color: #fff;
+        }
+
+        .eyebrow {
+            font-size: .75rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            opacity: .8;
+            margin-bottom: .7rem;
+        }
+
+        .trail-hero h1 {
+            margin: 0;
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            line-height: 1.1;
+        }
+
+        .trail-hero p {
+            max-width: 680px;
+            margin-top: 1rem;
+            color: rgba(255, 255, 255, .9);
+            font-size: 1.08rem;
+            line-height: 1.7;
+        }
+
+        .trail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .8rem;
+            margin-top: 1.25rem;
+        }
+
+        .trail-meta span {
+            padding: .55rem .9rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .12);
+            border: 1px solid rgba(255, 255, 255, .18);
+            font-size: .9rem;
+        }
+
+        .trail-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .9rem;
+            margin-top: 1.5rem;
+        }
+
+        .primary-btn,
+        .secondary-btn,
+        .ghost-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .55rem;
+            border-radius: 999px;
+            padding: .82rem 1.25rem;
+            font-weight: 700;
+            transition: transform .2s ease, opacity .2s ease;
+            cursor: pointer;
+        }
+
+        .primary-btn:hover,
+        .secondary-btn:hover,
+        .ghost-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .primary-btn {
+            background: var(--trail-gold);
+            color: #201500;
+            border: none;
+        }
+
+        .secondary-btn {
+            background: rgba(255, 255, 255, .12);
+            border: 1px solid rgba(255, 255, 255, .28);
+            color: #fff;
+        }
+
+        .ghost-btn {
+            background: #fff;
+            color: var(--trail-blue);
+            border: 1px solid var(--trail-line);
+        }
+
+        .trail-progress {
+            margin-top: 2rem;
+            background: #fff;
+            border: 1px solid var(--trail-line);
+            border-radius: 18px;
+            padding: 1.1rem 1.2rem;
+            box-shadow: 0 6px 24px rgba(15, 76, 129, 0.05);
+        }
+
+        .progress-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: .75rem;
+            font-weight: 600;
+            color: var(--trail-text);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #eef3f8;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--trail-gold), var(--trail-teal));
+            transition: width .25s ease;
+        }
+
+        .trail-layout {
+            display: grid;
+            grid-template-columns: 330px minmax(0, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .summary-card,
+        .trail-stop-card,
+        .route-card {
+            background: #fff;
+            border: 1px solid var(--trail-line);
+            border-radius: 18px;
+            box-shadow: 0 8px 22px rgba(15, 76, 129, 0.05);
+        }
+
+        .summary-card {
+            padding: 1.2rem;
+            position: sticky;
+            top: 1.5rem;
+            align-self: start;
+        }
+
+        .summary-card h3,
+        .route-card h3 {
+            margin: 0 0 .9rem;
+            font-size: 1.15rem;
+            color: var(--trail-blue);
+        }
+
+        .summary-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: .75rem;
+        }
+
+        .summary-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: .75rem;
+            color: var(--trail-muted);
+            line-height: 1.6;
+            font-size: .96rem;
+        }
+
+        .summary-list i {
+            color: var(--trail-gold);
+            margin-top: .18rem;
+            font-size: .9rem;
+        }
+
+        .stop-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .trail-stop-card {
+            padding: 1.1rem 1.1rem 1rem;
+        }
+
+        .stop-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .stop-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(22, 139, 159, 0.12);
+            color: var(--trail-teal);
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .stop-head {
+            flex: 1;
+        }
+
+        .stop-head h4 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--trail-text);
+        }
+
+        .stop-head p {
+            margin: .35rem 0 0;
+            color: var(--trail-muted);
+            line-height: 1.6;
+            font-size: .95rem;
+        }
+
+        .stop-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .45rem;
+            padding: .4rem .6rem;
+            border-radius: 999px;
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            background: rgba(217, 162, 27, 0.12);
+            color: #8d6300;
+            margin-top: .8rem;
+        }
+
+        .stop-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1rem;
+        }
+
+        .visit-toggle {
+            border: 1px solid var(--trail-line);
+            background: #fff;
+            color: var(--trail-text);
+            border-radius: 999px;
+            padding: .72rem 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+
+        .visit-toggle.is-done {
+            background: var(--trail-success);
+            border-color: var(--trail-success);
+            color: #fff;
+        }
+
+        .route-card {
+            margin-top: 2rem;
+            padding: 1.4rem 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .route-card p {
+            margin: 0;
+            color: var(--trail-muted);
+            line-height: 1.6;
+            max-width: 62ch;
+        }
+
+        .route-card strong {
+            color: var(--trail-blue);
+        }
+
+        .all-trails {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .trail-choice {
+            background: #fff;
+            border: 1px solid var(--trail-line);
+            border-radius: 18px;
+            padding: 1rem;
+            color: var(--trail-text);
+            box-shadow: 0 8px 22px rgba(15, 76, 129, 0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 180px;
+        }
+
+        .trail-choice h4 {
+            margin: 0 0 .5rem;
+            color: var(--trail-blue);
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.25rem;
+        }
+
+        .trail-choice p {
+            margin: 0;
+            color: var(--trail-muted);
+            line-height: 1.6;
+            font-size: .95rem;
+        }
+
+        .trail-choice .mini-link {
+            margin-top: 1rem;
+            font-weight: 700;
+            color: var(--trail-blue);
+        }
+
+        .toast {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            background: #0d1d2a;
+            color: #fff;
+            padding: .8rem 1rem;
+            border-radius: 12px;
+            box-shadow: 0 16px 30px rgba(0, 0, 0, .18);
+            opacity: 0;
+            transform: translateY(14px);
+            pointer-events: none;
+            transition: all .2s ease;
+            z-index: 2000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 900px) {
+            .trail-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-card {
+                position: static;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .trail-shell {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .trail-hero {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .stop-top {
+                flex-direction: column;
+            }
+
+            .stop-actions {
+                justify-content: stretch;
+            }
+
+            .visit-toggle {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="trail-page explore-page">
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-placeholder-icon">
+                    <i class="fa-solid fa-spider"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="brand-name">ANANSE</span>
+                    <span class="tagline">Weaving Ghana’s Story into the Digital Age</span>
+                </div>
+            </a>
+
+            <nav class="nav-menu" id="navMenu">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="explore.html" class="nav-link active">Explore</a>
+                <a href="map.html" class="nav-link">Map</a>
+                <a href="passport.html" class="nav-link">Passport</a>
+                <a href="about.html" class="nav-link">About</a>
+            </nav>
+
+            <div class="language-switcher-wrap">
+                <select class="language-select" aria-label="Select website language">
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                    <option value="es">Español</option>
+                </select>
+            </div>
+
+            <button class="hamburger-toggle" id="hamburgerBtn" aria-label="Toggle navigation menu"
+                aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="trail-shell">
+        <section class="trail-hero">
+            <a class="trail-crumb" href="map.html"><i class="fa-solid fa-arrow-left"></i> Back to map</a>
+            <div class="eyebrow" id="trailEyebrow">Heritage route</div>
+            <h1 id="trailTitle">Heritage Trail</h1>
+            <p id="trailDescription">Follow a guided route through Ghana’s most meaningful historical places and earn a
+                badge when you complete the journey.</p>
+
+            <div class="trail-meta">
+                <span id="trailStops">0 stops</span>
+                <span id="trailRegion">Across Ghana</span>
+            </div>
+
+            <div class="trail-actions">
+                <button type="button" class="primary-btn" id="completeTrailBtn"><i class="fa-solid fa-award"></i>
+                    Complete trail</button>
+                <a href="passport.html" class="secondary-btn"><i class="fa-solid fa-passport"></i> View Passport</a>
+            </div>
+        </section>
+
+        <div class="trail-progress" aria-live="polite">
+            <div class="progress-row">
+                <span>Trail progress</span>
+                <strong id="progressText">0 / 0 stops visited</strong>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <section class="trail-layout">
+            <aside class="summary-card">
+                <h3>Why this route matters</h3>
+                <ul class="summary-list" id="summaryList"></ul>
+            </aside>
+
+            <div>
+                <div class="stop-list" id="stopList"></div>
+            </div>
+        </section>
+
+        <section class="route-card" id="routeCard" aria-live="polite">
+            <div>
+                <h3>Trail status</h3>
+                <p id="routeStatus">Start by checking off each stop as you learn about it.</p>
+            </div>
+            <button type="button" class="ghost-btn" id="resetTrailBtn"><i class="fa-solid fa-rotate-right"></i> Reset
+                trail</button>
+        </section>
+
+        <section class="all-trails" id="allTrails" aria-label="Available heritage trails"></section>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>© 2026 ANANSE. All rights reserved.</p>
+            <p>Weaving Ghana's Story into the Digital Age</p>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            const TRAILS = {
+                'cape-coast-castle': {
+                    key: 'cape-coast-castle',
+                    title: 'Cape Coast journey',
+                    eyebrow: 'Coastal heritage route',
+                    region: 'Central Region',
+                    description: 'Trace the memory of Cape Coast Castle and the wider story of resilience, migration and freedom along Ghana’s Atlantic coast.',
+                    highlights: [
+                        'Learn how the coast shaped trade, migration and resistance.',
+                        'Connect the story of the transatlantic slave trade to modern Ghana.',
+                        'Finish the route with a deeper understanding of memory and healing.'
+                    ],
+                    badge: {
+                        key: 'cape',
+                        label: 'Castle Explorer',
+                        title: 'Cape Coast Castle',
+                        icon: 'fa-landmark'
+                    },
+                    stops: [
+                        {
+                            id: 'door-of-no-return',
+                            name: 'Door of No Return',
+                            blurb: 'The point where enslaved Africans were forced onto ships and sent across the Atlantic.',
+                            tag: 'Historic landmark'
+                        },
+                        {
+                            id: 'castle-grounds',
+                            name: 'Castle grounds',
+                            blurb: 'Walk the spaces once used for trade, governance and the enforcement of colonial power.',
+                            tag: 'Tour stop'
+                        },
+                        {
+                            id: 'memory-and-healing',
+                            name: 'Memory and healing',
+                            blurb: 'Reflect on how the site teaches resilience, remembrance and the importance of historical truth.',
+                            tag: 'Reflection'
+                        }
+                    ]
+                },
+                'manhyia-palace': {
+                    key: 'manhyia-palace',
+                    title: 'Royal Ashanti trail',
+                    eyebrow: 'Royal heritage route',
+                    region: 'Ashanti Region',
+                    description: 'Explore the living history of the Asante Kingdom through the palace, its traditions and the continuity of royal leadership.',
+                    highlights: [
+                        'Discover the role of Manhyia Palace in Asante governance.',
+                        'Understand how royal traditions continue to shape identity today.',
+                        'See how history, ceremony and leadership are intertwined.'
+                    ],
+                    badge: {
+                        key: 'manhyia',
+                        label: 'Royal Heritage',
+                        title: 'Manhyia Palace',
+                        icon: 'fa-crown'
+                    },
+                    stops: [
+                        {
+                            id: 'royal-court',
+                            name: 'Royal court',
+                            blurb: 'Discover how the Asantehene and royal advisors shaped political life and cultural identity.',
+                            tag: 'Leadership'
+                        },
+                        {
+                            id: 'regalia',
+                            name: 'Court regalia',
+                            blurb: 'Study the symbols, objects and garments that express Asante power, prestige and continuity.',
+                            tag: 'Culture'
+                        },
+                        {
+                            id: 'living-tradition',
+                            name: 'Living tradition',
+                            blurb: 'See how royal practices continue to provide meaning and community in modern Ashanti life.',
+                            tag: 'Living heritage'
+                        }
+                    ]
+                },
+                'osu-castle': {
+                    key: 'osu-castle',
+                    title: 'Osu coastal trail',
+                    eyebrow: 'Colonial and civic route',
+                    region: 'Greater Accra',
+                    description: 'Follow the story of Osu Castle from the colonial era to the present, and connect coastal history to national politics.',
+                    highlights: [
+                        'Understand how the coast became central to power and governance.',
+                        'Trace Ghana’s colonial and post-independence memory.',
+                        'Place Accra’s institutions in a broader national story.'
+                    ],
+                    badge: {
+                        key: 'osu',
+                        label: 'Coastal Heritage',
+                        title: 'Osu Castle',
+                        icon: 'fa-building-columns'
+                    },
+                    stops: [
+                        {
+                            id: 'castle-approach',
+                            name: 'Castle approach',
+                            blurb: 'Take in the coastal setting and understand why the fortress dominated the cityscape.',
+                            tag: 'Landscape'
+                        },
+                        {
+                            id: 'colonial-memory',
+                            name: 'Colonial memory',
+                            blurb: 'Examine how power, administration and control were built through this strategic location.',
+                            tag: 'History'
+                        },
+                        {
+                            id: 'national-shift',
+                            name: 'National shift',
+                            blurb: 'Look at how the site changed after independence and what it means in the modern state.',
+                            tag: 'Modern Ghana'
+                        }
+                    ]
+                },
+                'independence-arch': {
+                    key: 'independence-arch',
+                    title: 'Independence route',
+                    eyebrow: 'National story route',
+                    region: 'Greater Accra',
+                    description: 'Move from the symbolism of Independence Square to the broader story of freedom, self-rule and national identity.',
+                    highlights: [
+                        'See how the nation marks its independence in public space.',
+                        'Connect the square to Ghana’s democratic identity.',
+                        'Recognise how memory is shaped through architecture and ceremony.'
+                    ],
+                    badge: {
+                        key: 'independence',
+                        label: 'Nation Builder',
+                        title: 'Independence Square',
+                        icon: 'fa-flag'
+                    },
+                    stops: [
+                        {
+                            id: 'independence-arch',
+                            name: 'Independence Arch',
+                            blurb: 'The icon of Ghana’s national pride and public memory of 1957.',
+                            tag: 'Symbol'
+                        },
+                        {
+                            id: 'national-space',
+                            name: 'National space',
+                            blurb: 'Understand how public monuments turn historical values into collective identity.',
+                            tag: 'Public memory'
+                        },
+                        {
+                            id: 'future-vision',
+                            name: 'Future vision',
+                            blurb: 'Reflect on the meaning of independence as an ongoing commitment to nation-building.',
+                            tag: 'Civic values'
+                        }
+                    ]
+                },
+                'kwame-nkrumah': {
+                    key: 'kwame-nkrumah',
+                    title: 'Freedom and legacy route',
+                    eyebrow: 'Pan-African route',
+                    region: 'Greater Accra',
+                    description: 'Explore the memorial park as both a place of tribute and a living archive of Ghana’s independence movement and Pan-African dreams.',
+                    highlights: [
+                        'Connect leadership, liberation and national memory.',
+                        'Understand the role of Kwame Nkrumah in Ghana’s independence story.',
+                        'Reflect on the politics of remembrance and legacy.'
+                    ],
+                    badge: {
+                        key: 'nkrumah',
+                        label: 'Freedom Fighter',
+                        title: 'Kwame Nkrumah Memorial',
+                        icon: 'fa-star'
+                    },
+                    stops: [
+                        {
+                            id: 'tribute-garden',
+                            name: 'Tribute garden',
+                            blurb: 'See how the memorial turns memory into a public space for reflection and honour.',
+                            tag: 'Memorial'
+                        },
+                        {
+                            id: 'independence-story',
+                            name: 'Independence story',
+                            blurb: 'Follow the political and cultural meaning of Ghana’s 1957 declaration of independence.',
+                            tag: 'History'
+                        },
+                        {
+                            id: 'pan-african-legacy',
+                            name: 'Pan-African legacy',
+                            blurb: 'Understand how the site connects Ghana to a wider African liberation story.',
+                            tag: 'Legacy'
+                        }
+                    ]
+                }
+            };
+
+            const TRAIL_KEY = 'ananse-trail-progress';
+            const BADGE_KEY = 'ananse-earned-badges';
+
+            const query = new URLSearchParams(window.location.search);
+            const requestedSite = query.get('site');
+            const allTrailEntries = Object.keys(TRAILS);
+
+            const selectedTrailKey = TRAILS[requestedSite] ? requestedSite : allTrailEntries[0];
+            const trail = TRAILS[selectedTrailKey];
+
+            const state = JSON.parse(localStorage.getItem(TRAIL_KEY) || '{}');
+            const badges = JSON.parse(localStorage.getItem(BADGE_KEY) || '{}');
+
+            const trailTitle = document.getElementById('trailTitle');
+            const trailDescription = document.getElementById('trailDescription');
+            const trailEyebrow = document.getElementById('trailEyebrow');
+            const trailStops = document.getElementById('trailStops');
+            const trailRegion = document.getElementById('trailRegion');
+            const stopList = document.getElementById('stopList');
+            const summaryList = document.getElementById('summaryList');
+            const progressText = document.getElementById('progressText');
+            const progressFill = document.getElementById('progressFill');
+            const routeStatus = document.getElementById('routeStatus');
+            const completeTrailBtn = document.getElementById('completeTrailBtn');
+            const resetTrailBtn = document.getElementById('resetTrailBtn');
+            const toast = document.getElementById('toast');
+            const allTrails = document.getElementById('allTrails');
+
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                clearTimeout(showToast.timeout);
+                showToast.timeout = setTimeout(function () {
+                    toast.classList.remove('show');
+                }, 2200);
+            }
+
+            function getTrailProgress(trailKey) {
+                if (!state[trailKey]) {
+                    state[trailKey] = {};
+                }
+                return state[trailKey];
+            }
+
+            function saveTrailProgress() {
+                localStorage.setItem(TRAIL_KEY, JSON.stringify(state));
+            }
+
+            function getTrailCompletion(trailKey) {
+                const progress = getTrailProgress(trailKey);
+                const total = TRAILS[trailKey].stops.length;
+                const done = Object.values(progress).filter(Boolean).length;
+                return { total, done, complete: done === total };
+            }
+
+            function toggleStop(stopId) {
+                const progress = getTrailProgress(trail.key);
+                progress[stopId] = !progress[stopId];
+                saveTrailProgress();
+                renderTrail();
+            }
+
+            function markBadgeEarned(trailKey) {
+                const target = TRAILS[trailKey].badge;
+                badges[target.key] = {
+                    label: target.label,
+                    title: target.title,
+                    icon: target.icon,
+                    earnedAt: new Date().toISOString()
+                };
+                localStorage.setItem(BADGE_KEY, JSON.stringify(badges));
+            }
+
+            function completeTrail() {
+                const progress = getTrailProgress(trail.key);
+                trail.stops.forEach(function (stop) {
+                    progress[stop.id] = true;
+                });
+                saveTrailProgress();
+                markBadgeEarned(trail.key);
+                renderTrail();
+                showToast('Trail complete! Your badge has been unlocked.');
+            }
+
+            function resetTrail() {
+                state[trail.key] = {};
+                saveTrailProgress();
+                renderTrail();
+                showToast('Trail progress reset.');
+            }
+
+            function renderSummary() {
+                summaryList.innerHTML = '';
+                trail.highlights.forEach(function (item) {
+                    const li = document.createElement('li');
+                    li.innerHTML = '<i class="fa-solid fa-check"></i><span>' + item + '</span>';
+                    summaryList.appendChild(li);
+                });
+            }
+
+            function renderStops() {
+                const progress = getTrailProgress(trail.key);
+                stopList.innerHTML = '';
+
+                trail.stops.forEach(function (stop, index) {
+                    const card = document.createElement('article');
+                    card.className = 'trail-stop-card';
+
+                    const done = !!progress[stop.id];
+                    card.innerHTML = `
+                        <div class="stop-top">
+                            <div class="stop-number">${index + 1}</div>
+                            <div class="stop-head">
+                                <h4>${stop.name}</h4>
+                                <p>${stop.blurb}</p>
+                                <span class="stop-badge"><i class="fa-solid fa-location-dot"></i> ${stop.tag}</span>
+                            </div>
+                        </div>
+                        <div class="stop-actions">
+                            <button type="button" class="visit-toggle ${done ? 'is-done' : ''}" data-stop-id="${stop.id}">
+                                ${done ? 'Visited' : 'Mark visited'}
+                            </button>
+                        </div>
+                    `;
+
+                    stopList.appendChild(card);
+                });
+
+                stopList.querySelectorAll('.visit-toggle').forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        toggleStop(button.dataset.stopId);
+                    });
+                });
+            }
+
+            function renderProgress() {
+                const completion = getTrailCompletion(trail.key);
+                const percent = completion.total ? (completion.done / completion.total) * 100 : 0;
+                progressText.textContent = completion.done + ' / ' + completion.total + ' stops visited';
+                progressFill.style.width = percent + '%';
+
+                if (completion.complete) {
+                    routeStatus.textContent = 'Trail complete — the badge for this route is now in your passport.';
+                    completeTrailBtn.textContent = 'Trail complete';
+                    completeTrailBtn.disabled = true;
+                    completeTrailBtn.style.opacity = '.7';
+                } else {
+                    routeStatus.textContent = 'Start by checking off each stop as you learn about it.';
+                    completeTrailBtn.textContent = 'Complete trail';
+                    completeTrailBtn.disabled = false;
+                    completeTrailBtn.style.opacity = '1';
+                }
+            }
+
+            function renderAllTrails() {
+                allTrails.innerHTML = '';
+
+                Object.values(TRAILS).forEach(function (item) {
+                    const card = document.createElement('a');
+                    card.className = 'trail-choice';
+                    card.href = 'heritagetrails.html?site=' + item.key;
+                    card.innerHTML = `
+                        <div>
+                            <h4>${item.title}</h4>
+                            <p>${item.description}</p>
+                        </div>
+                        <div class="mini-link">Open route <i class="fa-solid fa-arrow-right"></i></div>
+                    `;
+                    allTrails.appendChild(card);
+                });
+            }
+
+            function renderTrail() {
+                trailTitle.textContent = trail.title;
+                trailEyebrow.textContent = trail.eyebrow;
+                trailDescription.textContent = trail.description;
+                trailStops.textContent = trail.stops.length + ' stops';
+                trailRegion.textContent = trail.region;
+
+                renderSummary();
+                renderStops();
+                renderProgress();
+            }
+
+            completeTrailBtn.addEventListener('click', completeTrail);
+            resetTrailBtn.addEventListener('click', resetTrail);
+
+            renderTrail();
+            renderAllTrails();
+
+            if (document.querySelector('.hamburger-toggle')) {
+                const menuBtn = document.getElementById('hamburgerBtn');
+                const navMenu = document.getElementById('navMenu');
+                menuBtn.addEventListener('click', function () {
+                    const open = navMenu.classList.toggle('is-active');
+                    menuBtn.setAttribute('aria-expanded', String(open));
+                    const icon = menuBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.toggle('fa-bars', !open);
+                        icon.classList.toggle('fa-xmark', open);
+                    }
+                });
+            }
+        })();
+    </script>
+</body>
+
+</html>
