@@ -6827,6 +6827,41 @@ body.about-page .about-btn-gold:hover {
     }
 
 }
+
+/* ==========================================================================
+   Explore popup — protected from the Passport page's generic .modal rules
+   (keep this at the very END of style.css)
+   ========================================================================== */
+.explore-page #modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px;
+  overflow-y: auto;
+  background: rgba(7,15,20,.6);
+}
+.explore-page #modalOverlay.is-open { display: flex; }
+
+.explore-page #modalContent {
+  display: block;
+  position: relative;
+  inset: auto;
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  width: 100%;
+  max-width: 760px;
+  height: auto;
+  max-height: none;
+  margin: 0;
+  overflow: hidden;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 30px 70px rgba(0,0,0,.35);
+}
 /* ==========================================================================
    ANANSE MAP PAGE ISOLATED STYLESHEET (map.css)
    Scoped under .ananse-map-page to avoid project conflicts
