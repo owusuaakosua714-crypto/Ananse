@@ -121,6 +121,29 @@
                 loggingIn: 'Logging in...',
                 loginSuccess: 'Welcome back to ANANSE!'
             },
+            'signup.nav.tagline': 'Weaving Ghana’s Story into the Digital Age',
+'signup.nav.home': 'Home',
+'signup.nav.explore': 'Explore',
+'signup.nav.map': 'Map',
+'signup.nav.passport': 'Passport',
+'signup.nav.about': 'About',
+'signup.hero.imageAlt': 'Ghanaian heritage background',
+'signup.hero.tagline': 'Weaving Ghana’s story into the digital age',
+'signup.form.title': 'Create your account',
+'signup.form.description': 'Join Ananse and start exploring Ghana’s stories, heritage and places.',
+'signup.form.fullName': 'Full Name',
+'signup.form.email': 'Email Address',
+'signup.form.password': 'Password',
+'signup.form.confirmPassword': 'Confirm Password',
+'signup.form.termsText': 'I agree to the',
+'signup.form.termsLink': 'Terms & Privacy Policy',
+'signup.form.createAccount': 'Create Account',
+'signup.form.alreadyAccount': 'Already have an account?',
+'signup.form.login': 'Log in',
+'signup.footer.tagline': 'START A JOURNEY THROUGH GHANA’S HERITAGE',
+'signup.footer.explore': 'Explore',
+'signup.footer.learn': 'Learn',
+'signup.footer.preserve': 'Preserve',
             'about.sectionTitle': 'ABOUT ANANSE',
             'about.heroTitle': 'More Than a Platform.<br><span>It\'s a Movement.</span>',
             'about.heroDescription': "ANANSE is a digital heritage platform built to bring Ghana's rich history, culture and people to life — connecting the past, present and future.",
@@ -507,6 +530,29 @@
             'common.searching': 'Recherche Ananse pour : "{{query}}"',
             'common.errorNoResponse': 'Aucune réponse disponible pour le moment.'
         },
+        'signup.nav.tagline': 'Tisser les récits du Ghana à l’ère numérique',
+'signup.nav.home': 'Accueil',
+'signup.nav.explore': 'Explorer',
+'signup.nav.map': 'Carte',
+'signup.nav.passport': 'Passeport',
+'signup.nav.about': 'À propos',
+'signup.hero.imageAlt': 'Arrière-plan du patrimoine ghanéen',
+'signup.hero.tagline': 'Tisser les récits du Ghana à l’ère numérique',
+'signup.form.title': 'Créez votre compte',
+'signup.form.description': 'Rejoignez Ananse et explorez les histoires, le patrimoine et les lieux du Ghana.',
+'signup.form.fullName': 'Nom complet',
+'signup.form.email': 'Adresse e-mail',
+'signup.form.password': 'Mot de passe',
+'signup.form.confirmPassword': 'Confirmer le mot de passe',
+'signup.form.termsText': 'J’accepte les',
+'signup.form.termsLink': 'Conditions et politique de confidentialité',
+'signup.form.createAccount': 'Créer un compte',
+'signup.form.alreadyAccount': 'Vous avez déjà un compte ?',
+'signup.form.login': 'Se connecter',
+'signup.footer.tagline': 'COMMENCEZ UN VOYAGE À TRAVERS LE PATRIMOINE DU GHANA',
+'signup.footer.explore': 'Explorer',
+'signup.footer.learn': 'Apprendre',
+'signup.footer.preserve': 'Préserver',
         es: {
             'language.label': 'Idioma',
             'nav.home': 'Inicio',
@@ -620,6 +666,29 @@
                 loggingIn: 'Iniciando sesión...',
                 loginSuccess: '¡Bienvenido de nuevo a ANANSE!'
             },
+            'signup.nav.tagline': 'Tejiendo las historias de Ghana en la era digital',
+'signup.nav.home': 'Inicio',
+'signup.nav.explore': 'Explorar',
+'signup.nav.map': 'Mapa',
+'signup.nav.passport': 'Pasaporte',
+'signup.nav.about': 'Nosotros',
+'signup.hero.imageAlt': 'Fondo del patrimonio de Ghana',
+'signup.hero.tagline': 'Tejiendo las historias de Ghana en la era digital',
+'signup.form.title': 'Crea tu cuenta',
+'signup.form.description': 'Únete a Ananse y empieza a explorar las historias, el patrimonio y los lugares de Ghana.',
+'signup.form.fullName': 'Nombre completo',
+'signup.form.email': 'Correo electrónico',
+'signup.form.password': 'Contraseña',
+'signup.form.confirmPassword': 'Confirmar contraseña',
+'signup.form.termsText': 'Acepto los',
+'signup.form.termsLink': 'Términos y política de privacidad',
+'signup.form.createAccount': 'Crear cuenta',
+'signup.form.alreadyAccount': '¿Ya tienes una cuenta?',
+'signup.form.login': 'Iniciar sesión',
+'signup.footer.tagline': 'COMIENZA UN VIAJE POR EL PATRIMONIO DE GHANA',
+'signup.footer.explore': 'Explorar',
+'signup.footer.learn': 'Aprender',
+'signup.footer.preserve': 'Preservar',
             'about.sectionTitle': 'SOBRE ANANSE',
             'about.heroTitle': 'Más que una plataforma.<br><span>Es un movimiento.</span>',
             'about.heroDescription': 'ANANSE es una plataforma digital del patrimonio creada para dar vida a la rica historia, la cultura y la gente de Ghana, conectando el pasado, el presente y el futuro.',
@@ -871,6 +940,7 @@
         document.querySelectorAll('.language-select').forEach((select) => {
             select.value = state.language;
         });
+          document.dispatchEvent(new CustomEvent('ananse:languagechange', { detail: { language: state.language } }));
     }
 
     const state = {
@@ -1404,810 +1474,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-/* =========================================================
-   ANANSE LANGUAGE SYSTEM
-   LANGUAGE.JS
-   ========================================================= */
-
-"use strict";
-
-
-/* =========================================================
-   TRANSLATION DATABASE
-   ========================================================= */
-
-window.ANANSE_TRANSLATIONS = {
-
-    en: {
-
-        pageTitle:
-            "My Heritage Passport — ANANSE",
-
-        tagline:
-            "Weaving Ghana's Story into the Digital Age",
-
-        home:
-            "Home",
-
-        about:
-            "About",
-
-        explore:
-            "Explore",
-
-        map:
-            "Map",
-
-        passport:
-            "Passport",
-
-        login:
-            "Login",
-
-        signUp:
-            "Sign Up",
-
-        backHome:
-            "Back to Home",
-
-
-        /* AUTH */
-
-        loginRequired:
-            "Please log in to view your passport page",
-
-        loginRequiredDescription:
-            "Your Heritage Passport is personal to your account. Please log in to continue your journey.",
-
-
-        /* HERO */
-
-        heroEyebrow:
-            "YOUR HERITAGE PASSPORT",
-
-        heroTitleOne:
-            "Collect.",
-
-        heroTitleTwo:
-            "Learn.",
-
-        heroTitleThree:
-            "Explore.",
-
-        heroDescription:
-            "Complete your journey through Ghana's heritage and collect unique badges for each site you explore.",
-
-
-        /* PROFILE */
-
-        heritageExplorer:
-            "Heritage Explorer",
-
-        myPassport:
-            "My Passport",
-
-        myBadges:
-            "My Badges",
-
-        myProgress:
-            "My Progress",
-
-        myFavourites:
-            "My Favourites",
-
-        myActivity:
-            "My Activity",
-
-        settings:
-            "Settings",
-
-        viewEarnedBadges:
-            "View your earned badges",
-
-        trackJourney:
-            "Track your journey",
-
-        savedHeritageSites:
-            "Saved heritage sites",
-
-        recentActions:
-            "Recent actions",
-
-        manageAccount:
-            "Manage your account",
-
-        heritageQuote:
-            "“The more you know about your heritage, the stronger your roots.”",
-
-
-        /* DASHBOARD */
-
-        passportHeading:
-            "My Heritage Passport",
-
-        passportSubheading:
-            "Your badges, progress and journey through Ghana's heritage.",
-
-        totalPoints:
-            "Total Points",
-
-        collectBadges:
-            "Collect badges for each heritage site you complete.",
-
-        sites:
-            "Sites",
-
-
-        /* LOCATIONS */
-
-        capeCoast:
-            "Cape Coast Castle",
-
-        capeCoastLocation:
-            "Cape Coast, Central Region",
-
-        manhyiaPalace:
-            "Manhyia Palace",
-
-        manhyiaLocation:
-            "Kumasi, Ashanti Region",
-
-        osuCastle:
-            "Osu Castle",
-
-        osuLocation:
-            "Osu, Accra",
-
-        independenceSquare:
-            "Independence Square",
-
-        accraGreaterRegion:
-            "Accra, Greater Accra Region",
-
-        nkrumahPark:
-            "Kwame Nkrumah Memorial Park",
-
-
-        /* PASSPORT */
-
-        yourPassport:
-            "Your Passport",
-
-        digitalCollection:
-            "A digital collection of your heritage journey.",
-
-        heritagePassport:
-            "HERITAGE PASSPORT",
-
-        viewFullPassport:
-            "View Full Passport",
-
-
-        /* BADGE */
-
-        badgeEarned:
-            "Badge Earned!",
-
-        discovered:
-            "Discovered",
-
-        learned:
-            "Learned",
-
-        askedNaa:
-            "Asked Naa",
-
-        completed:
-            "Completed",
-
-        points:
-            "pts",
-
-        badgeQuote:
-            "“Every site tells a story. You just have to be curious enough to listen.”",
-
-        shareBadge:
-            "Share Your Badge",
-
-
-        /* JOURNEY */
-
-        yourJourney:
-            "Your Journey",
-
-        discover:
-            "Discover",
-
-        learn:
-            "Learn",
-
-        askNaa:
-            "Ask Naa",
-
-        earnBadge:
-            "Earn Badge",
-
-
-        /* FOOTER */
-
-        journeyContinues:
-            "Your heritage journey continues...",
-
-        discoverLearnMore:
-            "Discover more. Learn more. Ask Naa. Earn more."
-
-    },
-
-
-    /* =====================================================
-       FRENCH
-       ===================================================== */
-
-    fr: {
-
-        pageTitle:
-            "Mon Passeport du Patrimoine — ANANSE",
-
-        tagline:
-            "Tisser l'histoire du Ghana à l'ère numérique",
-
-        home:
-            "Accueil",
-
-        about:
-            "À propos",
-
-        explore:
-            "Explorer",
-
-        map:
-            "Carte",
-
-        passport:
-            "Passeport",
-
-        login:
-            "Connexion",
-
-        signUp:
-            "S'inscrire",
-
-        backHome:
-            "Retour à l'accueil",
-
-
-        /* AUTH */
-
-        loginRequired:
-            "Veuillez vous connecter pour voir votre passeport",
-
-        loginRequiredDescription:
-            "Votre Passeport du Patrimoine est personnel à votre compte. Connectez-vous pour continuer votre parcours.",
-
-
-        /* HERO */
-
-        heroEyebrow:
-            "VOTRE PASSEPORT DU PATRIMOINE",
-
-        heroTitleOne:
-            "Collectionnez.",
-
-        heroTitleTwo:
-            "Apprenez.",
-
-        heroTitleThree:
-            "Explorez.",
-
-        heroDescription:
-            "Complétez votre parcours à travers le patrimoine du Ghana et collectionnez des badges uniques pour chaque site que vous explorez.",
-
-
-        /* PROFILE */
-
-        heritageExplorer:
-            "Explorateur du patrimoine",
-
-        myPassport:
-            "Mon Passeport",
-
-        myBadges:
-            "Mes Badges",
-
-        myProgress:
-            "Ma Progression",
-
-        myFavourites:
-            "Mes Favoris",
-
-        myActivity:
-            "Mon Activité",
-
-        settings:
-            "Paramètres",
-
-        viewEarnedBadges:
-            "Voir vos badges obtenus",
-
-        trackJourney:
-            "Suivre votre parcours",
-
-        savedHeritageSites:
-            "Sites du patrimoine enregistrés",
-
-        recentActions:
-            "Actions récentes",
-
-        manageAccount:
-            "Gérer votre compte",
-
-        heritageQuote:
-            "« Plus vous connaissez votre patrimoine, plus vos racines sont fortes. »",
-
-
-        /* DASHBOARD */
-
-        passportHeading:
-            "Mon Passeport du Patrimoine",
-
-        passportSubheading:
-            "Vos badges, votre progression et votre parcours à travers le patrimoine du Ghana.",
-
-        totalPoints:
-            "Points Totaux",
-
-        collectBadges:
-            "Collectionnez des badges pour chaque site du patrimoine que vous complétez.",
-
-        sites:
-            "Sites",
-
-
-        /* LOCATIONS */
-
-        capeCoast:
-            "Château de Cape Coast",
-
-        capeCoastLocation:
-            "Cape Coast, Région Centrale",
-
-        manhyiaPalace:
-            "Palais Manhyia",
-
-        manhyiaLocation:
-            "Kumasi, Région Ashanti",
-
-        osuCastle:
-            "Château d'Osu",
-
-        osuLocation:
-            "Osu, Accra",
-
-        independenceSquare:
-            "Place de l'Indépendance",
-
-        accraGreaterRegion:
-            "Accra, Région du Grand Accra",
-
-        nkrumahPark:
-            "Parc Mémorial Kwame Nkrumah",
-
-
-        /* PASSPORT */
-
-        yourPassport:
-            "Votre Passeport",
-
-        digitalCollection:
-            "Une collection numérique de votre parcours patrimonial.",
-
-        heritagePassport:
-            "PASSEPORT DU PATRIMOINE",
-
-        viewFullPassport:
-            "Voir le Passeport Complet",
-
-
-        /* BADGE */
-
-        badgeEarned:
-            "Badge obtenu !",
-
-        discovered:
-            "Découvert",
-
-        learned:
-            "Appris",
-
-        askedNaa:
-            "Demandé à Naa",
-
-        completed:
-            "Terminé",
-
-        points:
-            "pts",
-
-        badgeQuote:
-            "« Chaque site raconte une histoire. Il suffit d'être assez curieux pour l'écouter. »",
-
-        shareBadge:
-            "Partager votre badge",
-
-
-        /* JOURNEY */
-
-        yourJourney:
-            "Votre Parcours",
-
-        discover:
-            "Découvrir",
-
-        learn:
-            "Apprendre",
-
-        askNaa:
-            "Demander à Naa",
-
-        earnBadge:
-            "Obtenir le badge",
-
-
-        /* FOOTER */
-
-        journeyContinues:
-            "Votre parcours patrimonial continue...",
-
-        discoverLearnMore:
-            "Découvrez davantage. Apprenez davantage. Demandez à Naa. Gagnez davantage."
-
-    },
-
-
-    /* =====================================================
-       SPANISH
-       ===================================================== */
-
-    es: {
-
-        pageTitle:
-            "Mi Pasaporte del Patrimonio — ANANSE",
-
-        tagline:
-            "Tejiendo la historia de Ghana en la era digital",
-
-        home:
-            "Inicio",
-
-        about:
-            "Acerca de",
-
-        explore:
-            "Explorar",
-
-        map:
-            "Mapa",
-
-        passport:
-            "Pasaporte",
-
-        login:
-            "Iniciar sesión",
-
-        signUp:
-            "Registrarse",
-
-        backHome:
-            "Volver al inicio",
-
-
-        /* AUTH */
-
-        loginRequired:
-            "Inicia sesión para ver tu pasaporte",
-
-        loginRequiredDescription:
-            "Tu Pasaporte del Patrimonio es personal de tu cuenta. Inicia sesión para continuar tu recorrido.",
-
-
-        /* HERO */
-
-        heroEyebrow:
-            "TU PASAPORTE DEL PATRIMONIO",
-
-        heroTitleOne:
-            "Colecciona.",
-
-        heroTitleTwo:
-            "Aprende.",
-
-        heroTitleThree:
-            "Explora.",
-
-        heroDescription:
-            "Completa tu recorrido por el patrimonio de Ghana y consigue insignias únicas por cada lugar que explores.",
-
-
-        /* PROFILE */
-
-        heritageExplorer:
-            "Explorador del Patrimonio",
-
-        myPassport:
-            "Mi Pasaporte",
-
-        myBadges:
-            "Mis Insignias",
-
-        myProgress:
-            "Mi Progreso",
-
-        myFavourites:
-            "Mis Favoritos",
-
-        myActivity:
-            "Mi Actividad",
-
-        settings:
-            "Configuración",
-
-        viewEarnedBadges:
-            "Ver tus insignias obtenidas",
-
-        trackJourney:
-            "Seguir tu recorrido",
-
-        savedHeritageSites:
-            "Sitios patrimoniales guardados",
-
-        recentActions:
-            "Acciones recientes",
-
-        manageAccount:
-            "Administrar tu cuenta",
-
-        heritageQuote:
-            "«Cuanto más conoces tu patrimonio, más fuertes son tus raíces.»",
-
-
-        /* DASHBOARD */
-
-        passportHeading:
-            "Mi Pasaporte del Patrimonio",
-
-        passportSubheading:
-            "Tus insignias, progreso y recorrido por el patrimonio de Ghana.",
-
-        totalPoints:
-            "Puntos Totales",
-
-        collectBadges:
-            "Colecciona insignias por cada sitio patrimonial que completes.",
-
-        sites:
-            "Sitios",
-
-
-        /* LOCATIONS */
-
-        capeCoast:
-            "Castillo de Cape Coast",
-
-        capeCoastLocation:
-            "Cape Coast, Región Central",
-
-        manhyiaPalace:
-            "Palacio Manhyia",
-
-        manhyiaLocation:
-            "Kumasi, Región Ashanti",
-
-        osuCastle:
-            "Castillo de Osu",
-
-        osuLocation:
-            "Osu, Accra",
-
-        independenceSquare:
-            "Plaza de la Independencia",
-
-        accraGreaterRegion:
-            "Accra, Región del Gran Accra",
-
-        nkrumahPark:
-            "Parque Memorial Kwame Nkrumah",
-
-
-        /* PASSPORT */
-
-        yourPassport:
-            "Tu Pasaporte",
-
-        digitalCollection:
-            "Una colección digital de tu recorrido por el patrimonio.",
-
-        heritagePassport:
-            "PASAPORTE DEL PATRIMONIO",
-
-        viewFullPassport:
-            "Ver Pasaporte Completo",
-
-
-        /* BADGE */
-
-        badgeEarned:
-            "¡Insignia obtenida!",
-
-        discovered:
-            "Descubierto",
-
-        learned:
-            "Aprendido",
-
-        askedNaa:
-            "Preguntado a Naa",
-
-        completed:
-            "Completado",
-
-        points:
-            "pts",
-
-        badgeQuote:
-            "«Cada sitio cuenta una historia. Solo tienes que sentir curiosidad para escucharla.»",
-
-        shareBadge:
-            "Compartir tu insignia",
-
-
-        /* JOURNEY */
-
-        yourJourney:
-            "Tu Recorrido",
-
-        discover:
-            "Descubrir",
-
-        learn:
-            "Aprender",
-
-        askNaa:
-            "Preguntar a Naa",
-
-        earnBadge:
-            "Obtener insignia",
-
-
-        /* FOOTER */
-
-        journeyContinues:
-            "Tu recorrido patrimonial continúa...",
-
-        discoverLearnMore:
-            "Descubre más. Aprende más. Pregunta a Naa. Gana más."
-
-    }
-
-};
-
-
-/* =========================================================
-   APPLY LANGUAGE
-   ========================================================= */
-
-function applyAnanseLanguage(language) {
-
-    const dictionary =
-        window.ANANSE_TRANSLATIONS[language] ||
-        window.ANANSE_TRANSLATIONS.en;
-
-    document.documentElement.lang = language;
-
-
-    /* TEXT */
-
-    document
-        .querySelectorAll("[data-i18n]")
-        .forEach(element => {
-
-            const key =
-                element.getAttribute("data-i18n");
-
-            if (
-                Object.prototype.hasOwnProperty.call(
-                    dictionary,
-                    key
-                )
-            ) {
-
-                element.textContent =
-                    dictionary[key];
-
-            }
-
-        });
-
-
-    /* PAGE TITLE */
-
-    if (dictionary.pageTitle) {
-
-        document.title =
-            dictionary.pageTitle;
-
-    }
-
-
-    /* SAVE */
-
-    localStorage.setItem(
-        "ananseLanguage",
-        language
-    );
-
-
-    /* EVENT FOR OTHER JS */
-
-    document.dispatchEvent(
-        new CustomEvent(
-            "ananseLanguageChanged",
-            {
-                detail: {
-                    language,
-                    dictionary
-                }
-            }
-        )
-    );
-
-}
-
-
-/* =========================================================
-   INITIALIZE LANGUAGE
-   ========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        const selector =
-            document.getElementById(
-                "languageSelector"
-            );
-
-        if (!selector) return;
-
-
-        const savedLanguage =
-            localStorage.getItem(
-                "ananseLanguage"
-            ) || "en";
-
-
-        selector.value =
-            window.ANANSE_TRANSLATIONS[
-                savedLanguage
-            ]
-                ? savedLanguage
-                : "en";
-
-
-        applyAnanseLanguage(
-            selector.value
-        );
-
-
-        selector.addEventListener(
-            "change",
-            function () {
-
-                applyAnanseLanguage(
-                    this.value
-                );
-
-            }
-        );
-
-    }
-);
