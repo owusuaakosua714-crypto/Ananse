@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ananse - Explore Ghana's Heritage Map</title>
-    
+
     <!-- MAPBOX GL JS CSS -->
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
-    
+
     <!-- FONT AWESOME FOR ICONS -->
     <script src="https://kit.fontawesome.com/17eac40b74.js" crossorigin="anonymous"></script>
-    
+
     <!-- SCOPED MAP PAGE CSS -->
     <link rel="stylesheet" href="../src/style.css">
 </head>
+
 <body>
 
     <!-- WRAPPER: Scopes all styling to avoid conflicting with existing project styles -->
@@ -54,7 +56,8 @@
                     </div>
 
                     <!-- HAMBURGER BUTTON FOR MOBILE -->
-                    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Navigation Menu" aria-expanded="false">
+                    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Navigation Menu"
+                        aria-expanded="false">
                         <i class="fa-solid fa-bars icon-open"></i>
                         <i class="fa-solid fa-xmark icon-close"></i>
                     </button>
@@ -73,18 +76,21 @@
 
         <!-- MAIN CONTENT AREA -->
         <main class="map-main-content">
-            
+
             <!-- HERO OVERLAY CONTROLS -->
             <div class="map-overlay-container">
                 <div class="map-hero-text">
                     <h1 data-lang-key="heroTitle">Explore Ghana’s Heritage</h1>
-                    <p data-lang-key="heroSub">Discover historic places, follow heritage trails, and experience Ghana’s stories.</p>
+                    <p data-lang-key="heroSub">Discover historic places, follow heritage trails, and experience Ghana’s
+                        stories.</p>
                 </div>
 
                 <!-- MAP SEARCH BAR -->
                 <div class="map-search-wrapper">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" id="mapSearchInput" class="map-search-input" placeholder="Search for a heritage site..." data-lang-placeholder="searchPlaceholder" aria-label="Search for a heritage site">
+                    <input type="text" id="mapSearchInput" class="map-search-input"
+                        placeholder="Search for a heritage site..." data-lang-placeholder="searchPlaceholder"
+                        aria-label="Search for a heritage site">
                 </div>
 
                 <!-- CATEGORY FILTER BUTTONS -->
@@ -92,7 +98,8 @@
                     <button class="filter-btn active" data-category="all" data-lang-key="filterAll">All</button>
                     <button class="filter-btn" data-category="castles" data-lang-key="filterCastles">Castles</button>
                     <button class="filter-btn" data-category="palaces" data-lang-key="filterPalaces">Palaces</button>
-                    <button class="filter-btn" data-category="monuments" data-lang-key="filterMonuments">Monuments</button>
+                    <button class="filter-btn" data-category="monuments"
+                        data-lang-key="filterMonuments">Monuments</button>
                     <button class="filter-btn" data-category="museums" data-lang-key="filterMuseums">Museums</button>
                 </div>
             </div>
@@ -102,9 +109,12 @@
 
             <!-- CUSTOM MAP CONTROLS -->
             <div class="map-custom-controls">
-                <button id="btnZoomIn" class="map-ctrl-btn" aria-label="Zoom In"><i class="fa-solid fa-plus"></i></button>
-                <button id="btnZoomOut" class="map-ctrl-btn" aria-label="Zoom Out"><i class="fa-solid fa-minus"></i></button>
-                <button id="btnLocateMe" class="map-ctrl-btn" aria-label="Find My Location"><i class="fa-solid fa-crosshairs"></i></button>
+                <button id="btnZoomIn" class="map-ctrl-btn" aria-label="Zoom In"><i
+                        class="fa-solid fa-plus"></i></button>
+                <button id="btnZoomOut" class="map-ctrl-btn" aria-label="Zoom Out"><i
+                        class="fa-solid fa-minus"></i></button>
+                <button id="btnLocateMe" class="map-ctrl-btn" aria-label="Find My Location"><i
+                        class="fa-solid fa-crosshairs"></i></button>
             </div>
 
             <!-- DETAILED SIDE POPUP / MOBILE BOTTOM SHEET -->
@@ -112,7 +122,7 @@
                 <button class="popup-close-btn" id="closePopupBtn" aria-label="Close details popup">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
-                
+
                 <div class="popup-scroll-wrapper">
                     <div class="popup-image-container">
                         <img src="../images/🇬🇭.jpeg" id="popupImage" alt="Heritage Site">
@@ -129,7 +139,8 @@
                         </div>
 
                         <p class="popup-description" id="popupDescription">
-                            Explore the castle and discover the powerful stories of the transatlantic slave trade, resilience and freedom.
+                            Explore the castle and discover the powerful stories of the transatlantic slave trade,
+                            resilience and freedom.
                         </p>
 
                         <!-- ACTION STACK -->
@@ -169,7 +180,8 @@
                         <div class="travel-estimate-box hidden" id="travelEstimateBox">
                             <i class="fa-solid fa-route travel-icon"></i>
                             <div class="travel-details">
-                                <span class="travel-label" data-lang-key="travelEstimateLabel">Estimated travel time from your location</span>
+                                <span class="travel-label" data-lang-key="travelEstimateLabel">Estimated travel time
+                                    from your location</span>
                                 <div class="travel-stats">
                                     <i class="fa-solid fa-car"></i>
                                     <span id="travelTimeText">2 hr 45 min</span>
@@ -179,15 +191,19 @@
                         </div>
 
                         <div class="trail-highlights-section">
-                            <h3 class="highlights-heading" data-lang-key="trailHighlightsHeading">Heritage Trail Highlights</h3>
-                            
-                            <a href="heritagetrails.html?site=cape-coast-castle" class="highlight-item-card" id="primaryHighlightLink">
+                            <h3 class="highlights-heading" data-lang-key="trailHighlightsHeading">Heritage Trail
+                                Highlights</h3>
+
+                            <a href="heritagetrails.html?site=cape-coast-castle" class="highlight-item-card"
+                                id="primaryHighlightLink">
                                 <div class="highlight-thumb-container">
-                                    <img src="../images/The Door Of No Return At Cape Coast Castle photo, Ghana Africa.jpeg" id="highlightThumb" alt="Highlight Stop">
+                                    <img src="../images/The Door Of No Return At Cape Coast Castle photo, Ghana Africa.jpeg"
+                                        id="highlightThumb" alt="Highlight Stop">
                                 </div>
                                 <div class="highlight-info">
                                     <h4 class="highlight-title" id="highlightTitle">Door of No Return</h4>
-                                    <p class="highlight-desc" id="highlightDesc">The point where enslaved Africans were forced onto ships.</p>
+                                    <p class="highlight-desc" id="highlightDesc">The point where enslaved Africans were
+                                        forced onto ships.</p>
                                 </div>
                                 <i class="fa-solid fa-chevron-right highlight-arrow"></i>
                             </a>
@@ -217,7 +233,7 @@
 
             <!-- GRID OF FEATURED CARDS (5 BOXES ALIGNED ON ONE LINE) -->
             <div class="featured-cards-grid">
-                
+
                 <!-- SITE 1: CAPE COAST CASTLE -->
                 <div class="site-card" data-site-id="cape-coast-castle">
                     <div class="card-media">
@@ -230,7 +246,8 @@
                             </div>
                             <div class="card-titles">
                                 <h3 data-site-title-id="cape-coast-castle">Cape Coast Castle</h3>
-                                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <span data-site-shortloc-id="cape-coast-castle">Cape Coast</span></p>
+                                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <span
+                                        data-site-shortloc-id="cape-coast-castle">Cape Coast</span></p>
                             </div>
                             <i class="fa-solid fa-chevron-right card-arrow"></i>
                         </div>
@@ -250,7 +267,8 @@
                             </div>
                             <div class="card-titles">
                                 <h3 data-site-title-id="manhyia-palace">Manhyia Palace</h3>
-                                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <span data-site-shortloc-id="manhyia-palace">Kumasi</span></p>
+                                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <span
+                                        data-site-shortloc-id="manhyia-palace">Kumasi</span></p>
                             </div>
                             <i class="fa-solid fa-chevron-right card-arrow"></i>
                         </div>
@@ -270,7 +288,8 @@
                             </div>
                             <div class="card-titles">
                                 <h3 data-site-title-id="osu-castle">Osu Castle</h3>
-                                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <span data-site-shortloc-id="osu-castle">Accra</span></p>
+                                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <span
+                                        data-site-shortloc-id="osu-castle">Accra</span></p>
                             </div>
                             <i class="fa-solid fa-chevron-right card-arrow"></i>
                         </div>
@@ -290,7 +309,8 @@
                             </div>
                             <div class="card-titles">
                                 <h3 data-site-title-id="independence-arch">Independence Arch</h3>
-                                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <span data-site-shortloc-id="independence-arch">Accra</span></p>
+                                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <span
+                                        data-site-shortloc-id="independence-arch">Accra</span></p>
                             </div>
                             <i class="fa-solid fa-chevron-right card-arrow"></i>
                         </div>
@@ -310,7 +330,8 @@
                             </div>
                             <div class="card-titles">
                                 <h3 data-site-title-id="kwame-nkrumah">Kwame Nkrumah Memorial Park</h3>
-                                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <span data-site-shortloc-id="kwame-nkrumah">Accra</span></p>
+                                <p class="card-loc"><i class="fa-solid fa-location-dot"></i> <span
+                                        data-site-shortloc-id="kwame-nkrumah">Accra</span></p>
                             </div>
                             <i class="fa-solid fa-chevron-right card-arrow"></i>
                         </div>
@@ -324,8 +345,9 @@
             <div class="promo-banner-card">
                 <div class="promo-pattern-left">
                     <svg width="60" height="120" viewBox="0 0 60 120" class="kente-pattern">
-                        <path d="M0 0 L30 30 L0 60 L30 90 L0 120 M30 0 L60 30 L30 60 L60 90 L30 120" stroke="#FFC72C" stroke-width="4" fill="none"/>
-                        <path d="M15 15 L45 45 M15 75 L45 105" stroke="#E03C32" stroke-width="3" fill="none"/>
+                        <path d="M0 0 L30 30 L0 60 L30 90 L0 120 M30 0 L60 30 L30 60 L60 90 L30 120" stroke="#FFC72C"
+                            stroke-width="4" fill="none" />
+                        <path d="M15 15 L45 45 M15 75 L45 105" stroke="#E03C32" stroke-width="3" fill="none" />
                     </svg>
                 </div>
                 <div class="promo-body">
@@ -353,9 +375,10 @@
 
     <!-- MAPBOX GL JS LIBRARY -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-    
+
     <!-- ISOLATED MAP PAGE SCRIPTS -->
     <script src="../src/map.lang.js"></script>
     <script src="../src/script.js"></script>
 </body>
+
 </html>
