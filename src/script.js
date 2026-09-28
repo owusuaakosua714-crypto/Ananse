@@ -471,20 +471,26 @@ document.addEventListener("DOMContentLoaded", function () {
         return el ? el.textContent : fallback;
     }
 
-    // ---- Dedicated story pages (sites without one fall back to site.html) ----
-   const STORY_PAGES = {
-    "cape-coast": "capecoast.html",
-    "independence": "independence.html"
-    // "manhyia": "manhyia.html",
-    // "osu": "osu.html",
-};
+    // ---- Dedicated story pages for each heritage card ----
+    const STORY_PAGES = {
+        "cape-coast": "capecoast.html",
+        "manhyia": "manhyia.html",
+        "osu": "osucastle.html",
+        "independence": "indepencesqr.html",
+        "kwame-nkrumah": "kwamepark.html"
+    };
+
     function getStoryUrl(siteId) {
-        return STORY_PAGES[siteId] || ("site.html?site=" + siteId);
+        return STORY_PAGES[siteId] || "site.html?site=" + siteId;
     }
 
     // ---- Pages with a Listen experience (others show "coming soon") ----
     const LISTEN_PAGES = {
-        "cape-coast": "capecoast.html#listen" // filename must match above; #listen must match an id on that page
+        "cape-coast": "capecoast.html#listen",
+        "manhyia": "manhyia.html#listen",
+        "osu": "osucastle.html#listen",
+        "independence": "indepencesqr.html#listen",
+        "kwame-nkrumah": "kwamepark.html#listen"
     };
 
     function getListenUrl(siteId) {
@@ -644,6 +650,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ---- Favourites + card clicks (event delegation) ----
     cardGrid.addEventListener("click", function (e) {
+        const learnBtn = e.target.closest(".explore-story-btn");
+        if (learnBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            const siteId = learnBtn.getAttribute("data-site-id");
+            const storyUrl = getStoryUrl(siteId);
+            if (storyUrl) {
+                window.location.href = storyUrl;
+            }
+            return;
+        }
+
         const favBtn = e.target.closest(".bookmark-btn");
         if (favBtn) {
             e.stopPropagation();
