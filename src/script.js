@@ -835,6 +835,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobileNavOverlay =
         document.getElementById("mobileNavOverlay");
 
+    if (!passportNav) return; // only run this whole section on passport.html
+
     function openMobileMenu() {
 
         passportNav.classList.add("open");
