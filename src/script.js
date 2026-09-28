@@ -1476,26 +1476,47 @@ document.addEventListener("DOMContentLoaded", function () {
     let activeCategory = "all";
     let activeSiteId = null;
 
-    // ----------------------------------------------------------------------
-    // MOBILE HAMBURGER MENU (UNTOUCHED)
+        // ----------------------------------------------------------------------
+    // MOBILE HAMBURGER MENU
     // ----------------------------------------------------------------------
     const hamburgerBtn = document.getElementById("hamburgerBtn");
     const mobileNav = document.getElementById("mobileNav");
 
-    if (hamburgerBtn && mobileNav) {
-        hamburgerBtn.addEventListener("click", function () {
-            const isOpen = mobileNav.classList.toggle("is-open");
-            hamburgerBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
-        });
-
-        document.addEventListener("click", function (e) {
-            if (!hamburgerBtn.contains(e.target) && !mobileNav.contains(e.target)) {
-                mobileNav.classList.remove("is-open");
-                hamburgerBtn.setAttribute("aria-expanded", "false");
-            }
-        });
+    function setMobileNavOpen(open) {
+        if (!hamburgerBtn || !mobileNav) return;
+        mobileNav.classList.toggle("open", open);          // map.css shows the menu with .open
+        hamburgerBtn.classList.toggle("is-active", open);  // swaps the bars icon for the X
+        hamburgerBtn.setAttribute("aria-expanded", open ? "true" : "false");
     }
 
+    if (hamburgerBtn && mobileNav) {
+        hamburgerBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            setMobileNavOpen(!mobileNav.classList.contains("open"));
+        });
+
+        // Close when tapping outside the menu
+        document.addEventListener("click", function (e) {
+            if (!hamburgerBtn.contains(e.target) && !mobileNav.contains(e.target)) {
+                setMobileNavOpen(false);
+            }
+        });
+
+        // Close when a menu link is tapped
+        mobileNav.querySelectorAll(".mobile-nav-link").forEach(function (link) {
+            link.addEventListener("click", function () { setMobileNavOpen(false); });
+        });
+
+        // Close with Escape
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") setMobileNavOpen(false);
+        });
+
+        // Reset when the window grows back to desktop width
+        window.addEventListener("resize", function () {
+            if (window.innerWidth > 768) setMobileNavOpen(false);
+        });
+    }
     // ----------------------------------------------------------------------
     // LANGUAGE SELECTOR LISTENERS (FIXES POPUP DYNAMIC TRANSLATIONS)
     // ----------------------------------------------------------------------

@@ -6828,40 +6828,7 @@ body.about-page .about-btn-gold:hover {
 
 }
 
-/* ==========================================================================
-   Explore popup — protected from the Passport page's generic .modal rules
-   (keep this at the very END of style.css)
-   ========================================================================== */
-.explore-page #modalOverlay {
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  display: none;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 40px 16px;
-  overflow-y: auto;
-  background: rgba(7,15,20,.6);
-}
-.explore-page #modalOverlay.is-open { display: flex; }
 
-.explore-page #modalContent {
-  display: block;
-  position: relative;
-  inset: auto;
-  transform: none;
-  opacity: 1;
-  visibility: visible;
-  width: 100%;
-  max-width: 760px;
-  height: auto;
-  max-height: none;
-  margin: 0;
-  overflow: hidden;
-  background: var(--white);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 30px 70px rgba(0,0,0,.35);
-}
 /* ==========================================================================
    ANANSE MAP PAGE ISOLATED STYLESHEET (map.css)
    Scoped under .ananse-map-page to avoid project conflicts
@@ -6997,6 +6964,18 @@ body.about-page .about-btn-gold:hover {
     height: 3px;
     background-color: var(--ananse-yellow);
     border-radius: 2px;
+}
+
+.ananse-map-page .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 400px) {
+    .ananse-map-page .header-container { padding: 12px 16px; }
+    .ananse-map-page .tagline { display: none; }
 }
 
 /* LANGUAGE DROPDOWN (DESKTOP) */
