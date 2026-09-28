@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANANSE — Create Your Account</title>
+
+    <!-- FONT AWESOME (Reusing existing Font Awesome setup) -->
+    <script src="https://kit.fontawesome.com/17eac40b74.js"></script>
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- SIGNUP STYLESHEET -->
+    <link rel="stylesheet" href="../src/style.css">
+</head>
+
+<body class="signup-page" data-page="signup">
+
+    <!-- ==================== HEADER ==================== -->
+    <header class="signup-header">
+        <div class="signup-header-container">
+
+            <!-- ANANSE LOGO (Matched to existing project implementation) -->
+            <a href="../index.html" class="signup-brand">
+                <span class="signup-brand-icon">
+                    <i class="fa-solid fa-spider"></i>
+                </span>
+                <span class="signup-brand-text">
+                    <strong>ANANSE</strong>
+                    <small data-i18n="signup.nav.tagline">Waving Ghana's story into the digital age</small>
+                </span>
+            </a>
+
+            <!-- CENTER NAVIGATION -->
+            <nav class="signup-nav" aria-label="Main Navigation">
+                <ul class="signup-nav-list">
+                    <li><a href="../index.html" class="signup-nav-link" data-i18n="signup.nav.home">Home</a></li>
+                    <li><a href="explore.html" class="signup-nav-link" data-i18n="signup.nav.explore">Explore</a></li>
+                    <li><a href="map.html" class="signup-nav-link" data-i18n="signup.nav.map">Map</a></li>
+                    <li><a href="passport.html" class="signup-nav-link" data-i18n="signup.nav.passport">Passport</a>
+                    </li>
+                    <li><a href="about.html" class="signup-nav-link" data-i18n="signup.nav.about">About</a></li>
+                </ul>
+            </nav>
+
+            <!-- RIGHT CONTROLS: LANGUAGE SELECTOR & MOBILE TOGGLE -->
+            <div class="signup-header-actions">
+                <div class="signup-language-wrapper">
+                    
+                    <select class="language-select signup-language-select" aria-label="Select Language">
+                        <option value="en">English</option>
+                        <option value="fr">Français</option>
+                        <option value="es">Español</option>
+                    </select>
+                    <i class="fa-solid fa-caret-down signup-select-arrow" aria-hidden="true"></i>
+                </div>
+
+                <!-- MOBILE MENU TOGGLE BUTTON -->
+                <button type="button" class="signup-mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- MOBILE NAVIGATION DRAWER -->
+        <div class="signup-mobile-menu" id="signupMobileMenu">
+            <ul class="signup-mobile-nav-list">
+                <li><a href="../index.html" class="signup-mobile-link" data-i18n="signup.nav.home">Home</a></li>
+                <li><a href="explore.html" class="signup-mobile-link" data-i18n="signup.nav.explore">Explore</a></li>
+                <li><a href="map.html" class="signup-mobile-link" data-i18n="signup.nav.map">Map</a></li>
+                <li><a href="passport.html" class="signup-mobile-link" data-i18n="signup.nav.passport">Passport</a></li>
+                <li><a href="about.html" class="signup-mobile-link" data-i18n="signup.nav.about">About</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN HERO / SIGNUP SECTION ==================== -->
+    <main class="signup-hero">
+
+        <!-- HERO BACKGROUND IMAGE -->
+        <!-- SIGN UP HERO IMAGE: Replace the src below with your correct existing image path if different -->
+        <img src="../images/signup.jpeg" alt="Ghanaian Heritage Background" class="signup-hero-image"
+            data-i18n-alt="signup.hero.imageAlt">
+
+        <!-- LEFT DECORATIVE PATTERN OVERLAY -->
+        <div class="signup-kente-pattern" aria-hidden="true"></div>
+
+        <!-- OVERLAY HERO TEXT -->
+        <div class="signup-hero-text" data-i18n="signup.hero.tagline">
+            Waving Ghana's story into the digital age
+        </div>
+
+        <!-- SIGNUP FORM CONTAINER / CARD -->
+        <div class="signup-card-container">
+            <div class="signup-card">
+
+                <!-- CARD HEADER & CROWN DECORATION -->
+                <div class="signup-card-header">
+                    <div class="signup-crown-icon" aria-hidden="true">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <h1 class="signup-title" data-i18n="signup.form.title">Create your account</h1>
+                    <p class="signup-subtitle" data-i18n="signup.form.description">
+                        Join Ananse and start exploring Ghana's stories, heritage and places.
+                    </p>
+                </div>
+
+                <!-- ALERT ERROR / SUCCESS BOX -->
+                <div class="signup-alert" id="signupAlert" role="alert" aria-live="polite" style="display: none;"></div>
+
+                <!-- SIGNUP FORM -->
+                <form class="signup-form" id="signupForm" novalidate>
+
+                    <!-- FULL NAME FIELD -->
+                    <div class="signup-field-group">
+                        <div class="signup-input-wrapper">
+                            <i class="fa-regular fa-user signup-field-icon" aria-hidden="true"></i>
+                            <input type="text" id="signupFullName" name="fullName" class="signup-input"
+                                placeholder="Full Name" data-i18n-placeholder="signup.form.fullName" required
+                                aria-label="Full Name">
+                        </div>
+                        <span class="signup-error-message" id="fullNameError"></span>
+                    </div>
+
+                    <!-- EMAIL ADDRESS FIELD -->
+                    <div class="signup-field-group">
+                        <div class="signup-input-wrapper">
+                            <i class="fa-regular fa-envelope signup-field-icon" aria-hidden="true"></i>
+                            <input type="email" id="signupEmail" name="email" class="signup-input"
+                                placeholder="Email Address" data-i18n-placeholder="signup.form.email" required
+                                aria-label="Email Address">
+                        </div>
+                        <span class="signup-error-message" id="emailError"></span>
+                    </div>
+
+                    <!-- PASSWORD FIELD -->
+                    <div class="signup-field-group">
+                        <div class="signup-input-wrapper">
+                            <i class="fa-solid fa-lock signup-field-icon" aria-hidden="true"></i>
+                            <input type="password" id="signupPassword" name="password" class="signup-input"
+                                placeholder="Password" data-i18n-placeholder="signup.form.password" required
+                                aria-label="Password">
+                            <button type="button" class="signup-password-toggle" id="togglePassword"
+                                aria-label="Toggle password visibility">
+                                <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <span class="signup-error-message" id="passwordError"></span>
+                    </div>
+
+                    <!-- CONFIRM PASSWORD FIELD -->
+                    <div class="signup-field-group">
+                        <div class="signup-input-wrapper">
+                            <i class="fa-solid fa-lock signup-field-icon" aria-hidden="true"></i>
+                            <input type="password" id="signupConfirmPassword" name="confirmPassword"
+                                class="signup-input" placeholder="Confirm Password"
+                                data-i18n-placeholder="signup.form.confirmPassword" required
+                                aria-label="Confirm Password">
+                            <button type="button" class="signup-password-toggle" id="toggleConfirmPassword"
+                                aria-label="Toggle confirm password visibility">
+                                <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <span class="signup-error-message" id="confirmPasswordError"></span>
+                    </div>
+
+                    <!-- TERMS & PRIVACY CHECKBOX -->
+                    <div class="signup-field-group signup-terms-group">
+                        <label class="signup-checkbox-label">
+                            <input type="checkbox" id="signupTerms" name="terms" required class="signup-checkbox">
+                            <span class="signup-checkbox-text">
+                                <span data-i18n="signup.form.termsText">I agree to the</span>
+                                <a href="#" class="signup-link" data-i18n="signup.form.termsLink">Terms & Privacy
+                                    Policy</a>
+                            </span>
+                        </label>
+                        <span class="signup-error-message" id="termsError"></span>
+                    </div>
+
+                    <!-- SUBMIT BUTTON -->
+                    <button type="submit" class="signup-btn-primary" id="signupSubmitBtn"
+                        data-i18n="signup.form.createAccount">
+                        Create Account
+                    </button>
+
+                    <!-- LOGIN REDIRECT LINK -->
+                    <div class="signup-login-prompt">
+                        <span data-i18n="signup.form.alreadyAccount">Already have an account?</span>
+                        <!-- LOGIN LINK: Verify path relative to pages/ directory -->
+                        <a href="login.html" class="signup-login-link" data-i18n="signup.form.login">Log in</a>
+                    </div>
+
+                    <!-- BOTTOM ADINKRA DECORATIVE ACCENT -->
+                    <div class="signup-adinkra-accent" aria-hidden="true">
+                        <span class="adinkra-line"></span>
+                        <div class="adinkra-symbol">
+                            <i class="fa-solid fa-diamond"></i>
+                        </div>
+                        <span class="adinkra-line"></span>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="signup-footer">
+        <div class="signup-footer-container">
+
+            <!-- FOOTER BRANDING -->
+            <div class="signup-footer-brand">
+                <a href="../index.html" class="signup-brand">
+                    <span class="signup-brand-icon">
+                        <i class="fa-solid fa-spider"></i>
+                    </span>
+                    <span class="signup-brand-text">
+                        <strong>ANANSE</strong>
+                        <small data-i18n="signup.nav.tagline">Waving Ghana's story into the digital age</small>
+                    </span>
+                </a>
+            </div>
+
+            <!-- FOOTER TAGLINE CENTER -->
+            <div class="signup-footer-tagline" data-i18n="signup.nav.tagline">
+                START A JOURNEY THROUGH GHANA'S HERITAGE
+            </div>
+
+            <!-- FOOTER SOCIALS & PILL LINKS -->
+            <div class="signup-footer-right">
+
+                <div class="signup-footer-pills">
+                    <span data-i18n="signup.footer.explore">Explore</span> •
+                    <span data-i18n="signup.footer.learn">Learn</span> •
+                    <span data-i18n="signup.footer.preserve">Preserve</span>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- SHARED LANGUAGE & PAGE SPECIFIC JAVASCRIPT -->
+    <script src="../src/lang.js"></script>
+    <script src="../src/script.js"></script>
+</body>
+
+</html>
