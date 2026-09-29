@@ -384,10 +384,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Simulate login request delay
             setTimeout(() => {
-                alert(translate('login.loginSuccess'));
-                submitBtn.disabled = false;
-                submitBtn.style.opacity = '1';
-                submitBtn.innerHTML = originalText;
+                const role = email.toLowerCase() === 'admin@ananse.gh' ? 'admin' : 'user';
+                window.ananseAuth?.setSession({
+                    email,
+                    name: role === 'admin' ? 'ANANSE Admin' : email.split('@')[0],
+                    role,
+                    loggedAt: new Date().toISOString()
+                });
+                window.location.href = role === 'admin' ? 'admin.html' : 'passport.html';
             }, 1200);
         });
     }
@@ -821,6 +825,21 @@ document.addEventListener("DOMContentLoaded", function () {
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    const passportApp = document.getElementById("passportApp");
+    const authOverlay = document.getElementById("authOverlay");
+    if (passportApp && authOverlay) {
+        const session = window.ananseAuth?.getSession();
+        if (!session) {
+            authOverlay.classList.add("show");
+            authOverlay.setAttribute("aria-hidden", "false");
+            return;
+        }
+
+        passportApp.hidden = false;
+        const profileName = passportApp.querySelector(".profile-info h3");
+        if (profileName) profileName.textContent = session.name || session.email;
+    }
 
     /* =====================================================
        MOBILE NAVIGATION
@@ -1484,13 +1503,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (hamburgerBtn && mobileNav) {
         hamburgerBtn.addEventListener("click", function () {
-            const isOpen = mobileNav.classList.toggle("is-open");
+            const isOpen = mobileNav.classList.toggle("open");
+            hamburgerBtn.classList.toggle("is-active", isOpen);
             hamburgerBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
         });
 
         document.addEventListener("click", function (e) {
             if (!hamburgerBtn.contains(e.target) && !mobileNav.contains(e.target)) {
-                mobileNav.classList.remove("is-open");
+                mobileNav.classList.remove("open");
+                hamburgerBtn.classList.remove("is-active");
                 hamburgerBtn.setAttribute("aria-expanded", "false");
             }
         });
