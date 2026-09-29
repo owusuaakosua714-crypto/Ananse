@@ -838,7 +838,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         passportApp.hidden = false;
         const profileName = passportApp.querySelector(".profile-info h3");
-        if (profileName) profileName.textContent = session.name || session.email;
+        const profileEmail = passportApp.querySelector(".profile-email");
+        const displayName = session.name || session.email;
+        if (profileName) profileName.textContent = displayName;
+        if (profileEmail) profileEmail.textContent = session.email;
+        passportApp.querySelector(".passport-user-summary__name").textContent = displayName;
+        passportApp.querySelector(".passport-user-summary__email").textContent = session.email;
     }
 
     /* =====================================================

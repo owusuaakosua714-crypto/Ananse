@@ -1,29 +1,3 @@
-(() => {
-    const SESSION_KEY = 'ananse_session';
-
-    function getSession() {
-        try {
-            const session = JSON.parse(localStorage.getItem(SESSION_KEY));
-            if (!session || typeof session.email !== 'string' || !['admin', 'user'].includes(session.role)) {
-                return null;
-            }
-            return session;
-        } catch {
-            return null;
-        }
-    }
-
-    function setSession(session) {
-        localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-    }
-
-    function clearSession() {
-        localStorage.removeItem(SESSION_KEY);
-    }
-
-    window.ananseAuth = { getSession, setSession, clearSession };
-})();
-
 /**
  * ANANSE — runtime configuration.
  *
@@ -44,8 +18,9 @@ export const CONFIG = {
         session: "ananse.session",
         passport: "ananse.passport",
         preferences: "ananse.preferences",
-        offlinePacks: "ananse.offline.packs"
     },
+
+    
 
     /** How long a cached API response is treated as fresh, in minutes. */
     cacheMinutes: 30,
@@ -54,4 +29,14 @@ export const CONFIG = {
     allowOfflineFallback: true
 };
 
+
 export default CONFIG;
+
+fetch(`${CONFIG.API_BASE_URL}/api/sites`)
+    .then(response => response.json())
+    .then(data => {
+        console.log('Fetched heritage sites:', data);
+    })
+    .catch(error => {
+        console.error('Error fetching heritage sites:', error);
+    });

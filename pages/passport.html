@@ -201,6 +201,14 @@
 
         <main class="passport-main">
 
+            <section class="passport-user-summary" aria-label="Signed-in user">
+                <div class="profile-avatar"><i class="fa-solid fa-user" aria-hidden="true"></i></div>
+                <div>
+                    <h2 class="passport-user-summary__name"></h2>
+                    <p class="passport-user-summary__email"></p>
+                </div>
+            </section>
+
             <div class="passport-layout">
 
 
@@ -222,6 +230,8 @@
                             <h3>
                                 Nharnah Aisha
                             </h3>
+
+                            <span class="profile-email"></span>
 
                             <span data-i18n="heritageExplorer">
                                 Heritage Explorer
@@ -1015,7 +1025,7 @@
     </div>
 
     <script src="../src/js/language.js"></script>
-    <script src="../src/auth.js"></script>
+    <script src="../src/auth-session.js"></script>
     <script src="../src/script.js"></script>
 
     <script src="../src/footer.js"></script>
