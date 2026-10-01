@@ -8,7 +8,7 @@
 
 export const CONFIG = {
     /** FastAPI base URL. Change this once when you deploy the backend. */
-    apiBaseUrl: "https://ananse-backend-jxx4g7gab-owusuaa.vercel.app/",
+    apiBaseUrl: "https://ananse-backend.vercel.app",
 
     /** Placeholder — the AI key itself never lives in the frontend. */
     naaServiceHint: "Naa runs through the backend at /api/naa/ask",
@@ -32,7 +32,7 @@ export const CONFIG = {
 
 export default CONFIG;
 
-fetch(`${CONFIG.API_BASE_URL}/api/sites`)
+fetch(`${CONFIG.apiBaseUrl}/api/sites`)
     .then(response => response.json())
     .then(data => {
         console.log('Fetched heritage sites:', data);

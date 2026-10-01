@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Mamei will replace this endpoint with the final backend API endpoint.
         // The Gemini API key must NEVER be placed in this frontend file.
         // ------------------------------------------------------------------
-        const NAA_API_ENDPOINT = "/api/naa";
+        const NAA_API_PATH = "/api/naa/ask";
         const NAA_AVATAR_PATH = "../images/profile%20.jpeg";
 
         // DOM Elements
@@ -172,26 +172,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
             try {
                 // Send query to backend (Mamei's API endpoint)
-                const response = await fetch(NAA_API_ENDPOINT, {
+                const data = await window.ananseAuth.api(NAA_API_PATH, {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ message: messageText })
+                    body: JSON.stringify({ question: messageText })
                 });
 
-                if (!response.ok) {
-                    throw new Error(`Server returned status ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                // Expecting backend response format:
-                // { "answer": "Response text", "sources": [ { "title": "...", "url": "..." } ] }
                 showTypingIndicator(false);
 
-                if (data && data.answer) {
-                    appendNaaMessage(data.answer, data.sources || []);
+                // Backend reply: { title, introduction, sections[{heading, content}], visitor_notes[], sources[] }
+                const parts = [];
+                if (data && data.introduction) parts.push(data.introduction);
+                (data && data.sections || []).forEach(sec => {
+                    parts.push(`${sec.heading}\n${sec.content}`);
+                });
+                if (data && data.visitor_notes && data.visitor_notes.length) {
+                    parts.push("Visitor notes:\n• " + data.visitor_notes.join("\n• "));
+                }
+                const answer = parts.join("\n\n");
+
+                if (answer) {
+                    appendNaaMessage(answer, data.sources || []);
                 } else {
                     appendNaaMessage(translate("ai.noResponse"));
                 }
@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
                 <div class="naa-msg-content-wrapper">
                     <div class="naa-msg-bubble">
-                        ${escapeHTML(answerText)}
+                        ${escapeHTML(answerText).replace(/\n/g, "<br>")}
                         ${sourcesHTML}
                     </div>
                     <span class="naa-msg-timestamp">${timeString}</span>
@@ -382,17 +382,22 @@ document.addEventListener("DOMContentLoaded", function () {
             submitBtn.style.opacity = '0.7';
             submitBtn.innerHTML = `<span>${translate('login.loggingIn')}</span>`;
 
-            // Simulate login request delay
-            setTimeout(() => {
-                const role = email.toLowerCase() === 'admin@ananse.gh' ? 'admin' : 'user';
-                window.ananseAuth?.setSession({
-                    email,
-                    name: role === 'admin' ? 'ANANSE Admin' : email.split('@')[0],
-                    role,
-                    loggedAt: new Date().toISOString()
+            window.ananseAuth.api('/api/auth/login', {
+                method: 'POST',
+                body: JSON.stringify({ email, password }),
+            })
+                .then(data => {
+                    const session = window.ananseAuth.saveTokenResponse(data);
+                    window.location.href = session.role === 'admin' ? 'admin.html' : 'passport.html';
+                })
+                .catch(err => {
+                    alert(err.status === 401
+                        ? 'That email and password do not match an account.'
+                        : 'Could not reach ANANSE right now. Please try again.\n' + err.message);
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = '';
+                    submitBtn.innerHTML = originalText;
                 });
-                window.location.href = role === 'admin' ? 'admin.html' : 'passport.html';
-            }, 1200);
         });
     }
 })();
@@ -1993,8 +1998,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!passwordInput.value) {
                 showError(passwordInput, 'passwordError', 'signup.form.errorPasswordRequired', 'Please enter a password.');
                 isValid = false;
-            } else if (passwordInput.value.length < 6) {
-                showError(passwordInput, 'passwordError', 'signup.form.errorPasswordLength', 'Password must be at least 6 characters.');
+            } else if (passwordInput.value.length < 8) {
+                showError(passwordInput, 'passwordError', 'signup.form.errorPasswordLength', 'Password must be at least 8 characters.');
                 isValid = false;
             }
 
@@ -2014,33 +2019,30 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (isValid) {
-                // Show success state
-                if (signupAlert) {
-                    signupAlert.className = 'signup-alert success';
-                    const successMsg = (window.ananseLanguage && typeof window.ananseLanguage.getText === 'function')
-                        ? window.ananseLanguage.getText('signup.form.successMessage')
-                        : 'Account created successfully! Redirecting...';
-                    signupAlert.textContent = successMsg;
+                const showAlert = (kind, text) => {
+                    if (!signupAlert) { if (kind === 'error') alert(text); return; }
+                    signupAlert.className = `signup-alert ${kind}`;
+                    signupAlert.textContent = text;
                     signupAlert.style.display = 'block';
-                }
-
-                // Collect values for backend integration
-                const formData = {
-                    fullName: fullNameInput.value.trim(),
-                    email: emailInput.value.trim(),
-                    password: passwordInput.value
                 };
 
-                console.log('Front-end signup validation passed. Form data:', formData);
-
-                // TODO: Connect this form to the real authentication/backend API later.
-                // Example:
-                // fetch('/api/signup', { method: 'POST', body: JSON.stringify(formData) }) ...
-
-                setTimeout(() => {
-                    // Redirect to login page or dashboard upon completion
-                    window.location.href = 'login.html';
-                }, 2000);
+                window.ananseAuth.api('/api/auth/register', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        full_name: fullNameInput.value.trim(),
+                        email: emailInput.value.trim(),
+                        password: passwordInput.value,
+                    }),
+                })
+                    .then(data => {
+                        window.ananseAuth.saveTokenResponse(data);
+                        const successMsg = (window.ananseLanguage && typeof window.ananseLanguage.getText === 'function')
+                            ? window.ananseLanguage.getText('signup.form.successMessage')
+                            : 'Account created successfully! Redirecting...';
+                        showAlert('success', successMsg);
+                        setTimeout(() => { window.location.href = 'passport.html'; }, 1200);
+                    })
+                    .catch(err => showAlert('error', err.message));
             }
         });
     }
