@@ -121,29 +121,6 @@
                 loggingIn: 'Logging in...',
                 loginSuccess: 'Welcome back to ANANSE!'
             },
-            'signup.nav.tagline': 'Weaving Ghana’s Story into the Digital Age',
-'signup.nav.home': 'Home',
-'signup.nav.explore': 'Explore',
-'signup.nav.map': 'Map',
-'signup.nav.passport': 'Passport',
-'signup.nav.about': 'About',
-'signup.hero.imageAlt': 'Ghanaian heritage background',
-'signup.hero.tagline': 'Weaving Ghana’s story into the digital age',
-'signup.form.title': 'Create your account',
-'signup.form.description': 'Join Ananse and start exploring Ghana’s stories, heritage and places.',
-'signup.form.fullName': 'Full Name',
-'signup.form.email': 'Email Address',
-'signup.form.password': 'Password',
-'signup.form.confirmPassword': 'Confirm Password',
-'signup.form.termsText': 'I agree to the',
-'signup.form.termsLink': 'Terms & Privacy Policy',
-'signup.form.createAccount': 'Create Account',
-'signup.form.alreadyAccount': 'Already have an account?',
-'signup.form.login': 'Log in',
-'signup.footer.tagline': 'START A JOURNEY THROUGH GHANA’S HERITAGE',
-'signup.footer.explore': 'Explore',
-'signup.footer.learn': 'Learn',
-'signup.footer.preserve': 'Preserve',
             'about.sectionTitle': 'ABOUT ANANSE',
             'about.heroTitle': 'More Than a Platform.<br><span>It\'s a Movement.</span>',
             'about.heroDescription': "ANANSE is a digital heritage platform built to bring Ghana's rich history, culture and people to life — connecting the past, present and future.",
@@ -530,29 +507,6 @@
             'common.searching': 'Recherche Ananse pour : "{{query}}"',
             'common.errorNoResponse': 'Aucune réponse disponible pour le moment.'
         },
-        'signup.nav.tagline': 'Tisser les récits du Ghana à l’ère numérique',
-'signup.nav.home': 'Accueil',
-'signup.nav.explore': 'Explorer',
-'signup.nav.map': 'Carte',
-'signup.nav.passport': 'Passeport',
-'signup.nav.about': 'À propos',
-'signup.hero.imageAlt': 'Arrière-plan du patrimoine ghanéen',
-'signup.hero.tagline': 'Tisser les récits du Ghana à l’ère numérique',
-'signup.form.title': 'Créez votre compte',
-'signup.form.description': 'Rejoignez Ananse et explorez les histoires, le patrimoine et les lieux du Ghana.',
-'signup.form.fullName': 'Nom complet',
-'signup.form.email': 'Adresse e-mail',
-'signup.form.password': 'Mot de passe',
-'signup.form.confirmPassword': 'Confirmer le mot de passe',
-'signup.form.termsText': 'J’accepte les',
-'signup.form.termsLink': 'Conditions et politique de confidentialité',
-'signup.form.createAccount': 'Créer un compte',
-'signup.form.alreadyAccount': 'Vous avez déjà un compte ?',
-'signup.form.login': 'Se connecter',
-'signup.footer.tagline': 'COMMENCEZ UN VOYAGE À TRAVERS LE PATRIMOINE DU GHANA',
-'signup.footer.explore': 'Explorer',
-'signup.footer.learn': 'Apprendre',
-'signup.footer.preserve': 'Préserver',
         es: {
             'language.label': 'Idioma',
             'nav.home': 'Inicio',
@@ -666,29 +620,6 @@
                 loggingIn: 'Iniciando sesión...',
                 loginSuccess: '¡Bienvenido de nuevo a ANANSE!'
             },
-            'signup.nav.tagline': 'Tejiendo las historias de Ghana en la era digital',
-'signup.nav.home': 'Inicio',
-'signup.nav.explore': 'Explorar',
-'signup.nav.map': 'Mapa',
-'signup.nav.passport': 'Pasaporte',
-'signup.nav.about': 'Nosotros',
-'signup.hero.imageAlt': 'Fondo del patrimonio de Ghana',
-'signup.hero.tagline': 'Tejiendo las historias de Ghana en la era digital',
-'signup.form.title': 'Crea tu cuenta',
-'signup.form.description': 'Únete a Ananse y empieza a explorar las historias, el patrimonio y los lugares de Ghana.',
-'signup.form.fullName': 'Nombre completo',
-'signup.form.email': 'Correo electrónico',
-'signup.form.password': 'Contraseña',
-'signup.form.confirmPassword': 'Confirmar contraseña',
-'signup.form.termsText': 'Acepto los',
-'signup.form.termsLink': 'Términos y política de privacidad',
-'signup.form.createAccount': 'Crear cuenta',
-'signup.form.alreadyAccount': '¿Ya tienes una cuenta?',
-'signup.form.login': 'Iniciar sesión',
-'signup.footer.tagline': 'COMIENZA UN VIAJE POR EL PATRIMONIO DE GHANA',
-'signup.footer.explore': 'Explorar',
-'signup.footer.learn': 'Aprender',
-'signup.footer.preserve': 'Preservar',
             'about.sectionTitle': 'SOBRE ANANSE',
             'about.heroTitle': 'Más que una plataforma.<br><span>Es un movimiento.</span>',
             'about.heroDescription': 'ANANSE es una plataforma digital del patrimonio creada para dar vida a la rica historia, la cultura y la gente de Ghana, conectando el pasado, el presente y el futuro.',
@@ -940,7 +871,6 @@
         document.querySelectorAll('.language-select').forEach((select) => {
             select.value = state.language;
         });
-          document.dispatchEvent(new CustomEvent('ananse:languagechange', { detail: { language: state.language } }));
     }
 
     const state = {
@@ -1474,3 +1404,204 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+/**
+ * ANANSE Ghana Heritage Website - Plan Page Language System
+ * Scoped strictly to elements with [data-plan-lang] on plan.html
+ */
+
+(function () {
+    // ----------------------------------------------------------------------
+    // Translation Data Dictionary (English, French, Spanish)
+    // ----------------------------------------------------------------------
+    const translations = {
+        en: {
+            "nav.home": "Home",
+            "nav.about": "About",
+            "nav.explore": "Explore",
+            "nav.map": "Map",
+            "nav.passport": "Passport",
+            "nav.language": "Language",
+            "nav.tagline": "Waving Ghana's story into the digital age",
+
+            "hero.backToMap": "Back to Map",
+            "hero.subtitle": "PLAN YOUR",
+            "hero.title": "HERITAGE JOURNEY",
+            "hero.description": "Create your own Ghana heritage experience.",
+
+            "planning.title": "PLAN YOUR HERITAGE JOURNEY",
+            "planning.subtitle": "Choose your destination, date and how many people are joining you.",
+            "planning.selectSite": "SELECT HERITAGE SITE",
+            "planning.chooseSitePlaceholder": "Choose a heritage site",
+            "planning.visitDate": "VISIT DATE",
+            "planning.numberOfVisitors": "NUMBER OF VISITORS",
+            "planning.selectNumberPlaceholder": "Select number",
+
+            "yourPlan.title": "YOUR PLAN",
+            "yourPlan.subtitle": "Here's what you've planned for your visit.",
+            "yourPlan.emptySiteName": "Your Selected Site",
+            "yourPlan.emptySiteHint": "Choose a heritage site above to start planning your visit.",
+            "yourPlan.dateLabel": "Date",
+            "yourPlan.visitorsLabel": "Visitors",
+            "yourPlan.saveButton": "Save My Plan",
+            "yourPlan.addToCalendar": "Add to Calendar",
+
+            "visitDetails.title": "VISIT DETAILS",
+            "visitDetails.subtitle": "Everything you need for a smooth visit.",
+            "visitDetails.date": "Date",
+            "visitDetails.visitors": "Number of Visitors",
+            "visitDetails.suggestedTime": "Suggested Time",
+            "visitDetails.getDirections": "Get Directions",
+
+            "preserving.title": "Preserving Ghana's heritage\nfor generations.",
+
+            "footer.tagline": "Waving Ghana's story into the digital age",
+            "footer.copyright": "© 2026 Ananse. All rights reserved."
+        },
+        fr: {
+            "nav.home": "Accueil",
+            "nav.about": "À propos",
+            "nav.explore": "Explorer",
+            "nav.map": "Carte",
+            "nav.passport": "Passeport",
+            "nav.language": "Langue",
+            "nav.tagline": "Tisser l'histoire du Ghana à l'ère numérique",
+
+            "hero.backToMap": "Retour à la carte",
+            "hero.subtitle": "PLANIFIEZ VOTRE",
+            "hero.title": "VOYAGE PATRIMONIAL",
+            "hero.description": "Créez votre propre expérience du patrimoine ghanéen.",
+
+            "planning.title": "PLANIFIEZ VOTRE VOYAGE PATRIMONIAL",
+            "planning.subtitle": "Choisissez votre destination, la date et le nombre de personnes qui vous accompagnent.",
+            "planning.selectSite": "SÉLECTIONNER UN SITE PATRIMONIAL",
+            "planning.chooseSitePlaceholder": "Choisissez un site patrimonial",
+            "planning.visitDate": "DATE DE VISITE",
+            "planning.numberOfVisitors": "NOMBRE DE VISITEURS",
+            "planning.selectNumberPlaceholder": "Sélectionnez le nombre",
+
+            "yourPlan.title": "VOTRE PLAN",
+            "yourPlan.subtitle": "Voici ce que vous avez planifié pour votre visite.",
+            "yourPlan.emptySiteName": "Votre site sélectionné",
+            "yourPlan.emptySiteHint": "Choisissez un site patrimonial ci-dessus pour commencer à planifier.",
+            "yourPlan.dateLabel": "Date",
+            "yourPlan.visitorsLabel": "Visiteurs",
+            "yourPlan.saveButton": "Enregistrer mon plan",
+            "yourPlan.addToCalendar": "Ajouter au calendrier",
+
+            "visitDetails.title": "DÉTAILS DE LA VISITE",
+            "visitDetails.subtitle": "Tout ce dont vous avez besoin pour une visite réussie.",
+            "visitDetails.date": "Date",
+            "visitDetails.visitors": "Nombre de visiteurs",
+            "visitDetails.suggestedTime": "Heure suggérée",
+            "visitDetails.getDirections": "Obtenir l'itinéraire",
+
+            "preserving.title": "Préserver le patrimoine du Ghana\npour les générations futures.",
+
+            "footer.tagline": "Tisser l'histoire du Ghana à l'ère numérique",
+            "footer.copyright": "© 2026 Ananse. Tous droits réservés."
+        },
+        es: {
+            "nav.home": "Inicio",
+            "nav.about": "Acerca de",
+            "nav.explore": "Explorar",
+            "nav.map": "Mapa",
+            "nav.passport": "Pasaporte",
+            "nav.language": "Idioma",
+            "nav.tagline": "Tejiendo la historia de Ghana en la era digital",
+
+            "hero.backToMap": "Volver al Mapa",
+            "hero.subtitle": "PLANIFICA TU",
+            "hero.title": "VIAJE DE PATRIMONIO",
+            "hero.description": "Crea tu propia experiencia del patrimonio de Ghana.",
+
+            "planning.title": "PLANIFICA TU VIAJE DE PATRIMONIO",
+            "planning.subtitle": "Elige tu destino, fecha y cuántas personas te acompañarán.",
+            "planning.selectSite": "SELECCIONAR SITIO DE PATRIMONIO",
+            "planning.chooseSitePlaceholder": "Elige un sitio de patrimonio",
+            "planning.visitDate": "FECHA DE VISITA",
+            "planning.numberOfVisitors": "NÚMERO DE VISITANTES",
+            "planning.selectNumberPlaceholder": "Selecciona el número",
+
+            "yourPlan.title": "TU PLAN",
+            "yourPlan.subtitle": "Esto es lo que has planificado para tu visita.",
+            "yourPlan.emptySiteName": "Tu sitio seleccionado",
+            "yourPlan.emptySiteHint": "Elige un sitio de patrimonio arriba para comenzar a planificar.",
+            "yourPlan.dateLabel": "Fecha",
+            "yourPlan.visitorsLabel": "Visitantes",
+            "yourPlan.saveButton": "Guardar mi plan",
+            "yourPlan.addToCalendar": "Añadir al calendario",
+
+            "visitDetails.title": "DETALLES DE LA VISITA",
+            "visitDetails.subtitle": "Todo lo que necesitas para una visita perfecta.",
+            "visitDetails.date": "Fecha",
+            "visitDetails.visitors": "Número de visitantes",
+            "visitDetails.suggestedTime": "Hora sugerida",
+            "visitDetails.getDirections": "Obtener direcciones",
+
+            "preserving.title": "Preservando el patrimonio de Ghana\npara las generaciones.",
+
+            "footer.tagline": "Tejiendo la historia de Ghana en la era digital",
+            "footer.copyright": "© 2026 Ananse. Todos los derechos reservados."
+        }
+    };
+
+    const STORAGE_KEY = "ananse_plan_lang";
+
+    // ----------------------------------------------------------------------
+    // Core Translation Switcher Function
+    // ----------------------------------------------------------------------
+    function setLanguage(lang) {
+        const langData = translations[lang] || translations.en;
+
+        // Strictly target elements with data-plan-lang
+        const elements = document.querySelectorAll("[data-plan-lang]");
+
+        elements.forEach(el => {
+            const key = el.getAttribute("data-plan-lang");
+            const translation = langData[key] || translations.en[key];
+
+            if (translation) {
+                // If translation contains newline formatting, preserve it
+                if (translation.includes('\n')) {
+                    el.innerHTML = translation.replace(/\n/g, '<br>');
+                } else {
+                    el.textContent = translation;
+                }
+            }
+            // Safely fallback to English without displaying translation keys
+        });
+
+        // Store selected language without affecting global site storage keys
+        try {
+            localStorage.setItem(STORAGE_KEY, lang);
+        } catch (e) {
+            console.error("Could not save language preference to localStorage", e);
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // Initialization
+    // ----------------------------------------------------------------------
+    document.addEventListener("DOMContentLoaded", () => {
+        const langSelect = document.getElementById("planLangSelect");
+        
+        let initialLang = "en";
+        try {
+            const savedLang = localStorage.getItem(STORAGE_KEY);
+            if (savedLang && translations[savedLang]) {
+                initialLang = savedLang;
+            }
+        } catch (e) {
+            console.error("Could not load language preference", e);
+        }
+
+        if (langSelect) {
+            langSelect.value = initialLang;
+            langSelect.addEventListener("change", (e) => {
+                setLanguage(e.target.value);
+            });
+        }
+
+        setLanguage(initialLang);
+    });
+})();
