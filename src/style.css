@@ -8236,7 +8236,20 @@ a {
   border: 0;
 }
 
-/* NAVIGATION BAR (Centered Links Layout) */
+/* LOGO ICON STYLES (Shared with main site) */
+.plan-page .logo-placeholder-icon {
+  width: 32px;
+  height: 32px;
+  background-color: #F4B41A;
+  color: #1B4D3E;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+/* NAVIGATION BAR */
 .plan-page .plan-header {
   background-color: #1B4D3E;
   position: sticky;
@@ -8260,18 +8273,6 @@ a {
   gap: 0.75rem;
   text-decoration: none;
   flex-shrink: 0;
-}
-
-.plan-page .plan-logo-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.plan-page .plan-logo-img {
-  height: 32px;
-  width: auto;
-  object-fit: contain;
 }
 
 .plan-page .plan-logo-text {
@@ -8342,13 +8343,10 @@ a {
   color: #FFFFFF;
   border: 1px solid rgba(244, 180, 26, 0.5);
   border-radius: 6px;
-  padding: 0.4rem 2rem 0.4rem 0.8rem;
+  padding: 0.4rem 1.2rem;
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%23F4B41A'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.6rem center;
   transition: all 0.2s ease;
 }
 
@@ -8403,6 +8401,13 @@ a {
   width: 100%;
   height: 100%;
   z-index: 1;
+}
+
+.plan-page .plan-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .plan-page .plan-hero-img-placeholder {
@@ -8549,9 +8554,6 @@ a {
   appearance: none;
   -webkit-appearance: none;
   padding-right: 2.5rem;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='%231B4D3E'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
   cursor: pointer;
 }
 
@@ -8618,10 +8620,11 @@ a {
   overflow: hidden;
 }
 
-.plan-page .plan-summary-image img {
+.plan-page .plan-summary-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .plan-page .plan-summary-img-placeholder {
@@ -8812,6 +8815,13 @@ a {
   position: relative;
 }
 
+.plan-page .plan-preserving-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .plan-page .plan-preserving-img-placeholder {
   width: 100%;
   height: 100%;
@@ -8839,11 +8849,6 @@ a {
   justify-content: center;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
-}
-
-.plan-page .plan-footer-logo-img {
-  height: 28px;
-  width: auto;
 }
 
 .plan-page .plan-footer-title {
