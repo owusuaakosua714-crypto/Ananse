@@ -1605,3 +1605,207 @@ document.addEventListener("DOMContentLoaded", () => {
         setLanguage(initialLang);
     });
 })();
+
+/* =========================================================
+   ANANSE — SCOPED SIGN UP LANGUAGE SYSTEM
+   Scoped strictly to pages/signup.html
+========================================================= */
+(function () {
+    'use strict';
+
+    const STORAGE_KEY = 'ananse-language';
+    const DEFAULT_LANG = 'en';
+
+    // Signup-specific translation dictionary
+    const signupDictionary = {
+        en: {
+            'site.tagline': "Weaving Ghana’s Story into the Digital Age",
+            'nav.home': "Home",
+            'nav.explore': "Explore",
+            'nav.map': "Map",
+            'nav.passport': "Passport",
+            'nav.about': "About",
+            'signup.hero.imageAlt': "Ghanaian Heritage Background",
+            'signup.hero.tagline': "Weaving Ghana's story into the digital age",
+            'signup.form.title': "Create your account",
+            'signup.form.description': "Join Ananse and start exploring Ghana's stories, heritage and places.",
+            'signup.form.fullName': "Full Name",
+            'signup.form.email': "Email Address",
+            'signup.form.password': "Password",
+            'signup.form.confirmPassword': "Confirm Password",
+            'signup.form.termsText': "I agree to the",
+            'signup.form.termsLink': "Terms & Privacy Policy",
+            'signup.form.createAccount': "Create Account",
+            'signup.form.alreadyAccount': "Already have an account?",
+            'signup.form.login': "Log in",
+            'signup.nav.tagline': "Waving Ghana's story into the digital age",
+            'signup.footer.tagline': "START A JOURNEY THROUGH GHANA'S HERITAGE",
+            'signup.footer.explore': "Explore",
+            'signup.footer.learn': "Learn",
+            'signup.footer.preserve': "Preserve",
+            // Validation & Error Messages
+            'signup.form.errorName': "Please enter your full name.",
+            'signup.form.errorEmailRequired': "Please enter your email address.",
+            'signup.form.errorEmailInvalid': "Please enter a valid email address.",
+            'signup.form.errorPasswordRequired': "Please enter a password.",
+            'signup.form.errorPasswordLength': "Password must be at least 6 characters.",
+            'signup.form.errorConfirmRequired': "Please confirm your password.",
+            'signup.form.errorPasswordMismatch': "Passwords do not match.",
+            'signup.form.errorTerms': "You must agree to the Terms & Privacy Policy.",
+            'signup.form.successMessage': "Account created successfully! Redirecting..."
+        },
+        fr: {
+            'site.tagline': "Tisser l'histoire du Ghana à l'ère numérique",
+            'nav.home': "Accueil",
+            'nav.explore': "Explorer",
+            'nav.map': "Carte",
+            'nav.passport': "Passeport",
+            'nav.about': "À propos",
+            'signup.hero.imageAlt': "Fond de patrimoine ghanéen",
+            'signup.hero.tagline': "Tisser l'histoire du Ghana à l'ère numérique",
+            'signup.form.title': "Créez votre compte",
+            'signup.form.description': "Rejoignez Ananse et commencez à explorer les histoires, le patrimoine et les lieux du Ghana.",
+            'signup.form.fullName': "Nom complet",
+            'signup.form.email': "Adresse e-mail",
+            'signup.form.password': "Mot de passe",
+            'signup.form.confirmPassword': "Confirmer le mot de passe",
+            'signup.form.termsText': "J'accepte les",
+            'signup.form.termsLink': "Conditions et politique de confidentialité",
+            'signup.form.createAccount': "Créer un compte",
+            'signup.form.alreadyAccount': "Vous avez déjà un compte ?",
+            'signup.form.login': "Se connecter",
+            'signup.nav.tagline': "Tisser l'histoire du Ghana à l'ère numérique",
+            'signup.footer.tagline': "COMMENCEZ UN VOYAGE À TRAVERS LE PATRIMOINE DU GHANA",
+            'signup.footer.explore': "Explorer",
+            'signup.footer.learn': "Apprendre",
+            'signup.footer.preserve': "Préserver",
+            // Validation & Error Messages
+            'signup.form.errorName': "Veuillez entrer votre nom complet.",
+            'signup.form.errorEmailRequired': "Veuillez entrer votre adresse e-mail.",
+            'signup.form.errorEmailInvalid': "Veuillez entrer une adresse e-mail valide.",
+            'signup.form.errorPasswordRequired': "Veuillez entrer un mot de passe.",
+            'signup.form.errorPasswordLength': "Le mot de passe doit contenir au moins 6 caractères.",
+            'signup.form.errorConfirmRequired': "Veuillez confirmer votre mot de passe.",
+            'signup.form.errorPasswordMismatch': "Les mots de passe ne correspondent pas.",
+            'signup.form.errorTerms': "Vous devez accepter les conditions et la politique de confidentialité.",
+            'signup.form.successMessage': "Compte créé avec succès ! Redirection..."
+        },
+        es: {
+            'site.tagline': "Tejiendo la historia de Ghana en la era digital",
+            'nav.home': "Inicio",
+            'nav.explore': "Explorar",
+            'nav.map': "Mapa",
+            'nav.passport': "Pasaporte",
+            'nav.about': "Acerca de",
+            'signup.hero.imageAlt': "Fondo de patrimonio de Ghana",
+            'signup.hero.tagline': "Tejiendo la historia de Ghana en la era digital",
+            'signup.form.title': "Crea tu cuenta",
+            'signup.form.description': "Únete a Ananse y comienza a explorar las historias, el patrimonio y los lugares de Ghana.",
+            'signup.form.fullName': "Nombre completo",
+            'signup.form.email': "Correo electrónico",
+            'signup.form.password': "Contraseña",
+            'signup.form.confirmPassword': "Confirmar contraseña",
+            'signup.form.termsText': "Acepto los",
+            'signup.form.termsLink': "Términos y Política de privacidad",
+            'signup.form.createAccount': "Crear cuenta",
+            'signup.form.alreadyAccount': "¿Ya tienes una cuenta?",
+            'signup.form.login': "Iniciar sesión",
+            'signup.nav.tagline': "Tejiendo la historia de Ghana en la era digital",
+            'signup.footer.tagline': "COMIENZA UN VIAJE A TRAVÉS DEL PATRIMONIO DE GHANA",
+            'signup.footer.explore': "Explorar",
+            'signup.footer.learn': "Aprender",
+            'signup.footer.preserve': "Preservar",
+            // Validation & Error Messages
+            'signup.form.errorName': "Por favor, ingresa tu nombre completo.",
+            'signup.form.errorEmailRequired': "Por favor, ingresa tu correo electrónico.",
+            'signup.form.errorEmailInvalid': "Por favor, ingresa un correo electrónico válido.",
+            'signup.form.errorPasswordRequired': "Por favor, ingresa una contraseña.",
+            'signup.form.errorPasswordLength': "La contraseña debe tener al menos 6 caracteres.",
+            'signup.form.errorConfirmRequired': "Por favor, confirma tu contraseña.",
+            'signup.form.errorPasswordMismatch': "Las contraseñas no coinciden.",
+            'signup.form.errorTerms': "Debes aceptar los Términos y la Política de privacidad.",
+            'signup.form.successMessage': "¡Cuenta creada con éxito! Redirigiendo..."
+        }
+    };
+
+    function getStoredLanguage() {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            return saved && signupDictionary[saved] ? saved : DEFAULT_LANG;
+        } catch (e) {
+            return DEFAULT_LANG;
+        }
+    }
+
+    function getText(key, lang) {
+        const currentLang = lang || getStoredLanguage();
+        const langDict = signupDictionary[currentLang] || signupDictionary[DEFAULT_LANG];
+        return langDict[key] || signupDictionary[DEFAULT_LANG][key] || key;
+    }
+
+    function applySignupTranslations(lang) {
+        const targetLang = signupDictionary[lang] ? lang : DEFAULT_LANG;
+
+        try {
+            localStorage.setItem(STORAGE_KEY, targetLang);
+        } catch (e) {}
+
+        document.documentElement.lang = targetLang;
+
+        // Translate standard text contents
+        document.querySelectorAll('[data-i18n]').forEach((el) => {
+            const key = el.dataset.i18n;
+            const text = getText(key, targetLang);
+            if (text) {
+                el.textContent = text;
+            }
+        });
+
+        // Translate placeholders
+        document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+            const key = el.dataset.i18nPlaceholder;
+            const placeholder = getText(key, targetLang);
+            if (placeholder) {
+                el.placeholder = placeholder;
+            }
+        });
+
+        // Translate alt attributes
+        document.querySelectorAll('[data-i18n-alt]').forEach((el) => {
+            const key = el.dataset.i18nAlt;
+            const alt = getText(key, targetLang);
+            if (alt) {
+                el.alt = alt;
+            }
+        });
+
+        // Sync dropdown selectors on page
+        document.querySelectorAll('.language-select').forEach((select) => {
+            select.value = targetLang;
+        });
+    }
+
+    // Expose helper globally so signup form JavaScript can retrieve localized error messages
+    window.signupLanguage = {
+        getText: getText,
+        applyLanguage: applySignupTranslations
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Ensure this script only runs on the signup page
+        const signupRoot = document.querySelector('[data-page="signup"]');
+        if (!signupRoot) return;
+
+        const currentLang = getStoredLanguage();
+
+        // Attach event listener to language selector(s)
+        document.querySelectorAll('.language-select').forEach((select) => {
+            select.addEventListener('change', (e) => {
+                applySignupTranslations(e.target.value);
+            });
+        });
+
+        // Initial application on page load
+        applySignupTranslations(currentLang);
+    });
+})();
