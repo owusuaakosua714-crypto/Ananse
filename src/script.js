@@ -818,883 +818,392 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /* =========================================================
    ANANSE — PASSPORT JAVASCRIPT
-   PASSPORT.JS
-   ========================================================= */
+========================================================= */
 
-"use strict";
+document.addEventListener("DOMContentLoaded", () => {
 
+    /* =====================================================
+       MOBILE NAVIGATION
+    ====================================================== */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+    const mobileMenuButton =
+        document.getElementById("mobileMenuButton");
 
+    const passportNav =
+        document.getElementById("passportNav");
 
-        /* =====================================================
-           ELEMENTS
-           ===================================================== */
+    const mobileNavOverlay =
+        document.getElementById("mobileNavOverlay");
 
-        const passportApp =
-            document.getElementById("passportApp");
+    if (!passportNav) return; // only run this whole section on passport.html
 
-        const authOverlay =
-            document.getElementById("authOverlay");
+    function openMobileMenu() {
 
-        const authModalClose =
-            document.getElementById("authModalClose");
+        passportNav.classList.add("open");
 
-        const mobileMenuToggle =
-            document.getElementById("mobileMenuToggle");
+        mobileNavOverlay.classList.add("open");
 
-        const mainNav =
-            document.getElementById("mainNav");
+        mobileMenuButton.setAttribute(
+            "aria-expanded",
+            "true"
+        );
 
-        const panelOverlay =
-            document.getElementById("panelOverlay");
+        mobileMenuButton.innerHTML =
+            '<i class="fa-solid fa-xmark"></i>';
 
-        const panelClose =
-            document.getElementById("panelClose");
+        document.body.style.overflow = "hidden";
+    }
 
-        const panelTitle =
-            document.getElementById("panelTitle");
+    function closeMobileMenu() {
 
-        const panelDescription =
-            document.getElementById("panelDescription");
+        passportNav.classList.remove("open");
 
-        const panelContent =
-            document.getElementById("panelContent");
+        mobileNavOverlay.classList.remove("open");
 
-        const toast =
-            document.getElementById("toast");
+        mobileMenuButton.setAttribute(
+            "aria-expanded",
+            "false"
+        );
 
-        const toastMessage =
-            document.getElementById("toastMessage");
+        mobileMenuButton.innerHTML =
+            '<i class="fa-solid fa-bars"></i>';
 
-        const shareBadgeButton =
-            document.getElementById(
-                "shareBadgeButton"
-            );
+        document.body.style.overflow = "";
+    }
 
-        const viewPassportButton =
-            document.getElementById(
-                "viewPassportButton"
-            );
+    if (mobileMenuButton) {
 
+        mobileMenuButton.addEventListener(
+            "click",
+            () => {
 
-        /* =====================================================
-           AUTHENTICATION
-           
-           IMPORTANT:
-           Replace this function with your backend authentication
-           check when the backend is connected.
+                const isOpen =
+                    passportNav.classList.contains("open");
 
-           Example backend:
-
-           window.ANANSE_AUTH = {
-               isAuthenticated: async () => {
-                   const response = await fetch(
-                       "/api/auth/session",
-                       {
-                           credentials: "include"
-                       }
-                   );
-
-                   const data =
-                       await response.json();
-
-                   return data.authenticated === true;
-               }
-           };
-           ===================================================== */
-
-        async function checkAuthentication() {
-
-            /*
-             * FUTURE BACKEND
-             */
-
-            if (
-                window.ANANSE_AUTH &&
-                typeof
-                window.ANANSE_AUTH.isAuthenticated ===
-                "function"
-            ) {
-
-                try {
-
-                    return await
-                        window.ANANSE_AUTH
-                            .isAuthenticated();
-
-                } catch (error) {
-
-                    console.error(
-                        "Authentication check failed:",
-                        error
-                    );
-
-                    return false;
-                }
-            }
-
-
-            /*
-             * TEMPORARY DEVELOPMENT CHECK
-             *
-             * This allows your current frontend to work
-             * before the backend is connected.
-             *
-             * Your backend should eventually replace this.
-             */
-
-            const authToken =
-                localStorage.getItem(
-                    "ananse_auth_token"
-                );
-
-            return Boolean(authToken);
-        }
-
-
-        /* =====================================================
-           SHOW LOGIN REQUIRED POPUP
-           ===================================================== */
-
-        function showLoginRequired() {
-
-            if (!authOverlay) return;
-
-            authOverlay.classList.add("show");
-
-            authOverlay.setAttribute(
-                "aria-hidden",
-                "false"
-            );
-
-            document.body.style.overflow =
-                "hidden";
-        }
-
-
-        /* =====================================================
-           HIDE LOGIN POPUP
-           
-           NOTE:
-           Closing it sends the visitor back to Home.
-           It does NOT expose the passport.
-           ===================================================== */
-
-        function hideLoginRequired() {
-
-            if (!authOverlay) return;
-
-            authOverlay.classList.remove("show");
-
-            authOverlay.setAttribute(
-                "aria-hidden",
-                "true"
-            );
-
-            document.body.style.overflow =
-                "";
-        }
-
-
-        /* =====================================================
-           AUTH INITIALIZATION
-           ===================================================== */
-
-        async function initializeAuthentication() {
-
-            if (!passportApp) {
-                return;
-            }
-
-            /*
-             * Keep passport content hidden until
-             * authentication has been checked.
-             */
-
-            passportApp.style.display =
-                "none";
-
-
-            const authenticated =
-                await checkAuthentication();
-
-
-            if (!authenticated) {
-
-                passportApp.style.display =
-                    "none";
-
-                showLoginRequired();
-
-                return;
-            }
-
-
-            /*
-             * User is authenticated.
-             */
-
-            passportApp.style.display =
-                "block";
-
-        }
-
-
-        initializeAuthentication();
-
-
-        /* =====================================================
-           LOGIN POPUP CLOSE
-           ===================================================== */
-
-        if (authModalClose) {
-
-            authModalClose.addEventListener(
-                "click",
-                function () {
-
-                    hideLoginRequired();
-
-                    window.location.href =
-                        "../index.html";
-
-                }
-            );
-
-        }
-
-
-        /* =====================================================
-           MOBILE NAVIGATION
-           ===================================================== */
-
-        function closeMobileMenu() {
-
-            if (!mobileMenuToggle ||
-                !mainNav) return;
-
-            mobileMenuToggle.classList.remove(
-                "open"
-            );
-
-            mainNav.classList.remove(
-                "open"
-            );
-
-            mobileMenuToggle.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-            mobileMenuToggle.setAttribute(
-                "aria-label",
-                "Open navigation menu"
-            );
-        }
-
-
-        function openMobileMenu() {
-
-            if (!mobileMenuToggle ||
-                !mainNav) return;
-
-            mobileMenuToggle.classList.add(
-                "open"
-            );
-
-            mainNav.classList.add(
-                "open"
-            );
-
-            mobileMenuToggle.setAttribute(
-                "aria-expanded",
-                "true"
-            );
-
-            mobileMenuToggle.setAttribute(
-                "aria-label",
-                "Close navigation menu"
-            );
-        }
-
-
-        if (mobileMenuToggle) {
-
-            mobileMenuToggle.addEventListener(
-                "click",
-                function () {
-
-                    const isOpen =
-                        mainNav.classList.contains(
-                            "open"
-                        );
-
-                    if (isOpen) {
-
-                        closeMobileMenu();
-
-                    } else {
-
-                        openMobileMenu();
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        /* =====================================================
-           CLOSE MOBILE MENU AFTER LINK CLICK
-           ===================================================== */
-
-        if (mainNav) {
-
-            mainNav
-                .querySelectorAll(
-                    "a:not(.mobile-login):not(.mobile-signup)"
-                )
-                .forEach(link => {
-
-                    link.addEventListener(
-                        "click",
-                        closeMobileMenu
-                    );
-
-                });
-
-        }
-
-
-        /* =====================================================
-           CLOSE MENU WHEN SCREEN BECOMES DESKTOP
-           ===================================================== */
-
-        window.addEventListener(
-            "resize",
-            function () {
-
-                if (
-                    window.innerWidth > 700
-                ) {
+                if (isOpen) {
 
                     closeMobileMenu();
 
-                }
+                } else {
 
-            }
-        );
-
-
-        /* =====================================================
-           PROFILE POPUPS
-           ===================================================== */
-
-        const panelData = {
-
-            profile: {
-
-                titleKey:
-                    "heritageExplorer",
-
-                description:
-                    "Your personal ANANSE heritage profile.",
-
-                icon:
-                    "fa-user",
-
-                content:
-                    `
-                    <strong>Nharnah Aisha</strong>
-                    <br>
-                    <span>
-                        Heritage Explorer
-                    </span>
-                    <br><br>
-                    You can view your heritage journey,
-                    achievements and personal activity here.
-                    `
-            },
-
-
-            passport: {
-
-                titleKey:
-                    "myPassport",
-
-                description:
-                    "Your personal collection of Ghana's heritage journey.",
-
-                icon:
-                    "fa-passport",
-
-                content:
-                    `
-                    <strong>5 / 5 Heritage Sites</strong>
-                    <br><br>
-                    Cape Coast Castle<br>
-                    Manhyia Palace<br>
-                    Osu Castle<br>
-                    Independence Square<br>
-                    Kwame Nkrumah Memorial Park
-                    `
-            },
-
-
-            badges: {
-
-                titleKey:
-                    "myBadges",
-
-                description:
-                    "Your collection of earned heritage badges.",
-
-                icon:
-                    "fa-award",
-
-                content:
-                    `
-                    <strong>5 Heritage Badges Earned</strong>
-                    <br><br>
-                    Cape Coast Castle<br>
-                    Manhyia Palace<br>
-                    Osu Castle<br>
-                    Independence Square<br>
-                    Kwame Nkrumah Memorial Park
-                    `
-            },
-
-
-            progress: {
-
-                titleKey:
-                    "myProgress",
-
-                description:
-                    "Track your progress through Ghana's heritage.",
-
-                icon:
-                    "fa-route",
-
-                content:
-                    `
-                    <strong>125 / 375 points</strong>
-                    <br><br>
-                    You have completed
-                    5 heritage site experiences.
-                    <br><br>
-                    Keep exploring to earn more badges.
-                    `
-            },
-
-
-            favorites: {
-
-                titleKey:
-                    "myFavourites",
-
-                description:
-                    "Heritage sites you have saved.",
-
-                icon:
-                    "fa-heart",
-
-                content:
-                    `
-                    <strong>Your Favourite Sites</strong>
-                    <br><br>
-                    Your saved heritage locations
-                    will appear here.
-                    `
-            },
-
-
-            activity: {
-
-                titleKey:
-                    "myActivity",
-
-                description:
-                    "Your recent heritage activities.",
-
-                icon:
-                    "fa-clock",
-
-                content:
-                    `
-                    <strong>Recent Activity</strong>
-                    <br><br>
-                    Badge earned at Cape Coast Castle.<br>
-                    Completed a heritage learning activity.<br>
-                    Explored a new heritage site.
-                    `
-            },
-
-
-            settings: {
-
-                titleKey:
-                    "settings",
-
-                description:
-                    "Manage your ANANSE account.",
-
-                icon:
-                    "fa-gear",
-
-                content:
-                    `
-                    <strong>Account Settings</strong>
-                    <br><br>
-                    Language, account preferences
-                    and profile settings will appear here.
-                    `
-            }
-
-        };
-
-
-        function getCurrentLanguageDictionary() {
-
-            const language =
-                localStorage.getItem(
-                    "ananseLanguage"
-                ) || "en";
-
-            return (
-                window.ANANSE_TRANSLATIONS?.[
-                    language
-                ] ||
-                window.ANANSE_TRANSLATIONS?.en ||
-                {}
-            );
-        }
-
-
-        function openProfilePanel(panelName) {
-
-            const data =
-                panelData[panelName];
-
-            if (!data ||
-                !panelOverlay) return;
-
-
-            const dictionary =
-                getCurrentLanguageDictionary();
-
-
-            panelTitle.textContent =
-                dictionary[data.titleKey] ||
-                data.titleKey;
-
-
-            panelDescription.textContent =
-                data.description;
-
-
-            panelContent.innerHTML =
-                data.content;
-
-
-            const panelIcon =
-                document.querySelector(
-                    ".panel-icon i"
-                );
-
-            if (panelIcon) {
-
-                panelIcon.className =
-                    `fa-solid ${data.icon}`;
-
-            }
-
-
-            panelOverlay.classList.add(
-                "show"
-            );
-
-            panelOverlay.setAttribute(
-                "aria-hidden",
-                "false"
-            );
-
-            document.body.style.overflow =
-                "hidden";
-        }
-
-
-        function closeProfilePanel() {
-
-            if (!panelOverlay) return;
-
-            panelOverlay.classList.remove(
-                "show"
-            );
-
-            panelOverlay.setAttribute(
-                "aria-hidden",
-                "true"
-            );
-
-            document.body.style.overflow =
-                "";
-        }
-
-
-        document
-            .querySelectorAll(
-                ".profile-trigger"
-            )
-            .forEach(trigger => {
-
-                trigger.addEventListener(
-                    "click",
-                    function () {
-
-                        const panel =
-                            this.dataset.panel;
-
-                        openProfilePanel(
-                            panel
-                        );
-
-                    }
-                );
-
-
-                trigger.addEventListener(
-                    "keydown",
-                    function (event) {
-
-                        if (
-                            event.key ===
-                            "Enter" ||
-                            event.key ===
-                            " "
-                        ) {
-
-                            event.preventDefault();
-
-                            const panel =
-                                this.dataset.panel;
-
-                            openProfilePanel(
-                                panel
-                            );
-
-                        }
-
-                    }
-                );
-
-            });
-
-
-        if (panelClose) {
-
-            panelClose.addEventListener(
-                "click",
-                closeProfilePanel
-            );
-
-        }
-
-
-        if (panelOverlay) {
-
-            panelOverlay.addEventListener(
-                "click",
-                function (event) {
-
-                    if (
-                        event.target ===
-                        panelOverlay
-                    ) {
-
-                        closeProfilePanel();
-
-                    }
+                    openMobileMenu();
 
                 }
-            );
-
-        }
-
-
-        /* =====================================================
-           ESCAPE KEY
-           ===================================================== */
-
-        document.addEventListener(
-            "keydown",
-            function (event) {
-
-                if (
-                    event.key ===
-                    "Escape"
-                ) {
-
-                    closeProfilePanel();
-                    closeMobileMenu();
-
-                }
-
-            }
-        );
-
-
-        /* =====================================================
-           SHARE BADGE
-           ===================================================== */
-
-        function showToast(message) {
-
-            if (!toast) return;
-
-            toastMessage.textContent =
-                message;
-
-            toast.classList.add(
-                "show"
-            );
-
-            clearTimeout(
-                window.ananseToastTimer
-            );
-
-            window.ananseToastTimer =
-                setTimeout(
-                    function () {
-
-                        toast.classList.remove(
-                            "show"
-                        );
-
-                    },
-                    2600
-                );
-        }
-
-
-        if (shareBadgeButton) {
-
-            shareBadgeButton.addEventListener(
-                "click",
-                async function () {
-
-                    const shareData = {
-
-                        title:
-                            "My ANANSE Heritage Badge",
-
-                        text:
-                            "I earned a heritage badge on ANANSE.",
-
-                        url:
-                            window.location.href
-
-                    };
-
-
-                    try {
-
-                        if (
-                            navigator.share
-                        ) {
-
-                            await navigator.share(
-                                shareData
-                            );
-
-                            return;
-                        }
-
-
-                        await navigator.clipboard.writeText(
-                            window.location.href
-                        );
-
-
-                        showToast(
-                            "Badge link copied!"
-                        );
-
-                    } catch (error) {
-
-                        console.log(
-                            "Share cancelled."
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        /* =====================================================
-           FULL PASSPORT BUTTON
-           ===================================================== */
-
-        if (viewPassportButton) {
-
-            viewPassportButton.addEventListener(
-                "click",
-                function () {
-
-                    /*
-                     * Keep the page working even before a dedicated
-                     * full-passport view exists.
-                     */
-
-                    const fullPassportUrl =
-                        "explore.html";
-
-                    window.location.href =
-                        fullPassportUrl;
-
-                }
-            );
-
-        }
-
-
-        /* =====================================================
-           LANGUAGE CHANGE
-           
-           Refresh popup text when the user changes
-           language while a popup is open.
-           ===================================================== */
-
-        document.addEventListener(
-            "ananseLanguageChanged",
-            function () {
-
-                const currentPanel =
-                    panelOverlay &&
-                    panelOverlay.classList.contains(
-                        "show"
-                    );
-
-                if (!currentPanel) return;
-
-                /*
-                 * Popup will retain its structure.
-                 * Sidebar/main-page data-i18n elements
-                 * are already translated by language.js.
-                 */
 
             }
         );
 
     }
-);
+
+    if (mobileNavOverlay) {
+
+        mobileNavOverlay.addEventListener(
+            "click",
+            closeMobileMenu
+        );
+
+    }
+
+    /* CLOSE MOBILE NAV AFTER LINK */
+
+    document
+        .querySelectorAll(".passport-nav-links a")
+        .forEach(link => {
+
+            link.addEventListener("click", () => {
+
+                closeMobileMenu();
+
+            });
+
+        });
+
+
+    /* =====================================================
+       MODAL SYSTEM
+    ====================================================== */
+
+    const modals =
+        document.querySelectorAll(".modal");
+
+    function openModal(modal) {
+
+        if (!modal) return;
+
+        modal.classList.add("open");
+
+        document.body.style.overflow = "hidden";
+
+    }
+
+    function closeModal(modal) {
+
+        if (!modal) return;
+
+        modal.classList.remove("open");
+
+        document.body.style.overflow = "";
+
+    }
+
+    /* SIDEBAR BUTTONS */
+
+    document
+        .querySelectorAll("[data-modal]")
+        .forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                const modalId =
+                    button.dataset.modal;
+
+                const modal =
+                    document.getElementById(modalId);
+
+                openModal(modal);
+
+            });
+
+        });
+
+    /* CLOSE BUTTON */
+
+    modals.forEach(modal => {
+
+        const closeButton =
+            modal.querySelector(".modal-close");
+
+        if (closeButton) {
+
+            closeButton.addEventListener(
+                "click",
+                () => closeModal(modal)
+            );
+
+        }
+
+        /* CLICK OUTSIDE MODAL */
+
+        modal.addEventListener("click", event => {
+
+            if (event.target === modal) {
+
+                closeModal(modal);
+
+            }
+
+        });
+
+    });
+
+    /* ESCAPE KEY */
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (event.key !== "Escape") return;
+
+            modals.forEach(modal => {
+
+                if (modal.classList.contains("open")) {
+
+                    closeModal(modal);
+
+                }
+
+            });
+
+        }
+    );
+
+
+    /* =====================================================
+       BADGE DETAILS
+    ====================================================== */
+
+    const badgeCards =
+        document.querySelectorAll(".badge-card");
+
+    const badgeDetailModal =
+        document.getElementById("badgeDetailModal");
+
+    const badgeDetailTitle =
+        document.getElementById("badgeDetailTitle");
+
+    const badgeDetailText =
+        document.getElementById("badgeDetailText");
+
+    const badgeDetailIcon =
+        document.getElementById("badgeDetailIcon");
+
+    const badgeInformation = {
+
+        cape: {
+
+            title: "Cape Coast Castle",
+
+            text:
+                "You earned the Castle Explorer badge by exploring the history and heritage of Cape Coast Castle.",
+
+            icon:
+                "fa-landmark"
+
+        },
+
+        manhyia: {
+
+            title: "Manhyia Palace",
+
+            text:
+                "You earned the Royal Heritage badge by discovering the history and cultural significance of Manhyia Palace.",
+
+            icon:
+                "fa-crown"
+
+        },
+
+        osu: {
+
+            title: "Osu Castle",
+
+            text:
+                "You earned the Coastal Heritage badge by exploring the history of Osu Castle.",
+
+            icon:
+                "fa-building-columns"
+
+        },
+
+        independence: {
+
+            title: "Independence Square",
+
+            text:
+                "You earned the Nation Builder badge by discovering one of Ghana's most important national landmarks.",
+
+            icon:
+                "fa-flag"
+
+        },
+
+        nkrumah: {
+
+            title: "Kwame Nkrumah Memorial",
+
+            text:
+                "You earned the Freedom Fighter badge by learning about Ghana's independence journey and Kwame Nkrumah's legacy.",
+
+            icon:
+                "fa-star"
+
+        }
+
+    };
+
+    badgeCards.forEach(card => {
+
+        card.addEventListener("click", () => {
+
+            const badgeId =
+                card.dataset.badge;
+
+            const badge =
+                badgeInformation[badgeId];
+
+            if (!badge) return;
+
+            badgeDetailTitle.textContent =
+                badge.title;
+
+            badgeDetailText.textContent =
+                badge.text;
+
+            badgeDetailIcon.innerHTML =
+                `<i class="fa-solid ${badge.icon}"></i>`;
+
+            openModal(badgeDetailModal);
+
+        });
+
+    });
+
+
+    /* =====================================================
+       SMOOTH HERO SCROLL
+    ====================================================== */
+
+    document
+        .querySelectorAll('a[href="#passportDashboard"]')
+        .forEach(link => {
+
+            link.addEventListener("click", event => {
+
+                event.preventDefault();
+
+                const target =
+                    document.getElementById(
+                        "passportDashboard"
+                    );
+
+                if (target) {
+
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+
+                }
+
+            });
+
+        });
+
+
+    /* =====================================================
+       SIDEBAR ACTIVE STATE
+    ====================================================== */
+
+    const profileMenuItems =
+        document.querySelectorAll(
+            ".profile-menu-item"
+        );
+
+    profileMenuItems.forEach(item => {
+
+        item.addEventListener("click", () => {
+
+            profileMenuItems.forEach(
+                menuItem =>
+                    menuItem.classList.remove("active")
+            );
+
+            item.classList.add("active");
+
+        });
+
+    });
+
+
+    /* =====================================================
+       PREVENT BACKGROUND SCROLL WHEN MENU IS OPEN
+    ====================================================== */
+
+    window.addEventListener("resize", () => {
+
+        if (
+            window.innerWidth > 760 &&
+            passportNav.classList.contains("open")
+        ) {
+
+            closeMobileMenu();
+
+        }
+
+    });
+
+});
+
 // ==========================================================================
 // ANANSE — MAP PAGE (script.js)
 // Guarded so it's safe to append to the shared script.js: navigation code is 
@@ -1967,47 +1476,26 @@ document.addEventListener("DOMContentLoaded", function () {
     let activeCategory = "all";
     let activeSiteId = null;
 
-        // ----------------------------------------------------------------------
-    // MOBILE HAMBURGER MENU
+    // ----------------------------------------------------------------------
+    // MOBILE HAMBURGER MENU (UNTOUCHED)
     // ----------------------------------------------------------------------
     const hamburgerBtn = document.getElementById("hamburgerBtn");
     const mobileNav = document.getElementById("mobileNav");
 
-    function setMobileNavOpen(open) {
-        if (!hamburgerBtn || !mobileNav) return;
-        mobileNav.classList.toggle("open", open);          // map.css shows the menu with .open
-        hamburgerBtn.classList.toggle("is-active", open);  // swaps the bars icon for the X
-        hamburgerBtn.setAttribute("aria-expanded", open ? "true" : "false");
-    }
-
     if (hamburgerBtn && mobileNav) {
-        hamburgerBtn.addEventListener("click", function (e) {
-            e.stopPropagation();
-            setMobileNavOpen(!mobileNav.classList.contains("open"));
+        hamburgerBtn.addEventListener("click", function () {
+            const isOpen = mobileNav.classList.toggle("is-open");
+            hamburgerBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
         });
 
-        // Close when tapping outside the menu
         document.addEventListener("click", function (e) {
             if (!hamburgerBtn.contains(e.target) && !mobileNav.contains(e.target)) {
-                setMobileNavOpen(false);
+                mobileNav.classList.remove("is-open");
+                hamburgerBtn.setAttribute("aria-expanded", "false");
             }
         });
-
-        // Close when a menu link is tapped
-        mobileNav.querySelectorAll(".mobile-nav-link").forEach(function (link) {
-            link.addEventListener("click", function () { setMobileNavOpen(false); });
-        });
-
-        // Close with Escape
-        document.addEventListener("keydown", function (e) {
-            if (e.key === "Escape") setMobileNavOpen(false);
-        });
-
-        // Reset when the window grows back to desktop width
-        window.addEventListener("resize", function () {
-            if (window.innerWidth > 768) setMobileNavOpen(false);
-        });
     }
+
     // ----------------------------------------------------------------------
     // LANGUAGE SELECTOR LISTENERS (FIXES POPUP DYNAMIC TRANSLATIONS)
     // ----------------------------------------------------------------------
@@ -2364,7 +1852,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleConfirmPasswordBtn = document.getElementById('toggleConfirmPassword');
     const signupAlert = document.getElementById('signupAlert');
     const mobileToggleBtn = document.querySelector('.signup-mobile-toggle');
-    const mobileMenu = document.getElementById('signupMobileMenu');
+    const mobileMenu = id = document.getElementById('signupMobileMenu');
 
     /* ---------------------------------------------------------
        PASSWORD VISIBILITY TOGGLE
@@ -2397,36 +1885,10 @@ document.addEventListener('DOMContentLoaded', () => {
        MOBILE MENU TOGGLE
     --------------------------------------------------------- */
     if (mobileToggleBtn && mobileMenu) {
-        const closeMobileMenu = () => {
-            mobileMenu.classList.remove('active');
-            mobileToggleBtn.classList.remove('is-open');
-            mobileToggleBtn.setAttribute('aria-expanded', 'false');
-        };
-
-        const openMobileMenu = () => {
-            mobileMenu.classList.add('active');
-            mobileToggleBtn.classList.add('is-open');
-            mobileToggleBtn.setAttribute('aria-expanded', 'true');
-        };
-
-        mobileToggleBtn.addEventListener('click', (event) => {
-            event.stopPropagation();
+        mobileToggleBtn.addEventListener('click', () => {
             const isExpanded = mobileMenu.classList.contains('active');
-            if (isExpanded) {
-                closeMobileMenu();
-            } else {
-                openMobileMenu();
-            }
-        });
-
-        mobileMenu.querySelectorAll('a').forEach((link) => {
-            link.addEventListener('click', closeMobileMenu);
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!mobileToggleBtn.contains(event.target) && !mobileMenu.contains(event.target)) {
-                closeMobileMenu();
-            }
+            mobileMenu.classList.toggle('active');
+            mobileToggleBtn.setAttribute('aria-expanded', String(!isExpanded));
         });
     }
 
