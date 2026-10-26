@@ -912,6 +912,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
+
     /* =====================================================
        TRANSLATIONS
     ====================================================== */
@@ -1006,6 +1007,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         },
 
+
         fr: {
 
             pageTitle:
@@ -1093,6 +1095,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Explorer davantage"
 
         },
+
 
         es: {
 
@@ -1185,6 +1188,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
 
+
     /* =====================================================
        LANGUAGE ELEMENTS
     ====================================================== */
@@ -1203,6 +1207,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById(
             "currentLanguage"
         );
+
 
 
     /* =====================================================
@@ -1243,6 +1248,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+
     /* =====================================================
        CHANGE LANGUAGE
     ====================================================== */
@@ -1266,12 +1272,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
 
+
     function setLanguage(language) {
 
         const dictionary =
             translations[language];
 
         if (!dictionary) return;
+
 
         /* CHANGE TRANSLATED TEXT */
 
@@ -1293,6 +1301,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             });
 
+
         /* PAGE TITLE */
 
         if (dictionary.pageTitle) {
@@ -1301,6 +1310,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 dictionary.pageTitle;
 
         }
+
 
         /* LANGUAGE BUTTON */
 
@@ -1317,10 +1327,12 @@ document.addEventListener("DOMContentLoaded", () => {
         currentLanguage.textContent =
             languageNames[language];
 
+
         /* HTML LANGUAGE */
 
         document.documentElement.lang =
             language;
+
 
         /* SAVE LANGUAGE */
 
@@ -1328,6 +1340,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "ananseLanguage",
             language
         );
+
 
         /* CLOSE MENU */
 
@@ -1347,6 +1360,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+
     /* =====================================================
        LOAD SAVED LANGUAGE
     ====================================================== */
@@ -1355,6 +1369,7 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.getItem(
             "ananseLanguage"
         );
+
 
     if (
         savedLanguage &&
@@ -1368,6 +1383,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setLanguage("en");
 
     }
+
 
 
     /* =====================================================

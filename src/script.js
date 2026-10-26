@@ -826,26 +826,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const passportApp = document.getElementById("passportApp");
-    const authOverlay = document.getElementById("authOverlay");
-    if (passportApp && authOverlay) {
-        const session = window.ananseAuth?.getSession();
-        if (!session) {
-            authOverlay.classList.add("show");
-            authOverlay.setAttribute("aria-hidden", "false");
-            return;
-        }
-
-        passportApp.hidden = false;
-        const profileName = passportApp.querySelector(".profile-info h3");
-        const profileEmail = passportApp.querySelector(".profile-email");
-        const displayName = session.name || session.email;
-        if (profileName) profileName.textContent = displayName;
-        if (profileEmail) profileEmail.textContent = session.email;
-        passportApp.querySelector(".passport-user-summary__name").textContent = displayName;
-        passportApp.querySelector(".passport-user-summary__email").textContent = session.email;
-    }
-
     /* =====================================================
        MOBILE NAVIGATION
     ====================================================== */
@@ -859,7 +839,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobileNavOverlay =
         document.getElementById("mobileNavOverlay");
 
-    if (!passportNav) return; // only run this whole section on passport.html
 
     function openMobileMenu() {
 
@@ -878,6 +857,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.style.overflow = "hidden";
     }
 
+
     function closeMobileMenu() {
 
         passportNav.classList.remove("open");
@@ -894,6 +874,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.body.style.overflow = "";
     }
+
 
     if (mobileMenuButton) {
 
@@ -919,6 +900,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+
     if (mobileNavOverlay) {
 
         mobileNavOverlay.addEventListener(
@@ -927,6 +909,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     }
+
 
     /* CLOSE MOBILE NAV AFTER LINK */
 
@@ -943,12 +926,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
 
+
     /* =====================================================
        MODAL SYSTEM
     ====================================================== */
 
     const modals =
         document.querySelectorAll(".modal");
+
 
     function openModal(modal) {
 
@@ -960,6 +945,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+
     function closeModal(modal) {
 
         if (!modal) return;
@@ -969,6 +955,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.style.overflow = "";
 
     }
+
 
     /* SIDEBAR BUTTONS */
 
@@ -990,6 +977,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
 
+
     /* CLOSE BUTTON */
 
     modals.forEach(modal => {
@@ -1006,6 +994,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
+
         /* CLICK OUTSIDE MODAL */
 
         modal.addEventListener("click", event => {
@@ -1019,6 +1008,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
     });
+
 
     /* ESCAPE KEY */
 
@@ -1042,6 +1032,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
+
     /* =====================================================
        BADGE DETAILS
     ====================================================== */
@@ -1060,6 +1051,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const badgeDetailIcon =
         document.getElementById("badgeDetailIcon");
+
 
     const badgeInformation = {
 
@@ -1125,6 +1117,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     };
 
+
     badgeCards.forEach(card => {
 
         card.addEventListener("click", () => {
@@ -1137,6 +1130,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!badge) return;
 
+
             badgeDetailTitle.textContent =
                 badge.title;
 
@@ -1146,11 +1140,13 @@ document.addEventListener("DOMContentLoaded", () => {
             badgeDetailIcon.innerHTML =
                 `<i class="fa-solid ${badge.icon}"></i>`;
 
+
             openModal(badgeDetailModal);
 
         });
 
     });
+
 
 
     /* =====================================================
@@ -1184,6 +1180,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
 
+
     /* =====================================================
        SIDEBAR ACTIVE STATE
     ====================================================== */
@@ -1209,6 +1206,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+
     /* =====================================================
        PREVENT BACKGROUND SCROLL WHEN MENU IS OPEN
     ====================================================== */
@@ -1226,8 +1224,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-});
 
+});
 // ==========================================================================
 // ANANSE — MAP PAGE (script.js)
 // Guarded so it's safe to append to the shared script.js: navigation code is 
