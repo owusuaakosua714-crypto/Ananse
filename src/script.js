@@ -1598,11 +1598,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const tags = $("visitedSites");
         if (!tags) return;
-        const visited = s.sites.filter(site => site.visited > 0);
+        const visited = s.sites.filter(site => site.visited > 0 || site.badgeEarned);
         tags.innerHTML = visited.length
             ? visited.map(site => "<span>" + esc(site.name) + "</span>").join("")
             : '<span class="site-tags-empty">' + esc(t("passportPage.noSitesYet",
                 "No sites stamped yet. Walk a heritage trail to collect your first stamp.")) + "</span>";
+
+        const stamps = $("passportStamps");
+        if (stamps) {
+            stamps.innerHTML = s.sites.map(site => {
+                const earned = site.badgeEarned;
+                const inProgress = !earned && site.visited > 0;
+                const state = earned ? "is-stamped" : inProgress ? "is-in-progress" : "is-empty";
+                const status = earned
+                    ? t("passportPage.stampEarned", "Stamped {{date}}", { date: fmtDate(site.badgeEarnedAt) })
+                    : inProgress
+                        ? t("passportPage.stampInProgress", "In progress · {{visited}}/{{total}} stops", { visited: site.visited, total: site.total })
+                        : t("passportPage.stampNotStarted", "Not started · {{visited}}/{{total}} stops", { visited: site.visited, total: site.total });
+                const label = site.name + ": " + status;
+
+                return '<article class="passport-stamp ' + state + '" aria-label="' + esc(label) + '">' +
+                    '<span class="passport-stamp-seal" style="--stamp-progress:' + site.percent + '%">' +
+                    '<i class="fa-solid ' + esc(site.icon) + '" aria-hidden="true"></i>' +
+                    '<span class="passport-stamp-star" aria-hidden="true">★</span>' +
+                    '</span>' +
+                    '<span class="passport-stamp-copy"><strong>' + esc(site.badgeName) + '</strong>' +
+                    '<small>' + esc(status) + '</small></span>' +
+                    '</article>';
+            }).join("");
+        }
     }
 
     function renderBadges(s) {

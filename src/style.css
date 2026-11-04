@@ -5014,6 +5014,190 @@ body.about-page .about-btn-gold:hover {
 
 }
 
+.passport-stamps {
+
+    margin-top: 20px;
+
+    padding-top: 16px;
+
+    border-top: 1px solid var(--border-light);
+
+}
+
+.passport-stamps > span {
+
+    display: block;
+
+    margin-bottom: 12px;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: .8px;
+
+}
+
+.passport-stamp-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+
+    gap: 10px;
+
+}
+
+.passport-stamp {
+
+    display: flex;
+
+    min-width: 0;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 10px;
+
+    border: 1px solid #E8E3D8;
+
+    border-radius: 10px;
+
+    background: #FBFAF7;
+
+}
+
+.passport-stamp-seal {
+
+    position: relative;
+
+    display: grid;
+
+    width: 52px;
+
+    height: 52px;
+
+    flex: 0 0 52px;
+
+    place-items: center;
+
+    overflow: hidden;
+
+    border: 2px dashed #A9A69D;
+
+    border-radius: 50%;
+
+    color: #77766F;
+
+    background: linear-gradient(to top, rgba(6, 74, 77, .35) var(--stamp-progress), transparent var(--stamp-progress));
+
+    opacity: .48;
+
+    transition: opacity .2s ease, border-color .2s ease, color .2s ease;
+
+}
+
+.passport-stamp-seal > i {
+
+    position: relative;
+
+    z-index: 1;
+
+    font-size: 18px;
+
+}
+
+.passport-stamp-star {
+
+    position: absolute;
+
+    top: 3px;
+
+    right: 6px;
+
+    font-size: 8px;
+
+}
+
+.passport-stamp-copy {
+
+    display: grid;
+
+    min-width: 0;
+
+    gap: 4px;
+
+}
+
+.passport-stamp-copy strong {
+
+    overflow: hidden;
+
+    color: var(--text-dark);
+
+    font-size: 10px;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+.passport-stamp-copy small {
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    line-height: 1.4;
+
+}
+
+.passport-stamp.is-in-progress {
+
+    border-color: #D7C99D;
+
+}
+
+.passport-stamp.is-in-progress .passport-stamp-seal {
+
+    border-style: solid;
+
+    border-color: #B88B39;
+
+    color: #72551D;
+
+    opacity: .8;
+
+}
+
+.passport-stamp.is-stamped {
+
+    border-color: #C7D9D3;
+
+    background: #F4F8F5;
+
+}
+
+.passport-stamp.is-stamped .passport-stamp-seal {
+
+    border-style: double;
+
+    border-width: 3px;
+
+    border-color: #0B5B55;
+
+    color: #064A4D;
+
+    background-color: rgba(234, 168, 53, .16);
+
+    opacity: 1;
+
+}
+
 
 /* =========================================================
    BADGES
