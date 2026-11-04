@@ -3324,6 +3324,15 @@ body.about-page .about-btn-gold:hover {
   box-sizing: border-box;
 }
 
+/* Visible keyboard focus (the global `button { outline: none }` hides the default) */
+.explore-page :is(button, a, select, .heritage-card):focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+.explore-page .search-bar:focus-within {
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow-md);
+}
+
 /* ==========================================================================
    NAVBAR
    ========================================================================== */
@@ -3347,13 +3356,13 @@ body.about-page .about-btn-gold:hover {
 .explore-page .logo {
   display: flex;
   align-items: center;
-    gap: 12px;
+  gap: 12px;
   text-decoration: none;
   color: var(--white);
 }
 .explore-page .logo-placeholder-icon {
-    font-size: 1.6rem;
-    color: var(--accent-gold);
+  font-size: 1.6rem;
+  color: var(--accent-gold);
 }
 .explore-page .logo-text {
   display: flex;
@@ -3361,14 +3370,14 @@ body.about-page .about-btn-gold:hover {
 }
 .explore-page .brand-name {
   font-weight: 800;
-    font-size: 1.3rem;
-    letter-spacing: 1.5px;
-    line-height: 1.1;
+  font-size: 1.3rem;
+  letter-spacing: 1.5px;
+  line-height: 1.1;
 }
 .explore-page .tagline {
-    font-size: 0.65rem;
-    opacity: 0.9;
-    letter-spacing: 0.3px;
+  font-size: 0.65rem;
+  opacity: 0.9;
+  letter-spacing: 0.3px;
 }
 
 .explore-page .nav-menu {
@@ -3809,6 +3818,8 @@ body.about-page .about-btn-gold:hover {
 
 /* ==========================================================================
    HERITAGE DETAIL MODAL
+   (the box uses .explore-modal so the Passport page's generic .modal rules
+   can't hide it)
    ========================================================================== */
 .explore-page .modal-overlay {
   position: fixed; inset: 0; background: rgba(7,15,20,.6);
@@ -3816,7 +3827,7 @@ body.about-page .about-btn-gold:hover {
   padding: 40px 16px; overflow-y: auto; z-index: 2000;
 }
 .explore-page .modal-overlay.is-open { display: flex; }
-.explore-page .modal {
+.explore-page .explore-modal {
   background: var(--white); border-radius: var(--radius-lg);
   max-width: 760px; width: 100%;
   box-shadow: 0 30px 70px rgba(0,0,0,.35);
