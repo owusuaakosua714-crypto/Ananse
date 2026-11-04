@@ -77,7 +77,7 @@
         window.location.href = inPages ? '../index.html' : 'index.html';
     }
 
-    /** Swap "Login / Sign Up" for "My Passport / Log out" on every page. */
+    /** Swap Login / Sign Up for account actions, and add Log out everywhere else. */
     function updateNav() {
         const session = getSession();
         if (!session) return;
@@ -98,17 +98,35 @@
             link.addEventListener('click', e => { e.preventDefault(); logout(); });
         });
 
-        // Passport page: show who is signed in, with a log-out link.
-        const passportNav = document.getElementById('passportNav');
-        if (passportNav && !document.getElementById('passportLogout')) {
+        // Add the logout action to header menus that do not already have
+        // Login / Sign Up controls. The map page has separate desktop and mobile menus.
+        const menus = document.querySelectorAll(
+            '#passportNav, #naaNav, #aboutNavLinks, #planNavContent, #adminNav, ' +
+            '.nav-menu, .login-desktop-nav, .desktop-nav, .mobile-nav, ' +
+            'header nav.ananse-standard-menu, header .ananse-standard-menu'
+        );
+
+        menus.forEach(menu => {
+            if (menu.querySelector('[data-ananse-session-logout]')) return;
+            if (menu.querySelector('a[data-logout="1"]')) return;
+
             const out = document.createElement('a');
-            out.id = 'passportLogout';
+            out.id = menu.id === 'passportNav' ? 'passportLogout' : '';
+            out.className = 'btn-nav btn-nav-signup ananse-session-logout';
+            out.dataset.ananseSessionLogout = '1';
             out.href = '#';
             out.title = `Signed in as ${session.email}`;
-            out.innerHTML = '<span>Log out</span>';
+            out.textContent = 'Log out';
             out.addEventListener('click', e => { e.preventDefault(); logout(); });
-            passportNav.appendChild(out);
-        }
+
+            if (menu.tagName === 'UL') {
+                const item = document.createElement('li');
+                item.appendChild(out);
+                menu.appendChild(item);
+            } else {
+                menu.appendChild(out);
+            }
+        });
     }
 
     /** The passport needs an account: send signed-out visitors to log in. */
