@@ -903,7 +903,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
    Points: +10 per new stop, +50 per finished trail (earns its badge),
    +100 for finishing all trails. Change them in POINTS below.
-   "stops" in SITES must match the stops on each trail.
+   "stopIds" in SITES must match the stops on each trail.
 ========================================================= */
 
 /* ==================== PART 1: ENGINE ==================== */
@@ -926,16 +926,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* -----------------------------------------------------
        TRAILS / SITES
-       "stops" must match the number of stops on each trail in
+       "stopIds" must match the stop ids on each trail in
        heritagetrails.html. "aliases" let the Explore page ids
        (cape-coast, osu...) and the Map page ids both work.
     ----------------------------------------------------- */
     const SITES = [
-        { id: "cape-coast-castle", aliases: ["cape-coast", "cape", "capecoast"], name: "Cape Coast Castle", badgeName: "Cape Coast", badgeTitle: "Castle Explorer", icon: "fa-landmark", stops: 3 },
-        { id: "manhyia-palace", aliases: ["manhyia"], name: "Manhyia Palace", badgeName: "Manhyia", badgeTitle: "Royal Heritage", icon: "fa-crown", stops: 3 },
-        { id: "osu-castle", aliases: ["osu", "osucastle"], name: "Osu Castle", badgeName: "Osu Castle", badgeTitle: "Coastal Heritage", icon: "fa-building-columns", stops: 3 },
-        { id: "independence-arch", aliases: ["independence", "independence-square"], name: "Independence Arch", badgeName: "Independence", badgeTitle: "Nation Builder", icon: "fa-flag", stops: 3 },
-        { id: "kwame-nkrumah", aliases: ["nkrumah", "kwame-nkrumah-memorial-park", "kwamepark"], name: "Kwame Nkrumah Memorial Park", badgeName: "Nkrumah", badgeTitle: "Freedom Fighter", icon: "fa-star", stops: 3 }
+        { id: "cape-coast-castle", aliases: ["cape-coast", "cape", "capecoast"], name: "Cape Coast Castle", badgeName: "Cape Coast", badgeTitle: "Castle Explorer", icon: "fa-landmark", stopIds: ["door-of-no-return", "castle-grounds", "memory-and-healing"] },
+        { id: "manhyia-palace", aliases: ["manhyia"], name: "Manhyia Palace", badgeName: "Manhyia", badgeTitle: "Royal Heritage", icon: "fa-crown", stopIds: ["royal-court", "regalia", "living-tradition"] },
+        { id: "osu-castle", aliases: ["osu", "osucastle"], name: "Osu Castle", badgeName: "Osu Castle", badgeTitle: "Coastal Heritage", icon: "fa-building-columns", stopIds: ["castle-approach", "colonial-memory", "national-shift"] },
+        { id: "independence-arch", aliases: ["independence", "independence-square"], name: "Independence Arch", badgeName: "Independence", badgeTitle: "Nation Builder", icon: "fa-flag", stopIds: ["independence-arch", "national-space", "future-vision"] },
+        { id: "kwame-nkrumah", aliases: ["nkrumah", "kwame-nkrumah-memorial-park", "kwamepark"], name: "Kwame Nkrumah Memorial Park", badgeName: "Nkrumah", badgeTitle: "Freedom Fighter", icon: "fa-star", stopIds: ["tribute-garden", "independence-story", "pan-african-legacy"] }
     ];
 
     // Rank is decided by how many trails have been completed
@@ -993,17 +993,57 @@ document.addEventListener("DOMContentLoaded", function () {
         const data = {
             createdAt: (raw && raw.createdAt) || nowIso(),
             sites: {},
+            rewardedStops: {},
+            rewardedTrails: {},
             allTrailsAwardedAt: (raw && raw.allTrailsAwardedAt) || null,
             activity: Array.isArray(raw && raw.activity) ? raw.activity.slice(0, MAX_ACTIVITY) : []
         };
         SITES.forEach(function (site) {
             const src = raw && raw.sites && raw.sites[site.id];
             if (src && src.stops && typeof src.stops === "object") {
+                const stops = {};
+                const legacyStops = [];
+                Object.keys(src.stops).forEach(function (stopId) {
+                    if (site.stopIds.indexOf(stopId) !== -1) {
+                        stops[stopId] = src.stops[stopId];
+                    } else if (/^auto-\d+$/.test(stopId)) {
+                        legacyStops.push(stopId);
+                    } else {
+                        stops[stopId] = src.stops[stopId];
+                    }
+                });
+                legacyStops.sort(function (a, b) {
+                    return Number(a.slice(5)) - Number(b.slice(5));
+                }).forEach(function (stopId) {
+                    const nextStop = site.stopIds.find(function (id) {
+                        return !Object.prototype.hasOwnProperty.call(stops, id);
+                    });
+                    if (nextStop) stops[nextStop] = src.stops[stopId];
+                });
                 data.sites[site.id] = {
-                    stops: Object.assign({}, src.stops),
+                    stops: stops,
                     completedAt: src.completedAt || null
                 };
             }
+
+            const rewardedStops = raw && raw.rewardedStops && raw.rewardedStops[site.id];
+            data.rewardedStops[site.id] = {};
+            if (rewardedStops && typeof rewardedStops === "object") {
+                site.stopIds.forEach(function (stopId) {
+                    if (rewardedStops[stopId]) data.rewardedStops[site.id][stopId] = rewardedStops[stopId];
+                });
+            }
+            const progress = data.sites[site.id];
+            if (progress) {
+                site.stopIds.forEach(function (stopId) {
+                    if (progress.stops[stopId] && !data.rewardedStops[site.id][stopId]) {
+                        data.rewardedStops[site.id][stopId] = progress.stops[stopId];
+                    }
+                });
+            }
+
+            const rewardedAt = raw && raw.rewardedTrails && raw.rewardedTrails[site.id];
+            data.rewardedTrails[site.id] = rewardedAt || (progress && progress.completedAt) || null;
         });
         return data;
     }
@@ -1028,8 +1068,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function hasAnyProgress(data) {
-        return SITES.some(function (s) {
-            return data.sites[s.id] && Object.keys(data.sites[s.id].stops).length > 0;
+        return Boolean(data.allTrailsAwardedAt) || SITES.some(function (site) {
+            const progress = data.sites[site.id];
+            return (progress && Object.keys(progress.stops).length > 0) ||
+                Object.keys(data.rewardedStops[site.id]).length > 0 ||
+                Boolean(data.rewardedTrails[site.id]);
         });
     }
 
@@ -1038,9 +1081,11 @@ document.addEventListener("DOMContentLoaded", function () {
         let allDone = true;
         SITES.forEach(function (site) {
             const st = data.sites[site.id];
-            const count = st ? Object.keys(st.stops).length : 0;
-            if (st && count >= site.stops && !st.completedAt) {
-                st.completedAt = Object.keys(st.stops).map(function (k) { return st.stops[k]; }).sort().pop();
+            const allStopsVisited = st && site.stopIds.every(function (stopId) {
+                return Boolean(st.stops[stopId]);
+            });
+            if (allStopsVisited && !st.completedAt) {
+                st.completedAt = site.stopIds.map(function (stopId) { return st.stops[stopId]; }).sort().pop();
             }
             if (!st || !st.completedAt) allDone = false;
         });
@@ -1051,13 +1096,26 @@ document.addEventListener("DOMContentLoaded", function () {
     function merge(target, source) {
         SITES.forEach(function (site) {
             const src = source.sites[site.id];
-            if (!src) return;
-            const dst = target.sites[site.id] || (target.sites[site.id] = { stops: {}, completedAt: null });
-            Object.keys(src.stops).forEach(function (k) {
-                if (!dst.stops[k] || src.stops[k] < dst.stops[k]) dst.stops[k] = src.stops[k];
+            if (src) {
+                const dst = target.sites[site.id] || (target.sites[site.id] = { stops: {}, completedAt: null });
+                Object.keys(src.stops).forEach(function (k) {
+                    if (!dst.stops[k] || src.stops[k] < dst.stops[k]) dst.stops[k] = src.stops[k];
+                });
+                if (src.completedAt && (!dst.completedAt || src.completedAt < dst.completedAt)) {
+                    dst.completedAt = src.completedAt;
+                }
+            }
+
+            site.stopIds.forEach(function (stopId) {
+                const srcReward = source.rewardedStops[site.id][stopId];
+                const dstRewards = target.rewardedStops[site.id];
+                if (srcReward && (!dstRewards[stopId] || srcReward < dstRewards[stopId])) {
+                    dstRewards[stopId] = srcReward;
+                }
             });
-            if (src.completedAt && (!dst.completedAt || src.completedAt < dst.completedAt)) {
-                dst.completedAt = src.completedAt;
+            const srcTrailReward = source.rewardedTrails[site.id];
+            if (srcTrailReward && (!target.rewardedTrails[site.id] || srcTrailReward < target.rewardedTrails[site.id])) {
+                target.rewardedTrails[site.id] = srcTrailReward;
             }
         });
 
@@ -1129,21 +1187,28 @@ document.addEventListener("DOMContentLoaded", function () {
         const state = ensureSite(data, site.id);
         if (state.stops[stopId]) return false;
 
-        const before = Object.keys(state.stops).length;
         state.stops[stopId] = now;
         result.newStops += 1;
 
-        if (before < site.stops) {
+        const stopRewards = data.rewardedStops[site.id];
+        if (!stopRewards[stopId]) {
+            stopRewards[stopId] = now;
             result.points += POINTS.stop;
             log(data, { type: "stop", siteId: site.id, stopId: stopId, points: POINTS.stop, at: now });
         }
 
-        if (!state.completedAt && Object.keys(state.stops).length >= site.stops) {
+        const allStopsVisited = site.stopIds.every(function (id) {
+            return Boolean(state.stops[id]);
+        });
+        if (!state.completedAt && allStopsVisited) {
             state.completedAt = now;
             result.trailCompleted = true;
-            result.badgeEarned = true;
-            result.points += POINTS.trailComplete;
-            log(data, { type: "trail", siteId: site.id, points: POINTS.trailComplete, at: now });
+            if (!data.rewardedTrails[site.id]) {
+                data.rewardedTrails[site.id] = now;
+                result.badgeEarned = true;
+                result.points += POINTS.trailComplete;
+                log(data, { type: "trail", siteId: site.id, points: POINTS.trailComplete, at: now });
+            }
 
             const allDone = SITES.every(function (s) {
                 return data.sites[s.id] && data.sites[s.id].completedAt;
@@ -1164,7 +1229,7 @@ document.addEventListener("DOMContentLoaded", function () {
             window.dispatchEvent(new CustomEvent(CHANGE_EVENT, { detail: result }));
         }
         const showToast = !(options && options.toast === false);
-        if (showToast && document.body && !document.body.classList.contains("passport-page")) {
+        if (showToast && result.points > 0 && document.body && !document.body.classList.contains("passport-page")) {
             showRewardToast(result);
         }
         return result;
@@ -1186,6 +1251,10 @@ document.addEventListener("DOMContentLoaded", function () {
             console.warn("[ananseProgress] recordStop needs a stop id.");
             return { ok: false, reason: "missing-stop" };
         }
+        if (site.stopIds.indexOf(stopId) === -1) {
+            console.warn("[ananseProgress] Unknown stop for site:", site.id, stopId);
+            return { ok: false, reason: "unknown-stop" };
+        }
 
         const data = load();
         const result = newResult(site);
@@ -1194,8 +1263,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     /**
-     * The user finished the whole trail (e.g. pressed "Finish trail").
-     * Any stops not recorded yet are filled in, so points stay consistent.
+     * Confirms that every configured stop has been recorded. It never fills
+     * in stops on the visitor's behalf.
      *   ananseProgress.completeTrail("cape-coast-castle");
      */
     function completeTrail(siteRaw, options) {
@@ -1206,15 +1275,33 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const data = load();
-        const result = newResult(site);
         const state = ensureSite(data, site.id);
-        let missing = site.stops - Object.keys(state.stops).length;
-        let n = 1;
-        while (missing > 0) {
-            if (addStop(data, site, "auto-" + n, nowIso(), result)) missing -= 1;
-            n += 1;
+        const missingStops = site.stopIds.filter(function (stopId) {
+            return !state.stops[stopId];
+        });
+        if (missingStops.length) {
+            return { ok: false, reason: "stops-incomplete", remaining: missingStops.length };
         }
-        return commit(data, result, options);
+        const result = newResult(site);
+        result.trailCompleted = true;
+        return result;
+    }
+
+    function resetTrail(siteRaw) {
+        const site = resolveSite(siteRaw);
+        if (!site) {
+            console.warn("[ananseProgress] Unknown site:", siteRaw);
+            return { ok: false, reason: "unknown-site" };
+        }
+
+        const data = load();
+        if (!data.sites[site.id]) return { ok: true, reset: false };
+        delete data.sites[site.id];
+        if (!write(storageKey(), data)) return { ok: false, reason: "storage-failed" };
+        window.dispatchEvent(new CustomEvent(CHANGE_EVENT, {
+            detail: { resetTrail: true, siteId: site.id }
+        }));
+        return { ok: true, reset: true };
     }
 
     /* -----------------------------------------------------
@@ -1233,19 +1320,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const sites = SITES.map(function (site) {
             const st = data.sites[site.id];
-            const count = st ? Object.keys(st.stops).length : 0;
-            const visited = Math.min(count, site.stops);
+            const visitedStopIds = st ? site.stopIds.filter(function (stopId) {
+                return Boolean(st.stops[stopId]);
+            }) : [];
+            const visited = visitedStopIds.length;
             const completed = !!(st && st.completedAt);
+            const badgeEarnedAt = data.rewardedTrails[site.id];
+            const badgeEarned = Boolean(badgeEarnedAt);
+            const stopRewards = data.rewardedStops[site.id];
+            const rewardPoints = Object.keys(stopRewards).length * POINTS.stop +
+                (badgeEarned ? POINTS.trailComplete : 0);
             return {
                 id: site.id,
                 name: site.name,
                 badgeName: site.badgeName,
                 badgeTitle: site.badgeTitle,
                 icon: site.icon,
+                visitedStopIds: visitedStopIds,
                 visited: visited,
-                total: site.stops,
-                percent: Math.round((visited / site.stops) * 100),
+                total: site.stopIds.length,
+                percent: Math.round((visited / site.stopIds.length) * 100),
                 completed: completed,
+                badgeEarned: badgeEarned,
+                badgeEarnedAt: badgeEarnedAt,
+                rewardPoints: rewardPoints,
                 completedAt: completed ? st.completedAt : null,
                 status: completed ? "completed" : (visited > 0 ? "in-progress" : "not-started")
             };
@@ -1256,15 +1354,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const trailsCompleted = sites.filter(function (s) { return s.completed; }).length;
         const complete = trailsCompleted === sites.length;
 
-        const points = stopsVisited * POINTS.stop +
-            trailsCompleted * POINTS.trailComplete +
-            (complete ? POINTS.allTrails : 0);
+        const points = sites.reduce(function (total, site) { return total + site.rewardPoints; }, 0) +
+            (data.allTrailsAwardedAt ? POINTS.allTrails : 0);
         const maxPoints = totalStops * POINTS.stop + sites.length * POINTS.trailComplete + POINTS.allTrails;
 
-        const earnedBadges = sites.filter(function (s) { return s.completed; })
-            .sort(function (a, b) { return a.completedAt < b.completedAt ? 1 : -1; });
+        const earnedBadges = sites.filter(function (s) { return s.badgeEarned; })
+            .sort(function (a, b) { return a.badgeEarnedAt < b.badgeEarnedAt ? 1 : -1; });
 
-        const level = LEVELS.filter(function (l) { return trailsCompleted >= l.minTrails; }).pop();
+        const level = LEVELS.filter(function (l) { return earnedBadges.length >= l.minTrails; }).pop();
 
         return {
             points: points,
@@ -1387,7 +1484,7 @@ document.addEventListener("DOMContentLoaded", function () {
     window.ananseProgress = {
         POINTS: POINTS,
         SITES: SITES.map(function (s) {
-            return { id: s.id, name: s.name, badgeName: s.badgeName, badgeTitle: s.badgeTitle, icon: s.icon, stops: s.stops };
+            return { id: s.id, name: s.name, badgeName: s.badgeName, badgeTitle: s.badgeTitle, icon: s.icon, stops: s.stopIds.length, stopIds: s.stopIds.slice() };
         }),
         CHANGE_EVENT: CHANGE_EVENT,
         STORAGE_PREFIX: STORAGE_PREFIX,
@@ -1395,6 +1492,7 @@ document.addEventListener("DOMContentLoaded", function () {
         resolveSiteId: function (raw) { const s = resolveSite(raw); return s ? s.id : null; },
         recordStop: recordStop,
         completeTrail: completeTrail,
+        resetTrail: resetTrail,
         getSummary: getSummary,
         showRewardToast: showRewardToast,
         onChange: function (cb) {
@@ -1411,7 +1509,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const P = window.ananseProgress;
     if (!P) {
-        console.error("passport-progress.js must be loaded before script.js on passport.html.");
+        console.error("The shared passport progress engine is unavailable on passport.html.");
         return;
     }
 
@@ -1508,12 +1606,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderBadges(s) {
-        setText("badgesCount", s.trailsCompleted + " / " + s.trailsTotal);
+        const earnedCount = s.sites.filter(site => site.badgeEarned).length;
+        setText("badgesCount", earnedCount + " / " + s.trailsTotal);
 
         const grid = $("badgesGrid");
         if (grid) {
             grid.innerHTML = s.sites.map(site => {
-                const earned = site.completed;
+                const earned = site.badgeEarned;
                 const sub = earned
                     ? site.badgeTitle
                     : t("passportPage.stopsCount", "{{visited}}/{{total}} stops", { visited: site.visited, total: site.total });
@@ -1532,10 +1631,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const modalGrid = $("modalBadgeGrid");
         if (modalGrid) {
             modalGrid.innerHTML = s.sites.map(site =>
-                '<div class="modal-badge ' + (site.completed ? "" : "is-locked") + '">' +
-                '<i class="fa-solid ' + (site.completed ? esc(site.icon) : "fa-lock") + '"></i>' +
+                '<div class="modal-badge ' + (site.badgeEarned ? "" : "is-locked") + '">' +
+                '<i class="fa-solid ' + (site.badgeEarned ? esc(site.icon) : "fa-lock") + '"></i>' +
                 "<strong>" + esc(site.badgeName) + "</strong>" +
-                "<span>" + esc(site.completed
+                "<span>" + esc(site.badgeEarned
                     ? site.badgeTitle
                     : t("passportPage.stopsCount", "{{visited}}/{{total}} stops", { visited: site.visited, total: site.total })) + "</span>" +
                 "</div>"
@@ -1754,7 +1853,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const icon = $("badgeDetailIcon");
         const label = $("badgeEarnedLabel");
         const cta = $("badgeDetailCta");
-        const earned = site.completed;
+        const earned = site.badgeEarned;
 
         icon.className = "badge-detail-icon" + (earned ? "" : " is-locked");
         icon.innerHTML = '<i class="fa-solid ' + (earned ? esc(site.icon) : "fa-lock") + '"></i>';
@@ -1763,7 +1862,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (earned) {
             setText("badgeDetailText", t("passportPage.badgeEarnedText",
                 "You earned the {{badge}} badge by completing the {{site}} heritage trail on {{date}}.",
-                { badge: site.badgeTitle, site: site.name, date: fmtDate(site.completedAt) }));
+                { badge: site.badgeTitle, site: site.name, date: fmtDate(site.badgeEarnedAt) }));
             label.className = "badge-earned-label";
             label.innerHTML = '<i class="fa-solid fa-check"></i> ' + esc(t("passportPage.badgeEarnedLabel", "Badge Earned"));
             cta.hidden = true;
@@ -2911,6 +3010,14 @@ document.addEventListener("DOMContentLoaded", () => {
         directionsBtn.addEventListener("click", handleGetDirections);
     }
 
-    // Initialize state on page load
+    // Restore the visitor's saved details, then honor a site selected from the map.
     restoreSavedPlan();
+    const requestedSite = new URLSearchParams(window.location.search).get("site");
+    const requestedSiteKey = requestedSite === "kwame-nkrumah"
+        ? "kwame-nkrumah-memorial-park"
+        : requestedSite;
+    if (siteSelect && HERITAGE_SITES[requestedSiteKey]) {
+        siteSelect.value = requestedSiteKey;
+        updatePlanUI();
+    }
 });

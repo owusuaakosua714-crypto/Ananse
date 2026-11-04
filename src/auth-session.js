@@ -129,13 +129,10 @@
         });
     }
 
-    /** The passport needs an account: send signed-out visitors to log in. */
+    /** Guests can use the local passport; verify a token only for signed-in visitors. */
     function guardPassport() {
         if (!document.body.classList.contains('passport-page')) return;
-        if (!getSession()) {
-            window.location.replace('login.html');
-            return;
-        }
+        if (!getSession()) return;
         // Confirm the token is still accepted (a 401 clears it inside api()).
         api('/api/auth/me').catch(err => {
             if (err.status === 401) window.location.replace('login.html');

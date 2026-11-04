@@ -117,6 +117,13 @@
             font-size: .9rem;
         }
 
+        .trail-meta .trail-reward-rules {
+            flex-basis: 100%;
+            width: fit-content;
+            max-width: 100%;
+            line-height: 1.5;
+        }
+
         .trail-actions {
             display: flex;
             flex-wrap: wrap;
@@ -195,6 +202,12 @@
             border-radius: inherit;
             background: linear-gradient(90deg, var(--trail-gold), var(--trail-teal));
             transition: width .25s ease;
+        }
+
+        .trail-points-earned {
+            display: block;
+            margin-top: .75rem;
+            color: var(--trail-blue);
         }
 
         .trail-layout {
@@ -313,8 +326,16 @@
 
         .stop-actions {
             display: flex;
-            justify-content: flex-end;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
             margin-top: 1rem;
+        }
+
+        .stop-reward {
+            color: var(--trail-blue);
+            font-size: .9rem;
+            font-weight: 700;
         }
 
         .visit-toggle {
@@ -502,6 +523,7 @@
             <div class="trail-meta">
                 <span id="trailStops" data-trail-lang="meta.stops" data-trail-count="0">0 stops</span>
                 <span id="trailRegion" data-trail-lang="meta.acrossGhana">Across Ghana</span>
+                <span class="trail-reward-rules" id="trailRewardRules">Earn points as you visit stops.</span>
             </div>
 
             <div class="trail-actions">
@@ -516,9 +538,11 @@
                 <span data-trail-lang="progress.title">Trail progress</span>
                 <strong id="progressText" data-trail-lang="progress.visited" data-trail-done="0" data-trail-total="0">0 / 0 stops visited</strong>
             </div>
-            <div class="progress-bar">
+            <div class="progress-bar" role="progressbar" aria-labelledby="progressText" aria-valuemin="0"
+                aria-valuemax="3" aria-valuenow="0">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
+            <strong class="trail-points-earned" id="trailPointsEarned" aria-live="polite">0 points earned on this trail</strong>
         </div>
 
         <section class="trail-layout">
@@ -552,6 +576,9 @@
         </div>
     </footer>
 
+    <script src="../src/js/language.js"></script>
+    <script src="../src/auth-session.js"></script>
+    <script src="../src/script.js"></script>
     <script>
         (function () {
             const TRAILS = {
@@ -612,9 +639,6 @@
                 }
             };
 
-            const TRAIL_KEY = 'ananse-trail-progress';
-            const BADGE_KEY = 'ananse-earned-badges';
-
             const query = new URLSearchParams(window.location.search);
             const requestedSite = query.get('site');
             const requestedTrailId = requestedSite && (requestedSite in TRAILS ? requestedSite : {
@@ -628,9 +652,8 @@
 
             const selectedTrailKey = TRAILS[requestedTrailId] ? requestedTrailId : allTrailEntries[0];
             const trail = TRAILS[selectedTrailKey];
-
-            const state = JSON.parse(localStorage.getItem(TRAIL_KEY) || '{}');
-            const badges = JSON.parse(localStorage.getItem(BADGE_KEY) || '{}');
+            const progressApi = window.ananseProgress;
+            if (!progressApi) throw new Error('Trail progress requires the shared passport progress engine.');
 
             const trailTitle = document.getElementById('trailTitle');
             const trailDescription = document.getElementById('trailDescription');
@@ -647,6 +670,9 @@
             const toast = document.getElementById('toast');
             const allTrails = document.getElementById('allTrails');
             const completeTrailLabel = document.getElementById('completeTrailLabel');
+            const trailRewardRules = document.getElementById('trailRewardRules');
+            const trailPointsEarned = document.getElementById('trailPointsEarned');
+            const progressBar = document.querySelector('.progress-bar');
 
             function trailText(key, params) {
                 const language = window.ananseLanguage;
@@ -668,58 +694,84 @@
                 }, 2200);
             }
 
+            function getTrailSummary(trailKey) {
+                const siteId = progressApi.resolveSiteId(trailKey);
+                return progressApi.getSummary().sites.find(function (site) {
+                    return site.id === siteId;
+                });
+            }
+
             function getTrailProgress(trailKey) {
-                if (!state[trailKey]) {
-                    state[trailKey] = {};
-                }
-                return state[trailKey];
-            }
-
-            function saveTrailProgress() {
-                localStorage.setItem(TRAIL_KEY, JSON.stringify(state));
-            }
-
-            function getTrailCompletion(trailKey) {
-                const progress = getTrailProgress(trailKey);
-                const total = TRAILS[trailKey].stops.length;
-                const done = Object.values(progress).filter(Boolean).length;
-                return { total, done, complete: done === total };
+                const summary = getTrailSummary(trailKey);
+                return summary.visitedStopIds.reduce(function (progress, stopId) {
+                    progress[stopId] = true;
+                    return progress;
+                }, {});
             }
 
             function toggleStop(stopId) {
-                const progress = getTrailProgress(trail.key);
-                progress[stopId] = !progress[stopId];
-                saveTrailProgress();
+                const result = progressApi.recordStop(trail.key, stopId, { toast: false });
+                if (!result.ok) {
+                    showToast(trailText('toast.saveFailed'));
+                    return;
+                }
+                showToast(result.points > 0
+                    ? trailText('toast.stopVisited', { points: result.points })
+                    : trailText('toast.stopRevisited'));
                 renderTrail();
-            }
-
-            function markBadgeEarned(trailKey) {
-                const target = TRAILS[trailKey].badge;
-                badges[target.key] = {
-                    label: localizedTrail(TRAILS[trailKey], 'badge.label'),
-                    title: localizedTrail(TRAILS[trailKey], 'badge.title'),
-                    icon: target.icon,
-                    earnedAt: new Date().toISOString()
-                };
-                localStorage.setItem(BADGE_KEY, JSON.stringify(badges));
             }
 
             function completeTrail() {
-                const progress = getTrailProgress(trail.key);
-                trail.stops.forEach(function (stop) {
-                    progress[stop.id] = true;
-                });
-                saveTrailProgress();
-                markBadgeEarned(trail.key);
-                renderTrail();
+                const result = progressApi.completeTrail(trail.key);
+                if (!result.ok) {
+                    showToast(trailText('toast.incomplete', { remaining: result.remaining }));
+                    return;
+                }
                 showToast(trailText('toast.complete'));
             }
 
             function resetTrail() {
-                state[trail.key] = {};
-                saveTrailProgress();
+                if (!window.confirm(trailText('actions.resetConfirm'))) return;
+                const result = progressApi.resetTrail(trail.key);
+                if (!result.ok) {
+                    showToast(trailText('toast.saveFailed'));
+                    return;
+                }
                 renderTrail();
                 showToast(trailText('toast.reset'));
+            }
+
+            function migrateLegacyProgress() {
+                let legacyState;
+                try {
+                    legacyState = JSON.parse(localStorage.getItem('ananse-trail-progress') || '{}');
+                } catch (error) {
+                    console.error('Could not read legacy trail progress; leaving it untouched.', error);
+                    return;
+                }
+                if (!legacyState || typeof legacyState !== 'object' || Array.isArray(legacyState)) {
+                    console.error('Legacy trail progress has an unexpected format; leaving it untouched.');
+                    return;
+                }
+
+                let migrated = true;
+                Object.keys(TRAILS).forEach(function (trailKey) {
+                    const oldProgress = legacyState[trailKey];
+                    if (!oldProgress || typeof oldProgress !== 'object') return;
+                    TRAILS[trailKey].stops.forEach(function (stop) {
+                        if (!oldProgress[stop.id]) return;
+                        const result = progressApi.recordStop(trailKey, stop.id, { toast: false });
+                        if (!result.ok) migrated = false;
+                    });
+                });
+
+                if (migrated) {
+                    try {
+                        localStorage.removeItem('ananse-trail-progress');
+                    } catch (error) {
+                        console.error('Could not remove migrated trail progress.', error);
+                    }
+                }
             }
 
             function renderSummary() {
@@ -768,8 +820,13 @@
                     button.type = 'button';
                     button.className = 'visit-toggle' + (done ? ' is-done' : '');
                     button.dataset.stopId = stop.id;
+                    button.disabled = done;
+                    button.setAttribute('aria-pressed', String(done));
                     button.textContent = trailText(done ? 'actions.visited' : 'actions.markVisited');
-                    actions.appendChild(button);
+                    const reward = document.createElement('span');
+                    reward.className = 'stop-reward';
+                    reward.textContent = trailText('meta.stopReward', { points: progressApi.POINTS.stop });
+                    actions.append(reward, button);
                     card.append(top, actions);
 
                     stopList.appendChild(card);
@@ -783,21 +840,26 @@
             }
 
             function renderProgress() {
-                const completion = getTrailCompletion(trail.key);
-                const percent = completion.total ? (completion.done / completion.total) * 100 : 0;
+                const summary = getTrailSummary(trail.key);
+                const percent = summary.total ? (summary.visited / summary.total) * 100 : 0;
                 progressText.textContent = trailText('progress.visited', {
-                    done: completion.done,
-                    total: completion.total
+                    done: summary.visited,
+                    total: summary.total
                 });
                 progressFill.style.width = percent + '%';
+                progressBar.setAttribute('aria-valuemax', String(summary.total));
+                progressBar.setAttribute('aria-valuenow', String(summary.visited));
+                trailPointsEarned.textContent = trailText('progress.pointsEarned', {
+                    points: summary.rewardPoints
+                });
 
-                if (completion.complete) {
+                if (summary.completed) {
                     routeStatus.textContent = trailText('status.complete');
                     completeTrailLabel.textContent = trailText('actions.trailComplete');
                     completeTrailBtn.disabled = true;
                     completeTrailBtn.style.opacity = '.7';
                 } else {
-                    routeStatus.textContent = trailText('status.start');
+                    routeStatus.textContent = trailText('status.incomplete');
                     completeTrailLabel.textContent = trailText('actions.completeTrail');
                     completeTrailBtn.disabled = false;
                     completeTrailBtn.style.opacity = '1';
@@ -828,12 +890,19 @@
                 trailDescription.textContent = localizedTrail(trail, 'description');
                 trailStops.textContent = trailText('meta.stops', { count: trail.stops.length });
                 trailRegion.textContent = localizedTrail(trail, 'region');
+                trailRewardRules.textContent = trailText('meta.rewardRules', {
+                    stopPoints: progressApi.POINTS.stop,
+                    trailPoints: progressApi.POINTS.trailComplete,
+                    allTrailsPoints: progressApi.POINTS.allTrails,
+                    trailCount: progressApi.SITES.length
+                });
 
                 renderSummary();
                 renderStops();
                 renderProgress();
             }
 
+            migrateLegacyProgress();
             completeTrailBtn.addEventListener('click', completeTrail);
             resetTrailBtn.addEventListener('click', resetTrail);
 
@@ -859,9 +928,7 @@
             }
         })();
     </script>
-    <script src="../src/js/language.js"></script>
     <script src="../src/footer.js"></script>
-    <script src="../src/auth-session.js"></script>
 </body>
 
 </html>
