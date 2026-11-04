@@ -175,11 +175,11 @@
                             <i class="fa-solid fa-user"></i>
                         </div>
 
-                        <h3>Heritage Explorer</h3>
+                        <h3 id="profileName">Heritage Explorer</h3>
 
-                        <p>
-                            <i class="fa-solid fa-location-dot"></i>
-                            Ghana
+                        <p class="profile-level">
+                            <i class="fa-solid fa-medal"></i>
+                            <span id="profileLevelText">New Explorer</span>
                         </p>
 
                     </div>
@@ -308,6 +308,17 @@
                 <section class="passport-main">
 
 
+                    <!-- GUEST NOTICE (hidden once signed in) -->
+                    <div class="passport-guest-notice" id="passportGuestNotice" hidden>
+                        <i class="fa-solid fa-circle-info"></i>
+                        <p>
+                            You are not signed in. Your trail rewards are saved on this
+                            device and will be added to your account when you sign in.
+                        </p>
+                        <a href="./login.html" class="secondary-button">Sign in</a>
+                    </div>
+
+
                     <!-- SECTION HEADING -->
                     <div class="section-heading">
 
@@ -332,9 +343,9 @@
                                 <span data-i18n="points">Points</span>
                             </span>
 
-                            <strong id="pointsValue">
-                                850
-                            </strong>
+                            <strong id="pointsValue">0</strong>
+
+                            <small class="points-max" id="pointsMax"></small>
 
                         </div>
 
@@ -397,7 +408,7 @@
 
                                 <div>
                                     <span>Name</span>
-                                    <strong>Heritage Explorer</strong>
+                                    <strong id="ppName">Heritage Explorer</strong>
                                 </div>
 
                                 <div>
@@ -407,17 +418,17 @@
 
                                 <div>
                                     <span>Passport No.</span>
-                                    <strong>AN-2025-001</strong>
+                                    <strong id="ppNumber">AN-0000-0000</strong>
                                 </div>
 
                                 <div>
                                     <span>Issue Date</span>
-                                    <strong>27 Apr 2025</strong>
+                                    <strong id="ppIssueDate">—</strong>
                                 </div>
 
                                 <div>
                                     <span>Expiry Date</span>
-                                    <strong>27 Apr 2030</strong>
+                                    <strong id="ppExpiryDate">—</strong>
                                 </div>
 
                             </div>
@@ -429,15 +440,7 @@
                                     VISITED HERITAGE SITES
                                 </span>
 
-                                <div class="site-tags">
-
-                                    <span>Cape Coast Castle</span>
-                                    <span>Manhyia Palace</span>
-                                    <span>Osu Castle</span>
-                                    <span>Independence Square</span>
-                                    <span>Kwame Nkrumah Memorial Park</span>
-
-                                </div>
+                                <div class="site-tags" id="visitedSites"></div>
 
                             </div>
 
@@ -464,140 +467,14 @@
                                 </h3>
                             </div>
 
-                            <span class="completion-count">
-                                5 / 5
+                            <span class="completion-count" id="badgesCount">
+                                0 / 5
                             </span>
 
                         </div>
 
 
-                        <div class="badges-grid">
-
-                            <button
-                                class="badge-card"
-                                type="button"
-                                data-badge="cape"
-                            >
-
-                                <div class="badge-icon">
-                                    <i class="fa-solid fa-landmark"></i>
-                                </div>
-
-                                <h4>
-                                    Cape Coast
-                                </h4>
-
-                                <p>
-                                    Castle Explorer
-                                </p>
-
-                                <span class="badge-check">
-                                    <i class="fa-solid fa-check"></i>
-                                </span>
-
-                            </button>
-
-
-                            <button
-                                class="badge-card"
-                                type="button"
-                                data-badge="manhyia"
-                            >
-
-                                <div class="badge-icon">
-                                    <i class="fa-solid fa-crown"></i>
-                                </div>
-
-                                <h4>
-                                    Manhyia
-                                </h4>
-
-                                <p>
-                                    Royal Heritage
-                                </p>
-
-                                <span class="badge-check">
-                                    <i class="fa-solid fa-check"></i>
-                                </span>
-
-                            </button>
-
-
-                            <button
-                                class="badge-card"
-                                type="button"
-                                data-badge="osu"
-                            >
-
-                                <div class="badge-icon">
-                                    <i class="fa-solid fa-building-columns"></i>
-                                </div>
-
-                                <h4>
-                                    Osu Castle
-                                </h4>
-
-                                <p>
-                                    Coastal Heritage
-                                </p>
-
-                                <span class="badge-check">
-                                    <i class="fa-solid fa-check"></i>
-                                </span>
-
-                            </button>
-
-
-                            <button
-                                class="badge-card"
-                                type="button"
-                                data-badge="independence"
-                            >
-
-                                <div class="badge-icon">
-                                    <i class="fa-solid fa-flag"></i>
-                                </div>
-
-                                <h4>
-                                    Independence
-                                </h4>
-
-                                <p>
-                                    Nation Builder
-                                </p>
-
-                                <span class="badge-check">
-                                    <i class="fa-solid fa-check"></i>
-                                </span>
-
-                            </button>
-
-
-                            <button
-                                class="badge-card"
-                                type="button"
-                                data-badge="nkrumah"
-                            >
-
-                                <div class="badge-icon">
-                                    <i class="fa-solid fa-star"></i>
-                                </div>
-
-                                <h4>
-                                    Nkrumah
-                                </h4>
-
-                                <p>
-                                    Freedom Fighter
-                                </p>
-
-                                <span class="badge-check">
-                                    <i class="fa-solid fa-check"></i>
-                                </span>
-
-                            </button>
-
-                        </div>
+                        <div class="badges-grid" id="badgesGrid"></div>
 
                     </div>
 
@@ -622,8 +499,8 @@
 
                             </div>
 
-                            <strong>
-                                100%
+                            <strong id="progressPercent">
+                                0%
                             </strong>
 
                         </div>
@@ -633,7 +510,8 @@
 
                             <span
                                 class="progress-fill"
-                                style="width:100%;"
+                                id="progressFill"
+                                style="width:0%;"
                             ></span>
 
                         </div>
@@ -641,13 +519,9 @@
 
                         <div class="progress-meta">
 
-                            <span>
-                                5 heritage sites explored
-                            </span>
+                            <span id="progressSummaryText"></span>
 
-                            <span>
-                                Complete
-                            </span>
+                            <span id="progressStatusText"></span>
 
                         </div>
 
@@ -664,8 +538,8 @@
                 <aside class="passport-right-column">
 
 
-                    <!-- BADGE EARNED -->
-                    <div class="earned-card">
+                    <!-- LATEST BADGE / FIRST BADGE PROMPT -->
+                    <div class="earned-card is-empty" id="earnedCard">
 
                         <div class="earned-card-top">
 
@@ -678,29 +552,30 @@
                         </div>
 
 
-                        <div class="large-badge">
+                        <div class="large-badge" id="earnedIcon">
 
-                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-lock"></i>
 
                         </div>
 
 
-                        <h3 data-i18n="badgeEarned">
-                            Badge Earned!
+                        <h3 id="earnedTitle">
+                            Earn your first badge
                         </h3>
 
-                        <p>
-                            You have completed your first
-                            heritage journey.
+                        <p id="earnedText">
+                            Visit every stop on a heritage trail to unlock
+                            the badge for that site.
                         </p>
 
 
                         <button
                             type="button"
                             class="secondary-button"
-                            data-modal="badgesModal"
+                            id="earnedButton"
+                            data-action="map"
                         >
-                            View Badge
+                            Start a trail
                             <i class="fa-solid fa-arrow-right"></i>
                         </button>
 
@@ -728,84 +603,24 @@
                         </div>
 
 
-                        <div class="journey-list">
+                        <div class="journey-list" id="journeyList"></div>
 
-                            <div class="journey-item completed">
-
-                                <span class="journey-icon">
-                                    <i class="fa-solid fa-check"></i>
-                                </span>
-
-                                <div>
-                                    <strong>
-                                        Cape Coast Castle
-                                    </strong>
-
-                                    <small>
-                                        Completed
-                                    </small>
-                                </div>
-
-                            </div>
+                    </div>
 
 
-                            <div class="journey-item completed">
 
-                                <span class="journey-icon">
-                                    <i class="fa-solid fa-check"></i>
-                                </span>
+                    <!-- HOW REWARDS WORK -->
+                    <div class="rewards-card">
 
-                                <div>
-                                    <strong>
-                                        Manhyia Palace
-                                    </strong>
+                        <span class="section-kicker">
+                            REWARDS
+                        </span>
 
-                                    <small>
-                                        Completed
-                                    </small>
-                                </div>
+                        <h3>How you earn points</h3>
 
-                            </div>
+                        <p>Every trail you walk adds to your passport.</p>
 
-
-                            <div class="journey-item completed">
-
-                                <span class="journey-icon">
-                                    <i class="fa-solid fa-check"></i>
-                                </span>
-
-                                <div>
-                                    <strong>
-                                        Kwame Nkrumah Memorial
-                                    </strong>
-
-                                    <small>
-                                        Completed
-                                    </small>
-                                </div>
-
-                            </div>
-
-
-                            <div class="journey-item upcoming">
-
-                                <span class="journey-icon">
-                                    <i class="fa-solid fa-location-dot"></i>
-                                </span>
-
-                                <div>
-                                    <strong>
-                                        Discover your next site
-                                    </strong>
-
-                                    <small>
-                                        Explore Ghana
-                                    </small>
-                                </div>
-
-                            </div>
-
-                        </div>
+                        <div id="rewardRules"></div>
 
                     </div>
 
@@ -911,7 +726,7 @@
 
                 <p>
                     <strong>Name:</strong>
-                    Heritage Explorer
+                    <span id="modalPassName">Heritage Explorer</span>
                 </p>
 
                 <p>
@@ -921,7 +736,7 @@
 
                 <p>
                     <strong>Passport No:</strong>
-                    AN-2025-001
+                    <span id="modalPassNumber">AN-0000-0000</span>
                 </p>
 
                 <p>
@@ -962,39 +777,7 @@
         </div>
 
 
-        <div class="modal-badge-grid">
-
-            <div class="modal-badge">
-                <i class="fa-solid fa-landmark"></i>
-                <strong>Cape Coast</strong>
-                <span>Castle Explorer</span>
-            </div>
-
-            <div class="modal-badge">
-                <i class="fa-solid fa-crown"></i>
-                <strong>Manhyia</strong>
-                <span>Royal Heritage</span>
-            </div>
-
-            <div class="modal-badge">
-                <i class="fa-solid fa-building-columns"></i>
-                <strong>Osu Castle</strong>
-                <span>Coastal Heritage</span>
-            </div>
-
-            <div class="modal-badge">
-                <i class="fa-solid fa-flag"></i>
-                <strong>Independence</strong>
-                <span>Nation Builder</span>
-            </div>
-
-            <div class="modal-badge">
-                <i class="fa-solid fa-star"></i>
-                <strong>Nkrumah</strong>
-                <span>Freedom Fighter</span>
-            </div>
-
-        </div>
+        <div class="modal-badge-grid" id="modalBadgeGrid"></div>
 
     </div>
 
@@ -1027,16 +810,15 @@
 
         <div class="modal-progress">
 
-            <div class="progress-circle">
-                <span>100%</span>
+            <div class="progress-circle" id="modalProgressCircle" style="--progress:0;">
+                <span id="modalProgressPercent">0%</span>
             </div>
 
-            <h3>Passport Complete</h3>
+            <h3 id="modalProgressTitle">Start your journey</h3>
 
-            <p>
-                You have explored 5 heritage sites
-                and earned all available badges.
-            </p>
+            <p id="modalProgressText"></p>
+
+            <div class="trail-progress-list" id="trailProgressList"></div>
 
         </div>
 
@@ -1114,56 +896,7 @@
         </div>
 
 
-        <div class="activity-list">
-
-            <div class="activity-item">
-
-                <span>
-                    <i class="fa-solid fa-medal"></i>
-                </span>
-
-                <div>
-                    <strong>Badge earned</strong>
-                    <small>Nkrumah Heritage Badge</small>
-                </div>
-
-                <time>Today</time>
-
-            </div>
-
-
-            <div class="activity-item">
-
-                <span>
-                    <i class="fa-solid fa-location-dot"></i>
-                </span>
-
-                <div>
-                    <strong>Site explored</strong>
-                    <small>Kwame Nkrumah Memorial Park</small>
-                </div>
-
-                <time>Yesterday</time>
-
-            </div>
-
-
-            <div class="activity-item">
-
-                <span>
-                    <i class="fa-solid fa-passport"></i>
-                </span>
-
-                <div>
-                    <strong>Passport updated</strong>
-                    <small>Heritage Passport</small>
-                </div>
-
-                <time>Recently</time>
-
-            </div>
-
-        </div>
+        <div class="activity-list" id="activityList"></div>
 
     </div>
 
@@ -1227,7 +960,7 @@
 
 
 
-<!-- BADGE DETAIL MODAL -->
+<!-- BADGE DETAIL MODAL (earned or locked) -->
 <div class="modal" id="badgeDetailModal">
 
     <div class="modal-box badge-detail-box">
@@ -1248,13 +981,20 @@
             Heritage Badge
         </h2>
 
-        <p id="badgeDetailText">
-            You earned this badge by exploring one of Ghana's heritage sites.
-        </p>
+        <p id="badgeDetailText"></p>
 
-        <div class="badge-earned-label">
+        <div class="badge-earned-label" id="badgeEarnedLabel">
             <i class="fa-solid fa-check"></i>
             Badge Earned
+        </div>
+
+        <div>
+            <a
+                href="./map.html"
+                class="secondary-button badge-detail-cta"
+                id="badgeDetailCta"
+                hidden
+            >Continue trail</a>
         </div>
 
     </div>
@@ -1267,6 +1007,7 @@
 ========================================================= -->
 <script src="../src/auth-session.js"></script>
 <script src="../src/script.js"></script>
+<script src="../src/passport.js"></script>
 
 <!-- LANGUAGE JS IS SEPARATE -->
 <script src="../src/js/language.js"></script>

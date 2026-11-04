@@ -887,411 +887,952 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 /* =========================================================
-   ANANSE — PASSPORT JAVASCRIPT
+   ANANSE — PASSPORT (all-in-one script)  ->  src/passport.js
+
+   PART 1  Progress & rewards engine (records trail activity)
+   PART 2  Passport page display (only runs on passport.html)
+
+   Load it on passport.html AND on heritagetrails.html:
+     <script src="../src/passport.js"></script>
+
+   On the trails page, record progress with either:
+     - attributes: data-trail-stop="cape-coast-castle:door-of-no-return"
+                   data-trail-complete="cape-coast-castle"
+     - or code:    ananseProgress.recordStop("cape-coast-castle", "door-of-no-return");
+                   ananseProgress.completeTrail("cape-coast-castle");
+
+   Points: +10 per new stop, +50 per finished trail (earns its badge),
+   +100 for finishing all trails. Change them in POINTS below.
+   "stops" in SITES must match the stops on each trail.
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+/* ==================== PART 1: ENGINE ==================== */
+(function () {
+    "use strict";
 
-    /* =====================================================
-       MOBILE NAVIGATION
-    ====================================================== */
+    const STORAGE_PREFIX = "ananse_passport_progress";
+    const GUEST_KEY = STORAGE_PREFIX + ":guest";
+    const CHANGE_EVENT = "ananse:progresschange";
+    const MAX_ACTIVITY = 30;
 
-    const mobileMenuButton =
-        document.getElementById("mobileMenuButton");
+    /* -----------------------------------------------------
+       REWARD RULES — the only place points are defined
+    ----------------------------------------------------- */
+    const POINTS = Object.freeze({
+        stop: 10,           // each new stop visited on a trail
+        trailComplete: 50,  // finishing every stop on a trail (also earns that site's badge)
+        allTrails: 100      // finishing every trail (passport complete)
+    });
 
-    const passportNav =
-        document.getElementById("passportNav");
+    /* -----------------------------------------------------
+       TRAILS / SITES
+       "stops" must match the number of stops on each trail in
+       heritagetrails.html. "aliases" let the Explore page ids
+       (cape-coast, osu...) and the Map page ids both work.
+    ----------------------------------------------------- */
+    const SITES = [
+        { id: "cape-coast-castle", aliases: ["cape-coast", "cape", "capecoast"], name: "Cape Coast Castle", badgeName: "Cape Coast", badgeTitle: "Castle Explorer", icon: "fa-landmark", stops: 3 },
+        { id: "manhyia-palace", aliases: ["manhyia"], name: "Manhyia Palace", badgeName: "Manhyia", badgeTitle: "Royal Heritage", icon: "fa-crown", stops: 3 },
+        { id: "osu-castle", aliases: ["osu", "osucastle"], name: "Osu Castle", badgeName: "Osu Castle", badgeTitle: "Coastal Heritage", icon: "fa-building-columns", stops: 3 },
+        { id: "independence-arch", aliases: ["independence", "independence-square"], name: "Independence Arch", badgeName: "Independence", badgeTitle: "Nation Builder", icon: "fa-flag", stops: 3 },
+        { id: "kwame-nkrumah", aliases: ["nkrumah", "kwame-nkrumah-memorial-park", "kwamepark"], name: "Kwame Nkrumah Memorial Park", badgeName: "Nkrumah", badgeTitle: "Freedom Fighter", icon: "fa-star", stops: 3 }
+    ];
 
-    const mobileNavOverlay =
-        document.getElementById("mobileNavOverlay");
+    // Rank is decided by how many trails have been completed
+    const LEVELS = [
+        { key: "newExplorer", title: "New Explorer", minTrails: 0 },
+        { key: "explorer", title: "Heritage Explorer", minTrails: 1 },
+        { key: "guide", title: "Heritage Guide", minTrails: 3 },
+        { key: "storyKeeper", title: "Heritage Story Keeper", minTrails: SITES.length }
+    ];
 
-
-    function openMobileMenu() {
-
-        passportNav.classList.add("open");
-
-        mobileNavOverlay.classList.add("open");
-
-        mobileMenuButton.setAttribute(
-            "aria-expanded",
-            "true"
-        );
-
-        mobileMenuButton.innerHTML =
-            '<i class="fa-solid fa-xmark"></i>';
-
-        document.body.style.overflow = "hidden";
+    /* -----------------------------------------------------
+       HELPERS
+    ----------------------------------------------------- */
+    function nowIso() {
+        return new Date().toISOString();
     }
 
-
-    function closeMobileMenu() {
-
-        passportNav.classList.remove("open");
-
-        mobileNavOverlay.classList.remove("open");
-
-        mobileMenuButton.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-
-        mobileMenuButton.innerHTML =
-            '<i class="fa-solid fa-bars"></i>';
-
-        document.body.style.overflow = "";
+    function resolveSite(raw) {
+        const id = String(raw == null ? "" : raw).trim().toLowerCase();
+        if (!id) return null;
+        return SITES.find(function (s) {
+            return s.id === id || s.aliases.indexOf(id) !== -1;
+        }) || null;
     }
 
+    function getSession() {
+        try {
+            return window.ananseAuth && typeof window.ananseAuth.getSession === "function"
+                ? window.ananseAuth.getSession()
+                : null;
+        } catch (e) {
+            return null;
+        }
+    }
 
-    if (mobileMenuButton) {
+    function getUser() {
+        const s = getSession();
+        if (!s) return { signedIn: false, name: "", email: "" };
+        return {
+            signedIn: true,
+            email: s.email || "",
+            name: s.full_name || s.fullName || s.name || ""
+        };
+    }
 
-        mobileMenuButton.addEventListener(
-            "click",
-            () => {
+    function storageKey() {
+        const u = getUser();
+        return STORAGE_PREFIX + ":" + (u.signedIn && u.email ? u.email.toLowerCase() : "guest");
+    }
 
-                const isOpen =
-                    passportNav.classList.contains("open");
-
-                if (isOpen) {
-
-                    closeMobileMenu();
-
-                } else {
-
-                    openMobileMenu();
-
-                }
-
+    /* -----------------------------------------------------
+       STORAGE
+    ----------------------------------------------------- */
+    function normalize(raw) {
+        const data = {
+            createdAt: (raw && raw.createdAt) || nowIso(),
+            sites: {},
+            allTrailsAwardedAt: (raw && raw.allTrailsAwardedAt) || null,
+            activity: Array.isArray(raw && raw.activity) ? raw.activity.slice(0, MAX_ACTIVITY) : []
+        };
+        SITES.forEach(function (site) {
+            const src = raw && raw.sites && raw.sites[site.id];
+            if (src && src.stops && typeof src.stops === "object") {
+                data.sites[site.id] = {
+                    stops: Object.assign({}, src.stops),
+                    completedAt: src.completedAt || null
+                };
             }
-        );
-
+        });
+        return data;
     }
 
-
-    if (mobileNavOverlay) {
-
-        mobileNavOverlay.addEventListener(
-            "click",
-            closeMobileMenu
-        );
-
+    function read(key) {
+        try {
+            const raw = window.localStorage.getItem(key);
+            return raw ? normalize(JSON.parse(raw)) : null;
+        } catch (e) {
+            return null;
+        }
     }
 
+    function write(key, data) {
+        try {
+            window.localStorage.setItem(key, JSON.stringify(data));
+            return true;
+        } catch (e) {
+            console.error("[ananseProgress] Could not save progress.", e);
+            return false;
+        }
+    }
 
-    /* CLOSE MOBILE NAV AFTER LINK */
+    function hasAnyProgress(data) {
+        return SITES.some(function (s) {
+            return data.sites[s.id] && Object.keys(data.sites[s.id].stops).length > 0;
+        });
+    }
 
-    document
-        .querySelectorAll(".passport-nav-links a")
-        .forEach(link => {
+    // Makes sure completion flags match the stops that were recorded
+    function reconcile(data) {
+        let allDone = true;
+        SITES.forEach(function (site) {
+            const st = data.sites[site.id];
+            const count = st ? Object.keys(st.stops).length : 0;
+            if (st && count >= site.stops && !st.completedAt) {
+                st.completedAt = Object.keys(st.stops).map(function (k) { return st.stops[k]; }).sort().pop();
+            }
+            if (!st || !st.completedAt) allDone = false;
+        });
+        if (allDone && !data.allTrailsAwardedAt) data.allTrailsAwardedAt = nowIso();
+        return data;
+    }
 
-            link.addEventListener("click", () => {
-
-                closeMobileMenu();
-
+    function merge(target, source) {
+        SITES.forEach(function (site) {
+            const src = source.sites[site.id];
+            if (!src) return;
+            const dst = target.sites[site.id] || (target.sites[site.id] = { stops: {}, completedAt: null });
+            Object.keys(src.stops).forEach(function (k) {
+                if (!dst.stops[k] || src.stops[k] < dst.stops[k]) dst.stops[k] = src.stops[k];
             });
-
+            if (src.completedAt && (!dst.completedAt || src.completedAt < dst.completedAt)) {
+                dst.completedAt = src.completedAt;
+            }
         });
 
+        if (source.createdAt < target.createdAt) target.createdAt = source.createdAt;
+        if (source.allTrailsAwardedAt && (!target.allTrailsAwardedAt || source.allTrailsAwardedAt < target.allTrailsAwardedAt)) {
+            target.allTrailsAwardedAt = source.allTrailsAwardedAt;
+        }
 
+        const seen = {};
+        target.activity = target.activity.concat(source.activity)
+            .filter(function (a) {
+                const k = [a.type, a.siteId, a.stopId].join("|");
+                if (seen[k]) return false;
+                seen[k] = true;
+                return true;
+            })
+            .sort(function (a, b) { return a.at < b.at ? 1 : -1; })
+            .slice(0, MAX_ACTIVITY);
+
+        return reconcile(target);
+    }
+
+    function load() {
+        const key = storageKey();
+        let data = read(key);
+
+        // Signed in now? Fold anything earned as a guest into the account.
+        if (key !== GUEST_KEY) {
+            const guest = read(GUEST_KEY);
+            if (guest && hasAnyProgress(guest)) {
+                data = merge(data || normalize(null), guest);
+                if (write(key, data)) {
+                    try { window.localStorage.removeItem(GUEST_KEY); } catch (e) { /* ignore */ }
+                }
+            }
+        }
+
+        return reconcile(data || normalize(null));
+    }
+
+    /* -----------------------------------------------------
+       RECORDING PROGRESS
+    ----------------------------------------------------- */
+    function ensureSite(data, id) {
+        return data.sites[id] || (data.sites[id] = { stops: {}, completedAt: null });
+    }
+
+    function log(data, entry) {
+        data.activity.unshift(entry);
+        if (data.activity.length > MAX_ACTIVITY) data.activity.length = MAX_ACTIVITY;
+    }
+
+    function newResult(site) {
+        return {
+            ok: true,
+            siteId: site.id,
+            siteName: site.name,
+            badgeTitle: site.badgeTitle,
+            newStops: 0,
+            points: 0,
+            trailCompleted: false,
+            badgeEarned: false,
+            allTrailsComplete: false
+        };
+    }
+
+    // Adds one stop. Returns false if that stop was already collected (no farming).
+    function addStop(data, site, stopId, now, result) {
+        const state = ensureSite(data, site.id);
+        if (state.stops[stopId]) return false;
+
+        const before = Object.keys(state.stops).length;
+        state.stops[stopId] = now;
+        result.newStops += 1;
+
+        if (before < site.stops) {
+            result.points += POINTS.stop;
+            log(data, { type: "stop", siteId: site.id, stopId: stopId, points: POINTS.stop, at: now });
+        }
+
+        if (!state.completedAt && Object.keys(state.stops).length >= site.stops) {
+            state.completedAt = now;
+            result.trailCompleted = true;
+            result.badgeEarned = true;
+            result.points += POINTS.trailComplete;
+            log(data, { type: "trail", siteId: site.id, points: POINTS.trailComplete, at: now });
+
+            const allDone = SITES.every(function (s) {
+                return data.sites[s.id] && data.sites[s.id].completedAt;
+            });
+            if (allDone && !data.allTrailsAwardedAt) {
+                data.allTrailsAwardedAt = now;
+                result.allTrailsComplete = true;
+                result.points += POINTS.allTrails;
+                log(data, { type: "all", points: POINTS.allTrails, at: now });
+            }
+        }
+        return true;
+    }
+
+    function commit(data, result, options) {
+        if (result.newStops > 0) {
+            if (!write(storageKey(), data)) return { ok: false, reason: "storage-failed" };
+            window.dispatchEvent(new CustomEvent(CHANGE_EVENT, { detail: result }));
+        }
+        const showToast = !(options && options.toast === false);
+        if (showToast && document.body && !document.body.classList.contains("passport-page")) {
+            showRewardToast(result);
+        }
+        return result;
+    }
+
+    /**
+     * The user visited / completed one stop on a trail.
+     *   ananseProgress.recordStop("cape-coast-castle", "door-of-no-return");
+     * The same stop only ever counts once.
+     */
+    function recordStop(siteRaw, stopRaw, options) {
+        const site = resolveSite(siteRaw);
+        const stopId = String(stopRaw == null ? "" : stopRaw).trim();
+        if (!site) {
+            console.warn("[ananseProgress] Unknown site:", siteRaw);
+            return { ok: false, reason: "unknown-site" };
+        }
+        if (!stopId) {
+            console.warn("[ananseProgress] recordStop needs a stop id.");
+            return { ok: false, reason: "missing-stop" };
+        }
+
+        const data = load();
+        const result = newResult(site);
+        addStop(data, site, stopId, nowIso(), result);
+        return commit(data, result, options);
+    }
+
+    /**
+     * The user finished the whole trail (e.g. pressed "Finish trail").
+     * Any stops not recorded yet are filled in, so points stay consistent.
+     *   ananseProgress.completeTrail("cape-coast-castle");
+     */
+    function completeTrail(siteRaw, options) {
+        const site = resolveSite(siteRaw);
+        if (!site) {
+            console.warn("[ananseProgress] Unknown site:", siteRaw);
+            return { ok: false, reason: "unknown-site" };
+        }
+
+        const data = load();
+        const result = newResult(site);
+        const state = ensureSite(data, site.id);
+        let missing = site.stops - Object.keys(state.stops).length;
+        let n = 1;
+        while (missing > 0) {
+            if (addStop(data, site, "auto-" + n, nowIso(), result)) missing -= 1;
+            n += 1;
+        }
+        return commit(data, result, options);
+    }
+
+    /* -----------------------------------------------------
+       SUMMARY (everything the passport page needs)
+    ----------------------------------------------------- */
+    function passportNumber(createdAt) {
+        const s = storageKey();
+        let h = 0;
+        for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+        const year = new Date(createdAt).getFullYear() || new Date().getFullYear();
+        return "AN-" + year + "-" + String(h % 10000).padStart(4, "0");
+    }
+
+    function getSummary() {
+        const data = load();
+
+        const sites = SITES.map(function (site) {
+            const st = data.sites[site.id];
+            const count = st ? Object.keys(st.stops).length : 0;
+            const visited = Math.min(count, site.stops);
+            const completed = !!(st && st.completedAt);
+            return {
+                id: site.id,
+                name: site.name,
+                badgeName: site.badgeName,
+                badgeTitle: site.badgeTitle,
+                icon: site.icon,
+                visited: visited,
+                total: site.stops,
+                percent: Math.round((visited / site.stops) * 100),
+                completed: completed,
+                completedAt: completed ? st.completedAt : null,
+                status: completed ? "completed" : (visited > 0 ? "in-progress" : "not-started")
+            };
+        });
+
+        const stopsVisited = sites.reduce(function (n, s) { return n + s.visited; }, 0);
+        const totalStops = sites.reduce(function (n, s) { return n + s.total; }, 0);
+        const trailsCompleted = sites.filter(function (s) { return s.completed; }).length;
+        const complete = trailsCompleted === sites.length;
+
+        const points = stopsVisited * POINTS.stop +
+            trailsCompleted * POINTS.trailComplete +
+            (complete ? POINTS.allTrails : 0);
+        const maxPoints = totalStops * POINTS.stop + sites.length * POINTS.trailComplete + POINTS.allTrails;
+
+        const earnedBadges = sites.filter(function (s) { return s.completed; })
+            .sort(function (a, b) { return a.completedAt < b.completedAt ? 1 : -1; });
+
+        const level = LEVELS.filter(function (l) { return trailsCompleted >= l.minTrails; }).pop();
+
+        return {
+            points: points,
+            maxPoints: maxPoints,
+            stopsVisited: stopsVisited,
+            totalStops: totalStops,
+            percent: totalStops ? Math.round((stopsVisited / totalStops) * 100) : 0,
+            trailsCompleted: trailsCompleted,
+            trailsTotal: sites.length,
+            complete: complete,
+            sites: sites,
+            earnedBadges: earnedBadges,
+            latestBadge: earnedBadges[0] || null,
+            level: level,
+            activity: data.activity.slice(),
+            issuedAt: data.createdAt,
+            passportNumber: passportNumber(data.createdAt)
+        };
+    }
+
+    /* -----------------------------------------------------
+       REWARD TOAST (shown on the trails page after a stop)
+       Self-styled so it needs no CSS on that page.
+    ----------------------------------------------------- */
+    function showRewardToast(result) {
+        if (!result || !result.ok || !result.newStops || !document.body) return;
+
+        const old = document.getElementById("ananseRewardToast");
+        if (old) old.remove();
+
+        let title = "Stop collected!";
+        let body = result.siteName + ": visit every stop to earn the " + result.badgeTitle + " badge.";
+        if (result.allTrailsComplete) {
+            title = "Passport complete!";
+            body = "You've finished every heritage trail. Amazing work!";
+        } else if (result.trailCompleted) {
+            title = "Trail complete!";
+            body = "You earned the " + result.badgeTitle + " badge for " + result.siteName + ".";
+        }
+
+        const toast = document.createElement("div");
+        toast.id = "ananseRewardToast";
+        toast.setAttribute("role", "status");
+        toast.setAttribute("aria-live", "polite");
+        toast.style.cssText =
+            "position:fixed;left:50%;bottom:24px;z-index:3000;width:min(430px,calc(100% - 28px));" +
+            "transform:translate(-50%,20px);opacity:0;transition:opacity .25s ease,transform .25s ease;" +
+            "display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;" +
+            "background:#062E35;color:#fff;border:1px solid rgba(234,168,53,.5);" +
+            "box-shadow:0 18px 40px rgba(0,0,0,.3);font-size:13px;line-height:1.4;";
+
+        if (result.points > 0) {
+            const chip = document.createElement("div");
+            chip.textContent = "+" + result.points;
+            chip.style.cssText =
+                "flex-shrink:0;min-width:56px;padding:9px 10px;border-radius:12px;background:#EAA835;" +
+                "color:#062E35;font-weight:800;font-size:16px;text-align:center;";
+            toast.appendChild(chip);
+        }
+
+        const text = document.createElement("div");
+        text.style.cssText = "flex:1;min-width:0;";
+
+        const strong = document.createElement("strong");
+        strong.textContent = title;
+        strong.style.cssText = "display:block;font-size:14px;margin-bottom:2px;";
+
+        const p = document.createElement("span");
+        p.textContent = body;
+        p.style.cssText = "display:block;color:rgba(255,255,255,.78);font-size:12px;";
+
+        const link = document.createElement("a");
+        link.href = "./passport.html";
+        link.textContent = "View passport \u2192";
+        link.style.cssText = "display:inline-block;margin-top:6px;color:#EAA835;font-weight:700;font-size:12px;text-decoration:none;";
+
+        text.appendChild(strong);
+        text.appendChild(p);
+        text.appendChild(link);
+        toast.appendChild(text);
+        document.body.appendChild(toast);
+
+        window.requestAnimationFrame(function () {
+            toast.style.opacity = "1";
+            toast.style.transform = "translate(-50%,0)";
+        });
+        window.setTimeout(function () {
+            toast.style.opacity = "0";
+            toast.style.transform = "translate(-50%,20px)";
+            window.setTimeout(function () { toast.remove(); }, 300);
+        }, 6000);
+    }
+
+    /* -----------------------------------------------------
+       NO-CODE HOOKS
+       Add these attributes in heritagetrails.html and clicks are
+       recorded automatically:
+         data-trail-stop="cape-coast-castle:door-of-no-return"
+         data-trail-complete="cape-coast-castle"
+    ----------------------------------------------------- */
+    document.addEventListener("click", function (e) {
+        const stopEl = e.target.closest && e.target.closest("[data-trail-stop]");
+        if (stopEl) {
+            const parts = stopEl.getAttribute("data-trail-stop").split(":");
+            recordStop(parts[0], parts.slice(1).join(":"));
+            return;
+        }
+        const doneEl = e.target.closest && e.target.closest("[data-trail-complete]");
+        if (doneEl) completeTrail(doneEl.getAttribute("data-trail-complete"));
+    });
+
+    /* -----------------------------------------------------
+       PUBLIC API
+    ----------------------------------------------------- */
+    function reset() {
+        try { window.localStorage.removeItem(storageKey()); } catch (e) { /* ignore */ }
+        window.dispatchEvent(new CustomEvent(CHANGE_EVENT, { detail: { reset: true } }));
+    }
+
+    window.ananseProgress = {
+        POINTS: POINTS,
+        SITES: SITES.map(function (s) {
+            return { id: s.id, name: s.name, badgeName: s.badgeName, badgeTitle: s.badgeTitle, icon: s.icon, stops: s.stops };
+        }),
+        CHANGE_EVENT: CHANGE_EVENT,
+        STORAGE_PREFIX: STORAGE_PREFIX,
+        getUser: getUser,
+        resolveSiteId: function (raw) { const s = resolveSite(raw); return s ? s.id : null; },
+        recordStop: recordStop,
+        completeTrail: completeTrail,
+        getSummary: getSummary,
+        showRewardToast: showRewardToast,
+        onChange: function (cb) {
+            window.addEventListener(CHANGE_EVENT, function (e) { cb(e.detail); });
+        },
+        reset: reset
+    };
+})();
+
+/* ==================== PART 2: PASSPORT PAGE ==================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (!document.body.classList.contains("passport-page")) return;
+
+    const P = window.ananseProgress;
+    if (!P) {
+        console.error("passport-progress.js must be loaded before script.js on passport.html.");
+        return;
+    }
+
+    let current = null; // latest summary
 
     /* =====================================================
-       MODAL SYSTEM
+       HELPERS
     ====================================================== */
 
-    const modals =
-        document.querySelectorAll(".modal");
+    const $ = id => document.getElementById(id);
 
+    function setText(id, value) {
+        const node = $(id);
+        if (node) node.textContent = value;
+    }
+
+    function esc(value) {
+        return String(value == null ? "" : value)
+            .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+
+    // Uses the site translations when a key exists, otherwise the English fallback
+    function t(key, fallback, params) {
+        const lang = window.ananseLanguage;
+        if (lang && typeof lang.getText === "function") {
+            const value = lang.getText(key, params || {});
+            if (value && value !== key) return value;
+        }
+        return String(fallback).replace(/\{\{(\w+)\}\}/g, (m, k) =>
+            params && params[k] !== undefined ? params[k] : m);
+    }
+
+    function locale() {
+        const l = document.documentElement.lang;
+        return l === "fr" ? "fr-FR" : l === "es" ? "es-ES" : "en-GB";
+    }
+
+    function fmtDate(iso) {
+        const d = new Date(iso);
+        return isNaN(d) ? "" : d.toLocaleDateString(locale(), { day: "2-digit", month: "short", year: "numeric" });
+    }
+
+    function relDay(iso) {
+        const d = new Date(iso);
+        if (isNaN(d)) return "";
+        const startOf = x => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
+        const diff = Math.round((startOf(new Date()) - startOf(d)) / 86400000);
+        if (diff <= 0) return t("passportPage.today", "Today");
+        if (diff === 1) return t("passportPage.yesterday", "Yesterday");
+        return fmtDate(iso);
+    }
+
+    function trailUrl(siteId) {
+        return "./heritagetrails.html?site=" + encodeURIComponent(siteId);
+    }
+
+    /* =====================================================
+       RENDERING
+    ====================================================== */
+
+    function renderUser(s, user) {
+        const name = user.name || t("passportPage.defaultName", "Heritage Explorer");
+        setText("profileName", name);
+        setText("ppName", name);
+        setText("modalPassName", name);
+        setText("profileLevelText", t("passportPage.level." + s.level.key, s.level.title));
+
+        const notice = $("passportGuestNotice");
+        if (notice) notice.hidden = user.signedIn;
+    }
+
+    function renderPoints(s) {
+        setText("pointsValue", s.points);
+        setText("pointsMax", "/ " + s.maxPoints);
+    }
+
+    function renderPassportCard(s) {
+        setText("ppNumber", s.passportNumber);
+        setText("modalPassNumber", s.passportNumber);
+        setText("ppIssueDate", fmtDate(s.issuedAt));
+
+        const expiry = new Date(s.issuedAt);
+        expiry.setFullYear(expiry.getFullYear() + 5);
+        setText("ppExpiryDate", fmtDate(expiry.toISOString()));
+
+        const tags = $("visitedSites");
+        if (!tags) return;
+        const visited = s.sites.filter(site => site.visited > 0);
+        tags.innerHTML = visited.length
+            ? visited.map(site => "<span>" + esc(site.name) + "</span>").join("")
+            : '<span class="site-tags-empty">' + esc(t("passportPage.noSitesYet",
+                "No sites stamped yet. Walk a heritage trail to collect your first stamp.")) + "</span>";
+    }
+
+    function renderBadges(s) {
+        setText("badgesCount", s.trailsCompleted + " / " + s.trailsTotal);
+
+        const grid = $("badgesGrid");
+        if (grid) {
+            grid.innerHTML = s.sites.map(site => {
+                const earned = site.completed;
+                const sub = earned
+                    ? site.badgeTitle
+                    : t("passportPage.stopsCount", "{{visited}}/{{total}} stops", { visited: site.visited, total: site.total });
+                const footer = earned
+                    ? '<span class="badge-check"><i class="fa-solid fa-check"></i></span>'
+                    : '<div class="mini-bar"><span class="mini-bar-fill" style="width:' + site.percent + '%"></span></div>';
+                return '<button class="badge-card ' + (earned ? "is-earned" : "is-locked") + '" type="button" data-badge="' + esc(site.id) + '">' +
+                    '<div class="badge-icon"><i class="fa-solid ' + (earned ? esc(site.icon) : "fa-lock") + '"></i></div>' +
+                    "<h4>" + esc(site.badgeName) + "</h4>" +
+                    "<p>" + esc(sub) + "</p>" +
+                    footer +
+                    "</button>";
+            }).join("");
+        }
+
+        const modalGrid = $("modalBadgeGrid");
+        if (modalGrid) {
+            modalGrid.innerHTML = s.sites.map(site =>
+                '<div class="modal-badge ' + (site.completed ? "" : "is-locked") + '">' +
+                '<i class="fa-solid ' + (site.completed ? esc(site.icon) : "fa-lock") + '"></i>' +
+                "<strong>" + esc(site.badgeName) + "</strong>" +
+                "<span>" + esc(site.completed
+                    ? site.badgeTitle
+                    : t("passportPage.stopsCount", "{{visited}}/{{total}} stops", { visited: site.visited, total: site.total })) + "</span>" +
+                "</div>"
+            ).join("");
+        }
+    }
+
+    function renderProgress(s) {
+        setText("progressPercent", s.percent + "%");
+        const fill = $("progressFill");
+        if (fill) fill.style.width = s.percent + "%";
+
+        setText("progressSummaryText", t("passportPage.progressSummary",
+            "{{stops}} of {{totalStops}} trail stops · {{trails}} of {{trailsTotal}} trails",
+            { stops: s.stopsVisited, totalStops: s.totalStops, trails: s.trailsCompleted, trailsTotal: s.trailsTotal }));
+
+        setText("progressStatusText", s.complete
+            ? t("passportPage.statusComplete", "Complete")
+            : s.stopsVisited > 0
+                ? t("passportPage.statusInProgress", "In progress")
+                : t("passportPage.statusNotStarted", "Not started"));
+
+        // Progress modal
+        const circle = $("modalProgressCircle");
+        if (circle) circle.style.setProperty("--progress", s.percent);
+        setText("modalProgressPercent", s.percent + "%");
+
+        if (s.complete) {
+            setText("modalProgressTitle", t("passportPage.modalCompleteTitle", "Passport Complete"));
+            setText("modalProgressText", t("passportPage.modalCompleteText",
+                "You have finished all {{count}} heritage trails and earned every badge.", { count: s.trailsTotal }));
+        } else if (s.stopsVisited > 0) {
+            setText("modalProgressTitle", t("passportPage.modalKeepGoingTitle", "Keep exploring"));
+            setText("modalProgressText", t("passportPage.modalKeepGoingText",
+                "You have visited {{stops}} of {{totalStops}} trail stops and completed {{trails}} of {{trailsTotal}} trails.",
+                { stops: s.stopsVisited, totalStops: s.totalStops, trails: s.trailsCompleted, trailsTotal: s.trailsTotal }));
+        } else {
+            setText("modalProgressTitle", t("passportPage.modalStartTitle", "Start your journey"));
+            setText("modalProgressText", t("passportPage.modalStartText",
+                "Walk a heritage trail to collect your first stamp, points and badge."));
+        }
+
+        const list = $("trailProgressList");
+        if (list) {
+            list.innerHTML = s.sites.map(site =>
+                '<a class="trail-progress-row ' + (site.completed ? "is-complete" : "") + '" href="' + trailUrl(site.id) + '">' +
+                "<strong>" + esc(site.name) + "</strong>" +
+                "<span>" + esc(site.completed
+                    ? t("passportPage.completed", "Completed")
+                    : site.visited + "/" + site.total) + "</span>" +
+                '<div class="mini-bar"><span class="mini-bar-fill" style="width:' + site.percent + '%"></span></div>' +
+                "</a>"
+            ).join("");
+        }
+    }
+
+    function renderEarned(s) {
+        const card = $("earnedCard");
+        const latest = s.latestBadge;
+        if (card) card.classList.toggle("is-empty", !latest);
+
+        const icon = $("earnedIcon");
+        if (icon) icon.innerHTML = '<i class="fa-solid ' + (latest ? esc(latest.icon) : "fa-lock") + '"></i>';
+
+        if (latest) {
+            setText("earnedTitle", t("passportPage.earnedTitle", "Badge Earned!"));
+            setText("earnedText", t("passportPage.earnedText",
+                "You completed the {{site}} trail and earned the {{badge}} badge.",
+                { site: latest.name, badge: latest.badgeTitle }));
+        } else {
+            setText("earnedTitle", t("passportPage.noBadgeTitle", "Earn your first badge"));
+            setText("earnedText", t("passportPage.noBadgeText",
+                "Visit every stop on a heritage trail to unlock the badge for that site."));
+        }
+
+        const btn = $("earnedButton");
+        if (btn) {
+            btn.dataset.action = latest ? "badge:" + latest.id : "map";
+            btn.innerHTML = esc(latest
+                ? t("passportPage.viewBadge", "View Badge")
+                : t("passportPage.startTrail", "Start a trail")) + ' <i class="fa-solid fa-arrow-right"></i>';
+        }
+    }
+
+    function renderJourney(s) {
+        const list = $("journeyList");
+        if (!list) return;
+
+        const rank = { "completed": 0, "in-progress": 1, "not-started": 2 };
+        list.innerHTML = s.sites.slice()
+            .sort((a, b) => rank[a.status] - rank[b.status])
+            .map(site => {
+                const icon = site.completed ? "fa-check" : site.status === "in-progress" ? "fa-person-walking" : "fa-location-dot";
+                const sub = site.completed
+                    ? t("passportPage.completed", "Completed")
+                    : site.status === "in-progress"
+                        ? t("passportPage.stopsOf", "{{visited}} of {{total}} stops", { visited: site.visited, total: site.total })
+                        : t("passportPage.notStarted", "Not started");
+                return '<a class="journey-item ' + (site.completed ? "completed" : site.status === "in-progress" ? "in-progress" : "upcoming") + '" href="' + trailUrl(site.id) + '">' +
+                    '<span class="journey-icon"><i class="fa-solid ' + icon + '"></i></span>' +
+                    "<div><strong>" + esc(site.name) + "</strong><small>" + esc(sub) + "</small></div>" +
+                    "</a>";
+            }).join("");
+    }
+
+    function renderRules() {
+        const box = $("rewardRules");
+        if (!box) return;
+        const rules = [
+            ["+" + P.POINTS.stop, t("passportPage.rule.stop", "Visit a stop on a heritage trail")],
+            ["+" + P.POINTS.trailComplete, t("passportPage.rule.trail", "Finish a trail and earn that site's badge")],
+            ["+" + P.POINTS.allTrails, t("passportPage.rule.all", "Finish all {{count}} trails to complete your passport", { count: P.SITES.length })]
+        ];
+        box.innerHTML = rules.map(r =>
+            '<div class="reward-rule"><strong>' + esc(r[0]) + "</strong><span>" + esc(r[1]) + "</span></div>"
+        ).join("");
+    }
+
+    function renderActivity(s) {
+        const list = $("activityList");
+        if (!list) return;
+
+        if (!s.activity.length) {
+            list.innerHTML = '<div class="empty-state"><i class="fa-solid fa-clock-rotate-left"></i>' +
+                "<h3>" + esc(t("passportPage.noActivityTitle", "No activity yet")) + "</h3>" +
+                "<p>" + esc(t("passportPage.noActivityText", "Visit a stop on a heritage trail and it will show up here.")) + "</p>" +
+                '<a href="./map.html" class="secondary-button">' + esc(t("passportPage.findTrail", "Find a trail")) + "</a></div>";
+            return;
+        }
+
+        const pts = t("passportPage.pts", "pts");
+        list.innerHTML = s.activity.slice(0, 15).map(a => {
+            const site = s.sites.find(x => x.id === a.siteId);
+            let icon = "fa-location-dot";
+            let title = t("passportPage.actStop", "Trail stop visited");
+            let sub = site ? site.name : "";
+
+            if (a.type === "trail") {
+                icon = "fa-medal";
+                title = t("passportPage.actBadge", "Badge earned");
+                sub = site ? site.badgeTitle + " · " + site.name : "";
+            } else if (a.type === "all") {
+                icon = "fa-trophy";
+                title = t("passportPage.actAll", "Passport complete");
+                sub = t("passportPage.actAllSub", "All heritage trails completed");
+            }
+
+            return '<div class="activity-item"><span><i class="fa-solid ' + icon + '"></i></span>' +
+                "<div><strong>" + esc(title) + "</strong><small>" + esc(sub) + " · +" + esc(a.points) + " " + esc(pts) + "</small></div>" +
+                "<time>" + esc(relDay(a.at)) + "</time></div>";
+        }).join("");
+    }
+
+    function renderAll() {
+        const s = P.getSummary();
+        const user = P.getUser();
+        current = s;
+
+        renderUser(s, user);
+        renderPoints(s);
+        renderPassportCard(s);
+        renderBadges(s);
+        renderProgress(s);
+        renderEarned(s);
+        renderJourney(s);
+        renderRules();
+        renderActivity(s);
+    }
+
+    /* =====================================================
+       MODALS
+    ====================================================== */
+
+    const modals = document.querySelectorAll(".modal");
 
     function openModal(modal) {
-
         if (!modal) return;
-
         modal.classList.add("open");
-
         document.body.style.overflow = "hidden";
-
     }
-
 
     function closeModal(modal) {
-
         if (!modal) return;
-
         modal.classList.remove("open");
-
-        document.body.style.overflow = "";
-
+        if (!document.querySelector(".modal.open")) document.body.style.overflow = "";
     }
 
-
-    /* SIDEBAR BUTTONS */
-
-    document
-        .querySelectorAll("[data-modal]")
-        .forEach(button => {
-
-            button.addEventListener("click", () => {
-
-                const modalId =
-                    button.dataset.modal;
-
-                const modal =
-                    document.getElementById(modalId);
-
-                openModal(modal);
-
-            });
-
-        });
-
-
-    /* CLOSE BUTTON */
+    document.querySelectorAll("[data-modal]").forEach(button => {
+        button.addEventListener("click", () => openModal($(button.dataset.modal)));
+    });
 
     modals.forEach(modal => {
-
-        const closeButton =
-            modal.querySelector(".modal-close");
-
-        if (closeButton) {
-
-            closeButton.addEventListener(
-                "click",
-                () => closeModal(modal)
-            );
-
-        }
-
-
-        /* CLICK OUTSIDE MODAL */
-
+        const closeButton = modal.querySelector(".modal-close");
+        if (closeButton) closeButton.addEventListener("click", () => closeModal(modal));
         modal.addEventListener("click", event => {
-
-            if (event.target === modal) {
-
-                closeModal(modal);
-
-            }
-
+            if (event.target === modal) closeModal(modal);
         });
-
     });
 
-
-    /* ESCAPE KEY */
-
-    document.addEventListener(
-        "keydown",
-        event => {
-
-            if (event.key !== "Escape") return;
-
-            modals.forEach(modal => {
-
-                if (modal.classList.contains("open")) {
-
-                    closeModal(modal);
-
-                }
-
-            });
-
-        }
-    );
-
-
-
-    /* =====================================================
-       BADGE DETAILS
-    ====================================================== */
-
-    const badgeCards =
-        document.querySelectorAll(".badge-card");
-
-    const badgeDetailModal =
-        document.getElementById("badgeDetailModal");
-
-    const badgeDetailTitle =
-        document.getElementById("badgeDetailTitle");
-
-    const badgeDetailText =
-        document.getElementById("badgeDetailText");
-
-    const badgeDetailIcon =
-        document.getElementById("badgeDetailIcon");
-
-
-    const badgeInformation = {
-
-        cape: {
-
-            title: "Cape Coast Castle",
-
-            text:
-                "You earned the Castle Explorer badge by exploring the history and heritage of Cape Coast Castle.",
-
-            icon:
-                "fa-landmark"
-
-        },
-
-        manhyia: {
-
-            title: "Manhyia Palace",
-
-            text:
-                "You earned the Royal Heritage badge by discovering the history and cultural significance of Manhyia Palace.",
-
-            icon:
-                "fa-crown"
-
-        },
-
-        osu: {
-
-            title: "Osu Castle",
-
-            text:
-                "You earned the Coastal Heritage badge by exploring the history of Osu Castle.",
-
-            icon:
-                "fa-building-columns"
-
-        },
-
-        independence: {
-
-            title: "Independence Square",
-
-            text:
-                "You earned the Nation Builder badge by discovering one of Ghana's most important national landmarks.",
-
-            icon:
-                "fa-flag"
-
-        },
-
-        nkrumah: {
-
-            title: "Kwame Nkrumah Memorial",
-
-            text:
-                "You earned the Freedom Fighter badge by learning about Ghana's independence journey and Kwame Nkrumah's legacy.",
-
-            icon:
-                "fa-star"
-
-        }
-
-    };
-
-
-    badgeCards.forEach(card => {
-
-        card.addEventListener("click", () => {
-
-            const badgeId =
-                card.dataset.badge;
-
-            const badge =
-                badgeInformation[badgeId];
-
-            if (!badge) return;
-
-
-            badgeDetailTitle.textContent =
-                badge.title;
-
-            badgeDetailText.textContent =
-                badge.text;
-
-            badgeDetailIcon.innerHTML =
-                `<i class="fa-solid ${badge.icon}"></i>`;
-
-
-            openModal(badgeDetailModal);
-
+    document.addEventListener("keydown", event => {
+        if (event.key !== "Escape") return;
+        modals.forEach(modal => {
+            if (modal.classList.contains("open")) closeModal(modal);
         });
-
     });
 
-
-
     /* =====================================================
-       SMOOTH HERO SCROLL
+       BADGE DETAIL (earned or still locked)
     ====================================================== */
 
-    document
-        .querySelectorAll('a[href="#passportDashboard"]')
-        .forEach(link => {
+    function openBadgeDetail(siteId) {
+        if (!current) return;
+        const site = current.sites.find(s => s.id === siteId);
+        if (!site) return;
 
-            link.addEventListener("click", event => {
+        const icon = $("badgeDetailIcon");
+        const label = $("badgeEarnedLabel");
+        const cta = $("badgeDetailCta");
+        const earned = site.completed;
 
-                event.preventDefault();
+        icon.className = "badge-detail-icon" + (earned ? "" : " is-locked");
+        icon.innerHTML = '<i class="fa-solid ' + (earned ? esc(site.icon) : "fa-lock") + '"></i>';
+        setText("badgeDetailTitle", site.name);
 
-                const target =
-                    document.getElementById(
-                        "passportDashboard"
-                    );
+        if (earned) {
+            setText("badgeDetailText", t("passportPage.badgeEarnedText",
+                "You earned the {{badge}} badge by completing the {{site}} heritage trail on {{date}}.",
+                { badge: site.badgeTitle, site: site.name, date: fmtDate(site.completedAt) }));
+            label.className = "badge-earned-label";
+            label.innerHTML = '<i class="fa-solid fa-check"></i> ' + esc(t("passportPage.badgeEarnedLabel", "Badge Earned"));
+            cta.hidden = true;
+        } else {
+            setText("badgeDetailText", t("passportPage.badgeLockedText",
+                "Visit every stop on the {{site}} heritage trail to earn the {{badge}} badge. You have visited {{visited}} of {{total}} stops so far.",
+                { site: site.name, badge: site.badgeTitle, visited: site.visited, total: site.total }));
+            label.className = "badge-earned-label is-locked";
+            label.innerHTML = '<i class="fa-solid fa-lock"></i> ' + esc(t("passportPage.badgeLockedLabel", "Not earned yet"));
+            cta.href = trailUrl(site.id);
+            cta.textContent = site.visited > 0
+                ? t("passportPage.continueTrail", "Continue trail")
+                : t("passportPage.startTrail", "Start a trail");
+            cta.hidden = false;
+        }
 
-                if (target) {
+        openModal($("badgeDetailModal"));
+    }
 
-                    target.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
+    document.addEventListener("click", event => {
+        const card = event.target.closest(".badge-card[data-badge]");
+        if (card) openBadgeDetail(card.dataset.badge);
+    });
 
-                }
-
-            });
-
+    const earnedBtn = $("earnedButton");
+    if (earnedBtn) {
+        earnedBtn.addEventListener("click", () => {
+            const action = earnedBtn.dataset.action || "";
+            if (action.indexOf("badge:") === 0) openBadgeDetail(action.slice(6));
+            else window.location.href = "./map.html";
         });
-
-
+    }
 
     /* =====================================================
-       SIDEBAR ACTIVE STATE
+       SMOOTH HERO SCROLL + SIDEBAR ACTIVE STATE
     ====================================================== */
 
-    const profileMenuItems =
-        document.querySelectorAll(
-            ".profile-menu-item"
-        );
+    document.querySelectorAll('a[href="#passportDashboard"]').forEach(link => {
+        link.addEventListener("click", event => {
+            event.preventDefault();
+            const target = $("passportDashboard");
+            if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+    });
 
+    const profileMenuItems = document.querySelectorAll(".profile-menu-item");
     profileMenuItems.forEach(item => {
-
         item.addEventListener("click", () => {
-
-            profileMenuItems.forEach(
-                menuItem =>
-                    menuItem.classList.remove("active")
-            );
-
+            profileMenuItems.forEach(menuItem => menuItem.classList.remove("active"));
             item.classList.add("active");
-
         });
-
     });
-
-
 
     /* =====================================================
-       PREVENT BACKGROUND SCROLL WHEN MENU IS OPEN
+       KEEP THE PAGE IN SYNC
+       - a trail stop was recorded (this tab or another tab)
+       - the user comes back with the browser Back button
+       - the language changes
     ====================================================== */
 
-    window.addEventListener("resize", () => {
+    P.onChange(renderAll);
 
-        if (
-            passportNav &&
-            window.innerWidth > 760 &&
-            passportNav.classList.contains("open")
-        ) {
-
-            closeMobileMenu();
-
-        }
-
+    window.addEventListener("storage", event => {
+        if (event.key && event.key.indexOf(P.STORAGE_PREFIX) === 0) renderAll();
     });
+    window.addEventListener("pageshow", renderAll);
+    document.addEventListener("ananse:languagechange", renderAll);
 
-
+    renderAll();
 });
 // ==========================================================================
 // ANANSE — MAP PAGE (script.js)
