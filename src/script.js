@@ -411,7 +411,15 @@ document.addEventListener("DOMContentLoaded", function () {
             })
                 .then(data => {
                     const session = window.ananseAuth.saveTokenResponse(data);
-                    window.location.href = session.role === 'admin' ? 'admin.html' : 'passport.html';
+                    if (session.role === 'admin') {
+                        window.ananseAuth.clearSession();
+                        alert('Administrator accounts must sign in through the Admin Login page.');
+                        button.disabled = false;
+                        button.style.opacity = '';
+                        button.innerHTML = originalContent;
+                        return;
+                    }
+                    window.location.href = 'passport.html';
                 })
                 .catch(err => {
                     alert(err.status === 401
@@ -504,7 +512,15 @@ document.addEventListener("DOMContentLoaded", function () {
             })
                 .then(data => {
                     const session = window.ananseAuth.saveTokenResponse(data);
-                    window.location.href = session.role === 'admin' ? 'admin.html' : 'passport.html';
+                    if (session.role === 'admin') {
+                        window.ananseAuth.clearSession();
+                        alert('Administrator accounts must sign in through the Admin Login page.');
+                        submitBtn.disabled = false;
+                        submitBtn.style.opacity = '';
+                        submitBtn.innerHTML = originalText;
+                        return;
+                    }
+                    window.location.href = 'passport.html';
                 })
                 .catch(err => {
                     alert(err.status === 401

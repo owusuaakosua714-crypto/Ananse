@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const session = window.ananseAuth?.getSession();
     if (!session || session.role !== 'admin') {
-        window.location.replace('login.html');
+        window.location.replace('admin-login.html');
         return;
     }
 
@@ -40,6 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('adminLogout').addEventListener('click', () => {
         window.ananseAuth.clearSession();
-        window.location.href = 'login.html';
+        window.location.href = 'admin-login.html';
     });
 });

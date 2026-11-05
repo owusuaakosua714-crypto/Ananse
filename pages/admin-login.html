@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Login | ANANSE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+    <script src="https://kit.fontawesome.com/17eac40b74.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../src/style.css">
+    <link rel="stylesheet" href="../src/admin-login.css">
+</head>
+<body class="admin-login-page">
+    <main class="admin-login-shell">
+        <section class="admin-login-panel" aria-labelledby="adminLoginTitle">
+            <a class="admin-login-brand" href="../index.html" aria-label="ANANSE homepage">
+                <span class="admin-login-brand__mark"><i class="fa-solid fa-spider" aria-hidden="true"></i></span>
+                <span>ANANSE <small>ADMINISTRATION</small></span>
+            </a>
+
+            <div class="admin-login-copy">
+                <p class="admin-login-eyebrow">ADMIN ACCESS</p>
+                <h1 id="adminLoginTitle">Sign in to the dashboard</h1>
+                <p>Enter your administrator credentials to manage ANANSE heritage content.</p>
+            </div>
+
+            <div id="adminLoginAlert" class="admin-login-alert" role="alert" hidden></div>
+
+            <form id="adminLoginForm" class="admin-login-form" novalidate>
+                <div class="admin-login-field">
+                    <label for="adminEmail">Email address</label>
+                    <div class="admin-login-input">
+                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                        <input id="adminEmail" name="email" type="email" autocomplete="email" placeholder="admin@example.com" required>
+                    </div>
+                </div>
+
+                <div class="admin-login-field">
+                    <label for="adminPassword">Password</label>
+                    <div class="admin-login-input">
+                        <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                        <input id="adminPassword" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+                        <button id="adminTogglePassword" type="button" aria-label="Show password">
+                            <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button id="adminLoginSubmit" class="admin-login-submit" type="submit">
+                    <span>Sign in to dashboard</span>
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </button>
+            </form>
+
+            <a class="admin-login-back" href="../index.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to public site</a>
+        </section>
+
+        <aside class="admin-login-art" aria-label="ANANSE administration">
+            <div class="admin-login-art__pattern" aria-hidden="true"></div>
+            <div class="admin-login-art__content">
+                <p>ANANSE</p>
+                <h2>Preserving Ghana’s heritage.</h2>
+                <span>Administration workspace</span>
+            </div>
+        </aside>
+    </main>
+
+    <script src="../src/auth-session.js"></script>
+    <script src="../src/admin-login.js"></script>
+</body>
+</html>
