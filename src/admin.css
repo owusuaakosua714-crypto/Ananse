@@ -37,14 +37,10 @@
 }
 
 .admin-brand__mark {
-    display: grid;
-    place-items: center;
-    width: 38px;
-    aspect-ratio: 1;
-    border-radius: 8px;
-    background: var(--accent-gold);
-    color: var(--dark-teal);
-    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    color: var(--accent-gold);
+    font-size: 1.6rem;
 }
 
 .admin-brand small {

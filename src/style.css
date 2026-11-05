@@ -928,8 +928,8 @@ body.naa-page {
 }
 
 .naa-page .naa-logo-icon {
-    font-size: 1.8rem;
-    color: #e2a048;
+    font-size: 1.6rem;
+    color: var(--accent-gold);
 }
 
 .naa-page .naa-logo-text {
@@ -940,16 +940,16 @@ body.naa-page {
 .naa-page .naa-brand-name {
     font-size: 1.3rem;
     font-weight: 800;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     color: #ffffff;
-    line-height: 1;
+    line-height: 1.1;
 }
 
 .naa-page .naa-brand-tagline {
     font-size: 0.65rem;
-    color: #d4a373;
-    letter-spacing: 0.5px;
-    margin-top: 3px;
+    color: var(--accent-gold);
+    opacity: 0.9;
+    letter-spacing: 0.3px;
 }
 
 .naa-page .naa-nav {
@@ -1902,7 +1902,7 @@ body.naa-page {
     color: var(--accent-gold);
     opacity: 0.9;
     letter-spacing: 0.3px;
-    margin-top: 2px;
+    margin-top: 0;
 }
 
 /* Desktop Nav Links */
@@ -3387,13 +3387,13 @@ body.about-page .about-btn-gold:hover {
 .explore-page .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+    gap: 12px;
   text-decoration: none;
   color: var(--white);
 }
 .explore-page .logo-placeholder-icon {
-  font-size: 22px;
-  color: var(--gold);
+    font-size: 1.6rem;
+    color: var(--accent-gold);
 }
 .explore-page .logo-text {
   display: flex;
@@ -3401,12 +3401,14 @@ body.about-page .about-btn-gold:hover {
 }
 .explore-page .brand-name {
   font-weight: 800;
-  font-size: 18px;
-  letter-spacing: 1px;
+    font-size: 1.3rem;
+    letter-spacing: 1.5px;
+    line-height: 1.1;
 }
 .explore-page .tagline {
-  font-size: 10px;
-  opacity: 0.8;
+    font-size: 0.65rem;
+    opacity: 0.9;
+    letter-spacing: 0.3px;
 }
 
 .explore-page .nav-menu {
@@ -3981,7 +3983,7 @@ body.about-page .about-btn-gold:hover {
 
     align-items: center;
 
-    gap: 10px;
+    gap: 12px;
 
     color: var(--white);
 
@@ -3991,16 +3993,12 @@ body.about-page .about-btn-gold:hover {
 
 .passport-brand-icon {
 
-    width: 30px;
-    height: 30px;
-
-    display: grid;
-
-    place-items: center;
+    display: flex;
+    align-items: center;
 
     color: var(--accent-gold);
 
-    font-size: 22px;
+    font-size: 1.6rem;
 
 }
 
@@ -4010,25 +4008,29 @@ body.about-page .about-btn-gold:hover {
 
     flex-direction: column;
 
-    line-height: 1;
+    line-height: normal;
 
 }
 
 .passport-brand-text strong {
 
-    font-size: 18px;
+    font-size: 1.3rem;
+    font-weight: 800;
 
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    line-height: 1.1;
 
 }
 
 .passport-brand-text small {
 
-    margin-top: 4px;
+    margin-top: 0;
 
     color: var(--accent-gold);
 
-    font-size: 8px;
+    font-size: 0.65rem;
+    opacity: 0.9;
+    letter-spacing: 0.3px;
 
     white-space: nowrap;
 
@@ -6440,15 +6442,15 @@ body.about-page .about-btn-gold:hover {
 
     }
 
-    .passport-brand-text small {
-
-        display: none;
-
-    }
-
     .passport-brand-text strong {
 
         font-size: 17px;
+
+    }
+
+    .passport-brand-text small {
+
+        display: none;
 
     }
 
@@ -8751,15 +8753,11 @@ body.about-page .about-btn-gold:hover {
 
 /* LOGO ICON STYLES (Shared with main site) */
 .plan-page .logo-placeholder-icon {
-  width: 32px;
-  height: 32px;
-    background-color: var(--accent-gold);
-    color: var(--dark-teal);
-  border-radius: 6px;
+    color: var(--accent-gold);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+    font-size: 1.6rem;
 }
 
 /* NAVIGATION BAR */
@@ -8795,16 +8793,18 @@ body.about-page .about-btn-gold:hover {
 
 .plan-page .plan-logo-title {
   color: #FFFFFF;
-  font-size: 1.35rem;
+    font-size: 1.3rem;
   font-weight: 800;
-  letter-spacing: 0.05em;
+    letter-spacing: 1.5px;
   line-height: 1.1;
 }
 
 .plan-page .plan-logo-tagline {
     color: var(--accent-gold);
-  font-size: 0.725rem;
-  font-weight: 500;
+    font-size: 0.65rem;
+    font-weight: 400;
+    opacity: 0.9;
+    letter-spacing: 0.3px;
 }
 
 /* CENTERED NAVIGATION CONTAINER */
