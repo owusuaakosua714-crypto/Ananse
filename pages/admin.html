@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,25 +8,32 @@
     <title>Admin Dashboard | ANANSE</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
     <script src="https://kit.fontawesome.com/17eac40b74.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../src/style.css">
     <link rel="stylesheet" href="../src/admin.css">
 </head>
+
 <body class="admin-page">
     <div id="adminDashboard" class="admin-shell" hidden>
         <aside class="admin-sidebar">
             <a class="admin-brand" href="../index.html">
                 <span class="admin-brand__mark" aria-hidden="true"><i class="fa-solid fa-spider"></i></span>
-                <span>ANANSE <small>ADMIN</small></span>
+                <span class="logo-text">
+                    <span class="brand-name">ANANSE</span>
+                    <small>ADMIN</small>
+                </span>
             </a>
             <nav class="admin-nav" aria-label="Admin navigation">
-                <a class="is-current" href="admin.html"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> Overview</a>
+                <a class="is-current" href="admin.html"><i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+                    Overview</a>
                 <a href="explore.html"><i class="fa-solid fa-landmark" aria-hidden="true"></i> Heritage sites</a>
                 <a href="map.html"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Heritage map</a>
                 <a href="about.html"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> About ANANSE</a>
             </nav>
-            <a class="admin-sidebar__home" href="../index.html"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> View public site</a>
+            <a class="admin-sidebar__home" href="../index.html"><i class="fa-solid fa-arrow-up-right-from-square"
+                    aria-hidden="true"></i> View public site</a>
         </aside>
 
         <main class="admin-main">
@@ -35,9 +43,11 @@
                     <h1>Dashboard</h1>
                 </div>
                 <div class="admin-account">
-                    <span class="admin-account__avatar" aria-hidden="true"><i class="fa-solid fa-user-shield"></i></span>
+                    <span class="admin-account__avatar" aria-hidden="true"><i
+                            class="fa-solid fa-user-shield"></i></span>
                     <span id="adminName">Administrator</span>
-                    <button id="adminLogout" type="button" aria-label="Log out" title="Log out"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i></button>
+                    <button id="adminLogout" type="button" aria-label="Log out" title="Log out"><i
+                            class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i></button>
                 </div>
             </header>
 
@@ -47,7 +57,8 @@
                     <h2 id="welcomeTitle">Welcome, <span id="adminWelcomeName">Administrator</span></h2>
                     <p>Manage ANANSE heritage content and move quickly to the pages you oversee.</p>
                 </div>
-                <a class="admin-primary-action" href="explore.html"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Open site directory</a>
+                <a class="admin-primary-action" href="explore.html"><i class="fa-solid fa-arrow-up-right-from-square"
+                        aria-hidden="true"></i> Open site directory</a>
             </section>
 
             <section class="admin-section" aria-labelledby="sitesTitle">
@@ -59,22 +70,49 @@
                     <a href="explore.html">View all sites <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
                 </div>
                 <div class="admin-site-list">
-                    <a class="admin-site-row" href="capecoast.html"><span class="admin-site-icon"><i class="fa-solid fa-fort" aria-hidden="true"></i></span><span><strong>Cape Coast Castle</strong><small>Fortress and coastal heritage</small></span><span class="admin-site-state">Open page</span><i class="fa-solid fa-chevron-right admin-row-arrow" aria-hidden="true"></i></a>
-                    <a class="admin-site-row" href="independence.html"><span class="admin-site-icon"><i class="fa-solid fa-monument" aria-hidden="true"></i></span><span><strong>Independence Arch</strong><small>Independence-era landmark</small></span><span class="admin-site-state">Open page</span><i class="fa-solid fa-chevron-right admin-row-arrow" aria-hidden="true"></i></a>
-                    <a class="admin-site-row" href="kwamepark.html"><span class="admin-site-icon"><i class="fa-solid fa-landmark" aria-hidden="true"></i></span><span><strong>Kwame Nkrumah Memorial Park</strong><small>Memorial and national history</small></span><span class="admin-site-state">Open page</span><i class="fa-solid fa-chevron-right admin-row-arrow" aria-hidden="true"></i></a>
-                    <a class="admin-site-row" href="manhyia.html"><span class="admin-site-icon"><i class="fa-solid fa-building-columns" aria-hidden="true"></i></span><span><strong>Manhyia Palace</strong><small>Asante royal heritage</small></span><span class="admin-site-state">Open page</span><i class="fa-solid fa-chevron-right admin-row-arrow" aria-hidden="true"></i></a>
-                    <a class="admin-site-row" href="osucastle.html"><span class="admin-site-icon"><i class="fa-solid fa-fort" aria-hidden="true"></i></span><span><strong>Osu Castle</strong><small>Historic coastal landmark</small></span><span class="admin-site-state">Open page</span><i class="fa-solid fa-chevron-right admin-row-arrow" aria-hidden="true"></i></a>
+                    <a class="admin-site-row" href="capecoast.html"><span class="admin-site-icon"><i
+                                class="fa-solid fa-fort" aria-hidden="true"></i></span><span><strong>Cape Coast
+                                Castle</strong><small>Fortress and coastal heritage</small></span><span
+                            class="admin-site-state">Open page</span><i
+                            class="fa-solid fa-chevron-right admin-row-arrow" aria-hidden="true"></i></a>
+                    <a class="admin-site-row" href="independence.html"><span class="admin-site-icon"><i
+                                class="fa-solid fa-monument" aria-hidden="true"></i></span><span><strong>Independence
+                                Arch</strong><small>Independence-era landmark</small></span><span
+                            class="admin-site-state">Open page</span><i
+                            class="fa-solid fa-chevron-right admin-row-arrow" aria-hidden="true"></i></a>
+                    <a class="admin-site-row" href="kwamepark.html"><span class="admin-site-icon"><i
+                                class="fa-solid fa-landmark" aria-hidden="true"></i></span><span><strong>Kwame Nkrumah
+                                Memorial Park</strong><small>Memorial and national history</small></span><span
+                            class="admin-site-state">Open page</span><i
+                            class="fa-solid fa-chevron-right admin-row-arrow" aria-hidden="true"></i></a>
+                    <a class="admin-site-row" href="manhyia.html"><span class="admin-site-icon"><i
+                                class="fa-solid fa-building-columns" aria-hidden="true"></i></span><span><strong>Manhyia
+                                Palace</strong><small>Asante royal heritage</small></span><span
+                            class="admin-site-state">Open page</span><i
+                            class="fa-solid fa-chevron-right admin-row-arrow" aria-hidden="true"></i></a>
+                    <a class="admin-site-row" href="osucastle.html"><span class="admin-site-icon"><i
+                                class="fa-solid fa-fort" aria-hidden="true"></i></span><span><strong>Osu
+                                Castle</strong><small>Historic coastal landmark</small></span><span
+                            class="admin-site-state">Open page</span><i
+                            class="fa-solid fa-chevron-right admin-row-arrow" aria-hidden="true"></i></a>
                 </div>
             </section>
 
             <section class="admin-shortcuts" aria-label="Administration shortcuts">
-                <a href="heritagetrails.html"><i class="fa-solid fa-route" aria-hidden="true"></i><span><strong>Heritage trails</strong><small>Review the visitor routes</small></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
-                <a href="plan.html"><i class="fa-regular fa-calendar-check" aria-hidden="true"></i><span><strong>Visit planning</strong><small>Open the planning experience</small></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
-                <a href="ai.html"><i class="fa-solid fa-comments" aria-hidden="true"></i><span><strong>Ask Naa</strong><small>Review the heritage guide</small></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                <a href="heritagetrails.html"><i class="fa-solid fa-route" aria-hidden="true"></i><span><strong>Heritage
+                            trails</strong><small>Review the visitor routes</small></span><i
+                        class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                <a href="plan.html"><i class="fa-regular fa-calendar-check" aria-hidden="true"></i><span><strong>Visit
+                            planning</strong><small>Open the planning experience</small></span><i
+                        class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                <a href="ai.html"><i class="fa-solid fa-comments" aria-hidden="true"></i><span><strong>Ask
+                            Naa</strong><small>Review the heritage guide</small></span><i
+                        class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
             </section>
         </main>
     </div>
     <script src="../src/auth-session.js"></script>
     <script src="../src/admin.js"></script>
 </body>
+
 </html>
