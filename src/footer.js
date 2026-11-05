@@ -68,7 +68,10 @@
 
         <div class="site-footer__legal">
             <p>&copy; <span data-current-year>${new Date().getFullYear()}</span> ANANSE. Heritage content is reviewed with local historians and heritage institutions.</p>
-            <a href="${href('pages/about.html#content')}">Content sources</a>
+            <nav class="site-footer__legal-links" aria-label="Footer links">
+                <a href="${href('pages/about.html#content')}">Content sources</a>
+                <a href="${href('pages/admin.html')}">Admin dashboard</a>
+            </nav>
         </div>
     `;
 

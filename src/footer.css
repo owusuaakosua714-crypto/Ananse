@@ -213,7 +213,8 @@
     opacity: 0.72;
 }
 
-#ananse-shared-footer .site-footer__legal ul {
+#ananse-shared-footer .site-footer__legal ul,
+#ananse-shared-footer .site-footer__legal-links {
     display: flex;
     flex-wrap: wrap;
     gap: 1.5rem;
