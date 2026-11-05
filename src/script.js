@@ -367,7 +367,62 @@ document.addEventListener("DOMContentLoaded", function () {
         initLoginHamburger();
         initPasswordToggle();
         initFormSubmission();
+        initGoogleSignIn();
     });
+
+    function initGoogleSignIn() {
+        const button = document.querySelector('.login-google-btn');
+        if (!button) return;
+
+        const clientIdMeta = document.querySelector('meta[name="google-client-id"]');
+        const clientId = clientIdMeta && clientIdMeta.content ? clientIdMeta.content.trim() : '';
+
+        button.addEventListener('click', () => {
+            if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+                alert('Google Sign-In could not load. Check your connection and refresh the page.');
+                return;
+            }
+            if (!clientId) {
+                alert('Google Sign-In is not configured yet. The Google OAuth client ID is missing.');
+                return;
+            }
+
+            window.google.accounts.id.initialize({
+                client_id: clientId,
+                callback: handleGoogleCredential,
+                ux_mode: 'popup',
+            });
+            window.google.accounts.id.prompt();
+        });
+
+        function handleGoogleCredential(response) {
+            if (!response || !response.credential) {
+                alert('Google Sign-In was cancelled. Please try again.');
+                return;
+            }
+
+            const originalContent = button.innerHTML;
+            button.disabled = true;
+            button.style.opacity = '0.7';
+
+            window.ananseAuth.api('/api/auth/google', {
+                method: 'POST',
+                body: JSON.stringify({ id_token: response.credential }),
+            })
+                .then(data => {
+                    const session = window.ananseAuth.saveTokenResponse(data);
+                    window.location.href = session.role === 'admin' ? 'admin.html' : 'passport.html';
+                })
+                .catch(err => {
+                    alert(err.status === 401
+                        ? 'Google could not verify your account. Please try again.'
+                        : 'Could not complete Google Sign-In. Please try again.\n' + err.message);
+                    button.disabled = false;
+                    button.style.opacity = '';
+                    button.innerHTML = originalContent;
+                });
+        }
+    }
 
     /**
      * Mobile Hamburger Toggle (Scoped to Login Page)
