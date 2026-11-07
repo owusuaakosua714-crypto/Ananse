@@ -258,7 +258,87 @@
             'ai.clearChat': 'Clear chat',
             'common.languageSelect': 'Select website language',
             'common.searching': 'Searching Ananse for: "{{query}}"',
-            'common.errorNoResponse': 'No response available right now.'
+            'common.errorNoResponse': 'No response available right now.',
+            'mapPage.pageTitle': 'Ananse - Explore Ghana’s Heritage Map',
+            'mapPage.toggleNavigation': 'Toggle navigation menu',
+            'mapPage.viewAllStopsDefault': 'View all stops (7)',
+            'mapPage.heroTitle': 'Explore Ghana’s Heritage',
+            'mapPage.heroDescription': 'Discover historic places, follow heritage trails, and experience Ghana’s stories.',
+            'mapPage.searchLabel': 'Search for a heritage site',
+            'mapPage.searchPlaceholder': 'Search for a heritage site...',
+            'mapPage.filterAll': 'All',
+            'mapPage.filterCastles': 'Castles',
+            'mapPage.filterPalaces': 'Palaces',
+            'mapPage.filterMonuments': 'Monuments',
+            'mapPage.filterMuseums': 'Museums',
+            'mapPage.zoomIn': 'Zoom in',
+            'mapPage.zoomOut': 'Zoom out',
+            'mapPage.locateMe': 'Find my location',
+            'mapPage.toggleAttribution': 'Toggle map attribution',
+            'mapPage.mapFeedback': 'Improve this map',
+            'mapPage.closeDetails': 'Close details popup',
+            'mapPage.heritageSite': 'Heritage site',
+            'mapPage.btnDirections': 'Get Directions',
+            'mapPage.btnBook': 'Book Visit',
+            'mapPage.btnExplore': 'Explore Site',
+            'mapPage.btnViewTrail': 'View Heritage Trail',
+            'mapPage.myPlans': 'My Plans',
+            'mapPage.travelEstimateLabel': 'Estimated travel time from your location',
+            'mapPage.travelTimeHours': '{{hours}} hr {{minutes}} min',
+            'mapPage.travelTimeMinutes': '{{minutes}} min',
+            'mapPage.travelDistance': '({{distance}} km)',
+            'mapPage.travelTimeExample': '2 hr 45 min',
+            'mapPage.travelDistanceExample': '(165 km)',
+            'mapPage.trailHighlightsHeading': 'Heritage Trail Highlights',
+            'mapPage.viewAllStops': 'View all stops ({{count}})',
+            'mapPage.featuredTitle': 'Featured Heritage Sites',
+            'mapPage.viewAllSites': 'View all sites',
+            'mapPage.promoTitle': 'Plan your next heritage adventure',
+            'mapPage.promoDescription': 'History is closer than you think.',
+            'mapPage.planTrip': 'Plan your trip',
+            'mapPage.categoryHistorical': 'Historical Monument',
+            'mapPage.categoryPalace': 'Palace',
+            'mapPage.categoryCastle': 'Castle',
+            'mapPage.categoryMonument': 'Monument',
+            'mapPage.categoryMuseum': 'Museum',
+            'mapPage.mapUnavailable': 'Map preview unavailable. Add a Mapbox token to enable the live map.',
+            'mapPage.geoUnsupported': 'Your browser does not support location services.',
+            'mapPage.geoDenied': 'We could not access your location. You can still browse the map manually.',
+            'mapPage.site.capeCoast.name': 'Cape Coast Castle',
+            'mapPage.site.capeCoast.location': 'Cape Coast, Central Region',
+            'mapPage.site.capeCoast.shortLocation': 'Cape Coast',
+            'mapPage.site.capeCoast.category': 'Historical Monument',
+            'mapPage.site.capeCoast.description': 'Explore the castle and discover the powerful stories of the transatlantic slave trade, resilience and freedom.',
+            'mapPage.site.capeCoast.stopTitle': 'Door of No Return',
+            'mapPage.site.capeCoast.stopDescription': 'The point where enslaved Africans were forced onto ships.',
+            'mapPage.site.manhyia.name': 'Manhyia Palace',
+            'mapPage.site.manhyia.location': 'Kumasi, Ashanti Region',
+            'mapPage.site.manhyia.shortLocation': 'Kumasi',
+            'mapPage.site.manhyia.category': 'Palace',
+            'mapPage.site.manhyia.description': 'The seat of the Asantehene and the Ashanti Kingdom, blending royal tradition with living Ashanti governance.',
+            'mapPage.site.manhyia.stopTitle': 'Royal court',
+            'mapPage.site.manhyia.stopDescription': 'Discover how the Asantehene and royal advisors shaped political life and cultural identity.',
+            'mapPage.site.osu.name': 'Osu Castle',
+            'mapPage.site.osu.location': 'Osu, Greater Accra Region',
+            'mapPage.site.osu.shortLocation': 'Accra',
+            'mapPage.site.osu.category': 'Castle',
+            'mapPage.site.osu.description': 'A former seat of government on the Accra coastline, with a layered colonial and post-independence history.',
+            'mapPage.site.osu.stopTitle': 'Castle approach',
+            'mapPage.site.osu.stopDescription': 'Take in the coastal setting and understand why the fortress dominated the cityscape.',
+            'mapPage.site.independence.name': 'Independence Arch',
+            'mapPage.site.independence.location': 'Accra, Greater Accra Region',
+            'mapPage.site.independence.shortLocation': 'Accra',
+            'mapPage.site.independence.category': 'Monument',
+            'mapPage.site.independence.description': 'The centrepiece of Independence Square, marking Ghana’s 1957 independence and its role as the first sub-Saharan nation to break from colonial rule.',
+            'mapPage.site.independence.stopTitle': 'Independence Arch',
+            'mapPage.site.independence.stopDescription': 'The icon of Ghana’s national pride and public memory of 1957.',
+            'mapPage.site.kwameNkrumah.name': 'Kwame Nkrumah Memorial Park',
+            'mapPage.site.kwameNkrumah.location': 'Accra, Greater Accra Region',
+            'mapPage.site.kwameNkrumah.shortLocation': 'Accra',
+            'mapPage.site.kwameNkrumah.category': 'Museum',
+            'mapPage.site.kwameNkrumah.description': 'The final resting place and museum dedicated to Ghana’s first president and a leading figure of Pan-Africanism.',
+            'mapPage.site.kwameNkrumah.stopTitle': 'Tribute garden',
+            'mapPage.site.kwameNkrumah.stopDescription': 'See how the memorial turns memory into a public space for reflection and honour.'
         },
         fr: {
             'language.label': 'Langue',
@@ -505,7 +585,83 @@
             'ai.sendMessage': 'Envoyer',
             'common.languageSelect': 'Choisir la langue du site',
             'common.searching': 'Recherche Ananse pour : "{{query}}"',
-            'common.errorNoResponse': 'Aucune réponse disponible pour le moment.'
+            'common.errorNoResponse': 'Aucune réponse disponible pour le moment.',
+            'mapPage.pageTitle': 'Ananse - Explorer le patrimoine du Ghana',
+            'mapPage.toggleNavigation': 'Ouvrir ou fermer le menu de navigation',
+            'mapPage.viewAllStopsDefault': 'Voir les 3 étapes',
+            'mapPage.heroTitle': 'Explorez le patrimoine du Ghana',
+            'mapPage.heroDescription': 'Découvrez des lieux historiques, suivez des parcours patrimoniaux et vivez les récits du Ghana.',
+            'mapPage.searchLabel': 'Rechercher un site patrimonial',
+            'mapPage.searchPlaceholder': 'Rechercher un site patrimonial...',
+            'mapPage.filterAll': 'Tous',
+            'mapPage.filterCastles': 'Châteaux',
+            'mapPage.filterPalaces': 'Palais',
+            'mapPage.filterMonuments': 'Monuments',
+            'mapPage.filterMuseums': 'Musées',
+            'mapPage.zoomIn': 'Zoom avant',
+            'mapPage.zoomOut': 'Zoom arrière',
+            'mapPage.locateMe': 'Trouver ma position',
+            'mapPage.closeDetails': 'Fermer les détails',
+            'mapPage.heritageSite': 'Site patrimonial',
+            'mapPage.btnDirections': 'Obtenir l’itinéraire',
+            'mapPage.btnBook': 'Réserver une visite',
+            'mapPage.btnExplore': 'Explorer le site',
+            'mapPage.btnViewTrail': 'Voir le parcours patrimonial',
+            'mapPage.myPlans': 'Mes projets',
+            'mapPage.travelEstimateLabel': 'Temps de trajet estimé depuis votre position',
+            'mapPage.travelTimeHours': '{{hours}} h {{minutes}} min',
+            'mapPage.travelTimeMinutes': '{{minutes}} min',
+            'mapPage.travelDistance': '({{distance}} km)',
+            'mapPage.trailHighlightsHeading': 'Points forts du parcours patrimonial',
+            'mapPage.viewAllStops': 'Voir les {{count}} étapes',
+            'mapPage.featuredTitle': 'Sites patrimoniaux à découvrir',
+            'mapPage.viewAllSites': 'Voir tous les sites',
+            'mapPage.promoTitle': 'Planifiez votre prochaine aventure patrimoniale',
+            'mapPage.promoDescription': 'L’histoire est plus proche que vous ne le pensez.',
+            'mapPage.planTrip': 'Planifier votre visite',
+            'mapPage.categoryHistorical': 'Monument historique',
+            'mapPage.categoryPalace': 'Palais',
+            'mapPage.categoryCastle': 'Château',
+            'mapPage.categoryMonument': 'Monument',
+            'mapPage.categoryMuseum': 'Musée',
+            'mapPage.mapUnavailable': 'Aperçu de la carte indisponible. Ajoutez un jeton Mapbox pour afficher la carte.',
+            'mapPage.geoUnsupported': 'Votre navigateur ne prend pas en charge la géolocalisation.',
+            'mapPage.geoDenied': 'Impossible d’accéder à votre position. Vous pouvez toujours parcourir la carte.',
+            'mapPage.site.capeCoast.name': 'Château de Cape Coast',
+            'mapPage.site.capeCoast.location': 'Cape Coast, Région du Centre',
+            'mapPage.site.capeCoast.shortLocation': 'Cape Coast',
+            'mapPage.site.capeCoast.category': 'Monument historique',
+            'mapPage.site.capeCoast.description': 'Explorez le château et découvrez les récits marquants de la traite transatlantique des esclaves, de la résilience et de la liberté.',
+            'mapPage.site.capeCoast.stopTitle': 'Porte du Non-Retour',
+            'mapPage.site.capeCoast.stopDescription': 'Le point où les Africains réduits en esclavage étaient embarqués de force sur des navires.',
+            'mapPage.site.manhyia.name': 'Palais Manhyia',
+            'mapPage.site.manhyia.location': 'Kumasi, Région d’Ashanti',
+            'mapPage.site.manhyia.shortLocation': 'Kumasi',
+            'mapPage.site.manhyia.category': 'Palais',
+            'mapPage.site.manhyia.description': 'Siège de l’Asantehene et du royaume ashanti, où la tradition royale rencontre la gouvernance actuelle.',
+            'mapPage.site.manhyia.stopTitle': 'Cour royale',
+            'mapPage.site.manhyia.stopDescription': 'Découvrez comment l’Asantehene et ses conseillers royaux ont façonné la vie politique et l’identité culturelle.',
+            'mapPage.site.osu.name': 'Château d’Osu',
+            'mapPage.site.osu.location': 'Osu, Région du Grand Accra',
+            'mapPage.site.osu.shortLocation': 'Osu, Accra',
+            'mapPage.site.osu.category': 'Château',
+            'mapPage.site.osu.description': 'Ancien siège du gouvernement sur la côte d’Accra, marqué par une histoire coloniale et postérieure à l’indépendance.',
+            'mapPage.site.osu.stopTitle': 'Approche du château',
+            'mapPage.site.osu.stopDescription': 'Observez le littoral et comprenez pourquoi la forteresse dominait le paysage urbain.',
+            'mapPage.site.independence.name': 'Arc de l’Indépendance',
+            'mapPage.site.independence.location': 'Accra, Région du Grand Accra',
+            'mapPage.site.independence.shortLocation': 'Accra',
+            'mapPage.site.independence.category': 'Monument',
+            'mapPage.site.independence.description': 'Pièce maîtresse de la place de l’Indépendance, commémorant l’indépendance du Ghana en 1957 et son rôle pionnier en Afrique subsaharienne.',
+            'mapPage.site.independence.stopTitle': 'Arc de l’Indépendance',
+            'mapPage.site.independence.stopDescription': 'Symbole de la fierté nationale du Ghana et de la mémoire publique de 1957.',
+            'mapPage.site.kwameNkrumah.name': 'Parc mémorial Kwame Nkrumah',
+            'mapPage.site.kwameNkrumah.location': 'Accra, Région du Grand Accra',
+            'mapPage.site.kwameNkrumah.shortLocation': 'Accra',
+            'mapPage.site.kwameNkrumah.category': 'Musée',
+            'mapPage.site.kwameNkrumah.description': 'Dernier lieu de repos et musée dédiés au premier président du Ghana et grande figure du panafricanisme.',
+            'mapPage.site.kwameNkrumah.stopTitle': 'Jardin du souvenir',
+            'mapPage.site.kwameNkrumah.stopDescription': 'Découvrez comment le mémorial transforme la mémoire en un espace public de réflexion et d’hommage.'
         },
         es: {
             'language.label': 'Idioma',
@@ -752,7 +908,83 @@
             'ai.sendMessage': 'Enviar',
             'common.languageSelect': 'Seleccionar idioma del sitio',
             'common.searching': 'Buscando en Ananse para: "{{query}}"',
-            'common.errorNoResponse': 'No hay respuesta disponible en este momento.'
+            'common.errorNoResponse': 'No hay respuesta disponible en este momento.',
+            'mapPage.pageTitle': 'Ananse - Explora el patrimonio de Ghana',
+            'mapPage.toggleNavigation': 'Abrir o cerrar el menú de navegación',
+            'mapPage.viewAllStopsDefault': 'Ver las 3 paradas',
+            'mapPage.heroTitle': 'Explora el patrimonio de Ghana',
+            'mapPage.heroDescription': 'Descubre lugares históricos, recorre rutas patrimoniales y vive las historias de Ghana.',
+            'mapPage.searchLabel': 'Buscar un sitio patrimonial',
+            'mapPage.searchPlaceholder': 'Buscar un sitio patrimonial...',
+            'mapPage.filterAll': 'Todos',
+            'mapPage.filterCastles': 'Castillos',
+            'mapPage.filterPalaces': 'Palacios',
+            'mapPage.filterMonuments': 'Monumentos',
+            'mapPage.filterMuseums': 'Museos',
+            'mapPage.zoomIn': 'Acercar',
+            'mapPage.zoomOut': 'Alejar',
+            'mapPage.locateMe': 'Encontrar mi ubicación',
+            'mapPage.closeDetails': 'Cerrar detalles',
+            'mapPage.heritageSite': 'Sitio patrimonial',
+            'mapPage.btnDirections': 'Cómo llegar',
+            'mapPage.btnBook': 'Reservar visita',
+            'mapPage.btnExplore': 'Explorar sitio',
+            'mapPage.btnViewTrail': 'Ver ruta patrimonial',
+            'mapPage.myPlans': 'Mis planes',
+            'mapPage.travelEstimateLabel': 'Tiempo estimado desde tu ubicación',
+            'mapPage.travelTimeHours': '{{hours}} h {{minutes}} min',
+            'mapPage.travelTimeMinutes': '{{minutes}} min',
+            'mapPage.travelDistance': '({{distance}} km)',
+            'mapPage.trailHighlightsHeading': 'Lo más destacado de la ruta patrimonial',
+            'mapPage.viewAllStops': 'Ver las {{count}} paradas',
+            'mapPage.featuredTitle': 'Sitios patrimoniales destacados',
+            'mapPage.viewAllSites': 'Ver todos los sitios',
+            'mapPage.promoTitle': 'Planifica tu próxima aventura patrimonial',
+            'mapPage.promoDescription': 'La historia está más cerca de lo que crees.',
+            'mapPage.planTrip': 'Planifica tu viaje',
+            'mapPage.categoryHistorical': 'Monumento histórico',
+            'mapPage.categoryPalace': 'Palacio',
+            'mapPage.categoryCastle': 'Castillo',
+            'mapPage.categoryMonument': 'Monumento',
+            'mapPage.categoryMuseum': 'Museo',
+            'mapPage.mapUnavailable': 'Vista previa del mapa no disponible. Añade un token de Mapbox para activar el mapa.',
+            'mapPage.geoUnsupported': 'Tu navegador no admite servicios de ubicación.',
+            'mapPage.geoDenied': 'No pudimos acceder a tu ubicación. Puedes seguir explorando el mapa.',
+            'mapPage.site.capeCoast.name': 'Castillo de Cape Coast',
+            'mapPage.site.capeCoast.location': 'Cape Coast, Región Central',
+            'mapPage.site.capeCoast.shortLocation': 'Cape Coast',
+            'mapPage.site.capeCoast.category': 'Monumento histórico',
+            'mapPage.site.capeCoast.description': 'Explora el castillo y descubre las poderosas historias del comercio transatlántico de esclavos, la resiliencia y la libertad.',
+            'mapPage.site.capeCoast.stopTitle': 'Puerta del No Retorno',
+            'mapPage.site.capeCoast.stopDescription': 'El lugar donde los africanos esclavizados fueron obligados a subir a los barcos.',
+            'mapPage.site.manhyia.name': 'Palacio Manhyia',
+            'mapPage.site.manhyia.location': 'Kumasi, Región de Ashanti',
+            'mapPage.site.manhyia.shortLocation': 'Kumasi',
+            'mapPage.site.manhyia.category': 'Palacio',
+            'mapPage.site.manhyia.description': 'Sede del Asantehene y del Reino Ashanti, donde la tradición real se une al gobierno ashanti actual.',
+            'mapPage.site.manhyia.stopTitle': 'Corte real',
+            'mapPage.site.manhyia.stopDescription': 'Descubre cómo el Asantehene y sus consejeros reales dieron forma a la vida política y la identidad cultural.',
+            'mapPage.site.osu.name': 'Castillo de Osu',
+            'mapPage.site.osu.location': 'Osu, Región del Gran Accra',
+            'mapPage.site.osu.shortLocation': 'Osu, Acra',
+            'mapPage.site.osu.category': 'Castillo',
+            'mapPage.site.osu.description': 'Antigua sede del gobierno en la costa de Acra, con una historia colonial y posterior a la independencia.',
+            'mapPage.site.osu.stopTitle': 'Acceso al castillo',
+            'mapPage.site.osu.stopDescription': 'Contempla el entorno costero y descubre por qué la fortaleza dominaba el paisaje urbano.',
+            'mapPage.site.independence.name': 'Arco de la Independencia',
+            'mapPage.site.independence.location': 'Acra, Región del Gran Accra',
+            'mapPage.site.independence.shortLocation': 'Acra',
+            'mapPage.site.independence.category': 'Monumento',
+            'mapPage.site.independence.description': 'Pieza central de la Plaza de la Independencia, que conmemora la independencia de Ghana en 1957 y su papel pionero en el África subsahariana.',
+            'mapPage.site.independence.stopTitle': 'Arco de la Independencia',
+            'mapPage.site.independence.stopDescription': 'Símbolo del orgullo nacional de Ghana y de la memoria pública de 1957.',
+            'mapPage.site.kwameNkrumah.name': 'Parque Conmemorativo Kwame Nkrumah',
+            'mapPage.site.kwameNkrumah.location': 'Acra, Región del Gran Accra',
+            'mapPage.site.kwameNkrumah.shortLocation': 'Acra',
+            'mapPage.site.kwameNkrumah.category': 'Museo',
+            'mapPage.site.kwameNkrumah.description': 'Lugar de descanso final y museo dedicado al primer presidente de Ghana y figura destacada del panafricanismo.',
+            'mapPage.site.kwameNkrumah.stopTitle': 'Jardín del recuerdo',
+            'mapPage.site.kwameNkrumah.stopDescription': 'Descubre cómo el memorial convierte la memoria en un espacio público de reflexión y homenaje.'
         }
     };
 
@@ -797,7 +1029,9 @@
     function getText(key, params = {}) {
         const fallbackLanguage = translations[DEFAULT_LANGUAGE] || {};
         const currentLanguage = translations[state.language] || translations[DEFAULT_LANGUAGE] || {};
-        const value = resolveTranslationValue(currentLanguage, key) ?? resolveTranslationValue(fallbackLanguage, key) ?? key;
+        const fallbackKey = String(key || 'Text unavailable').split('.').pop();
+        const readableFallback = fallbackKey.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/[_-]+/g, ' ').replace(/^\w/, (letter) => letter.toUpperCase());
+        const value = resolveTranslationValue(currentLanguage, key) ?? resolveTranslationValue(fallbackLanguage, key) ?? readableFallback;
         return replacePlaceholders(value, params);
     }
 
@@ -871,6 +1105,8 @@
         document.querySelectorAll('.language-select').forEach((select) => {
             select.value = state.language;
         });
+
+        document.dispatchEvent(new CustomEvent('ananse:languagechange', { detail: { language: state.language } }));
     }
 
     const state = {
@@ -888,7 +1124,6 @@
 
         applyTranslations(state.language);
     }
-        document.dispatchEvent(new CustomEvent('ananse:languagechange', { detail: { language: state.language } }));
 
     window.ananseLanguage = {
         getText,
@@ -911,6 +1146,8 @@
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    if (!document.body.classList.contains("passport-page")) return;
 
 
     /* =====================================================
@@ -1280,6 +1517,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!dictionary) return;
 
+        if (window.ananseLanguage && window.ananseLanguage.applyTranslations) {
+            window.ananseLanguage.applyTranslations(language);
+        }
+
 
         /* CHANGE TRANSLATED TEXT */
 
@@ -1336,10 +1577,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         /* SAVE LANGUAGE */
 
-        localStorage.setItem(
-            "ananseLanguage",
-            language
-        );
+        localStorage.setItem("ananse-language", language);
 
 
         /* CLOSE MENU */
@@ -1366,9 +1604,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ====================================================== */
 
     const savedLanguage =
-        localStorage.getItem(
-            "ananseLanguage"
-        );
+        localStorage.getItem("ananse-language") || localStorage.getItem("ananseLanguage");
 
 
     if (
@@ -1561,13 +1797,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    const STORAGE_KEY = "ananse_plan_lang";
+    const STORAGE_KEY = "ananse-language";
 
     // ----------------------------------------------------------------------
     // Core Translation Switcher Function
     // ----------------------------------------------------------------------
     function setLanguage(lang) {
-        const langData = translations[lang] || translations.en;
+        const targetLang = translations[lang] ? lang : "en";
+        const langData = translations[targetLang];
+
+        if (window.ananseLanguage && window.ananseLanguage.applyTranslations) {
+            window.ananseLanguage.applyTranslations(targetLang);
+        }
 
         // Strictly target elements with data-plan-lang
         const elements = document.querySelectorAll("[data-plan-lang]");
@@ -1589,7 +1830,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Store selected language without affecting global site storage keys
         try {
-            localStorage.setItem(STORAGE_KEY, lang);
+            localStorage.setItem(STORAGE_KEY, targetLang);
         } catch (e) {
             console.error("Could not save language preference to localStorage", e);
         }
@@ -1603,7 +1844,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         let initialLang = "en";
         try {
-            const savedLang = localStorage.getItem(STORAGE_KEY);
+            const savedLang = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("ananse_plan_lang");
             if (savedLang && translations[savedLang]) {
                 initialLang = savedLang;
             }

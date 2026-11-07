@@ -1245,25 +1245,21 @@ document.addEventListener("DOMContentLoaded", function () {
     // LANGUAGE STATE & TRANSLATION HELPER
     // ----------------------------------------------------------------------
     function getCurrentLang() {
-        if (window.ananseLanguage && typeof window.ananseLanguage.getLanguage === "function") {
-            return window.ananseLanguage.getLanguage() || "en";
-        }
-        const langSelect = document.getElementById("languageSelect");
-        if (langSelect && langSelect.value) return langSelect.value;
-        return document.documentElement.lang || "en";
+        return (window.ananseLanguage && window.ananseLanguage.currentLanguage) || document.documentElement.lang || "en";
     }
 
-    function getI18nVal(val, lang) {
-        if (!val) return "";
-        if (typeof val === "string") return val;
-        return val[lang] || val["en"] || "";
+    function getI18nVal(key) {
+        return t(key, "");
     }
 
     function t(key, fallback, params) {
-        const lang = window.ananseLanguage;
-        if (!key || !lang || !lang.getText) return fallback;
-        const value = lang.getText(key, params || {});
-        return value === key ? fallback : value;
+        const language = window.ananseLanguage;
+        if (!key) return fallback || "";
+        if (language && typeof language.getText === "function") {
+            const value = language.getText(key, params || {});
+            if (value) return value;
+        }
+        return fallback || String(key).split(".").pop().replace(/([a-z0-9])([A-Z])/g, "$1 $2").replace(/[_-]+/g, " ");
     }
 
     // ----------------------------------------------------------------------
@@ -1280,220 +1276,105 @@ document.addEventListener("DOMContentLoaded", function () {
     const SITES = [
         {
             id: "cape-coast-castle",
-            name: {
-                en: "Cape Coast Castle",
-                fr: "Château de Cape Coast",
-                es: "Castillo de Cape Coast"
-            },
-            location: {
-                en: "Cape Coast, Central Region",
-                fr: "Cape Coast, Région du Centre",
-                es: "Cape Coast, Región Central"
-            },
+            name: "mapPage.site.capeCoast.name",
+            location: "mapPage.site.capeCoast.location",
+            shortLocation: "mapPage.site.capeCoast.shortLocation",
             category: "castles",
-            categoryLabel: {
-                en: "Historical Monument",
-                fr: "Monument Historique",
-                es: "Monumento Histórico"
-            },
+            categoryLabel: "mapPage.site.capeCoast.category",
             lng: -1.2466,
             lat: 5.1053,
             image: "../images/Cape Coast Castle photo, Ghana Africa.jpeg",
-            description: {
-                en: "Explore the castle and discover the powerful stories of the transatlantic slave trade, resilience and freedom.",
-                fr: "Explorez le château et découvrez les récits marquants de la traite transatlantique des esclaves, de la résilience et de la liberté.",
-                es: "Explore el castillo y descubra las impactantes historias del comercio transatlántico de esclavos, la resiliencia y la libertad."
-            },
+            description: "mapPage.site.capeCoast.description",
             trail: {
                 totalStops: 3,
                 url: "heritagetrails.html?site=cape-coast-castle",
                 stop: {
-                    title: {
-                        en: "Door of No Return",
-                        fr: "Porte du Non-Retour",
-                        es: "Puerta del No Retorno"
-                    },
-                    desc: {
-                        en: "The point where enslaved Africans were forced onto ships.",
-                        fr: "Le point où les Africains réduits en esclavage étaient embarqués de force sur des navires.",
-                        es: "El punto donde los africanos esclavizados eran embarcados a la fuerza en los barcos."
-                    },
+                    title: "mapPage.site.capeCoast.stopTitle",
+                    desc: "mapPage.site.capeCoast.stopDescription",
                     image: "../images/door of no return.jpeg"
                 }
             }
         },
         {
             id: "manhyia-palace",
-            name: {
-                en: "Manhyia Palace",
-                fr: "Palais Manhyia",
-                es: "Palacio Manhyia"
-            },
-            location: {
-                en: "Kumasi, Ashanti Region",
-                fr: "Kumasi, Région d'Ashanti",
-                es: "Kumasi, Región Ashanti"
-            },
+            name: "mapPage.site.manhyia.name",
+            location: "mapPage.site.manhyia.location",
+            shortLocation: "mapPage.site.manhyia.shortLocation",
             category: "palaces",
-            categoryLabel: {
-                en: "Palace",
-                fr: "Palais",
-                es: "Palacio"
-            },
+            categoryLabel: "mapPage.site.manhyia.category",
             lng: -1.6244,
             lat: 6.6989,
             image: "../images/Manhyia Palace.jpeg",
-            description: {
-                en: "The seat of the Asantehene and the Ashanti Kingdom, blending royal tradition with living Ashanti governance.",
-                fr: "Le siège de l'Asantehene et du royaume Ashanti, alliant tradition royale et gouvernance Ashanti vivante.",
-                es: "La sede del Asantehene y el Reino Ashanti, que combina la tradición real con el gobierno vivo de Ashanti."
-            },
+            description: "mapPage.site.manhyia.description",
             trail: {
                 totalStops: 3,
                 url: "heritagetrails.html?site=manhyia-palace",
                 stop: {
-                    title: {
-                        en: "Royal court",
-                        fr: "Cour royale",
-                        es: "Corte real"
-                    },
-                    desc: {
-                        en: "Discover how the Asantehene and royal advisors shaped political life and cultural identity.",
-                        fr: "Découvrez comment l'Asantehene et les conseillers royaux ont façonné la vie politique et l'identité culturelle.",
-                        es: "Descubra cómo el Asantehene y los consejeros reales dieron forma a la vida política y a la identidad cultural."
-                    },
+                    title: "mapPage.site.manhyia.stopTitle",
+                    desc: "mapPage.site.manhyia.stopDescription",
                     image: "../images/Manhyia Palace.jpeg"
                 }
             }
         },
         {
             id: "osu-castle",
-            name: {
-                en: "Osu Castle",
-                fr: "Château d'Osu",
-                es: "Castillo de Osu"
-            },
-            location: {
-                en: "Osu, Greater Accra Region",
-                fr: "Osu, Région du Grand Accra",
-                es: "Osu, Región del Gran Accra"
-            },
+            name: "mapPage.site.osu.name",
+            location: "mapPage.site.osu.location",
+            shortLocation: "mapPage.site.osu.shortLocation",
             category: "castles",
-            categoryLabel: {
-                en: "Castle",
-                fr: "Château",
-                es: "Castillo"
-            },
+            categoryLabel: "mapPage.site.osu.category",
             lng: -0.1785,
             lat: 5.5502,
             image: "../images/osu castle (1).jpeg",
-            description: {
-                en: "A former seat of government perched on the Accra coastline, with a layered colonial and post-independence history.",
-                fr: "Ancien siège du gouvernement perché sur la côte d'Accra, avec une histoire coloniale et post-indépendance riche.",
-                es: "Antigua sede del gobierno ubicada en la costa de Acra, con una historia colonial y posterior a la independencia."
-            },
+            description: "mapPage.site.osu.description",
             trail: {
                 totalStops: 3,
                 url: "heritagetrails.html?site=osu-castle",
                 stop: {
-                    title: {
-                        en: "Castle approach",
-                        fr: "Approche du château",
-                        es: "Enfoque del castillo"
-                    },
-                    desc: {
-                        en: "Take in the coastal setting and understand why the fortress dominated the cityscape.",
-                        fr: "Prenez le paysage côtier et comprenez pourquoi la forteresse dominait le paysage urbain.",
-                        es: "Observe el entorno costero y comprende por qué la fortaleza dominaba el paisaje urbano."
-                    },
+                    title: "mapPage.site.osu.stopTitle",
+                    desc: "mapPage.site.osu.stopDescription",
                     image: "../images/osu castle (1).jpeg"
                 }
             }
         },
         {
             id: "independence-arch",
-            name: {
-                en: "Independence Arch",
-                fr: "Arc de l'Indépendance",
-                es: "Arco de la Independencia"
-            },
-            location: {
-                en: "Accra, Greater Accra Region",
-                fr: "Accra, Région du Grand Accra",
-                es: "Acra, Región del Gran Accra"
-            },
+            name: "mapPage.site.independence.name",
+            location: "mapPage.site.independence.location",
+            shortLocation: "mapPage.site.independence.shortLocation",
             category: "monuments",
-            categoryLabel: {
-                en: "Monument",
-                fr: "Monument",
-                es: "Monumento"
-            },
+            categoryLabel: "mapPage.site.independence.category",
             lng: -0.1969,
             lat: 5.5459,
             image: "../images/INDEPENDENCE ARCH (1).jpeg",
-            description: {
-                en: "The centrepiece of Independence Square, marking Ghana's 1957 independence and its role as the first sub-Saharan nation to break from colonial rule.",
-                fr: "Pièce maîtresse de la place de l'Indépendance, marquant l'indépendance du Ghana en 1957 et son rôle pionnier en Afrique subsaharienne.",
-                es: "Pieza central de la Plaza de la Independencia, que marca la independencia de Ghana en 1957 y su papel fundamental en África."
-            },
+            description: "mapPage.site.independence.description",
             trail: {
                 totalStops: 3,
                 url: "heritagetrails.html?site=independence-arch",
                 stop: {
-                    title: {
-                        en: "Independence Arch",
-                        fr: "Arc de l'Indépendance",
-                        es: "Arco de la Independencia"
-                    },
-                    desc: {
-                        en: "The icon of Ghana’s national pride and public memory of 1957.",
-                        fr: "L'icône de la fierté nationale du Ghana et de la mémoire publique de 1957.",
-                        es: "El símbolo del orgullo nacional de Ghana y la memoria pública de 1957."
-                    },
+                    title: "mapPage.site.independence.stopTitle",
+                    desc: "mapPage.site.independence.stopDescription",
                     image: "../images/INDEPENDENCE ARCH (1).jpeg"
                 }
             }
         },
         {
             id: "kwame-nkrumah",
-            name: {
-                en: "Kwame Nkrumah Memorial Park",
-                fr: "Parc Mémorial Kwame Nkrumah",
-                es: "Parque Conmemorativo Kwame Nkrumah"
-            },
-            location: {
-                en: "Accra, Greater Accra Region",
-                fr: "Accra, Région du Grand Accra",
-                es: "Acra, Región del Gran Accra"
-            },
+            name: "mapPage.site.kwameNkrumah.name",
+            location: "mapPage.site.kwameNkrumah.location",
+            shortLocation: "mapPage.site.kwameNkrumah.shortLocation",
             category: "museums",
-            categoryLabel: {
-                en: "Museum",
-                fr: "Musée",
-                es: "Museo"
-            },
+            categoryLabel: "mapPage.site.kwameNkrumah.category",
             lng: -0.2058,
             lat: 5.5449,
             image: "../images/kwame Nkrumah memorial park.jpeg",
-            description: {
-                en: "The final resting place and museum dedicated to Ghana's first president and a leading figure of Pan-Africanism.",
-                fr: "Le lieu de repos final et le musée dédiés au premier président du Ghana et figure majeure du panafricanisme.",
-                es: "El lugar de descanso final y museo dedicado al primer presidente de Ghana y figura destacada del panafricanismo."
-            },
+            description: "mapPage.site.kwameNkrumah.description",
             trail: {
                 totalStops: 3,
                 url: "heritagetrails.html?site=kwame-nkrumah",
                 stop: {
-                    title: {
-                        en: "Tribute garden",
-                        fr: "Jardin du souvenir",
-                        es: "Jardín del recuerdo"
-                    },
-                    desc: {
-                        en: "See how the memorial turns memory into a public space for reflection and honour.",
-                        fr: "Voyez comment le mémorial transforme la mémoire en espace public de réflexion et d'hommage.",
-                        es: "Mire cómo el memorial convierte la memoria en un espacio público de reflexión y homenaje."
-                    },
+                    title: "mapPage.site.kwameNkrumah.stopTitle",
+                    desc: "mapPage.site.kwameNkrumah.stopDescription",
                     image: "../images/kwame Nkrumah memorial park.jpeg"
                 }
             }
@@ -1526,21 +1407,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ----------------------------------------------------------------------
-    // LANGUAGE SELECTOR LISTENERS (FIXES POPUP DYNAMIC TRANSLATIONS)
-    // ----------------------------------------------------------------------
-    const langSelect = document.getElementById("languageSelect");
-    if (langSelect) {
-        langSelect.addEventListener("change", function () {
-            const newLang = langSelect.value;
-            if (window.ananseLanguage && window.ananseLanguage.setLanguage) {
-                window.ananseLanguage.setLanguage(newLang);
-            }
-            if (activeSiteId) {
-                openSitePopup(activeSiteId); // Refresh open popup in new language
-            }
-        });
-    }
-
     // ----------------------------------------------------------------------
     // MAPBOX INITIALISATION (EARTHY COLOR STYLING)
     // ----------------------------------------------------------------------
@@ -1548,12 +1414,29 @@ document.addEventListener("DOMContentLoaded", function () {
     let map = null;
     const markerById = {};
 
+    function updateMapboxControlLabels() {
+        const labels = [
+            [".mapboxgl-ctrl-zoom-in", "mapPage.zoomIn"],
+            [".mapboxgl-ctrl-zoom-out", "mapPage.zoomOut"],
+            [".mapboxgl-ctrl-attrib-button", "mapPage.toggleAttribution"]
+        ];
+        labels.forEach(function (item) {
+            const control = mapContainer.querySelector(item[0]);
+            if (!control) return;
+            const label = t(item[1], "Map control");
+            control.setAttribute("aria-label", label);
+            control.setAttribute("title", label);
+        });
+        const feedbackLink = mapContainer.querySelector(".mapbox-improve-map");
+        if (feedbackLink) feedbackLink.textContent = t("mapPage.mapFeedback", "Improve this map");
+    }
+
     function initMap() {
         if (!window.mapboxgl || !MAPBOX_TOKEN) {
-            mapContainer.innerHTML =
-                '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#E2E8F0;font:600 15px/1.5 sans-serif;text-align:center;padding:20px;background:#2E4A3E;">' +
-                'Map preview unavailable — add a Mapbox token in script.js to enable the live map.' +
-                '</div>';
+            const unavailableMessage = document.createElement("div");
+            unavailableMessage.style.cssText = "display:flex;align-items:center;justify-content:center;height:100%;color:#E2E8F0;font:600 15px/1.5 sans-serif;text-align:center;padding:20px;background:#2E4A3E;";
+            unavailableMessage.textContent = t("mapPage.mapUnavailable", "Map preview unavailable. Add a Mapbox token to enable the live map.");
+            mapContainer.replaceChildren(unavailableMessage);
             return;
         }
 
@@ -1566,8 +1449,10 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "top-left");
+        updateMapboxControlLabels();
 
         map.on("load", function () {
+            updateMapboxControlLabels();
             SITES.forEach(function (site) {
                 const el = document.createElement("button");
                 el.type = "button";
@@ -1760,15 +1645,17 @@ document.addEventListener("DOMContentLoaded", function () {
         const m = Math.round((hours - h) * 60);
 
         if (travelTimeText) {
-            travelTimeText.textContent = h > 0 ? (h + " hr " + m + " min") : (m + " min");
+            travelTimeText.textContent = h > 0
+                ? t("mapPage.travelTimeHours", "{{hours}} hr {{minutes}} min", { hours: h, minutes: m })
+                : t("mapPage.travelTimeMinutes", "{{minutes}} min", { minutes: m });
         }
         if (travelDistText) {
-            travelDistText.textContent = "(" + Math.round(km) + " km)";
+            travelDistText.textContent = t("mapPage.travelDistance", "({{distance}} km)", { distance: Math.round(km) });
         }
         travelEstimateBox.classList.remove("hidden");
     }
 
-    function openSitePopup(siteId) {
+    function openSitePopup(siteId, shouldFly = true) {
         const canonicalSiteId = SITE_ALIASES[siteId] || siteId;
         const site = SITES.find(function (s) { return s.id === canonicalSiteId; });
         if (!site || !sitePopupCard) return;
@@ -1803,7 +1690,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (highlightDesc) highlightDesc.textContent = getI18nVal(site.trail.stop.desc, lang);
             if (viewAllStopsLink) viewAllStopsLink.href = site.trail.url;
             if (viewAllStopsText) {
-                viewAllStopsText.textContent = t("mapPage.viewAllStops", "View all stops (" + site.trail.totalStops + ")", { count: site.trail.totalStops });
+                viewAllStopsText.textContent = t("mapPage.viewAllStops", "View all stops ({{count}})", { count: site.trail.totalStops });
             }
         } else {
             if (btnViewTrail) btnViewTrail.classList.add("hidden");
@@ -1813,7 +1700,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateTravelEstimate(siteId);
 
         sitePopupCard.classList.remove("hidden");
-        flyToSite(site);
+        if (shouldFly) flyToSite(site);
     }
 
     function closeSitePopup() {
@@ -1856,7 +1743,26 @@ document.addEventListener("DOMContentLoaded", function () {
     // ----------------------------------------------------------------------
     // INIT
     // ----------------------------------------------------------------------
-    applyFilters();
+    function refreshMapLanguage() {
+        document.querySelectorAll("[data-site-title-id]").forEach(function (element) {
+            const site = SITES.find(function (item) { return item.id === element.getAttribute("data-site-title-id"); });
+            if (site) element.textContent = getI18nVal(site.name);
+        });
+        document.querySelectorAll("[data-site-shortloc-id]").forEach(function (element) {
+            const site = SITES.find(function (item) { return item.id === element.getAttribute("data-site-shortloc-id"); });
+            if (site) element.textContent = getI18nVal(site.shortLocation);
+        });
+        Object.keys(markerById).forEach(function (id) {
+            const site = SITES.find(function (item) { return item.id === id; });
+            if (site) markerById[id].getElement().setAttribute("aria-label", getI18nVal(site.name));
+        });
+        updateMapboxControlLabels();
+        if (activeSiteId) openSitePopup(activeSiteId, false);
+        applyFilters();
+    }
+
+    document.addEventListener("ananse:languagechange", refreshMapLanguage);
+    refreshMapLanguage();
 });
 
 /* =========================================================
