@@ -461,20 +461,21 @@
                 </div>
                 <div class="logo-text">
                     <span class="brand-name">ANANSE</span>
-                    <span class="tagline">Weaving Ghana’s Story into the Digital Age</span>
+                    <span class="tagline" data-i18n="site.tagline">Weaving Ghana’s Story into the Digital Age</span>
                 </div>
             </a>
 
             <nav class="nav-menu" id="navMenu">
-                <a href="../index.html" class="nav-link">Home</a>
-                <a href="explore.html" class="nav-link active">Explore</a>
-                <a href="map.html" class="nav-link">Map</a>
-                <a href="passport.html" class="nav-link">Passport</a>
-                <a href="about.html" class="nav-link">About</a>
+                <a href="../index.html" class="nav-link" data-i18n="nav.home">Home</a>
+                <a href="explore.html" class="nav-link active" data-i18n="nav.explore">Explore</a>
+                <a href="map.html" class="nav-link" data-i18n="nav.map">Map</a>
+                <a href="passport.html" class="nav-link" data-i18n="nav.passport">Passport</a>
+                <a href="about.html" class="nav-link" data-i18n="nav.about">About</a>
             </nav>
 
             <div class="language-switcher-wrap">
-                <select class="language-select" aria-label="Select website language">
+                <select class="language-select" aria-label="Select website language"
+                    data-i18n-aria-label="common.languageSelect">
                     <option value="en">English</option>
                     <option value="fr">Français</option>
                     <option value="es">Español</option>
@@ -957,6 +958,7 @@
             }
         })();
     </script>
+    <script src="../src/js/language.js"></script>
     <script src="../src/footer.js"></script>
     <script src="../src/auth-session.js"></script>
 </body>
