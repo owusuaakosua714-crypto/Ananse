@@ -7857,16 +7857,18 @@ body.about-page .about-btn-gold:hover {
     position: fixed;
     bottom: 24px;
     right: 24px;
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
+    min-width: 64px;
+    min-height: 56px;
+    padding: 0 16px;
+    border-radius: 999px;
     background-color: var(--ananse-green-dark);
     color: #FFFFFF;
     box-shadow: var(--ananse-shadow-lg);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     text-decoration: none;
     z-index: 900;
     border: 2px solid var(--ananse-yellow);
@@ -7881,14 +7883,15 @@ body.about-page .about-btn-gold:hover {
 .ananse-map-page .floating-my-plans-btn i {
     font-size: 1.2rem;
     color: var(--ananse-yellow);
-    margin-bottom: 2px;
+    flex-shrink: 0;
 }
 
 .ananse-map-page .floating-my-plans-btn span {
-    font-size: 0.62rem;
+    font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.3px;
+    white-space: nowrap;
 }
 
 /* --------------------------------------------------------------------------
@@ -7932,6 +7935,11 @@ body.about-page .about-btn-gold:hover {
         right: 16px;
         top: auto;
         bottom: 20px;
+    }
+
+    .ananse-map-page .floating-my-plans-btn {
+        left: 16px;
+        right: auto;
     }
 
     /* Mobile Bottom Sheet Popup */
@@ -7980,10 +7988,10 @@ body.about-page .about-btn-gold:hover {
     }
 
     .ananse-map-page .floating-my-plans-btn {
-        width: 54px;
-        height: 54px;
+        min-width: 54px;
+        min-height: 48px;
+        padding: 0 12px;
         bottom: 16px;
-        right: 16px;
     }
     
     .ananse-map-page .floating-my-plans-btn i {
@@ -7991,7 +7999,7 @@ body.about-page .about-btn-gold:hover {
     }
 
     .ananse-map-page .floating-my-plans-btn span {
-        font-size: 0.55rem;
+        font-size: 0.62rem;
     }
 }
 
