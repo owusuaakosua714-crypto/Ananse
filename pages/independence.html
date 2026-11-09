@@ -697,8 +697,8 @@
 
       // Open / close all timeline entries
       var toggle = document.getElementById('toggleAll');
-      var items = document.querySelectorAll('.s-timeline details');
       toggle.addEventListener('click', function () {
+        var items = document.querySelectorAll('.s-timeline details');
         var open = Array.prototype.some.call(items, function (item) { return !item.open; });
         items.forEach(function (d) { d.open = open; });
         toggle.textContent = window.ananseLanguage.getStoryText(open ? 'Close all' : 'Open all');

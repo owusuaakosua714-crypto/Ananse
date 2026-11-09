@@ -4,6 +4,7 @@
     const SITE_KEY = "ananseAdminSitesV1";
     const CONTENT_FACT_KEY = "ananseContentV1";
     const TRAIL_FACT_KEY = "ananseTrailV1";
+    const STORY_FACT_KEY = "ananseStoryV1";
     const NAA_NOTES_KEY = "Naa reference notes";
     const API_BASE = window.ananseAuth && window.ananseAuth.API_BASE_URL || "https://ananse-backend.vercel.app";
     const ID_BY_SLUG = {
@@ -135,6 +136,20 @@
                     };
                 }) : []
             } : null,
+            storyContent: site.storyContent && typeof site.storyContent === "object" ? {
+                sections: Array.isArray(site.storyContent.sections) ? site.storyContent.sections.map(function (section) {
+                    return { id: String(section.id || ""), title: String(section.title || ""), body: String(section.body || "") };
+                }) : [],
+                timeline: Array.isArray(site.storyContent.timeline) ? site.storyContent.timeline.map(function (entry) {
+                    return { year: String(entry.year || ""), title: String(entry.title || ""), body: String(entry.body || "") };
+                }) : [],
+                places: Array.isArray(site.storyContent.places) ? site.storyContent.places.map(function (entry) {
+                    return { title: String(entry.title || ""), body: String(entry.body || "") };
+                }) : [],
+                images: Array.isArray(site.storyContent.images) ? site.storyContent.images.map(function (image) {
+                    return { src: String(image.src || ""), alt: String(image.alt || ""), caption: String(image.caption || ""), sectionId: String(image.sectionId || "story"), after: Math.max(0, Number(image.after) || 0) };
+                }).filter(function (image) { return image.src; }) : []
+            } : null,
             description: String(site.description || ""),
             coverImage: String(site.coverImage || ""),
             storyPage: String(site.storyPage || ""),
@@ -168,6 +183,8 @@
         try { content = JSON.parse(facts[CONTENT_FACT_KEY] || "{}"); } catch (error) { content = {}; }
         let trail = null;
         try { trail = JSON.parse(facts[TRAIL_FACT_KEY] || "null"); } catch (error) { trail = null; }
+        let storyContent = null;
+        try { storyContent = JSON.parse(facts[STORY_FACT_KEY] || "null"); } catch (error) { storyContent = null; }
         return cleanSite({
             id: id,
             slug: record.slug,
@@ -184,6 +201,7 @@
             facts: facts,
             naaNotes: facts[NAA_NOTES_KEY] || "",
             trail: trail,
+            storyContent: storyContent,
             description: record.summary,
             coverImage: content.coverImage || (defaultSite && defaultSite.coverImage) || "",
             storyPage: defaultSite && defaultSite.storyPage,
@@ -300,6 +318,8 @@
         });
         if (site.trail) facts[TRAIL_FACT_KEY] = JSON.stringify(site.trail);
         else delete facts[TRAIL_FACT_KEY];
+        if (site.storyContent) facts[STORY_FACT_KEY] = JSON.stringify(site.storyContent);
+        else delete facts[STORY_FACT_KEY];
         if (site.naaNotes) facts[NAA_NOTES_KEY] = site.naaNotes;
         else delete facts[NAA_NOTES_KEY];
         const payload = {

@@ -160,9 +160,17 @@
                 <label>Longitude<input id="siteLongitude" name="longitude" type="number" min="-180" max="180" step="any" required></label>
                 <label class="admin-form-wide">Short description<textarea id="siteDescription" name="description" required minlength="10" rows="3" maxlength="500"></textarea></label>
                 <label class="admin-form-wide">Cover image URL or project path<input id="siteCoverImage" name="coverImage" required placeholder="../images/site-photo.jpeg"></label>
-                <label class="admin-form-wide">Story text <small>Use a blank line between paragraphs. Leave empty to keep the existing story.</small><textarea id="siteStory" name="story" rows="6" placeholder="Write the story in paragraphs..."></textarea></label>
+                <label class="admin-form-wide" id="siteLegacyStoryField">Story text <small>Use a blank line between paragraphs. Leave empty to keep the existing story.</small><textarea id="siteStory" name="story" rows="6" placeholder="Write the story in paragraphs..."></textarea></label>
                 <label class="admin-form-wide">Additional knowledge for Naa <small>One fact or note per line. Naa reads this together with the site history and facts.</small><textarea id="siteNaaNotes" name="naaNotes" rows="4" placeholder="Visitor etiquette: Ask before taking photographs."></textarea></label>
             </div>
+            <section class="admin-story-editor" id="managedStoryEditor" hidden aria-labelledby="managedStoryTitle">
+                <div class="admin-image-editor__heading"><div><h3 id="managedStoryTitle">Story page content</h3><p>Edit each section, timeline moment, and place detail. Choose an image section and paragraph; use 0 to place it before that section.</p></div></div>
+                <p id="storyEditorStatus" class="admin-form-status" role="status" aria-live="polite"></p>
+                <div id="storySectionRows" class="admin-story-sections"></div>
+                <div class="admin-story-subeditor"><div class="admin-image-editor__heading"><h3>Timeline moments</h3><button class="admin-secondary-action" id="addTimelineEntry" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add moment</button></div><div id="storyTimelineRows" class="admin-story-entries"></div></div>
+                <div class="admin-story-subeditor"><div class="admin-image-editor__heading"><h3>Places and details</h3><button class="admin-secondary-action" id="addPlaceEntry" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add place</button></div><div id="storyPlaceRows" class="admin-story-entries"></div></div>
+                <div class="admin-story-subeditor"><div class="admin-image-editor__heading"><h3>Story images</h3><button class="admin-secondary-action" id="addManagedStoryImage" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add image</button></div><div id="managedStoryImageRows" class="admin-image-rows"></div></div>
+            </section>
             <section class="admin-trail-editor" id="trailEditor" hidden aria-labelledby="trailEditorTitle">
                 <div class="admin-image-editor__heading"><div><h3 id="trailEditorTitle">Trail story</h3><p>Edit the route introduction and each stop. Existing stop IDs stay fixed so visitor progress is preserved.</p></div></div>
                 <label>Trail title<input id="trailTitle" type="text" maxlength="120"></label>
@@ -171,7 +179,7 @@
                 <div id="trailStopRows" class="admin-trail-stops"></div>
             </section>
             <div class="admin-image-editor">
-                <div class="admin-image-editor__heading"><div><h3>Story images</h3><p>Add images and choose where each appears in the story.</p></div><button class="admin-secondary-action" id="addStoryImage" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add image</button></div>
+                <div class="admin-image-editor__heading"><div><h3>Opening story images</h3><p>These images appear in the opening section. Use Story page content above to place images in the timeline or other sections.</p></div><button class="admin-secondary-action" id="addStoryImage" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add image</button></div>
                 <div id="storyImageRows" class="admin-image-rows"></div>
             </div>
             <p class="admin-form-hint">Changes publish to the shared catalog when available; offline changes stay in this browser. Add map coordinates for each site. Image paths should be relative to the pages folder or a complete image URL.</p>
@@ -186,6 +194,9 @@
             <button type="button" class="admin-icon-button remove-story-image" aria-label="Remove image"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
         </div>
     </template>
+    <template id="storySectionTemplate"><div class="admin-story-section"><label class="story-section-heading">Section heading<input class="story-section-title" type="text" maxlength="160"></label><label class="story-section-body">Section text <small>Separate paragraphs with a blank line.</small><textarea class="story-section-text" rows="5"></textarea></label></div></template>
+    <template id="storyEntryTemplate"><fieldset class="admin-story-entry"><legend class="story-entry-label"></legend><label class="story-entry-year">Year / date<input class="story-entry-year-input" type="text" maxlength="40"></label><label class="story-entry-title">Title<input class="story-entry-title-input" type="text" maxlength="160"></label><label class="story-entry-body">Details<textarea class="story-entry-body-input" rows="3"></textarea></label><button type="button" class="admin-icon-button admin-icon-button--danger remove-story-entry" aria-label="Remove entry"><i class="fa-solid fa-trash" aria-hidden="true"></i></button></fieldset></template>
+    <template id="managedStoryImageTemplate"><div class="admin-managed-story-image"><label>Image URL or path<input class="managed-image-src" type="text" placeholder="../images/photo.jpeg or https://..." inputmode="url"></label><label>Alt text<input class="managed-image-alt" type="text" maxlength="180"></label><label>Caption<input class="managed-image-caption" type="text" maxlength="180"></label><label>Section<select class="managed-image-section"></select></label><label>After paragraph<input class="managed-image-after" type="number" min="0" step="1" value="0"></label><button type="button" class="admin-icon-button admin-icon-button--danger remove-managed-image" aria-label="Remove image"><i class="fa-solid fa-trash" aria-hidden="true"></i></button></div></template>
     <template id="trailStopTemplate">
         <fieldset class="admin-trail-stop">
             <legend class="trail-stop-legend"></legend>

@@ -61,12 +61,57 @@
         figure.dataset.adminManagedImage = "true";
         const photo = document.createElement("img");
         photo.src = image.src;
-        photo.alt = image.caption || "Heritage site photograph";
+        photo.alt = image.alt || image.caption || "Heritage site photograph";
         photo.loading = "lazy";
         const caption = document.createElement("figcaption");
         caption.textContent = image.caption || "";
         figure.append(photo, caption);
         return figure;
+    }
+
+    function appendStoryParagraphs(container, text) {
+        container.replaceChildren();
+        String(text || "").split(/\n\s*\n/).map(function (paragraph) { return paragraph.trim(); }).filter(Boolean).forEach(function (paragraphText) {
+            const paragraph = document.createElement("p");
+            paragraph.textContent = paragraphText;
+            container.appendChild(paragraph);
+        });
+    }
+
+    function createStoryDetails(title, body, year) {
+        const details = document.createElement("details");
+        const summary = document.createElement("summary");
+        if (year !== undefined) {
+            const yearLabel = document.createElement("span");
+            yearLabel.className = "yr";
+            yearLabel.textContent = year;
+            const titleLabel = document.createElement("span");
+            titleLabel.className = "t";
+            titleLabel.textContent = title;
+            summary.append(yearLabel, titleLabel);
+        } else {
+            summary.textContent = title;
+        }
+        details.appendChild(summary);
+        String(body || "").split(/\n\s*\n/).map(function (paragraph) { return paragraph.trim(); }).filter(Boolean).forEach(function (paragraphText) {
+            const paragraph = document.createElement("p");
+            paragraph.textContent = paragraphText;
+            details.appendChild(paragraph);
+        });
+        return details;
+    }
+
+    function insertStoryImage(section, image) {
+        const figure = createStoryImage(image);
+        const container = section.querySelector(".s-prose, .s-timeline, .s-places") || section;
+        const paragraphs = Array.from(container.querySelectorAll("p"));
+        const paragraph = paragraphs[Math.min(image.after, paragraphs.length) - 1];
+        if (image.after > 0 && paragraph) {
+            if (paragraph.nextSibling) paragraph.parentNode.insertBefore(figure, paragraph.nextSibling);
+            else paragraph.parentNode.appendChild(figure);
+        } else {
+            container.insertBefore(figure, container.firstChild);
+        }
     }
 
     function applyManagedStory(site) {
@@ -84,7 +129,45 @@
             if (intro) intro.textContent = site.description;
         }
 
-        if (site.story) {
+        if (site.storyContent) {
+            const content = site.storyContent;
+            (content.sections || []).forEach(function (item) {
+                const section = document.getElementById(item.id);
+                if (!section) return;
+                const heading = section.querySelector("h2");
+                if (heading && item.title) heading.textContent = item.title;
+                if (item.id === "timeline") {
+                    const list = section.querySelector(".s-timeline");
+                    if (list) {
+                        list.replaceChildren();
+                        (content.timeline || []).forEach(function (entry, index) {
+                            const details = createStoryDetails(entry.title, entry.body, entry.year);
+                            if (index === 0) details.open = true;
+                            list.appendChild(details);
+                        });
+                    }
+                } else if (item.id === "inside") {
+                    const list = section.querySelector(".s-places");
+                    if (list) {
+                        list.replaceChildren();
+                        (content.places || []).forEach(function (entry) { list.appendChild(createStoryDetails(entry.title, entry.body)); });
+                    }
+                } else {
+                    let body = section.querySelector(".s-prose");
+                    if (!body) {
+                        body = document.createElement("div");
+                        body.className = "s-prose";
+                        section.appendChild(body);
+                    }
+                    appendStoryParagraphs(body, item.body);
+                }
+            });
+            document.querySelectorAll(".s-main figure.s-story-image:not([data-admin-managed-image])").forEach(function (figure) { figure.remove(); });
+            (content.images || []).forEach(function (image) {
+                const section = document.getElementById(image.sectionId);
+                if (section) insertStoryImage(section, image);
+            });
+        } else if (site.story) {
             prose.replaceChildren();
             site.story.split(/\n\s*\n/).map(function (paragraph) { return paragraph.trim(); }).filter(Boolean).forEach(function (text) {
                 const paragraph = document.createElement("p");

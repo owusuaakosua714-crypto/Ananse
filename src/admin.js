@@ -52,6 +52,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const trailEditor = document.getElementById('trailEditor');
     const trailStopRows = document.getElementById('trailStopRows');
     const trailStopTemplate = document.getElementById('trailStopTemplate');
+    const managedStoryEditor = document.getElementById('managedStoryEditor');
+    const storySectionRows = document.getElementById('storySectionRows');
+    const storyTimelineRows = document.getElementById('storyTimelineRows');
+    const storyPlaceRows = document.getElementById('storyPlaceRows');
+    const managedStoryImageRows = document.getElementById('managedStoryImageRows');
+    const storySectionTemplate = document.getElementById('storySectionTemplate');
+    const storyEntryTemplate = document.getElementById('storyEntryTemplate');
+    const managedStoryImageTemplate = document.getElementById('managedStoryImageTemplate');
+    let storyEditorRequest = 0;
+    let storyEditorReady = false;
     const siteStatus = document.getElementById('siteSaveStatus');
     const TRAIL_STOP_IDS = {
         'cape-coast': ['door-of-no-return', 'castle-grounds', 'memory-and-healing'],
@@ -183,7 +193,119 @@ document.addEventListener('DOMContentLoaded', () => {
         imageRows.appendChild(row);
     }
 
-    function openSiteEditor(site) {
+    async function loadStoryContent(site) {
+        if (site?.storyContent) return site.storyContent;
+        if (!site?.storyPage) return null;
+        const response = await fetch(site.storyPage);
+        if (!response.ok) throw new Error('Could not load the story page template.');
+        const parsed = new DOMParser().parseFromString(await response.text(), 'text/html');
+        const sectionNodes = Array.from(parsed.querySelectorAll('.s-main > section'));
+        const sections = sectionNodes.map(section => {
+            const heading = section.querySelector('h2');
+            const prose = section.querySelector('.s-prose');
+            const paragraphs = prose ? Array.from(prose.querySelectorAll('p')) : Array.from(section.querySelectorAll(':scope > p'));
+            return { id: section.id, title: heading?.textContent.trim() || '', body: paragraphs.map(item => item.textContent.trim()).filter(Boolean).join('\n\n') };
+        });
+        if (site.story) {
+            const opening = sections.find(section => section.id === 'story');
+            if (opening) opening.body = site.story;
+        }
+        const timeline = Array.from(parsed.querySelectorAll('#timeline .s-timeline details')).map(entry => ({
+            year: entry.querySelector('.yr')?.textContent.trim() || '',
+            title: entry.querySelector('.t')?.textContent.trim() || '',
+            body: Array.from(entry.querySelectorAll(':scope > p')).map(item => item.textContent.trim()).join('\n\n')
+        }));
+        const places = Array.from(parsed.querySelectorAll('#inside .s-places details')).map(entry => ({
+            title: entry.querySelector('summary')?.textContent.trim() || '',
+            body: Array.from(entry.querySelectorAll(':scope > p')).map(item => item.textContent.trim()).join('\n\n')
+        }));
+        const images = Array.from(parsed.querySelectorAll('.s-main figure.s-story-image')).map(figure => {
+            const section = figure.closest('section');
+            const imageContainer = section?.querySelector('.s-prose, .s-timeline, .s-places') || section;
+            const after = imageContainer ? Array.from(imageContainer.querySelectorAll('p')).filter(paragraph =>
+                paragraph.compareDocumentPosition(figure) & Node.DOCUMENT_POSITION_FOLLOWING).length : 0;
+            const image = figure.querySelector('img');
+            return { src: image?.getAttribute('src') || '', alt: image?.getAttribute('alt') || '', caption: figure.querySelector('figcaption')?.textContent.trim() || '', sectionId: section?.id || 'story', after };
+        }).filter(image => image.src);
+        return { sections, timeline, places, images };
+    }
+
+    function addStoryEntry(container, entry, type) {
+        const row = storyEntryTemplate.content.firstElementChild.cloneNode(true);
+        row.dataset.type = type;
+        row.querySelector('.story-entry-label').textContent = type === 'timeline' ? 'Timeline moment' : 'Place detail';
+        const year = row.querySelector('.story-entry-year');
+        year.hidden = type !== 'timeline';
+        row.querySelector('.story-entry-year-input').value = entry?.year || '';
+        row.querySelector('.story-entry-title-input').value = entry?.title || '';
+        row.querySelector('.story-entry-body-input').value = entry?.body || '';
+        row.querySelector('.remove-story-entry').addEventListener('click', () => row.remove());
+        container.appendChild(row);
+    }
+
+    function addManagedStoryImage(image, sections) {
+        const row = managedStoryImageTemplate.content.firstElementChild.cloneNode(true);
+        row.querySelector('.managed-image-src').value = image?.src || '';
+        row.querySelector('.managed-image-alt').value = image?.alt || '';
+        row.querySelector('.managed-image-caption').value = image?.caption || '';
+        row.querySelector('.managed-image-after').value = String(image?.after || 0);
+        const select = row.querySelector('.managed-image-section');
+        sections.forEach(section => {
+            const option = document.createElement('option');
+            option.value = section.id;
+            option.textContent = section.title || section.id;
+            select.appendChild(option);
+        });
+        select.value = image?.sectionId || sections[0]?.id || 'story';
+        row.querySelector('.remove-managed-image').addEventListener('click', () => row.remove());
+        managedStoryImageRows.appendChild(row);
+    }
+
+    function renderManagedStoryEditor(content) {
+        storySectionRows.replaceChildren();
+        storyTimelineRows.replaceChildren();
+        storyPlaceRows.replaceChildren();
+        managedStoryImageRows.replaceChildren();
+        (content?.sections || []).forEach(section => {
+            const row = storySectionTemplate.content.firstElementChild.cloneNode(true);
+            row.dataset.sectionId = section.id;
+            row.querySelector('.story-section-title').value = section.title || '';
+            row.querySelector('.story-section-text').value = section.body || '';
+            storySectionRows.appendChild(row);
+        });
+        (content?.timeline || []).forEach(entry => addStoryEntry(storyTimelineRows, entry, 'timeline'));
+        (content?.places || []).forEach(entry => addStoryEntry(storyPlaceRows, entry, 'place'));
+        (content?.images || []).forEach(image => addManagedStoryImage(image, content.sections || []));
+    }
+
+    function collectManagedStoryContent() {
+        return {
+            sections: Array.from(storySectionRows.querySelectorAll('.admin-story-section')).map(row => ({
+                id: row.dataset.sectionId,
+                title: row.querySelector('.story-section-title').value.trim(),
+                body: row.querySelector('.story-section-text').value.trim()
+            })),
+            timeline: Array.from(storyTimelineRows.querySelectorAll('.admin-story-entry')).map(row => ({
+                year: row.querySelector('.story-entry-year-input').value.trim(),
+                title: row.querySelector('.story-entry-title-input').value.trim(),
+                body: row.querySelector('.story-entry-body-input').value.trim()
+            })),
+            places: Array.from(storyPlaceRows.querySelectorAll('.admin-story-entry')).map(row => ({
+                title: row.querySelector('.story-entry-title-input').value.trim(),
+                body: row.querySelector('.story-entry-body-input').value.trim()
+            })),
+            images: Array.from(managedStoryImageRows.querySelectorAll('.admin-managed-story-image')).map(row => ({
+                src: row.querySelector('.managed-image-src').value.trim(),
+                alt: row.querySelector('.managed-image-alt').value.trim(),
+                caption: row.querySelector('.managed-image-caption').value.trim(),
+                sectionId: row.querySelector('.managed-image-section').value,
+                after: Math.max(0, Number(row.querySelector('.managed-image-after').value) || 0)
+            })).filter(image => image.src)
+        };
+    }
+
+    async function openSiteEditor(site) {
+        const requestId = ++storyEditorRequest;
         siteForm.reset();
         imageRows.replaceChildren();
         document.getElementById('siteId').value = site?.id || '';
@@ -196,7 +318,23 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('siteDescription').value = site?.description || '';
         document.getElementById('siteCoverImage').value = site?.coverImage || '';
         document.getElementById('siteStory').value = site?.story || '';
+        document.getElementById('siteLegacyStoryField').hidden = Boolean(site?.storyPage);
         document.getElementById('siteNaaNotes').value = site?.naaNotes || '';
+        managedStoryEditor.hidden = !site?.storyPage;
+        document.getElementById('storyEditorStatus').textContent = '';
+        storyEditorReady = false;
+        renderManagedStoryEditor(null);
+        if (site?.storyPage) {
+            try {
+                const content = await loadStoryContent(site);
+                if (requestId !== storyEditorRequest) return;
+                renderManagedStoryEditor(content);
+                storyEditorReady = true;
+            } catch (error) {
+                if (requestId !== storyEditorRequest) return;
+                document.getElementById('storyEditorStatus').textContent = 'Could not load the current story template, so this editor will leave the published story unchanged. Reopen the editor when connected.';
+            }
+        }
         (site?.images || []).forEach(addImageRow);
         const trailStopIds = TRAIL_STOP_IDS[site?.id] || [];
         trailEditor.hidden = trailStopIds.length === 0;
@@ -314,6 +452,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('addSiteButton').addEventListener('click', () => openSiteEditor(null));
     document.getElementById('addStoryImage').addEventListener('click', () => addImageRow(null));
+    document.getElementById('addTimelineEntry').addEventListener('click', () => addStoryEntry(storyTimelineRows, null, 'timeline'));
+    document.getElementById('addPlaceEntry').addEventListener('click', () => addStoryEntry(storyPlaceRows, null, 'place'));
+    document.getElementById('addManagedStoryImage').addEventListener('click', () => {
+        const sections = Array.from(storySectionRows.querySelectorAll('.admin-story-section')).map(row => ({
+            id: row.dataset.sectionId,
+            title: row.querySelector('.story-section-title').value.trim()
+        }));
+        addManagedStoryImage(null, sections);
+    });
     document.getElementById('closeSiteDialog').addEventListener('click', () => siteDialog.close());
     document.getElementById('cancelSiteEdit').addEventListener('click', () => siteDialog.close());
 
@@ -328,6 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
             after: Number(row.querySelector('.story-image-position').value)
         })).filter(image => image.src);
         const previousSite = siteContent.getSiteForAdmin(id);
+        const managedStoryContent = storyEditorReady && previousSite?.storyPage ? collectManagedStoryContent() : previousSite?.storyContent || null;
         const site = {
             id,
             slug: previousSite?.slug || id,
@@ -345,8 +493,9 @@ document.addEventListener('DOMContentLoaded', () => {
             description: document.getElementById('siteDescription').value.trim(),
             coverImage: document.getElementById('siteCoverImage').value.trim(),
             storyPage: siteContent.getSiteForAdmin(id)?.storyPage || '',
-            story: document.getElementById('siteStory').value.trim(),
+            story: managedStoryContent?.sections.find(section => section.id === 'story')?.body || document.getElementById('siteStory').value.trim(),
             images,
+            storyContent: managedStoryContent,
             naaNotes: document.getElementById('siteNaaNotes').value.trim(),
             trail: TRAIL_STOP_IDS[id] ? {
                 title: document.getElementById('trailTitle').value.trim(),
