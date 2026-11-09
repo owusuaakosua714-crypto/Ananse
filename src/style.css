@@ -2954,99 +2954,54 @@ body.about-page .about-quote-author {
   font-weight: 600;
 }
 
-/* ------------------ TECHNOLOGY SECTION ------------------ */
-body.about-page .about-tech-section {
+/* ------------------ HERITAGE STORYTELLING SECTION ------------------ */
+body.about-page .about-story-section {
   padding: 70px 0;
   background-color: #F7F2EC;
 }
 
-body.about-page .about-tech-header {
-  margin-bottom: 40px;
-}
-
-body.about-page .about-section-heading {
-  font-size: 1.8rem;
-  color: #062E35;
-  margin: 0 0 8px 0;
-}
-
-body.about-page .about-tech-header p {
-  color: #475569;
-  max-width: 600px;
-  margin-bottom: 16px;
-}
-
-body.about-page .about-btn-primary {
-  display: inline-block;
-  background-color: #EAA835;
-  color: #062E35;
-  padding: 10px 20px;
-  border-radius: 999px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-  box-shadow: 0 4px 14px rgba(234, 168, 53, 0.25);
-}
-
-body.about-page .about-btn-primary:hover {
-  opacity: 0.95;
-  transform: translateY(-2px);
-}
-
-body.about-page .about-tech-grid {
+body.about-page .about-story-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
-}
-
-body.about-page .about-tech-card {
-  background-color: #ffffff;
-  border: 1px solid rgba(6, 46, 53, 0.08);
-  border-radius: 14px;
-  padding: 20px;
-  text-align: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 10px 18px -18px rgba(15, 23, 42, 0.35);
-}
-
-body.about-page .about-tech-card:hover {
-  background-color: #fffdf8;
-  border-color: rgba(234, 168, 53, 0.3);
-  transform: translateY(-4px);
-}
-
-body.about-page .about-tech-badge {
-  width: 50px;
-  height: 50px;
-  margin: 0 auto 12px auto;
-  border-radius: 50%;
-  background-color: rgba(234, 168, 53, 0.12);
-  color: #0A3C44;
-  font-weight: 700;
-  display: flex;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
   align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
+  gap: clamp(2rem, 5vw, 4.5rem);
 }
 
-body.about-page .about-tech-card h3 {
-  font-size: 1.05rem;
+body.about-page .about-story-image-wrap {
+  min-height: 350px;
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow: 0 18px 36px -20px rgba(15, 23, 42, 0.4);
+}
+
+body.about-page .about-story-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 350px;
+  object-fit: cover;
+}
+
+body.about-page .about-story-content {
+  max-width: 540px;
+}
+
+body.about-page .about-story-content .about-section-badge {
+  margin-bottom: 14px;
+}
+
+body.about-page .about-story-title {
+  font-size: clamp(2rem, 3.2vw, 2.7rem);
   color: #062E35;
-  margin: 0 0 4px 0;
+  line-height: 1.15;
+  margin: 0 0 18px;
 }
 
-body.about-page .about-tech-stack {
-  font-size: 0.75rem;
-  color: #0A3C44;
-  margin: 0 0 8px 0;
-  font-weight: 700;
-}
-
-body.about-page .about-tech-detail {
-  font-size: 0.8rem;
-  color: #64748B;
+body.about-page .about-story-copy {
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.8;
   margin: 0;
-  line-height: 1.4;
 }
 
 /* ------------------ SPLIT BANNER & TEAM SECTION ------------------ */
@@ -3071,15 +3026,15 @@ body.about-page .about-banner-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.6;
-  filter: saturate(0.9) contrast(1.05);
+  opacity: 1;
+  filter: saturate(1) contrast(1.05);
 }
 
 body.about-page .about-banner-overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: rgba(6, 46, 53, 0.7);
+  background: rgba(6, 46, 53, 0.38);
 }
 
 body.about-page .about-banner-side h2 {
@@ -3091,6 +3046,7 @@ body.about-page .about-banner-side h2 {
   color: #ffffff;
   line-height: 1.2;
   text-align: center;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
 }
 
 body.about-page .about-team-side {
@@ -3179,8 +3135,17 @@ body.about-page .about-btn-gold:hover {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  body.about-page .about-tech-grid {
-    grid-template-columns: repeat(3, 1fr);
+  body.about-page .about-story-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body.about-page .about-story-image-wrap,
+  body.about-page .about-story-image {
+    min-height: 300px;
+  }
+
+  body.about-page .about-story-content {
+    max-width: 720px;
   }
 
   body.about-page .about-split-section {
@@ -3234,8 +3199,13 @@ body.about-page .about-btn-gold:hover {
     margin-left: 0;
   }
 
-  body.about-page .about-tech-grid {
-    grid-template-columns: repeat(2, 1fr);
+  body.about-page .about-story-section {
+    padding: 52px 0;
+  }
+
+  body.about-page .about-story-image-wrap,
+  body.about-page .about-story-image {
+    min-height: 260px;
   }
 
   body.about-page .about-roles-grid {
@@ -3245,10 +3215,6 @@ body.about-page .about-btn-gold:hover {
 
 @media (max-width: 480px) {
   body.about-page .about-overview-grid {
-    grid-template-columns: 1fr;
-  }
-
-  body.about-page .about-tech-grid {
     grid-template-columns: 1fr;
   }
 
