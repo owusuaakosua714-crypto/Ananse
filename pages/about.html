@@ -135,58 +135,20 @@
             </div>
         </section>
 
-        <!-- ==================== OUR TECHNOLOGY ==================== -->
-        <section class="about-tech-section">
-            <div class="about-container">
-                <div class="about-tech-header">
-                    <div>
-                        <h2 class="about-section-heading" data-i18n="about.techTitle">Our Technology</h2>
-                        <p data-i18n="about.techDescription">ANANSE combines modern technology with traditional
-                            storytelling to create meaningful, interactive experiences.</p>
-                        <a href="#" class="about-btn-primary" data-i18n="about.learnMore">Learn More &rarr;</a>
-                    </div>
+        <!-- ==================== HERITAGE STORYTELLING SECTION ==================== -->
+        <section class="about-story-section">
+            <div class="about-container about-story-grid">
+                <div class="about-story-image-wrap">
+                    <img class="about-story-image" src="../images/Village.jpg"
+                        alt="Coastal Ghanaian community and heritage landscape" loading="lazy">
                 </div>
-
-                <div class="about-tech-grid">
-                    <div class="about-tech-card">
-                        <div class="about-tech-badge">&lt;/&gt;</div>
-                        <h3 data-i18n="about.frontend">Frontend</h3>
-                        <p class="about-tech-stack">HTML, CSS, JavaScript</p>
-                        <p class="about-tech-detail" data-i18n="about.detailsBeautiful">Beautiful, responsive user
-                            experience.</p>
-                    </div>
-
-                    <div class="about-tech-card">
-                        <div class="about-tech-badge">FastAPI</div>
-                        <h3 data-i18n="about.backend">Backend</h3>
-                        <p class="about-tech-stack">FastAPI / Python</p>
-                        <p class="about-tech-detail" data-i18n="about.detailsPowering">Powering the platform and user
-                            features.</p>
-                    </div>
-
-                    <div class="about-tech-card">
-                        <div class="about-tech-badge">DB</div>
-                        <h3 data-i18n="about.database">Database</h3>
-                        <p class="about-tech-stack">MySQL</p>
-                        <p class="about-tech-detail" data-i18n="about.detailsSecurely">Securely storing heritage data &
-                            user progress.</p>
-                    </div>
-
-                    <div class="about-tech-card">
-                        <div class="about-tech-badge">AI</div>
-                        <h3 data-i18n="about.aiGuide">AI Guide</h3>
-                        <p class="about-tech-stack">Naa</p>
-                        <p class="about-tech-detail" data-i18n="about.detailsAssistant">Your smart cultural assistant.
-                        </p>
-                    </div>
-
-                    <div class="about-tech-card">
-                        <div class="about-tech-badge">QR</div>
-                        <h3 data-i18n="about.qrTechnology">QR Technology</h3>
-                        <p class="about-tech-stack">Scan • Discover • Explore</p>
-                        <p class="about-tech-detail" data-i18n="about.detailsStories">Bringing physical sites to digital
-                            stories.</p>
-                    </div>
+                <div class="about-story-content">
+                    <span class="about-section-badge" data-about-story="eyebrow">OUR PURPOSE</span>
+                    <h2 class="about-story-title" data-about-story="title">Every Story Deserves to Be Told.</h2>
+                    <p class="about-story-copy" data-about-story="description">Ghana’s heritage is filled with stories
+                        that deserve to live beyond the pages of history. Ananse brings these stories to life through
+                        interactive digital experiences, connecting people to the places, people, and traditions that
+                        have shaped our identity.</p>
                 </div>
             </div>
         </section>
@@ -194,10 +156,9 @@
         <!-- ==================== SPLIT BANNER & TEAM ==================== -->
         <section class="about-split-section">
             <div class="about-banner-side">
-                <!-- HERITAGE IMAGE: Replace the image source below with the actual heritage image -->
                 <img class="about-banner-image"
                     src="../images/profile .jpeg"
-                    alt="Preserving Ghana's Heritage image placeholder">
+                    alt="">
                 <div class="about-banner-overlay"></div>
                 <h2 data-i18n-html="about.bannerTitle">Preserving<br>Ghana's Heritage<br>for Generations</h2>
             </div>
@@ -243,6 +204,41 @@
     <script src="../src/auth-session.js"></script>
     <script src="../src/script.js"></script>
     <script src="../src/footer.js"></script>
+    <script>
+        (function () {
+            const storyCopy = {
+                en: {
+                    eyebrow: 'OUR PURPOSE',
+                    title: 'Every Story Deserves to Be Told.',
+                    description: 'Ghana’s heritage is filled with stories that deserve to live beyond the pages of history. Ananse brings these stories to life through interactive digital experiences, connecting people to the places, people, and traditions that have shaped our identity.'
+                },
+                fr: {
+                    eyebrow: 'NOTRE RAISON D’ÊTRE',
+                    title: 'Chaque histoire mérite d’être racontée.',
+                    description: 'Le patrimoine du Ghana regorge d’histoires qui méritent de vivre au-delà des pages de l’histoire. Ananse leur donne vie grâce à des expériences numériques interactives, en reliant les personnes aux lieux, aux communautés et aux traditions qui ont façonné notre identité.'
+                },
+                es: {
+                    eyebrow: 'NUESTRO PROPÓSITO',
+                    title: 'Toda historia merece ser contada.',
+                    description: 'El patrimonio de Ghana está lleno de historias que merecen vivir más allá de las páginas de la historia. Ananse da vida a estas historias mediante experiencias digitales interactivas que conectan a las personas con los lugares, las comunidades y las tradiciones que han forjado nuestra identidad.'
+                }
+            };
+            const section = document.querySelector('.about-story-section');
+
+            function translateStorySection(language) {
+                if (!section) return;
+                const copy = storyCopy[language] || storyCopy.en;
+                section.querySelectorAll('[data-about-story]').forEach(function (element) {
+                    element.textContent = copy[element.dataset.aboutStory];
+                });
+            }
+
+            translateStorySection(window.ananseLanguage ? window.ananseLanguage.currentLanguage : 'en');
+            document.addEventListener('ananse:languagechange', function (event) {
+                translateStorySection(event.detail.language);
+            });
+        })();
+    </script>
 </body>
 
 </html>
