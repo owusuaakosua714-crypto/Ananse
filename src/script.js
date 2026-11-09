@@ -491,7 +491,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "cape-coast": "capecoast.html",
         "manhyia": "manhyia.html",
         "osu": "osucastle.html",
-        "independence": "indepencesqr.html",
+        "independence": "independence.html",
         "kwame-nkrumah": "kwamepark.html"
     };
 
@@ -504,7 +504,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "cape-coast": "capecoast.html#listen",
         "manhyia": "manhyia.html#listen",
         "osu": "osucastle.html#listen",
-        "independence": "indepencesqr.html#listen",
+        "independence": "independence.html#listen",
         "kwame-nkrumah": "kwamepark.html#listen"
     };
 
@@ -1972,31 +1972,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const HERITAGE_SITES = {
         "cape-coast-castle": {
             name: "Cape Coast Castle",
-            // IMAGE: Replace string with approved Cape Coast Castle image path (e.g. "../assets/cape-coast.jpg")
+            translationKey: "site.capeCoast",
             image: "../images/cape coast castle.jpeg",
             locationQuery: "Cape Coast Castle, Ghana"
         },
         "independence-arch": {
             name: "Independence Arch",
-            // IMAGE: Replace string with approved Independence Arch image path
+            translationKey: "site.independence",
             image: "../images/INDEPENDENCE ARCH (1).jpeg",
             locationQuery: "Independence Arch, Accra, Ghana"
         },
         "kwame-nkrumah-memorial-park": {
             name: "Kwame Nkrumah Memorial Park",
-            // IMAGE: Replace string with approved Kwame Nkrumah Memorial Park image path
+            translationKey: "site.kwameNkrumah",
             image: "../images/kwame Nkrumah memorial park.jpeg",
             locationQuery: "Kwame Nkrumah Memorial Park, Accra, Ghana"
         },
         "manhyia-palace": {
             name: "Manhyia Palace",
-            // IMAGE: Replace string with approved Manhyia Palace image path
+            translationKey: "site.manhyia",
             image: "../images/Manhyia Palace.jpeg",
             locationQuery: "Manhyia Palace Museum, Kumasi, Ghana"
         },
         "osu-castle": {
             name: "Osu Castle",
-            // IMAGE: Replace string with approved Osu Castle image path
+            translationKey: "site.osu",
             image: "../images/osu castle (1).jpeg",
             locationQuery: "Osu Castle, Accra, Ghana"
         }
@@ -2025,6 +2025,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const saveBtn = document.getElementById("planSaveBtn");
     const calendarBtn = document.getElementById("planCalendarBtn");
     const directionsBtn = document.getElementById("planDirectionsBtn");
+    const authNotice = document.getElementById("planAuthNotice");
+    const planLanguage = window.ananseLanguage;
+
+    function planText(key, params = {}) {
+        return planLanguage && typeof planLanguage.getPlanText === "function"
+            ? planLanguage.getPlanText(key, params)
+            : key;
+    }
+
+    function getPlanLocale() {
+        const language = document.documentElement.lang;
+        return language === "fr" ? "fr-FR" : language === "es" ? "es-ES" : "en";
+    }
+
+    function getSiteName(siteKey) {
+        const siteData = HERITAGE_SITES[siteKey];
+        return siteData ? planText(siteData.translationKey) : "";
+    }
+
+    function getVisitorLabel(visitorCount) {
+        if (!visitorCount) return planText("yourPlan.emptyValue");
+        return visitorCount === "1"
+            ? planText("visitors.one")
+            : planText("visitors.many", { count: visitorCount });
+    }
 
     // ----------------------------------------------------------------------
     // 3. Mobile Navigation Hamburger Menu Toggle
@@ -2037,10 +2062,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function getLocalDateValue() {
+        const today = new Date();
+        return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+    }
+
     // Set Minimum Date for Date Selector to Today
     if (visitDateInput) {
-        const today = new Date().toISOString().split("T")[0];
-        visitDateInput.setAttribute("min", today);
+        visitDateInput.setAttribute("min", getLocalDateValue());
     }
 
     // ----------------------------------------------------------------------
@@ -2054,21 +2083,20 @@ document.addEventListener("DOMContentLoaded", () => {
         const siteData = HERITAGE_SITES[selectedSiteKey];
 
         if (siteData) {
+            const siteName = getSiteName(selectedSiteKey);
             // Active Selected State
             if (summaryBox) summaryBox.classList.remove("plan-empty-state");
-            if (siteNameDisplay) siteNameDisplay.textContent = siteData.name;
+            if (siteNameDisplay) siteNameDisplay.textContent = siteName;
             if (siteHintDisplay) siteHintDisplay.style.display = "none";
 
             // Dynamic Image Handling
             if (imageContainer) {
-                if (siteData.image && siteData.image.trim() !== "") {
-                    imageContainer.innerHTML = `<img src="${siteData.image}" alt="${siteData.name}">`;
-                } else {
-                    imageContainer.innerHTML = `
-                        <div class="plan-summary-img-placeholder">
-                            <span style="font-weight: 700; color: #1B4D3E; font-size: 0.9rem;">${siteData.name}</span>
-                        </div>`;
-                }
+                const image = document.createElement("img");
+                image.src = siteData.image;
+                image.alt = siteName;
+                image.loading = "lazy";
+                image.className = "plan-summary-img";
+                imageContainer.replaceChildren(image);
             }
         } else {
             // Empty Default State
@@ -2077,21 +2105,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Format Date for Display
-        let formattedDate = "(Will appear here)";
+        let formattedDate = planText("yourPlan.emptyValue");
         if (selectedDate) {
             const dateObj = new Date(selectedDate + "T00:00:00");
-            formattedDate = dateObj.toLocaleDateString(undefined, {
+            formattedDate = dateObj.toLocaleDateString(getPlanLocale(), {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
             });
         }
 
-        // Format Visitor String
-        let formattedVisitors = "(Will appear here)";
-        if (selectedVisitors) {
-            formattedVisitors = selectedVisitors === "1" ? "1 visitor" : `${selectedVisitors} visitors`;
-        }
+        const formattedVisitors = getVisitorLabel(selectedVisitors);
 
         // Update Text Nodes
         if (summaryDateDisplay) summaryDateDisplay.textContent = formattedDate;
@@ -2104,40 +2128,83 @@ document.addEventListener("DOMContentLoaded", () => {
     if (siteSelect) siteSelect.addEventListener("change", updatePlanUI);
     if (visitDateInput) visitDateInput.addEventListener("change", updatePlanUI);
     if (visitorSelect) visitorSelect.addEventListener("change", updatePlanUI);
+    document.addEventListener("ananse:languagechange", updatePlanUI);
 
     // ----------------------------------------------------------------------
     // 5. LocalStorage Save & Restore Functionality
     // ----------------------------------------------------------------------
-    function savePlanToStorage() {
+    function getSignedInSession() {
+        if (!window.ananseAuth || typeof window.ananseAuth.getSession !== "function") {
+            console.error("ANANSE authentication is unavailable on the plan page.");
+            alert(planText("auth.unavailable"));
+            return null;
+        }
+        const session = window.ananseAuth.getSession();
+        if (!session) {
+            if (authNotice) {
+                authNotice.hidden = false;
+                authNotice.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+            return null;
+        }
+        if (authNotice) authNotice.hidden = true;
+        return session;
+    }
+
+    function getPlanInput() {
         const siteKey = siteSelect ? siteSelect.value : "";
         const dateVal = visitDateInput ? visitDateInput.value : "";
         const visitorVal = visitorSelect ? visitorSelect.value : "";
         const timeVal = timeInput ? timeInput.value : "";
-
-        if (!siteKey) {
-            alert("Please select a heritage site before saving your plan.");
-            return;
+        if (!HERITAGE_SITES[siteKey]) {
+            alert(planText("error.siteRequired"));
+            return null;
         }
-
-        const planData = {
+        if (!dateVal || dateVal < getLocalDateValue()) {
+            alert(planText("error.dateRequired"));
+            return null;
+        }
+        if (!visitorVal) {
+            alert(planText("error.visitorsRequired"));
+            return null;
+        }
+        return {
             siteKey,
             date: dateVal,
             visitors: visitorVal,
-            time: timeVal,
-            savedAt: new Date().toISOString()
+            time: timeVal || "10:00"
         };
+    }
 
+    function savePlanToStorage() {
+        const session = getSignedInSession();
+        if (!session) return;
+        const planData = getPlanInput();
+        if (!planData) return;
         try {
-            localStorage.setItem("ananse_user_plan", JSON.stringify(planData));
-            alert("Your heritage plan has been successfully saved!");
+            planData.savedAt = new Date().toISOString();
+            const storageKey = `ananse_user_plan:${session.email.toLowerCase()}`;
+            localStorage.setItem(storageKey, JSON.stringify(planData));
         } catch (e) {
-            console.error("Could not save to localStorage", e);
+            console.error("Could not save plan to localStorage.", e);
+            alert(planText("error.saveFailed"));
+            return;
+        }
+        try {
+            downloadCalendarEvent(planData);
+            alert(planText("auth.saved"));
+        } catch (e) {
+            console.error("Could not create the calendar event.", e);
+            alert(planText("error.calendarAfterSave"));
         }
     }
 
     function restoreSavedPlan() {
+        const session = window.ananseAuth && window.ananseAuth.getSession();
+        if (!session) return;
         try {
-            const savedRaw = localStorage.getItem("ananse_user_plan");
+            const storageKey = `ananse_user_plan:${session.email.toLowerCase()}`;
+            const savedRaw = localStorage.getItem(storageKey);
             if (!savedRaw) return;
 
             const saved = JSON.parse(savedRaw);
@@ -2160,37 +2227,54 @@ document.addEventListener("DOMContentLoaded", () => {
     // 6. Add to Calendar (.ics Generator)
     // ----------------------------------------------------------------------
     function generateIcsCalendarEvent() {
-        const siteKey = siteSelect ? siteSelect.value : "";
-        const dateVal = visitDateInput ? visitDateInput.value : "";
-        const timeVal = timeInput ? timeInput.value : "10:00";
-        const visitorVal = visitorSelect ? visitorSelect.value : "1";
-
-        if (!siteKey || !dateVal) {
-            alert("Please select both a heritage site and a date to generate a calendar event.");
-            return;
+        if (!getSignedInSession()) return;
+        const planData = getPlanInput();
+        if (!planData) return;
+        try {
+            downloadCalendarEvent(planData);
+            alert(planText("auth.calendarReady"));
+        } catch (e) {
+            console.error("Could not create the calendar event.", e);
+            alert(planText("error.calendarFailed"));
         }
+    }
 
-        const siteData = HERITAGE_SITES[siteKey];
-        const siteName = siteData ? siteData.name : "Ghana Heritage Site";
+    function escapeIcsText(value) {
+        return value.replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;");
+    }
 
-        // Create Start & End ISO Time Strings
-        const startDateTimeStr = `${dateVal.replace(/-/g, '')}T${timeVal.replace(':', '')}00`;
-        const dateObj = new Date(`${dateVal}T${timeVal}`);
-        dateObj.setHours(dateObj.getHours() + 2); // 2-hour default duration
-        const endHours = String(dateObj.getHours()).padStart(2, '0');
-        const endMinutes = String(dateObj.getMinutes()).padStart(2, '0');
-        const endDateTimeStr = `${dateVal.replace(/-/g, '')}T${endHours}${endMinutes}00`;
-
+    function downloadCalendarEvent(planData) {
+        const siteName = getSiteName(planData.siteKey);
+        const start = new Date(`${planData.date}T${planData.time}:00`);
+        const end = new Date(start.getTime() + 2 * 60 * 60 * 1000);
+        const formatLocalDate = (date) => [
+            date.getFullYear(),
+            String(date.getMonth() + 1).padStart(2, "0"),
+            String(date.getDate()).padStart(2, "0")
+        ].join("") + "T" + [
+            String(date.getHours()).padStart(2, "0"),
+            String(date.getMinutes()).padStart(2, "0"),
+            String(date.getSeconds()).padStart(2, "0")
+        ].join("");
+        const uid = `${Date.now()}-${Math.random().toString(36).slice(2)}@ananse`;
+        const formatUtcDate = (date) => date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
         const icsContent = [
             "BEGIN:VCALENDAR",
             "VERSION:2.0",
             "PRODID:-//ANANSE Ghana Heritage//NONSGML v1.0//EN",
             "BEGIN:VEVENT",
-            `SUMMARY:Visit to ${siteName}`,
-            `DESCRIPTION:ANANSE Planned Visit for ${visitorVal} visitor(s).`,
-            `LOCATION:${siteName}, Ghana`,
-            `DTSTART:${startDateTimeStr}`,
-            `DTEND:${endDateTimeStr}`,
+            `UID:${uid}`,
+            `DTSTAMP:${formatUtcDate(new Date())}`,
+            `SUMMARY:${escapeIcsText(planText("calendar.title", { site: siteName }))}`,
+            `DESCRIPTION:${escapeIcsText(planText("calendar.description", { count: planData.visitors }))}`,
+            `LOCATION:${escapeIcsText(planText("calendar.location", { site: siteName }))}`,
+            `DTSTART:${formatLocalDate(start)}`,
+            `DTEND:${formatLocalDate(end)}`,
+            "BEGIN:VALARM",
+            "TRIGGER:-PT1H",
+            "ACTION:DISPLAY",
+            `DESCRIPTION:${escapeIcsText(planText("calendar.title", { site: siteName }))}`,
+            "END:VALARM",
             "END:VEVENT",
             "END:VCALENDAR"
         ].join("\r\n");
@@ -2198,10 +2282,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
         const link = document.createElement("a");
         link.href = window.URL.createObjectURL(blob);
-        link.setAttribute("download", `Ananse-Visit-${siteKey}.ics`);
+        link.setAttribute("download", `Ananse-Visit-${planData.siteKey}.ics`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        window.setTimeout(() => window.URL.revokeObjectURL(link.href), 1000);
     }
 
     if (calendarBtn) {
@@ -2214,7 +2299,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleGetDirections() {
         const siteKey = siteSelect ? siteSelect.value : "";
         if (!siteKey) {
-            alert("Please select a heritage site first to get directions.");
+            alert(planText("error.directionsSite"));
             return;
         }
 

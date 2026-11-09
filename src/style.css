@@ -8960,6 +8960,29 @@ body.about-page .about-btn-gold:hover {
   width: 100%;
 }
 
+.plan-page .plan-auth-notice {
+  margin-bottom: 0.75rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid #E8C56A;
+  border-radius: 8px;
+  background: #FFF8E6;
+  color: var(--dark-teal);
+  font-size: 0.9rem;
+}
+
+.plan-page .plan-auth-notice[hidden] {
+  display: none;
+}
+
+.plan-page .plan-auth-notice p {
+  margin: 0 0 0.5rem;
+}
+
+.plan-page .plan-auth-notice a {
+  color: var(--dark-teal);
+  font-weight: 700;
+}
+
 .plan-page .plan-btn-primary,
 .plan-page .plan-btn-secondary,
 .plan-page .plan-btn-dark {
