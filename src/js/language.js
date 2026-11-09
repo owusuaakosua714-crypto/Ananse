@@ -241,6 +241,7 @@
             'ai.thinking': 'Naa is thinking...',
             'ai.noResponse': "I'm sorry, I couldn't retrieve a response at the moment. Please try asking again.",
             'ai.connectionError': 'Sorry, I’m having trouble connecting right now. Please try again.',
+            'ai.recordsUnavailable': 'Sorry, Naa can’t reach ANANSE’s heritage records right now. Please try again in a few minutes.',
             'ai.smartFriendly': 'Smart. Friendly. Always here.',
             'ai.instantAnswers': 'Instant answers',
             'ai.siteInformation': 'Site information',
@@ -572,6 +573,7 @@
             'ai.thinking': 'Naa réfléchit...',
             'ai.noResponse': 'Je suis désolé, je n’ai pas pu récupérer de réponse pour le moment. Veuillez réessayer.',
             'ai.connectionError': 'Désolé, j’ai du mal à me connecter pour le moment. Veuillez réessayer.',
+            'ai.recordsUnavailable': 'Désolée, Naa ne parvient pas à accéder aux archives patrimoniales d’ANANSE pour le moment. Veuillez réessayer dans quelques minutes.',
             'ai.smartFriendly': 'Intelligent. Amical. Toujours là.',
             'ai.instantAnswers': 'Réponses instantanées',
             'ai.siteInformation': 'Informations sur les sites',
@@ -895,6 +897,7 @@
             'ai.thinking': 'Naa está pensando...',
             'ai.noResponse': 'Lo siento, no pude obtener una respuesta en este momento. Inténtalo de nuevo.',
             'ai.connectionError': 'Lo siento, estoy teniendo problemas para conectarme en este momento. Inténtalo de nuevo.',
+            'ai.recordsUnavailable': 'Lo siento, Naa no puede acceder ahora mismo a los registros patrimoniales de ANANSE. Inténtalo de nuevo en unos minutos.',
             'ai.smartFriendly': 'Inteligente. Amigable. Siempre aquí.',
             'ai.instantAnswers': 'Respuestas instantáneas',
             'ai.siteInformation': 'Información del sitio',
@@ -1054,6 +1057,13 @@
             }
         });
 
+        document.querySelectorAll('.naa-suggested-btn [data-i18n]').forEach((label) => {
+            const button = label.closest('.naa-suggested-btn');
+            if (button) {
+                button.dataset.question = getText(label.dataset.i18n);
+            }
+        });
+
         document.querySelectorAll('[data-i18n-html]').forEach((element) => {
             const key = element.dataset.i18nHtml;
             const translation = getText(key);
@@ -1125,8 +1135,16 @@
         applyTranslations(state.language);
     }
 
+    function localizeNaaResponse(text) {
+        if (/naa can(?:'|’)t reach ananse['’]s heritage records right now/i.test(text)) {
+            return getText('ai.recordsUnavailable');
+        }
+        return text;
+    }
+
     window.ananseLanguage = {
         getText,
+        localizeNaaResponse,
         applyTranslations,
         initLanguageSystem,
         get currentLanguage() {

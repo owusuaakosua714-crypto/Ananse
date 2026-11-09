@@ -174,7 +174,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Send query to backend (Mamei's API endpoint)
                 const data = await window.ananseAuth.api(NAA_API_PATH, {
                     method: "POST",
-                    body: JSON.stringify({ question: messageText })
+                    body: JSON.stringify({
+                        question: messageText,
+                        language: window.ananseLanguage ? window.ananseLanguage.currentLanguage : "en"
+                    })
                 });
 
                 showTypingIndicator(false);
@@ -191,7 +194,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 const answer = parts.join("\n\n");
 
                 if (answer) {
-                    appendNaaMessage(answer, data.sources || []);
+                    const localizedAnswer = window.ananseLanguage && window.ananseLanguage.localizeNaaResponse
+                        ? window.ananseLanguage.localizeNaaResponse(answer)
+                        : answer;
+                    appendNaaMessage(localizedAnswer, data.sources || []);
                 } else {
                     appendNaaMessage(translate("ai.noResponse"));
                 }
