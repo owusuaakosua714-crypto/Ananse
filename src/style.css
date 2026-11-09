@@ -3372,6 +3372,107 @@ body.about-page .about-btn-gold:hover {
   }
 }
 
+  /* Standard mobile navigation, matching the homepage menu without changing desktop navs. */
+  @media screen and (max-width: 768px) {
+      body:not(.home-page) [data-ananse-menu-host] {
+          position: relative;
+      }
+
+      body:not(.home-page) [data-ananse-menu-toggle] {
+          display: grid !important;
+          place-items: center;
+          width: 28px;
+          height: 28px;
+          flex: 0 0 28px;
+          padding: 0;
+          border: 0;
+          border-radius: 0;
+          background: transparent;
+          color: var(--white);
+          font-size: 1.4rem;
+          line-height: 1;
+          cursor: pointer;
+      }
+
+      body:not(.home-page) [data-ananse-menu-toggle] > .fa-bars,
+      body:not(.home-page) [data-ananse-menu-toggle] > .fa-xmark {
+          display: block !important;
+          font-size: inherit;
+          line-height: 1;
+      }
+
+      body:not(.home-page) .ananse-standard-menu {
+          position: absolute !important;
+          z-index: 1001;
+          top: 100% !important;
+          right: 0 !important;
+          left: 0 !important;
+          width: 100% !important;
+          height: auto !important;
+          max-height: calc(100vh - 64px);
+          overflow-y: auto;
+          display: none !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: flex-start !important;
+          gap: 16px !important;
+          padding: 20px 0 !important;
+          border: 0 !important;
+          border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+          border-radius: 0 !important;
+          background: var(--dark-teal) !important;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) !important;
+          transform: none !important;
+          transition: none !important;
+      }
+
+      body:not(.home-page) .ananse-standard-menu.is-open {
+          display: flex !important;
+      }
+
+      body:not(.home-page) .ananse-standard-menu a {
+          display: block;
+          width: 100%;
+          padding: 0;
+          border: 0;
+          border-radius: 0;
+          color: #CFE3E6 !important;
+          font-size: 0.95rem;
+          font-weight: 500;
+          line-height: 1.5;
+          opacity: 0.85;
+          text-align: center;
+          text-decoration: none;
+      }
+
+      body:not(.home-page) .ananse-standard-menu li {
+          width: 100%;
+          text-align: center;
+      }
+
+      body:not(.home-page) .ananse-standard-menu {
+          list-style: none;
+      }
+
+      body:not(.home-page) .ananse-standard-menu > nav {
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+          align-items: center;
+          gap: 16px;
+      }
+
+      body:not(.home-page) .ananse-standard-menu a:hover,
+      body:not(.home-page) .ananse-standard-menu a:focus-visible {
+          color: var(--white) !important;
+          opacity: 1;
+      }
+
+      .passport-page .mobile-nav-overlay {
+          display: none !important;
+      }
+  }
+
 /* ==========================================================================
    HERO + SEARCH
    ========================================================================== */
@@ -9155,4 +9256,37 @@ body.about-page .about-btn-gold:hover {
 body,
 body :not(i):not(svg):not(path):not([class*="fa-"]) {
         font-family: var(--site-font-family) !important;
+}
+/* Keep the navigation brand tagline consistent with the homepage. */
+body.home-page header .logo .tagline {
+    white-space: nowrap;
+}
+
+body:not(.home-page) header .logo .tagline,
+body:not(.home-page) header .naa-brand-tagline,
+body:not(.home-page) header .login-brand-slogan,
+body:not(.home-page) header .plan-logo-tagline,
+body:not(.home-page) header .passport-brand-text small,
+body:not(.home-page) header .brand-tagline {
+    flex-shrink: 0;
+    white-space: nowrap;
+    word-break: normal;
+    font-size: 0.65rem;
+    color: var(--accent-gold);
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    line-height: normal;
+    opacity: 0.9;
+}
+
+@media screen and (max-width: 480px) {
+    body:not(.home-page) header .logo .tagline,
+    body:not(.home-page) header .naa-brand-tagline,
+    body:not(.home-page) header .login-brand-slogan,
+    body:not(.home-page) header .plan-logo-tagline,
+    body:not(.home-page) header .passport-brand-text small,
+    body:not(.home-page) header .brand-tagline {
+        font-size: 0.55rem;
+    }
 }

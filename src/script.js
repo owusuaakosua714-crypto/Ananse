@@ -1,4 +1,59 @@
 document.addEventListener("DOMContentLoaded", () => {
+    if (!document.body.classList.contains("home-page")) {
+        const menuToggleSelector = "[data-ananse-menu-toggle]";
+        const menuSelector = ".ananse-standard-menu";
+
+        function setMenuOpen(toggle, menu, isOpen) {
+            toggle.setAttribute("aria-expanded", String(isOpen));
+            menu.classList.toggle("is-open", isOpen);
+            const icon = toggle.querySelector(".fa-bars, .fa-xmark");
+            if (icon) {
+                icon.classList.toggle("fa-bars", !isOpen);
+                icon.classList.toggle("fa-xmark", isOpen);
+            }
+        }
+
+        function closeMenus(exceptToggle = null) {
+            document.querySelectorAll(menuToggleSelector).forEach(toggle => {
+                if (toggle === exceptToggle) return;
+                const menu = document.getElementById(toggle.getAttribute("aria-controls"));
+                if (menu) setMenuOpen(toggle, menu, false);
+            });
+        }
+
+        document.addEventListener("click", event => {
+            const toggle = event.target.closest(menuToggleSelector);
+            if (toggle) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                const menu = document.getElementById(toggle.getAttribute("aria-controls"));
+                if (!menu) {
+                    throw new Error(`Mobile navigation menu not found for ${toggle.id || "toggle"}.`);
+                }
+                const shouldOpen = toggle.getAttribute("aria-expanded") !== "true";
+                closeMenus(toggle);
+                setMenuOpen(toggle, menu, shouldOpen);
+                return;
+            }
+
+            if (event.target.closest(`${menuSelector} a`)) {
+                closeMenus();
+                return;
+            }
+
+            if (!event.target.closest(`${menuToggleSelector}, ${menuSelector}`)) closeMenus();
+        }, true);
+
+        document.addEventListener("keydown", event => {
+            if (event.key !== "Escape") return;
+            const openToggle = document.querySelector(`${menuToggleSelector}[aria-expanded="true"]`);
+            if (!openToggle) return;
+            const menu = document.getElementById(openToggle.getAttribute("aria-controls"));
+            if (menu) setMenuOpen(openToggle, menu, false);
+            openToggle.focus();
+        });
+    }
+
     // Mobile Hamburger Menu Toggle
     const mobileToggle = document.getElementById("mobileToggle");
     const navMenu = document.getElementById("navMenu");

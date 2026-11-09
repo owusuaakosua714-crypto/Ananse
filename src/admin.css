@@ -25,6 +25,14 @@
     color: var(--text-light);
 }
 
+.admin-sidebar__header {
+    position: relative;
+}
+
+.admin-sidebar__menu-toggle {
+    display: none;
+}
+
 .admin-brand {
     display: flex;
     align-items: center;
@@ -357,5 +365,18 @@
 
     .admin-shortcuts {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-sidebar__menu-toggle {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1002;
+    }
+
+    .admin-sidebar__header .admin-brand {
+        padding-right: 40px;
     }
 }
