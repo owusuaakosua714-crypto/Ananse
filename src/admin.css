@@ -501,6 +501,72 @@
     background: rgba(6, 46, 53, 0.025);
 }
 
+.admin-trail-editor {
+    display: grid;
+    gap: 14px;
+    padding: 16px;
+    border: 1px solid rgba(6, 46, 53, 0.12);
+    border-radius: 6px;
+    background: rgba(6, 46, 53, 0.025);
+}
+
+.admin-trail-editor[hidden] {
+    display: none;
+}
+
+.admin-trail-editor > label,
+.admin-trail-stop label {
+    display: grid;
+    gap: 6px;
+    color: var(--dark-teal);
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+
+.admin-trail-editor > label textarea,
+.admin-trail-stop input,
+.admin-trail-stop textarea {
+    width: 100%;
+    min-height: 40px;
+    padding: 9px 10px;
+    border: 1px solid rgba(6, 46, 53, 0.2);
+    border-radius: 5px;
+    background: #fff;
+    color: var(--text-dark);
+    font: inherit;
+    font-size: 0.8rem;
+}
+
+.admin-trail-editor > label small {
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    font-weight: 400;
+}
+
+.admin-trail-stops {
+    display: grid;
+    gap: 12px;
+}
+
+.admin-trail-stop {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 12px;
+    min-width: 0;
+    padding: 14px;
+    border: 1px solid rgba(6, 46, 53, 0.14);
+    border-radius: 5px;
+    background: #fff;
+}
+
+.trail-stop-legend {
+    padding: 0 6px;
+    color: var(--dark-teal);
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
 .admin-form-hint {
     margin: -8px 0 0;
     line-height: 1.5;
@@ -714,6 +780,10 @@
 
     .admin-form-wide {
         grid-column: auto;
+    }
+
+    .admin-trail-stop {
+        grid-template-columns: 1fr;
     }
 
     .admin-image-row {

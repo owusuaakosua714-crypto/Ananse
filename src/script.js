@@ -20,6 +20,35 @@
         } catch (error) {
             // Analytics are optional when browser storage is unavailable.
         }
+
+        if (window.ananseAuth && typeof window.ananseAuth.api === "function") {
+            const storyPages = ["capecoast.html", "manhyia.html", "osucastle.html", "independence.html", "kwamepark.html"];
+            const pageName = String(page || location.pathname).split("/").pop();
+            const recordRemoteEvent = function () {
+                const site = siteId && window.ananseSiteContent && window.ananseSiteContent.getSite(siteId);
+                const fallbackSlugs = {
+                    "cape-coast": "cape-coast-castle",
+                    "manhyia": "manhyia-palace",
+                    "osu": "osu-castle",
+                    "independence": "independence-arch",
+                    "kwame-nkrumah": "kwame-nkrumah"
+                };
+                const event = {
+                    eventType: storyPages.includes(pageName) ? "story_view" : siteId ? "site_view" : "page_view",
+                    page: location.pathname.replace(/\.[^.]+$/, ""),
+                    siteSlug: site ? site.slug : fallbackSlugs[siteId] || siteId || undefined
+                };
+                window.ananseAuth.api("/api/analytics/events", {
+                    method: "POST",
+                    body: JSON.stringify(event)
+                }).catch(function () {});
+            };
+            if (window.ananseSiteContent && window.ananseSiteContent.ready) {
+                window.ananseSiteContent.ready.then(recordRemoteEvent);
+            } else {
+                recordRemoteEvent();
+            }
+        }
     }
 
     window.ananseAnalytics = {
@@ -3319,7 +3348,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    function savePlanToStorage() {
+    async function savePlanToStorage() {
         const session = getSignedInSession();
         if (!session) return;
         const planData = getPlanInput();
@@ -3334,6 +3363,21 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         try {
+            await window.ananseAuth.api('/api/plans', {
+                method: 'POST',
+                body: JSON.stringify({
+                    site_slug: planData.siteKey,
+                    visit_date: planData.date,
+                    visit_time: planData.time,
+                    visitors: planData.visitors
+                })
+            });
+        } catch (error) {
+            console.error('Could not sync plan to the shared ANANSE account.', error);
+            alert('Your plan is saved on this browser, but could not be shared with ANANSE. Please try again later.');
+            return;
+        }
+        try {
             downloadCalendarEvent(planData);
             alert(planText("auth.saved"));
         } catch (e) {
@@ -3342,24 +3386,48 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function restoreSavedPlan() {
+    async function restoreSavedPlan() {
         const session = window.ananseAuth && window.ananseAuth.getSession();
         if (!session) return;
+        const storageKey = `ananse_user_plan:${session.email.toLowerCase()}`;
+        let saved = null;
         try {
-            const storageKey = `ananse_user_plan:${session.email.toLowerCase()}`;
             const savedRaw = localStorage.getItem(storageKey);
-            if (!savedRaw) return;
-
-            const saved = JSON.parse(savedRaw);
-            if (saved.siteKey && siteSelect) siteSelect.value = saved.siteKey;
-            if (saved.date && visitDateInput) visitDateInput.value = saved.date;
-            if (saved.visitors && visitorSelect) visitorSelect.value = saved.visitors;
-            if (saved.time && timeInput) timeInput.value = saved.time;
-
-            updatePlanUI();
+            if (savedRaw) saved = JSON.parse(savedRaw);
         } catch (e) {
             console.error("Could not parse saved plan from localStorage", e);
         }
+
+        try {
+            const sharedPlans = await window.ananseAuth.api('/api/plans/mine');
+            if (Array.isArray(sharedPlans) && sharedPlans.length) {
+                const plan = sharedPlans[0];
+                saved = {
+                    siteKey: plan.siteSlug,
+                    date: plan.visitDate,
+                    visitors: plan.visitors,
+                    time: plan.visitTime
+                };
+            } else if (saved) {
+                await window.ananseAuth.api('/api/plans', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        site_slug: saved.siteKey,
+                        visit_date: saved.date,
+                        visit_time: saved.time || '10:00',
+                        visitors: saved.visitors
+                    })
+                });
+            }
+        } catch (error) {
+            console.warn('Shared visit plans are unavailable; using this browser\'s saved plan.', error);
+        }
+
+        if (saved?.siteKey && siteSelect) siteSelect.value = saved.siteKey;
+        if (saved?.date && visitDateInput) visitDateInput.value = saved.date;
+        if (saved?.visitors && visitorSelect) visitorSelect.value = saved.visitors;
+        if (saved?.time && timeInput) timeInput.value = saved.time;
+        if (saved) updatePlanUI();
     }
 
     if (saveBtn) {

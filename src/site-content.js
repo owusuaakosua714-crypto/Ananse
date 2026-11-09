@@ -3,6 +3,8 @@
 
     const SITE_KEY = "ananseAdminSitesV1";
     const CONTENT_FACT_KEY = "ananseContentV1";
+    const TRAIL_FACT_KEY = "ananseTrailV1";
+    const NAA_NOTES_KEY = "Naa reference notes";
     const API_BASE = window.ananseAuth && window.ananseAuth.API_BASE_URL || "https://ananse-backend.vercel.app";
     const ID_BY_SLUG = {
         "cape-coast-castle": "cape-coast",
@@ -117,6 +119,22 @@
             hidden: Boolean(site.hidden),
             localOnly: Boolean(site.localOnly),
             facts: site.facts && typeof site.facts === "object" ? site.facts : {},
+            naaNotes: String(site.naaNotes || ""),
+            trail: site.trail && typeof site.trail === "object" ? {
+                title: String(site.trail.title || ""),
+                introduction: String(site.trail.introduction || ""),
+                highlights: Array.isArray(site.trail.highlights) ? site.trail.highlights.map(String).filter(Boolean) : [],
+                stops: Array.isArray(site.trail.stops) ? site.trail.stops.map(function (stop) {
+                    return {
+                        id: String(stop.id || ""),
+                        name: String(stop.name || ""),
+                        blurb: String(stop.blurb || ""),
+                        content: String(stop.content || ""),
+                        image: String(stop.image || ""),
+                        caption: String(stop.caption || "")
+                    };
+                }) : []
+            } : null,
             description: String(site.description || ""),
             coverImage: String(site.coverImage || ""),
             storyPage: String(site.storyPage || ""),
@@ -148,6 +166,8 @@
         const facts = record.facts && typeof record.facts === "object" ? record.facts : {};
         let content = {};
         try { content = JSON.parse(facts[CONTENT_FACT_KEY] || "{}"); } catch (error) { content = {}; }
+        let trail = null;
+        try { trail = JSON.parse(facts[TRAIL_FACT_KEY] || "null"); } catch (error) { trail = null; }
         return cleanSite({
             id: id,
             slug: record.slug,
@@ -162,6 +182,8 @@
             apiRegion: record.region,
             hidden: Boolean(content.hidden),
             facts: facts,
+            naaNotes: facts[NAA_NOTES_KEY] || "",
+            trail: trail,
             description: record.summary,
             coverImage: content.coverImage || (defaultSite && defaultSite.coverImage) || "",
             storyPage: defaultSite && defaultSite.storyPage,
@@ -268,6 +290,10 @@
             images: site.images || [],
             hidden: Boolean(site.hidden)
         });
+        if (site.trail) facts[TRAIL_FACT_KEY] = JSON.stringify(site.trail);
+        else delete facts[TRAIL_FACT_KEY];
+        if (site.naaNotes) facts[NAA_NOTES_KEY] = site.naaNotes;
+        else delete facts[NAA_NOTES_KEY];
         const payload = {
             name: site.name,
             region: site.apiRegion && regionCode(site.apiRegion) === site.region ? site.apiRegion : apiRegion(site.region),

@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         alertBox.hidden = true;
 
         const email = emailInput.value.trim();
-        const password = passwordInput.value.trim();
+        const password = passwordInput.value;
         if (!email || !password) {
             showAlert('Enter both your administrator email and password.');
             return;

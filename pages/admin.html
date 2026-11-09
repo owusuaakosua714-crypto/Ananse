@@ -74,10 +74,10 @@
                         <p class="admin-eyebrow">AUDIENCE</p>
                         <h2 id="analyticsTitle">Visitor analytics</h2>
                     </div>
-                    <span class="admin-local-note">Recorded in this browser</span>
+                    <span class="admin-local-note">Shared database events</span>
                 </div>
                 <div class="admin-metrics" aria-live="polite">
-                    <article class="admin-metric"><span>Unique browsers</span><strong id="visitorCount">0</strong></article>
+                    <article class="admin-metric"><span>Registered users</span><strong id="visitorCount">0</strong></article>
                     <article class="admin-metric"><span>Page views</span><strong id="pageViewCount">0</strong></article>
                     <article class="admin-metric"><span>Story views</span><strong id="storyViewCount">0</strong></article>
                     <article class="admin-metric"><span>Last 7 days</span><strong id="recentViewCount">0</strong></article>
@@ -86,6 +86,32 @@
                     <h3>Most viewed sites</h3>
                     <ol id="mostViewedSites" class="admin-ranking"></ol>
                 </div>
+            </section>
+
+            <section class="admin-section" aria-labelledby="usersTitle">
+                <div class="admin-section__heading">
+                    <div><p class="admin-eyebrow">ACCOUNTS</p><h2 id="usersTitle">Registered users</h2></div>
+                </div>
+                <div class="admin-table-wrap">
+                    <table class="admin-sites-table">
+                        <thead><tr><th scope="col">Name</th><th scope="col">Email</th><th scope="col">Site visits</th><th scope="col">Stories</th><th scope="col">Plans</th><th scope="col">Joined</th></tr></thead>
+                        <tbody id="adminUserRows"></tbody>
+                    </table>
+                </div>
+                <p id="usersLoadStatus" class="admin-form-status" role="status" aria-live="polite"></p>
+            </section>
+
+            <section class="admin-section" aria-labelledby="plansTitle">
+                <div class="admin-section__heading">
+                    <div><p class="admin-eyebrow">VISIT PLANNING</p><h2 id="plansTitle">Plans made by users</h2></div>
+                </div>
+                <div class="admin-table-wrap">
+                    <table class="admin-sites-table">
+                        <thead><tr><th scope="col">User</th><th scope="col">Email</th><th scope="col">Site</th><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Visitors</th></tr></thead>
+                        <tbody id="adminPlanRows"></tbody>
+                    </table>
+                </div>
+                <p id="plansLoadStatus" class="admin-form-status" role="status" aria-live="polite"></p>
             </section>
 
             <section class="admin-section" aria-labelledby="sitesTitle">
@@ -135,7 +161,15 @@
                 <label class="admin-form-wide">Short description<textarea id="siteDescription" name="description" required minlength="10" rows="3" maxlength="500"></textarea></label>
                 <label class="admin-form-wide">Cover image URL or project path<input id="siteCoverImage" name="coverImage" required placeholder="../images/site-photo.jpeg"></label>
                 <label class="admin-form-wide">Story text <small>Use a blank line between paragraphs. Leave empty to keep the existing story.</small><textarea id="siteStory" name="story" rows="6" placeholder="Write the story in paragraphs..."></textarea></label>
+                <label class="admin-form-wide">Additional knowledge for Naa <small>One fact or note per line. Naa reads this together with the site history and facts.</small><textarea id="siteNaaNotes" name="naaNotes" rows="4" placeholder="Visitor etiquette: Ask before taking photographs."></textarea></label>
             </div>
+            <section class="admin-trail-editor" id="trailEditor" hidden aria-labelledby="trailEditorTitle">
+                <div class="admin-image-editor__heading"><div><h3 id="trailEditorTitle">Trail story</h3><p>Edit the route introduction and each stop. Existing stop IDs stay fixed so visitor progress is preserved.</p></div></div>
+                <label>Trail title<input id="trailTitle" type="text" maxlength="120"></label>
+                <label>Trail introduction<textarea id="trailIntroduction" rows="3"></textarea></label>
+                <label>Route highlights <small>One highlight per line.</small><textarea id="trailHighlights" rows="3"></textarea></label>
+                <div id="trailStopRows" class="admin-trail-stops"></div>
+            </section>
             <div class="admin-image-editor">
                 <div class="admin-image-editor__heading"><div><h3>Story images</h3><p>Add images and choose where each appears in the story.</p></div><button class="admin-secondary-action" id="addStoryImage" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add image</button></div>
                 <div id="storyImageRows" class="admin-image-rows"></div>
@@ -151,6 +185,16 @@
             <label>Insert after<select class="story-image-position"><option value="0">Before story text</option><option value="1">Paragraph 1</option><option value="2">Paragraph 2</option><option value="3">Paragraph 3</option><option value="4">Paragraph 4</option><option value="5">Paragraph 5</option><option value="6">Paragraph 6</option><option value="7">Paragraph 7</option><option value="8">Paragraph 8</option></select></label>
             <button type="button" class="admin-icon-button remove-story-image" aria-label="Remove image"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
         </div>
+    </template>
+    <template id="trailStopTemplate">
+        <fieldset class="admin-trail-stop">
+            <legend class="trail-stop-legend"></legend>
+            <label>Stop title<input class="trail-stop-name" type="text" maxlength="120"></label>
+            <label>Short introduction<textarea class="trail-stop-blurb" rows="2" maxlength="500"></textarea></label>
+            <label>Additional story<textarea class="trail-stop-content" rows="3"></textarea></label>
+            <label>Image URL or path<input class="trail-stop-image" type="text" placeholder="../images/photo.jpeg or https://..." inputmode="url"></label>
+            <label>Image caption<input class="trail-stop-caption" type="text" maxlength="140"></label>
+        </fieldset>
     </template>
     <script src="../src/auth-session.js"></script>
     <script src="../src/site-content.js"></script>
