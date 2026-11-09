@@ -520,7 +520,8 @@
     <main class="s-main">
         <div id="listen" class="s-listen">
             <button type="button" id="listenBtn"><i class="fa-solid fa-headphones"></i> Listen to the story</button>
-            <p>Hear the story of Cape Coast Castle read aloud.</p>
+            <button type="button" id="pauseBtn" disabled><i class="fa-solid fa-pause"></i> Pause</button>
+            <p role="status" aria-live="polite">Hear the story of Cape Coast Castle read aloud.</p>
         </div>
 
         <section id="story">
@@ -664,8 +665,6 @@
         </div>
     </footer>
 
-    <script src="../src/js/language.js"></script>
-    <script src="../src/script.js"></script>
     <script>
         (function () {
             var menuBtn = document.getElementById('hamburgerBtn');
@@ -726,57 +725,11 @@
             var toggle = document.getElementById('toggleAll');
             var items = document.querySelectorAll('.s-timeline details');
             toggle.addEventListener('click', function () {
-                var open = toggle.textContent === 'Open all';
+                var open = Array.prototype.some.call(items, function (item) { return !item.open; });
                 items.forEach(function (d) { d.open = open; });
-                toggle.textContent = open ? 'Close all' : 'Open all';
+                toggle.textContent = window.ananseLanguage.getStoryText(open ? 'Close all' : 'Open all');
             });
 
-            // Listen to the story
-            var listenBtn = document.getElementById('listenBtn');
-            if (listenBtn && 'speechSynthesis' in window) {
-                var synth = window.speechSynthesis;
-                var playing = false;
-                var LISTEN_HTML = '<i class="fa-solid fa-headphones"></i> Listen to the story';
-                var STOP_HTML = '<i class="fa-solid fa-stop"></i> Stop listening';
-
-                var storyChunks = function () {
-                    return [].slice.call(document.querySelectorAll(
-                        '#story h2, #story .s-prose p, #timeline h2, #timeline details, #inside h2, #inside details, #remember h2, #remember .s-prose p'
-                    )).map(function (el) {
-                        if (el.tagName === 'DETAILS') {
-                            var s = el.querySelector('summary');
-                            var yr = s.querySelector('.yr'), t = s.querySelector('.t');
-                            var head = yr && t ? yr.textContent + '. ' + t.textContent : s.textContent;
-                            return head + '. ' + el.querySelector('p').textContent;
-                        }
-                        return el.textContent;
-                    });
-                };
-
-                var stopListening = function () {
-                    synth.cancel();
-                    playing = false;
-                    listenBtn.innerHTML = LISTEN_HTML;
-                };
-
-                var startListening = function () {
-                    var chunks = storyChunks();
-                    chunks.forEach(function (text, i) {
-                        var u = new SpeechSynthesisUtterance(text);
-                        u.lang = 'en-GB';
-                        u.rate = 0.95;
-                        if (i === chunks.length - 1) u.onend = stopListening;
-                        synth.speak(u);
-                    });
-                    playing = true;
-                    listenBtn.innerHTML = STOP_HTML;
-                };
-
-                listenBtn.addEventListener('click', function () { playing ? stopListening() : startListening(); });
-                addEventListener('beforeunload', function () { synth.cancel(); });
-            } else if (listenBtn) {
-                listenBtn.hidden = true;
-            }
         })();
     </script>
     <script src="../src/footer.js"></script>

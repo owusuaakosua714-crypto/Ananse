@@ -455,7 +455,7 @@
 <body class="trail-page explore-page">
     <header class="navbar">
         <div class="nav-container">
-            <a href="../index.html" class="logo">
+            <a href="../index.html" class="logo" aria-label="ANANSE home" data-trail-lang-aria="nav.homeAria">
                 <div class="logo-placeholder-icon">
                     <i class="fa-solid fa-spider"></i>
                 </div>
@@ -465,7 +465,7 @@
                 </div>
             </a>
 
-            <nav class="nav-menu" id="navMenu">
+            <nav class="nav-menu" id="navMenu" aria-label="Main navigation" data-trail-lang-aria="nav.main">
                 <a href="../index.html" class="nav-link" data-i18n="nav.home">Home</a>
                 <a href="explore.html" class="nav-link active" data-i18n="nav.explore">Explore</a>
                 <a href="map.html" class="nav-link" data-i18n="nav.map">Map</a>
@@ -482,7 +482,7 @@
                 </select>
             </div>
 
-            <button class="hamburger-toggle" id="hamburgerBtn" aria-label="Toggle navigation menu"
+            <button class="hamburger-toggle" id="hamburgerBtn" aria-label="Toggle navigation menu" data-trail-lang-aria="nav.menu"
                 aria-expanded="false">
                 <i class="fa-solid fa-bars"></i>
             </button>
@@ -491,28 +491,28 @@
 
     <main class="trail-shell">
         <section class="trail-hero">
-            <a class="trail-crumb" href="map.html"><i class="fa-solid fa-arrow-left"></i> Back to map</a>
-            <div class="eyebrow" id="trailEyebrow">Heritage route</div>
-            <h1 id="trailTitle">Heritage Trail</h1>
-            <p id="trailDescription">Follow a guided route through Ghana’s most meaningful historical places and earn a
+            <a class="trail-crumb" href="map.html"><i class="fa-solid fa-arrow-left"></i> <span data-trail-lang="nav.backToMap">Back to map</span></a>
+            <div class="eyebrow" id="trailEyebrow" data-trail-lang="hero.defaultEyebrow">Heritage route</div>
+            <h1 id="trailTitle" data-trail-lang="hero.defaultTitle">Heritage Trail</h1>
+            <p id="trailDescription" data-trail-lang="hero.defaultDescription">Follow a guided route through Ghana’s most meaningful historical places and earn a
                 badge when you complete the journey.</p>
 
             <div class="trail-meta">
-                <span id="trailStops">0 stops</span>
-                <span id="trailRegion">Across Ghana</span>
+                <span id="trailStops" data-trail-lang="meta.stops" data-trail-count="0">0 stops</span>
+                <span id="trailRegion" data-trail-lang="meta.acrossGhana">Across Ghana</span>
             </div>
 
             <div class="trail-actions">
                 <button type="button" class="primary-btn" id="completeTrailBtn"><i class="fa-solid fa-award"></i>
-                    Complete trail</button>
-                <a href="passport.html" class="secondary-btn"><i class="fa-solid fa-passport"></i> View Passport</a>
+                    <span id="completeTrailLabel" data-trail-lang="actions.completeTrail">Complete trail</span></button>
+                <a href="passport.html" class="secondary-btn"><i class="fa-solid fa-passport"></i> <span data-trail-lang="actions.viewPassport">View Passport</span></a>
             </div>
         </section>
 
         <div class="trail-progress" aria-live="polite">
             <div class="progress-row">
-                <span>Trail progress</span>
-                <strong id="progressText">0 / 0 stops visited</strong>
+                <span data-trail-lang="progress.title">Trail progress</span>
+                <strong id="progressText" data-trail-lang="progress.visited" data-trail-done="0" data-trail-total="0">0 / 0 stops visited</strong>
             </div>
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
@@ -521,7 +521,7 @@
 
         <section class="trail-layout">
             <aside class="summary-card">
-                <h3>Why this route matters</h3>
+                <h3 data-trail-lang="summary.title">Why this route matters</h3>
                 <ul class="summary-list" id="summaryList"></ul>
             </aside>
 
@@ -532,22 +532,21 @@
 
         <section class="route-card" id="routeCard" aria-live="polite">
             <div>
-                <h3>Trail status</h3>
-                <p id="routeStatus">Start by checking off each stop as you learn about it.</p>
+                <h3 data-trail-lang="status.title">Trail status</h3>
+                <p id="routeStatus" data-trail-lang="status.start">Start by checking off each stop as you learn about it.</p>
             </div>
-            <button type="button" class="ghost-btn" id="resetTrailBtn"><i class="fa-solid fa-rotate-right"></i> Reset
-                trail</button>
+            <button type="button" class="ghost-btn" id="resetTrailBtn"><i class="fa-solid fa-rotate-right"></i> <span data-trail-lang="actions.resetTrail">Reset trail</span></button>
         </section>
 
-        <section class="all-trails" id="allTrails" aria-label="Available heritage trails"></section>
+        <section class="all-trails" id="allTrails" aria-label="Available heritage trails" data-trail-lang-aria="trails.available"></section>
     </main>
 
     <div class="toast" id="toast"></div>
 
     <footer class="site-footer">
         <div class="container footer-inner">
-            <p>© 2026 ANANSE. All rights reserved.</p>
-            <p>Weaving Ghana's Story into the Digital Age</p>
+            <p data-trail-lang="footer.copyright">© 2026 ANANSE. All rights reserved.</p>
+            <p data-trail-lang="footer.tagline">Weaving Ghana's Story into the Digital Age</p>
         </div>
     </footer>
 
@@ -556,192 +555,57 @@
             const TRAILS = {
                 'cape-coast-castle': {
                     key: 'cape-coast-castle',
-                    title: 'Cape Coast journey',
-                    eyebrow: 'Coastal heritage route',
-                    region: 'Central Region',
-                    description: 'Trace the memory of Cape Coast Castle and the wider story of resilience, migration and freedom along Ghana’s Atlantic coast.',
-                    highlights: [
-                        'Learn how the coast shaped trade, migration and resistance.',
-                        'Connect the story of the transatlantic slave trade to modern Ghana.',
-                        'Finish the route with a deeper understanding of memory and healing.'
-                    ],
-                    badge: {
-                        key: 'cape',
-                        label: 'Castle Explorer',
-                        title: 'Cape Coast Castle',
-                        icon: 'fa-landmark'
-                    },
+                    translationKey: 'trail.cape-coast-castle',
+                    highlights: [0, 1, 2],
+                    badge: { key: 'cape', icon: 'fa-landmark' },
                     stops: [
-                        {
-                            id: 'door-of-no-return',
-                            name: 'Door of No Return',
-                            blurb: 'The point where enslaved Africans were forced onto ships and sent across the Atlantic.',
-                            tag: 'Historic landmark'
-                        },
-                        {
-                            id: 'castle-grounds',
-                            name: 'Castle grounds',
-                            blurb: 'Walk the spaces once used for trade, governance and the enforcement of colonial power.',
-                            tag: 'Tour stop'
-                        },
-                        {
-                            id: 'memory-and-healing',
-                            name: 'Memory and healing',
-                            blurb: 'Reflect on how the site teaches resilience, remembrance and the importance of historical truth.',
-                            tag: 'Reflection'
-                        }
+                        { id: 'door-of-no-return' },
+                        { id: 'castle-grounds' },
+                        { id: 'memory-and-healing' }
                     ]
                 },
                 'manhyia-palace': {
                     key: 'manhyia-palace',
-                    title: 'Royal Ashanti trail',
-                    eyebrow: 'Royal heritage route',
-                    region: 'Ashanti Region',
-                    description: 'Explore the living history of the Asante Kingdom through the palace, its traditions and the continuity of royal leadership.',
-                    highlights: [
-                        'Discover the role of Manhyia Palace in Asante governance.',
-                        'Understand how royal traditions continue to shape identity today.',
-                        'See how history, ceremony and leadership are intertwined.'
-                    ],
-                    badge: {
-                        key: 'manhyia',
-                        label: 'Royal Heritage',
-                        title: 'Manhyia Palace',
-                        icon: 'fa-crown'
-                    },
+                    translationKey: 'trail.manhyia-palace',
+                    highlights: [0, 1, 2],
+                    badge: { key: 'manhyia', icon: 'fa-crown' },
                     stops: [
-                        {
-                            id: 'royal-court',
-                            name: 'Royal court',
-                            blurb: 'Discover how the Asantehene and royal advisors shaped political life and cultural identity.',
-                            tag: 'Leadership'
-                        },
-                        {
-                            id: 'regalia',
-                            name: 'Court regalia',
-                            blurb: 'Study the symbols, objects and garments that express Asante power, prestige and continuity.',
-                            tag: 'Culture'
-                        },
-                        {
-                            id: 'living-tradition',
-                            name: 'Living tradition',
-                            blurb: 'See how royal practices continue to provide meaning and community in modern Ashanti life.',
-                            tag: 'Living heritage'
-                        }
+                        { id: 'royal-court' },
+                        { id: 'regalia' },
+                        { id: 'living-tradition' }
                     ]
                 },
                 'osu-castle': {
                     key: 'osu-castle',
-                    title: 'Osu coastal trail',
-                    eyebrow: 'Colonial and civic route',
-                    region: 'Greater Accra',
-                    description: 'Follow the story of Osu Castle from the colonial era to the present, and connect coastal history to national politics.',
-                    highlights: [
-                        'Understand how the coast became central to power and governance.',
-                        'Trace Ghana’s colonial and post-independence memory.',
-                        'Place Accra’s institutions in a broader national story.'
-                    ],
-                    badge: {
-                        key: 'osu',
-                        label: 'Coastal Heritage',
-                        title: 'Osu Castle',
-                        icon: 'fa-building-columns'
-                    },
+                    translationKey: 'trail.osu-castle',
+                    highlights: [0, 1, 2],
+                    badge: { key: 'osu', icon: 'fa-building-columns' },
                     stops: [
-                        {
-                            id: 'castle-approach',
-                            name: 'Castle approach',
-                            blurb: 'Take in the coastal setting and understand why the fortress dominated the cityscape.',
-                            tag: 'Landscape'
-                        },
-                        {
-                            id: 'colonial-memory',
-                            name: 'Colonial memory',
-                            blurb: 'Examine how power, administration and control were built through this strategic location.',
-                            tag: 'History'
-                        },
-                        {
-                            id: 'national-shift',
-                            name: 'National shift',
-                            blurb: 'Look at how the site changed after independence and what it means in the modern state.',
-                            tag: 'Modern Ghana'
-                        }
+                        { id: 'castle-approach' },
+                        { id: 'colonial-memory' },
+                        { id: 'national-shift' }
                     ]
                 },
                 'independence-arch': {
                     key: 'independence-arch',
-                    title: 'Independence route',
-                    eyebrow: 'National story route',
-                    region: 'Greater Accra',
-                    description: 'Move from the symbolism of Independence Square to the broader story of freedom, self-rule and national identity.',
-                    highlights: [
-                        'See how the nation marks its independence in public space.',
-                        'Connect the square to Ghana’s democratic identity.',
-                        'Recognise how memory is shaped through architecture and ceremony.'
-                    ],
-                    badge: {
-                        key: 'independence',
-                        label: 'Nation Builder',
-                        title: 'Independence Square',
-                        icon: 'fa-flag'
-                    },
+                    translationKey: 'trail.independence-arch',
+                    highlights: [0, 1, 2],
+                    badge: { key: 'independence', icon: 'fa-flag' },
                     stops: [
-                        {
-                            id: 'independence-arch',
-                            name: 'Independence Arch',
-                            blurb: 'The icon of Ghana’s national pride and public memory of 1957.',
-                            tag: 'Symbol'
-                        },
-                        {
-                            id: 'national-space',
-                            name: 'National space',
-                            blurb: 'Understand how public monuments turn historical values into collective identity.',
-                            tag: 'Public memory'
-                        },
-                        {
-                            id: 'future-vision',
-                            name: 'Future vision',
-                            blurb: 'Reflect on the meaning of independence as an ongoing commitment to nation-building.',
-                            tag: 'Civic values'
-                        }
+                        { id: 'independence-arch' },
+                        { id: 'national-space' },
+                        { id: 'future-vision' }
                     ]
                 },
                 'kwame-nkrumah': {
                     key: 'kwame-nkrumah',
-                    title: 'Freedom and legacy route',
-                    eyebrow: 'Pan-African route',
-                    region: 'Greater Accra',
-                    description: 'Explore the memorial park as both a place of tribute and a living archive of Ghana’s independence movement and Pan-African dreams.',
-                    highlights: [
-                        'Connect leadership, liberation and national memory.',
-                        'Understand the role of Kwame Nkrumah in Ghana’s independence story.',
-                        'Reflect on the politics of remembrance and legacy.'
-                    ],
-                    badge: {
-                        key: 'nkrumah',
-                        label: 'Freedom Fighter',
-                        title: 'Kwame Nkrumah Memorial',
-                        icon: 'fa-star'
-                    },
+                    translationKey: 'trail.kwame-nkrumah',
+                    highlights: [0, 1, 2],
+                    badge: { key: 'nkrumah', icon: 'fa-star' },
                     stops: [
-                        {
-                            id: 'tribute-garden',
-                            name: 'Tribute garden',
-                            blurb: 'See how the memorial turns memory into a public space for reflection and honour.',
-                            tag: 'Memorial'
-                        },
-                        {
-                            id: 'independence-story',
-                            name: 'Independence story',
-                            blurb: 'Follow the political and cultural meaning of Ghana’s 1957 declaration of independence.',
-                            tag: 'History'
-                        },
-                        {
-                            id: 'pan-african-legacy',
-                            name: 'Pan-African legacy',
-                            blurb: 'Understand how the site connects Ghana to a wider African liberation story.',
-                            tag: 'Legacy'
-                        }
+                        { id: 'tribute-garden' },
+                        { id: 'independence-story' },
+                        { id: 'pan-african-legacy' }
                     ]
                 }
             };
@@ -780,6 +644,18 @@
             const resetTrailBtn = document.getElementById('resetTrailBtn');
             const toast = document.getElementById('toast');
             const allTrails = document.getElementById('allTrails');
+            const completeTrailLabel = document.getElementById('completeTrailLabel');
+
+            function trailText(key, params) {
+                const language = window.ananseLanguage;
+                return language && typeof language.getTrailText === 'function'
+                    ? language.getTrailText(key, params || {})
+                    : key;
+            }
+
+            function localizedTrail(trailData, property, params) {
+                return trailText(trailData.translationKey + '.' + property, params);
+            }
 
             function showToast(message) {
                 toast.textContent = message;
@@ -818,8 +694,8 @@
             function markBadgeEarned(trailKey) {
                 const target = TRAILS[trailKey].badge;
                 badges[target.key] = {
-                    label: target.label,
-                    title: target.title,
+                    label: localizedTrail(TRAILS[trailKey], 'badge.label'),
+                    title: localizedTrail(TRAILS[trailKey], 'badge.title'),
                     icon: target.icon,
                     earnedAt: new Date().toISOString()
                 };
@@ -834,21 +710,25 @@
                 saveTrailProgress();
                 markBadgeEarned(trail.key);
                 renderTrail();
-                showToast('Trail complete! Your badge has been unlocked.');
+                showToast(trailText('toast.complete'));
             }
 
             function resetTrail() {
                 state[trail.key] = {};
                 saveTrailProgress();
                 renderTrail();
-                showToast('Trail progress reset.');
+                showToast(trailText('toast.reset'));
             }
 
             function renderSummary() {
                 summaryList.innerHTML = '';
-                trail.highlights.forEach(function (item) {
+                trail.highlights.forEach(function (item, index) {
                     const li = document.createElement('li');
-                    li.innerHTML = '<i class="fa-solid fa-check"></i><span>' + item + '</span>';
+                    const icon = document.createElement('i');
+                    icon.className = 'fa-solid fa-check';
+                    const text = document.createElement('span');
+                    text.textContent = localizedTrail(trail, 'highlights.' + index);
+                    li.append(icon, text);
                     summaryList.appendChild(li);
                 });
             }
@@ -862,21 +742,33 @@
                     card.className = 'trail-stop-card';
 
                     const done = !!progress[stop.id];
-                    card.innerHTML = `
-                        <div class="stop-top">
-                            <div class="stop-number">${index + 1}</div>
-                            <div class="stop-head">
-                                <h4>${stop.name}</h4>
-                                <p>${stop.blurb}</p>
-                                <span class="stop-badge"><i class="fa-solid fa-location-dot"></i> ${stop.tag}</span>
-                            </div>
-                        </div>
-                        <div class="stop-actions">
-                            <button type="button" class="visit-toggle ${done ? 'is-done' : ''}" data-stop-id="${stop.id}">
-                                ${done ? 'Visited' : 'Mark visited'}
-                            </button>
-                        </div>
-                    `;
+                    const top = document.createElement('div');
+                    top.className = 'stop-top';
+                    const number = document.createElement('div');
+                    number.className = 'stop-number';
+                    number.textContent = String(index + 1);
+                    const head = document.createElement('div');
+                    head.className = 'stop-head';
+                    const title = document.createElement('h4');
+                    title.textContent = localizedTrail(trail, 'stops.' + stop.id + '.name');
+                    const description = document.createElement('p');
+                    description.textContent = localizedTrail(trail, 'stops.' + stop.id + '.blurb');
+                    const tag = document.createElement('span');
+                    tag.className = 'stop-badge';
+                    const tagIcon = document.createElement('i');
+                    tagIcon.className = 'fa-solid fa-location-dot';
+                    tag.append(tagIcon, document.createTextNode(' ' + localizedTrail(trail, 'stops.' + stop.id + '.tag')));
+                    head.append(title, description, tag);
+                    top.append(number, head);
+                    const actions = document.createElement('div');
+                    actions.className = 'stop-actions';
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'visit-toggle' + (done ? ' is-done' : '');
+                    button.dataset.stopId = stop.id;
+                    button.textContent = trailText(done ? 'actions.visited' : 'actions.markVisited');
+                    actions.appendChild(button);
+                    card.append(top, actions);
 
                     stopList.appendChild(card);
                 });
@@ -891,17 +783,20 @@
             function renderProgress() {
                 const completion = getTrailCompletion(trail.key);
                 const percent = completion.total ? (completion.done / completion.total) * 100 : 0;
-                progressText.textContent = completion.done + ' / ' + completion.total + ' stops visited';
+                progressText.textContent = trailText('progress.visited', {
+                    done: completion.done,
+                    total: completion.total
+                });
                 progressFill.style.width = percent + '%';
 
                 if (completion.complete) {
-                    routeStatus.textContent = 'Trail complete — the badge for this route is now in your passport.';
-                    completeTrailBtn.textContent = 'Trail complete';
+                    routeStatus.textContent = trailText('status.complete');
+                    completeTrailLabel.textContent = trailText('actions.trailComplete');
                     completeTrailBtn.disabled = true;
                     completeTrailBtn.style.opacity = '.7';
                 } else {
-                    routeStatus.textContent = 'Start by checking off each stop as you learn about it.';
-                    completeTrailBtn.textContent = 'Complete trail';
+                    routeStatus.textContent = trailText('status.start');
+                    completeTrailLabel.textContent = trailText('actions.completeTrail');
                     completeTrailBtn.disabled = false;
                     completeTrailBtn.style.opacity = '1';
                 }
@@ -916,21 +811,21 @@
                     card.href = 'heritagetrails.html?site=' + item.key;
                     card.innerHTML = `
                         <div>
-                            <h4>${item.title}</h4>
-                            <p>${item.description}</p>
+                            <h4>${localizedTrail(item, 'title')}</h4>
+                            <p>${localizedTrail(item, 'description')}</p>
                         </div>
-                        <div class="mini-link">Open route <i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="mini-link">${trailText('actions.openRoute')} <i class="fa-solid fa-arrow-right"></i></div>
                     `;
                     allTrails.appendChild(card);
                 });
             }
 
             function renderTrail() {
-                trailTitle.textContent = trail.title;
-                trailEyebrow.textContent = trail.eyebrow;
-                trailDescription.textContent = trail.description;
-                trailStops.textContent = trail.stops.length + ' stops';
-                trailRegion.textContent = trail.region;
+                trailTitle.textContent = localizedTrail(trail, 'title');
+                trailEyebrow.textContent = localizedTrail(trail, 'eyebrow');
+                trailDescription.textContent = localizedTrail(trail, 'description');
+                trailStops.textContent = trailText('meta.stops', { count: trail.stops.length });
+                trailRegion.textContent = localizedTrail(trail, 'region');
 
                 renderSummary();
                 renderStops();
@@ -942,6 +837,10 @@
 
             renderTrail();
             renderAllTrails();
+            document.addEventListener('ananse:languagechange', function () {
+                renderTrail();
+                renderAllTrails();
+            });
 
             if (document.querySelector('.hamburger-toggle')) {
                 const menuBtn = document.getElementById('hamburgerBtn');

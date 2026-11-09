@@ -17,9 +17,9 @@
 
     <!-- NAVIGATION BAR -->
     <header class="plan-header">
-        <nav class="plan-nav" aria-label="Main Navigation">
+        <nav class="plan-nav" aria-label="Main Navigation" data-plan-aria-label="nav.main">
             <!-- Brand / Logo (Left) -->
-            <a href="../index.html" class="plan-logo-container" aria-label="ANANSE home">
+            <a href="../index.html" class="plan-logo-container" aria-label="ANANSE home" data-plan-aria-label="site.homeAria">
                 <div class="logo-placeholder-icon">
                     <i class="fa-solid fa-spider"></i>
                 </div>
@@ -54,7 +54,7 @@
                 </div>
 
                 <button class="plan-menu-toggle" id="planMenuToggle" aria-expanded="false"
-                    aria-label="Toggle navigation menu">
+                    aria-label="Toggle navigation menu" data-plan-aria-label="nav.menu">
                     <span class="plan-hamburger-bar"></span>
                     <span class="plan-hamburger-bar"></span>
                     <span class="plan-hamburger-bar"></span>
@@ -68,7 +68,7 @@
         <section class="plan-hero">
             <div class="plan-hero-bg">
 
-                <img src="../images/plan.jpeg" alt="Ghana Heritage Banner" class="plan-hero-img">
+                <img src="../images/plan.jpeg" alt="Ghana Heritage Banner" class="plan-hero-img" data-plan-alt="image.heroAlt">
                 <div class="plan-hero-img-placeholder" aria-hidden="true"></div>
             </div>
             <div class="plan-hero-container">
@@ -107,14 +107,14 @@
                                 <span data-plan-lang="planning.selectSite">SELECT HERITAGE SITE</span>
                             </label>
                             <div class="plan-select-wrapper">
-                                <select id="planSiteSelect" class="plan-select">
+                                <select id="planSiteSelect" class="plan-select" required>
                                     <option value="" disabled selected data-plan-lang="planning.chooseSitePlaceholder">
                                         Choose a heritage site</option>
-                                    <option value="cape-coast-castle">Cape Coast Castle</option>
-                                    <option value="independence-arch">Independence Arch</option>
-                                    <option value="kwame-nkrumah-memorial-park">Kwame Nkrumah Memorial Park</option>
-                                    <option value="manhyia-palace">Manhyia Palace</option>
-                                    <option value="osu-castle">Osu Castle</option>
+                                    <option value="cape-coast-castle" data-plan-lang="site.capeCoast">Cape Coast Castle</option>
+                                    <option value="independence-arch" data-plan-lang="site.independence">Independence Arch</option>
+                                    <option value="kwame-nkrumah-memorial-park" data-plan-lang="site.kwameNkrumah">Kwame Nkrumah Memorial Park</option>
+                                    <option value="manhyia-palace" data-plan-lang="site.manhyia">Manhyia Palace</option>
+                                    <option value="osu-castle" data-plan-lang="site.osu">Osu Castle</option>
                                 </select>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                                 </svg>
                                 <span data-plan-lang="planning.visitDate">VISIT DATE</span>
                             </label>
-                            <input type="date" id="planVisitDate" class="plan-input">
+                            <input type="date" id="planVisitDate" class="plan-input" required>
                         </div>
 
                         <div class="plan-form-group">
@@ -139,15 +139,15 @@
                                 <span data-plan-lang="planning.numberOfVisitors">NUMBER OF VISITORS</span>
                             </label>
                             <div class="plan-select-wrapper">
-                                <select id="planVisitorCount" class="plan-select">
+                                <select id="planVisitorCount" class="plan-select" required>
                                     <option value="" disabled selected
                                         data-plan-lang="planning.selectNumberPlaceholder">Select number</option>
-                                    <option value="1">1 Visitor</option>
-                                    <option value="2">2 Visitors</option>
-                                    <option value="3">3 Visitors</option>
-                                    <option value="4">4 Visitors</option>
-                                    <option value="5">5 Visitors</option>
-                                    <option value="6+">6+ Visitors</option>
+                                    <option value="1" data-plan-lang="visitors.one">1 Visitor</option>
+                                    <option value="2" data-plan-lang="visitors.many" data-plan-count="2">2 Visitors</option>
+                                    <option value="3" data-plan-lang="visitors.many" data-plan-count="3">3 Visitors</option>
+                                    <option value="4" data-plan-lang="visitors.many" data-plan-count="4">4 Visitors</option>
+                                    <option value="5" data-plan-lang="visitors.many" data-plan-count="5">5 Visitors</option>
+                                    <option value="6+" data-plan-lang="visitors.many" data-plan-count="6+">6+ Visitors</option>
                                 </select>
                             </div>
                         </div>
@@ -174,7 +174,7 @@
                             <div id="planImageContainer" class="plan-summary-image">
 
                                 <img src="../images/ghanaian plan.jpeg" alt="Selected Heritage Site"
-                                    class="plan-summary-img">
+                                    class="plan-summary-img" data-plan-alt="image.summaryAlt">
                                 <div class="plan-summary-img-placeholder" id="planSummaryImgPlaceholder">
                                     <svg width="48" height="48" viewBox="0 0 24 24" fill="#8C9A94">
                                         <path
@@ -198,7 +198,7 @@
                                         <div>
                                             <span class="plan-meta-label"
                                                 data-plan-lang="yourPlan.dateLabel">Date</span>
-                                            <span id="planSummaryDate" class="plan-meta-value">(Will appear here)</span>
+                                            <span id="planSummaryDate" class="plan-meta-value" data-plan-lang="yourPlan.emptyValue">(Will appear here)</span>
                                         </div>
                                     </div>
 
@@ -210,14 +210,19 @@
                                         <div>
                                             <span class="plan-meta-label"
                                                 data-plan-lang="yourPlan.visitorsLabel">Visitors</span>
-                                            <span id="planSummaryVisitors" class="plan-meta-value">(Will appear
-                                                here)</span>
+                                            <span id="planSummaryVisitors" class="plan-meta-value" data-plan-lang="yourPlan.emptyValue">(Will appear here)</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <div id="planAuthNotice" class="plan-auth-notice" role="alert" hidden>
+                            <p data-plan-lang="auth.required">Please log in or create an account to save your plan and add a calendar reminder.</p>
+                            <a href="login.html" data-plan-lang="auth.login">Log in</a>
+                            <span aria-hidden="true"> · </span>
+                            <a href="signup.html" data-plan-lang="auth.signup">Create an account</a>
+                        </div>
                         <button id="planSaveBtn" class="plan-btn-primary plan-btn-full">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
@@ -252,7 +257,7 @@
                                     </svg>
                                     <span class="plan-details-name" data-plan-lang="visitDetails.date">Date</span>
                                 </div>
-                                <span id="planDetailDateDisplay" class="plan-details-val">(Will appear here)</span>
+                                <span id="planDetailDateDisplay" class="plan-details-val" data-plan-lang="yourPlan.emptyValue">(Will appear here)</span>
                             </div>
 
                             <div class="plan-details-row">
@@ -264,7 +269,7 @@
                                     <span class="plan-details-name" data-plan-lang="visitDetails.visitors">Number of
                                         Visitors</span>
                                 </div>
-                                <span id="planDetailVisitorsDisplay" class="plan-details-val">(Will appear here)</span>
+                                <span id="planDetailVisitorsDisplay" class="plan-details-val" data-plan-lang="yourPlan.emptyValue">(Will appear here)</span>
                             </div>
 
                             <div class="plan-details-row plan-details-row-input">
@@ -310,13 +315,14 @@
             <div class="plan-container">
                 <div class="plan-preserving-card">
                     <div class="plan-preserving-content">
-                        <h2 class="plan-preserving-title" data-plan-lang="preserving.title">
+                        <h2 class="plan-preserving-title" data-plan-lang-html="preserving.title">
                             Preserving Ghana's heritage<br>for generations.
                         </h2>
                     </div>
                     <div class="plan-preserving-image-wrap">
 
-                        <img src="../images/plan.jpeg" alt="Preserving Ghana's Heritage" class="plan-preserving-img">
+                        <img src="../images/plan.jpeg" alt="Preserving Ghana's Heritage" class="plan-preserving-img"
+                            data-plan-alt="image.preservingAlt">
                         <div class="plan-preserving-img-placeholder" aria-hidden="true"></div>
                     </div>
                 </div>
