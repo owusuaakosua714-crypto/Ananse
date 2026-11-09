@@ -681,6 +681,13 @@
             const selectedTrailKey = TRAILS[requestedTrailId] ? requestedTrailId : allTrailEntries[0];
             const trail = TRAILS[selectedTrailKey];
             let managedTrail = null;
+            const contentSiteIds = {
+                'cape-coast-castle': 'cape-coast',
+                'manhyia-palace': 'manhyia',
+                'osu-castle': 'osu',
+                'independence-arch': 'independence',
+                'kwame-nkrumah': 'kwame-nkrumah'
+            };
             const progressApi = window.ananseProgress;
             if (!progressApi) throw new Error('Trail progress requires the shared passport progress engine.');
 
@@ -934,7 +941,9 @@
             function renderAllTrails() {
                 allTrails.innerHTML = '';
 
-                Object.values(TRAILS).forEach(function (item) {
+                Object.values(TRAILS).filter(function (item) {
+                    return !window.ananseSiteContent || !!window.ananseSiteContent.getSite(contentSiteIds[item.key]);
+                }).forEach(function (item) {
                     const card = document.createElement('a');
                     card.className = 'trail-choice';
                     card.href = 'heritagetrails.html?site=' + item.key;
@@ -974,15 +983,12 @@
             renderTrail();
             renderAllTrails();
             if (window.ananseSiteContent) {
-                const contentSiteIds = {
-                    'cape-coast-castle': 'cape-coast',
-                    'manhyia-palace': 'manhyia',
-                    'osu-castle': 'osu',
-                    'independence-arch': 'independence',
-                    'kwame-nkrumah': 'kwame-nkrumah'
-                };
                 window.ananseSiteContent.ready.then(function () {
                     const site = window.ananseSiteContent.getSite(contentSiteIds[selectedTrailKey]);
+                    if (!site) {
+                        window.location.replace('explore.html');
+                        return;
+                    }
                     managedTrail = site && site.trail;
                     renderTrail();
                     renderAllTrails();

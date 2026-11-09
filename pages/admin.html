@@ -19,7 +19,7 @@
     <div id="adminDashboard" class="admin-shell" hidden>
         <aside class="admin-sidebar" data-ananse-menu-host>
             <div class="admin-sidebar__header" data-ananse-menu-host>
-                <a class="admin-brand" href="../index.html">
+                <a class="admin-brand" href="admin.html" aria-label="ANANSE Admin dashboard">
                     <span class="admin-brand__mark" aria-hidden="true"><i class="fa-solid fa-spider"></i></span>
                     <span class="logo-text">
                         <span class="brand-name">ANANSE</span>
@@ -34,9 +34,9 @@
                 <nav class="admin-nav ananse-standard-menu" id="adminNav" aria-label="Admin navigation">
                     <a class="is-current" href="admin.html"><i class="fa-solid fa-chart-line" aria-hidden="true"></i>
                         Overview</a>
-                    <a href="explore.html"><i class="fa-solid fa-landmark" aria-hidden="true"></i> Heritage sites</a>
-                    <a href="map.html"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Heritage map</a>
-                    <a href="about.html"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> About ANANSE</a>
+                    <a href="#sitesTitle"><i class="fa-solid fa-landmark" aria-hidden="true"></i> Heritage sites</a>
+                    <a href="#usersTitle"><i class="fa-solid fa-users" aria-hidden="true"></i> Accounts</a>
+                    <a href="#plansTitle"><i class="fa-regular fa-calendar-check" aria-hidden="true"></i> Visit plans</a>
                 </nav>
             </div>
             <a class="admin-sidebar__home" href="../index.html"><i class="fa-solid fa-arrow-up-right-from-square"
@@ -65,7 +65,7 @@
                     <p>Manage ANANSE heritage content and move quickly to the pages you oversee.</p>
                 </div>
                 <a class="admin-primary-action" href="explore.html"><i class="fa-solid fa-arrow-up-right-from-square"
-                        aria-hidden="true"></i> Open site directory</a>
+                        aria-hidden="true"></i> Open public site directory</a>
             </section>
 
             <section class="admin-analytics" aria-labelledby="analyticsTitle">
@@ -122,24 +122,24 @@
                     </div>
                     <button class="admin-primary-action" id="addSiteButton" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add site</button>
                 </div>
+                <p class="admin-site-visibility-help">Use Hide to remove a site from public listings and trails. Hidden sites stay in this dashboard and can be made public again.</p>
                 <p id="siteSaveStatus" class="admin-form-status" role="status" aria-live="polite"></p>
                 <div class="admin-table-wrap">
                     <table class="admin-sites-table">
-                        <thead><tr><th scope="col">Site</th><th scope="col">Category</th><th scope="col">Views</th><th scope="col">Actions</th></tr></thead>
+                        <thead><tr><th scope="col">Site</th><th scope="col">Category</th><th scope="col">Visibility</th><th scope="col">Views</th><th scope="col">Actions</th></tr></thead>
                         <tbody id="adminSiteRows"></tbody>
                     </table>
                 </div>
             </section>
 
             <section class="admin-shortcuts" aria-label="Administration shortcuts">
-                <a href="heritagetrails.html"><i class="fa-solid fa-route" aria-hidden="true"></i><span><strong>Heritage
-                            trails</strong><small>Review the visitor routes</small></span><i
+                <a href="#sitesTitle"><i class="fa-solid fa-route" aria-hidden="true"></i><span><strong>Heritage
+                            trails</strong><small>Manage trail stories with site content</small></span><i
                         class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
-                <a href="plan.html"><i class="fa-regular fa-calendar-check" aria-hidden="true"></i><span><strong>Visit
-                            planning</strong><small>Open the planning experience</small></span><i
+                <a href="#plansTitle"><i class="fa-regular fa-calendar-check" aria-hidden="true"></i><span><strong>Visit
+                            planning</strong><small>Review plans made by visitors</small></span><i
                         class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
-                <a href="ai.html"><i class="fa-solid fa-comments" aria-hidden="true"></i><span><strong>Ask
-                            Naa</strong><small>Review the heritage guide</small></span><i
+                <a href="#sitesTitle"><i class="fa-solid fa-comments" aria-hidden="true"></i><span><strong>Naa knowledge</strong><small>Edit the facts Naa can use</small></span><i
                         class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
             </section>
         </main>

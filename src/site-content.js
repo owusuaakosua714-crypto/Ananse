@@ -250,8 +250,8 @@
             const missingDefaults = DEFAULT_SITES.filter(function (site) {
                 return !apiSlugs.has(site.slug);
             }).map(cleanSite);
-            remoteSites = apiSites.filter(function (site) { return !site.hidden; }).concat(missingDefaults);
-            return remoteSites.slice();
+            remoteSites = apiSites.concat(missingDefaults);
+            return getSites();
         } catch (error) {
             remoteSites = null;
             return getLocalSites();
@@ -261,11 +261,19 @@
     }
 
     function getSites() {
+        return getAllSites().filter(function (site) { return !site.hidden; });
+    }
+
+    function getAllSites() {
         return remoteSites ? remoteSites.slice() : getLocalSites();
     }
 
     function getSite(id) {
         return getSites().find(function (site) { return site.id === id; }) || null;
+    }
+
+    function getSiteForAdmin(id) {
+        return getAllSites().find(function (site) { return site.id === id; }) || null;
     }
 
     function apiCategory(category) {
@@ -342,25 +350,39 @@
         }
         const isBuiltIn = DEFAULT_SITES.some(function (item) { return item.id === site.id; });
         if (site.apiId && isBuiltIn) {
-            await window.ananseAuth.api("/api/sites/id/" + site.apiId, {
+            const response = await window.ananseAuth.api("/api/sites/id/" + site.apiId, {
                 method: "PUT",
                 body: JSON.stringify(apiPayload(Object.assign({}, site, { hidden: true }), false))
             });
+            const hiddenSite = siteFromApi(response);
+            if (remoteSites) {
+                const index = remoteSites.findIndex(function (item) { return item.id === hiddenSite.id; });
+                if (index === -1) remoteSites.push(hiddenSite);
+                else remoteSites[index] = hiddenSite;
+            }
         } else if (site.apiId) {
             await window.ananseAuth.api("/api/sites/id/" + site.apiId, { method: "DELETE" });
+            if (remoteSites) remoteSites = remoteSites.filter(function (item) { return item.id !== site.id; });
         } else {
-            await window.ananseAuth.api("/api/sites", {
+            const response = await window.ananseAuth.api("/api/sites", {
                 method: "POST",
                 body: JSON.stringify(apiPayload(Object.assign({}, site, { hidden: true }), true))
             });
+            const hiddenSite = siteFromApi(response);
+            if (remoteSites) {
+                const index = remoteSites.findIndex(function (item) { return item.id === hiddenSite.id; });
+                if (index === -1) remoteSites.push(hiddenSite);
+                else remoteSites[index] = hiddenSite;
+            }
         }
-        if (remoteSites) remoteSites = remoteSites.filter(function (item) { return item.id !== site.id; });
         return { localOnly: false };
     }
 
     window.ananseSiteContent = {
         getSites: getSites,
+        getAllSites: getAllSites,
         getSite: getSite,
+        getSiteForAdmin: getSiteForAdmin,
         loadSites: loadSites,
         ready: ready,
         isRemote: function () { return remoteSites !== null; },

@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         independence: ['independence-arch', 'national-space', 'future-vision'],
         'kwame-nkrumah': ['tribute-garden', 'independence-story', 'pan-african-legacy']
     };
-    let knownSiteIds = new Set((siteContent?.getSites() || []).map(site => site.id));
+    let knownSiteIds = new Set((siteContent?.getAllSites() || []).map(site => site.id));
     let siteViewCounts = new Map();
 
     function renderAnalytics(summary, users) {
@@ -214,11 +214,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderSites() {
-        const sites = siteContent?.getSites() || [];
+        const sites = siteContent?.getAllSites() || [];
         siteRows.replaceChildren();
 
         sites.forEach(site => {
             const row = document.createElement('tr');
+            if (site.hidden) row.classList.add('is-hidden-site');
             const siteCell = document.createElement('td');
             const siteSummary = document.createElement('div');
             siteSummary.className = 'admin-table-site';
@@ -238,6 +239,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const categoryCell = document.createElement('td');
             categoryCell.textContent = site.apiCategory || site.category.replace(/-/g, ' ');
+            const visibilityCell = document.createElement('td');
+            visibilityCell.className = 'admin-site-visibility';
+            const visibilityLabel = document.createElement('span');
+            visibilityLabel.className = site.hidden ? 'admin-visibility-badge is-hidden' : 'admin-visibility-badge';
+            visibilityLabel.textContent = site.hidden ? 'Hidden from public' : 'Public';
+            visibilityCell.appendChild(visibilityLabel);
             const viewsCell = document.createElement('td');
             viewsCell.textContent = (siteViewCounts.get(site.slug) || 0).toLocaleString();
             const actionCell = document.createElement('td');
@@ -249,6 +256,25 @@ document.addEventListener('DOMContentLoaded', () => {
             editButton.setAttribute('aria-label', 'Edit ' + site.name);
             editButton.innerHTML = '<i class="fa-solid fa-pen" aria-hidden="true"></i>';
             editButton.addEventListener('click', () => openSiteEditor(site));
+            const visibilityButton = document.createElement('button');
+            visibilityButton.type = 'button';
+            visibilityButton.className = 'admin-secondary-action admin-visibility-action';
+            visibilityButton.textContent = site.hidden ? 'Make public' : 'Hide';
+            visibilityButton.setAttribute('aria-label', (site.hidden ? 'Make ' : 'Hide ') + site.name + (site.hidden ? ' from hidden status' : ' from the public website'));
+            visibilityButton.addEventListener('click', async () => {
+                visibilityButton.disabled = true;
+                try {
+                    const updatedSite = await siteContent.saveRemoteSite(Object.assign({}, site, { hidden: !site.hidden }));
+                    if (!updatedSite) throw new Error('Could not update this site’s visibility.');
+                    siteStatus.textContent = updatedSite.hidden
+                        ? site.name + ' is now hidden from the public website.'
+                        : site.name + ' is now public.';
+                    renderSites();
+                } catch (error) {
+                    siteStatus.textContent = error.message || 'Could not update this site’s visibility.';
+                    visibilityButton.disabled = false;
+                }
+            });
             const removeButton = document.createElement('button');
             removeButton.type = 'button';
             removeButton.className = 'admin-icon-button admin-icon-button--danger';
@@ -270,16 +296,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderSites();
                 loadAdminData();
             });
-            actionCell.append(editButton, removeButton);
-            row.append(siteCell, categoryCell, viewsCell, actionCell);
+            actionCell.append(editButton, visibilityButton, removeButton);
+            row.append(siteCell, categoryCell, visibilityCell, viewsCell, actionCell);
             siteRows.appendChild(row);
         });
 
         if (!sites.length) {
             const row = document.createElement('tr');
             const cell = document.createElement('td');
-            cell.colSpan = 4;
-            cell.textContent = 'No heritage sites are published.';
+            cell.colSpan = 5;
+            cell.textContent = 'No heritage sites are in the catalog.';
             row.appendChild(cell);
             siteRows.appendChild(row);
         }
@@ -301,13 +327,14 @@ document.addEventListener('DOMContentLoaded', () => {
             caption: row.querySelector('.story-image-caption').value.trim(),
             after: Number(row.querySelector('.story-image-position').value)
         })).filter(image => image.src);
-        const previousSite = siteContent.getSite(id);
+        const previousSite = siteContent.getSiteForAdmin(id);
         const site = {
             id,
             slug: previousSite?.slug || id,
             apiId: previousSite?.apiId || null,
             facts: previousSite?.facts || {},
             name,
+            hidden: previousSite?.hidden || false,
             location: document.getElementById('siteLocation').value.trim(),
             region: document.getElementById('siteRegion').value.trim(),
             category: document.getElementById('siteCategory').value,
@@ -317,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
             apiRegion: previousSite?.apiRegion || '',
             description: document.getElementById('siteDescription').value.trim(),
             coverImage: document.getElementById('siteCoverImage').value.trim(),
-            storyPage: siteContent.getSite(id)?.storyPage || '',
+            storyPage: siteContent.getSiteForAdmin(id)?.storyPage || '',
             story: document.getElementById('siteStory').value.trim(),
             images,
             naaNotes: document.getElementById('siteNaaNotes').value.trim(),
@@ -363,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderSites();
     loadAdminData();
     siteContent.ready.then(sites => {
-        knownSiteIds = new Set(sites.map(site => site.id));
+        knownSiteIds = new Set((siteContent.getAllSites?.() || sites).map(site => site.id));
         if (!siteContent.isRemote()) {
             siteStatus.textContent = 'Shared catalog is unavailable. Site changes cannot be published right now.';
         }

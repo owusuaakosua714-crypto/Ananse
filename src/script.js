@@ -119,9 +119,20 @@
         const querySite = new URLSearchParams(location.search).get("site");
         const siteId = storySiteIds[page] || (page === "explore.html" ? querySite : "");
         recordView(siteId, page);
+        if (page === "index.html" && window.ananseSiteContent) {
+            await window.ananseSiteContent.ready;
+            const publicSiteIds = new Set(window.ananseSiteContent.getSites().map(function (site) { return site.id; }));
+            document.querySelectorAll(".cards-grid .site-card[data-site-id]").forEach(function (card) {
+                card.style.display = publicSiteIds.has(card.dataset.siteId) ? "" : "none";
+            });
+        }
         if (storySiteIds[page] && window.ananseSiteContent) {
             await window.ananseSiteContent.ready;
             const site = window.ananseSiteContent.getSite(storySiteIds[page]);
+            if (!site) {
+                window.location.replace("explore.html");
+                return;
+            }
             applyManagedStory(site);
         }
     });
