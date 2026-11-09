@@ -16,7 +16,7 @@
 <body class="login-page-body">
 
     <!-- HEADER / NAVIGATION -->
-    <header class="login-site-header">
+    <header class="login-site-header" data-ananse-menu-host>
         <div class="login-header-container">
             <!-- Brand / Logo -->
             <a href="../index.html" class="login-brand-logo" aria-label="ANANSE Homepage">
@@ -52,16 +52,14 @@
 
                 <!-- Hamburger Toggle Button -->
                 <button class="login-hamburger-btn" id="loginHamburgerBtn" aria-label="Toggle navigation menu"
-                    aria-expanded="false">
-                    <span class="login-hamburger-bar"></span>
-                    <span class="login-hamburger-bar"></span>
-                    <span class="login-hamburger-bar"></span>
+                    aria-expanded="false" aria-controls="loginMobileDrawer" data-ananse-menu-toggle>
+                    <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
         </div>
 
         <!-- Mobile Drawer Navigation -->
-        <div class="login-mobile-drawer" id="loginMobileDrawer" aria-hidden="true">
+        <div class="login-mobile-drawer ananse-standard-menu" id="loginMobileDrawer" aria-hidden="true">
             <nav class="login-mobile-nav">
                 <a href="../index.html" class="login-mobile-link" data-i18n="nav.home">Home</a>
                 <a href="explore.html" class="login-mobile-link" data-i18n="nav.explore">Explore</a>

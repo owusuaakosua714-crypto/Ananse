@@ -23,7 +23,7 @@
 ========================================================= -->
 <header class="passport-navbar">
 
-    <div class="passport-nav-inner">
+    <div class="passport-nav-inner" data-ananse-menu-host>
 
         <!-- LOGO -->
         <a href="../index.html" class="passport-brand">
@@ -43,7 +43,7 @@
 
 
         <!-- DESKTOP NAV -->
-        <nav class="passport-nav-links" id="passportNav">
+        <nav class="passport-nav-links ananse-standard-menu" id="passportNav">
 
             <a href="../index.html">
                 <span data-i18n="nav.home">Home</span>
@@ -85,7 +85,9 @@
             id="mobileMenuButton"
             type="button"
             aria-label="Open navigation menu"
+            aria-controls="passportNav"
             aria-expanded="false"
+            data-ananse-menu-toggle
         >
             <i class="fa-solid fa-bars"></i>
         </button>

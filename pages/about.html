@@ -18,7 +18,7 @@
 
     <!-- ==================== NAVIGATION BAR ==================== -->
     <header class="about-nav-header">
-        <nav class="about-nav-container">
+        <nav class="about-nav-container" data-ananse-menu-host>
             <a href="../index.html" class="logo about-logo" aria-label="ANANSE home">
                 <div class="logo-placeholder-icon">
                     <i class="fa-solid fa-spider"></i>
@@ -29,13 +29,12 @@
                 </div>
             </a>
 
-            <button class="about-menu-toggle" id="aboutMenuToggle" aria-label="Toggle Navigation">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button class="about-menu-toggle" id="aboutMenuToggle" aria-label="Toggle Navigation"
+                aria-controls="aboutNavLinks" aria-expanded="false" data-ananse-menu-toggle>
+                <i class="fa-solid fa-bars"></i>
             </button>
 
-            <ul class="about-nav-links" id="aboutNavLinks">
+            <ul class="about-nav-links ananse-standard-menu" id="aboutNavLinks">
                 <li><a href="../index.html" data-i18n="nav.home">Home</a></li>
                 <li><a href="explore.html" data-i18n="nav.explore">Explore</a></li>
                 <li><a href="map.html" data-i18n="nav.map">Map</a></li>

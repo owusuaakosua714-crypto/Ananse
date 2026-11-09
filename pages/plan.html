@@ -17,7 +17,8 @@
 
     <!-- NAVIGATION BAR -->
     <header class="plan-header">
-        <nav class="plan-nav" aria-label="Main Navigation" data-plan-aria-label="nav.main">
+        <nav class="plan-nav" aria-label="Main Navigation" data-plan-aria-label="nav.main"
+            data-ananse-menu-host>
             <!-- Brand / Logo (Left) -->
             <a href="../index.html" class="plan-logo-container" aria-label="ANANSE home" data-plan-aria-label="site.homeAria">
                 <div class="logo-placeholder-icon">
@@ -31,7 +32,7 @@
             </a>
 
             <!-- Navigation Links (Centered) -->
-            <div class="plan-nav-center" id="planNavContent">
+            <div class="plan-nav-center ananse-standard-menu" id="planNavContent">
                 <ul class="plan-nav-links">
                     <li><a href="../index.html" data-i18n="nav.home">Home</a></li>
                     <li><a href="about.html" data-i18n="nav.about">About</a></li>
@@ -54,10 +55,9 @@
                 </div>
 
                 <button class="plan-menu-toggle" id="planMenuToggle" aria-expanded="false"
-                    aria-label="Toggle navigation menu" data-plan-aria-label="nav.menu">
-                    <span class="plan-hamburger-bar"></span>
-                    <span class="plan-hamburger-bar"></span>
-                    <span class="plan-hamburger-bar"></span>
+                    aria-label="Toggle navigation menu" data-plan-aria-label="nav.menu"
+                    aria-controls="planNavContent" data-ananse-menu-toggle>
+                    <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
         </nav>

@@ -20,7 +20,7 @@
 
     <!-- ANANSE HEADER -->
     <header class="naa-header">
-        <div class="naa-header-container">
+        <div class="naa-header-container" data-ananse-menu-host>
             <a href="../index.html" class="logo naa-logo" aria-label="Ananse Home">
                 <i class="fa-solid fa-spider naa-logo-icon"></i>
                 <div class="logo-text naa-logo-text">
@@ -31,7 +31,7 @@
             </a>
 
             <!-- NAVIGATION -->
-            <nav class="naa-nav" id="naaNav">
+            <nav class="naa-nav ananse-standard-menu" id="naaNav">
                 <a href="../index.html" class="naa-nav-link" data-i18n="nav.home">Home</a>
                 <a href="explore.html" class="naa-nav-link" data-i18n="nav.explore">Explore</a>
                 <a href="map.html" class="naa-nav-link" data-i18n="nav.map">Map</a>
@@ -50,7 +50,8 @@
 
             <!-- HEADER ACTIONS -->
             <!-- MOBILE HAMBURGER MENU -->
-            <button class="naa-hamburger" id="naaHamburger" aria-label="Toggle Navigation Menu">
+            <button class="naa-hamburger" id="naaHamburger" aria-label="Toggle Navigation Menu"
+                aria-controls="naaNav" aria-expanded="false" data-ananse-menu-toggle>
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>

@@ -25,7 +25,7 @@
 
         <!-- HEADER SECTION (UNTOUCHED) -->
         <header class="ananse-header">
-            <div class="header-container">
+            <div class="header-container" data-ananse-menu-host>
                 <!-- LEFT: LOGO -->
                 <a href="../index.html" class="logo">
                     <div class="logo-placeholder-icon">
@@ -60,15 +60,15 @@
 
                     <!-- HAMBURGER BUTTON FOR MOBILE -->
                     <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Navigation Menu"
-                        data-i18n-aria-label="mapPage.toggleNavigation" aria-controls="mobileNav" aria-expanded="false">
-                        <i class="fa-solid fa-bars icon-open"></i>
-                        <i class="fa-solid fa-xmark icon-close"></i>
+                        data-i18n-aria-label="mapPage.toggleNavigation" aria-controls="mobileNav" aria-expanded="false"
+                        data-ananse-menu-toggle>
+                        <i class="fa-solid fa-bars"></i>
                     </button>
                 </div>
             </div>
 
             <!-- MOBILE NAVIGATION MENU -->
-            <nav class="mobile-nav" id="mobileNav">
+            <nav class="mobile-nav ananse-standard-menu" id="mobileNav">
                 <a href="../index.html" class="mobile-nav-link" data-i18n="nav.home">Home</a>
                 <a href="explore.html" class="mobile-nav-link" data-i18n="nav.explore">Explore</a>
                 <a href="map.html" class="mobile-nav-link active" data-i18n="nav.map">Map</a>

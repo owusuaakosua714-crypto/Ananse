@@ -19,7 +19,7 @@
 
     <!-- NAVBAR SECTION -->
     <header class="navbar">
-        <div class="nav-container">
+        <div class="nav-container" data-ananse-menu-host>
             <a href="#" class="logo">
                 <div class="logo-placeholder-icon">
                     <i class="fa-solid fa-spider"></i>
@@ -31,7 +31,7 @@
             </a>
 
             <!-- Navigation Links -->
-            <nav class="nav-menu" id="navMenu">
+            <nav class="nav-menu ananse-standard-menu" id="navMenu">
                 <a href="../index.html" class="nav-link" data-i18n="nav.home">Home</a>
                 <a href="explore.html" class="nav-link active" data-i18n="nav.explore">Explore</a>
                 <a href="map.html" class="nav-link" data-i18n="nav.map">Map</a>
@@ -48,7 +48,8 @@
             </div>
 
             <!-- Hamburger Toggle Button -->
-            <button class="hamburger-toggle" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+            <button class="hamburger-toggle" id="hamburgerBtn" aria-label="Toggle navigation menu"
+                aria-controls="navMenu" aria-expanded="false" data-ananse-menu-toggle>
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>

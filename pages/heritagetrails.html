@@ -454,7 +454,7 @@
 
 <body class="trail-page explore-page">
     <header class="navbar">
-        <div class="nav-container">
+        <div class="nav-container" data-ananse-menu-host>
             <a href="../index.html" class="logo" aria-label="ANANSE home" data-trail-lang-aria="nav.homeAria">
                 <div class="logo-placeholder-icon">
                     <i class="fa-solid fa-spider"></i>
@@ -465,7 +465,8 @@
                 </div>
             </a>
 
-            <nav class="nav-menu" id="navMenu" aria-label="Main navigation" data-trail-lang-aria="nav.main">
+            <nav class="nav-menu ananse-standard-menu" id="navMenu" aria-label="Main navigation"
+                data-trail-lang-aria="nav.main">
                 <a href="../index.html" class="nav-link" data-i18n="nav.home">Home</a>
                 <a href="explore.html" class="nav-link active" data-i18n="nav.explore">Explore</a>
                 <a href="map.html" class="nav-link" data-i18n="nav.map">Map</a>
@@ -482,8 +483,9 @@
                 </select>
             </div>
 
-            <button class="hamburger-toggle" id="hamburgerBtn" aria-label="Toggle navigation menu" data-trail-lang-aria="nav.menu"
-                aria-expanded="false">
+            <button class="hamburger-toggle" id="hamburgerBtn" aria-label="Toggle navigation menu"
+                data-trail-lang-aria="nav.menu" aria-controls="navMenu" aria-expanded="false"
+                data-ananse-menu-toggle>
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
@@ -846,9 +848,9 @@
                 const menuBtn = document.getElementById('hamburgerBtn');
                 const navMenu = document.getElementById('navMenu');
                 menuBtn.addEventListener('click', function () {
-                    const open = navMenu.classList.toggle('is-active');
+                    const open = navMenu.classList.toggle('is-open');
                     menuBtn.setAttribute('aria-expanded', String(open));
-                    const icon = menuBtn.querySelector('i');
+                    const icon = menuBtn.querySelector('.fa-bars, .fa-xmark');
                     if (icon) {
                         icon.classList.toggle('fa-bars', !open);
                         icon.classList.toggle('fa-xmark', open);
