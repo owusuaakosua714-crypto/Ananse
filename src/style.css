@@ -2550,6 +2550,12 @@ body.naa-page {
     color: var(--accent-gold);
 }
 
+.login-footer-links a:focus-visible,
+.signup-page .signup-admin-link:focus-visible {
+    outline: 2px solid var(--accent-gold, var(--signup-gold));
+    outline-offset: 3px;
+}
+
 /* ==========================================================================
    RESPONSIVE MEDIA QUERIES (TABLETS & PHONES)
    ========================================================================== */
@@ -8745,6 +8751,18 @@ body.about-page .about-btn-gold:hover {
     padding-left: 1rem;
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.8);
+}
+
+.signup-page .signup-admin-link {
+    color: var(--signup-cream);
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.signup-page .signup-admin-link:hover {
+    color: var(--signup-gold);
 }
 
 /* ---------------------------------------------------------
