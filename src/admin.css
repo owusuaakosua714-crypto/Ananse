@@ -59,6 +59,22 @@
     letter-spacing: 0.12em;
 }
 
+.admin-brand__tagline {
+    color: var(--accent-gold);
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .admin-brand__tagline {
+        max-width: 125px;
+        white-space: normal;
+    }
+}
+
 .admin-nav {
     display: grid;
     gap: 6px;

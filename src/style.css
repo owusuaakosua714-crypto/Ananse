@@ -721,6 +721,12 @@ button {
    ======================================================= */
 
 /* TABLETS (Max width: 992px) */
+@media screen and (max-width: 1200px) {
+    .home-page .cards-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
 @media screen and (max-width: 992px) {
     .navbar {
         padding: 16px 24px;
@@ -742,7 +748,7 @@ button {
     }
 
     .home-page .cards-grid {
-        grid-template-columns: repeat(3, minmax(180px, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .cta-banner {
@@ -762,6 +768,10 @@ button {
     /* Mobile Menu Toggle */
     .mobile-toggle {
         display: block;
+    }
+
+    .home-page .language-switcher-wrap {
+        margin: 0;
     }
 
     .home-page .nav-menu {
@@ -790,10 +800,10 @@ button {
     }
 
     .home-page .nav-menu .nav-link[href*="index"] { order: 1; }
-    .home-page .nav-menu .nav-link[href*="about"] { order: 2; }
-    .home-page .nav-menu .nav-link[href*="explore"] { order: 3; }
-    .home-page .nav-menu .nav-link[href*="map"] { order: 4; }
-    .home-page .nav-menu .nav-link[href*="passport"] { order: 5; }
+    .home-page .nav-menu .nav-link[href*="explore"] { order: 2; }
+    .home-page .nav-menu .nav-link[href*="map"] { order: 3; }
+    .home-page .nav-menu .nav-link[href*="passport"] { order: 4; }
+    .home-page .nav-menu .nav-link[href*="about"] { order: 5; }
     .home-page .nav-menu .nav-menu-auth-link[href*="login"] { order: 6; }
     .home-page .nav-menu .nav-menu-auth-link[href*="signup"] { order: 7; }
 
@@ -852,6 +862,10 @@ button {
 
 /* SMALL PHONES (Max width: 480px) */
 @media screen and (max-width: 480px) {
+    .home-page .navbar {
+        padding: 12px;
+    }
+
     .cards-grid {
         grid-template-columns: 1fr;
     }
@@ -862,6 +876,10 @@ button {
 
     .features-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .home-page .feature-card {
+        min-width: 0;
     }
 
     .brand-name {
@@ -3157,20 +3175,36 @@ body.about-page .about-btn-gold:hover {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  body.about-page .about-nav-header {
+    padding: 16px 24px;
+  }
+
   body.about-page .about-nav-container {
     position: relative;
+    gap: 12px;
   }
 
   body.about-page .about-nav-actions {
     order: 2;
-    margin-left: 0;
+    margin-left: auto;
+    gap: 0;
+  }
+
+  body.about-page .about-nav-actions .language-switcher-wrap {
+    margin: 0;
   }
 
   body.about-page .about-menu-toggle {
     display: flex;
     order: 3;
     margin-left: 0;
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
   }
 
   body.about-page .about-nav-links {
@@ -3184,10 +3218,20 @@ body.about-page .about-btn-gold:hover {
     gap: 16px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: none;
+    flex: none;
+    margin: 0;
+    white-space: normal;
   }
 
-  body.about-page .about-nav-links.show {
+  body.about-page .about-nav-links.is-open {
     display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  body.about-page .about-nav-links li {
+    width: 100%;
+    text-align: center;
   }
 
   body.about-page .about-hero {
@@ -3214,13 +3258,18 @@ body.about-page .about-btn-gold:hover {
 }
 
 @media (max-width: 480px) {
+  body.about-page .about-nav-header {
+    padding: 14px 12px;
+  }
+
+  body.about-page .about-nav-container {
+    gap: 6px;
+  }
+
   body.about-page .about-overview-grid {
     grid-template-columns: 1fr;
   }
 
-  body.about-page .about-brand-tagline {
-    display: none;
-  }
 }
 
 
@@ -6313,12 +6362,6 @@ body.about-page .about-btn-gold:hover {
 
     }
 
-    .passport-brand-text small {
-
-        display: none;
-
-    }
-
     .passport-nav-links {
 
         position: fixed;
@@ -6861,7 +6904,6 @@ body.about-page .about-btn-gold:hover {
 
 @media (max-width: 400px) {
     .ananse-map-page .header-container { padding: 12px 16px; }
-    .ananse-map-page .tagline { display: none; }
 }
 
 /* LANGUAGE DROPDOWN (DESKTOP) */
@@ -9259,6 +9301,8 @@ body :not(i):not(svg):not(path):not([class*="fa-"]) {
 }
 /* Keep the navigation brand tagline consistent with the homepage. */
 body.home-page header .logo .tagline {
+    display: block;
+    flex-shrink: 0;
     white-space: nowrap;
 }
 
@@ -9268,9 +9312,10 @@ body:not(.home-page) header .login-brand-slogan,
 body:not(.home-page) header .plan-logo-tagline,
 body:not(.home-page) header .passport-brand-text small,
 body:not(.home-page) header .brand-tagline {
-    flex-shrink: 0;
-    white-space: nowrap;
-    word-break: normal;
+display: block;
+flex-shrink: 0;
+white-space: nowrap;
+word-break: normal;
     font-size: 0.65rem;
     color: var(--accent-gold);
     font-style: normal;
@@ -9287,6 +9332,285 @@ body:not(.home-page) header .brand-tagline {
     body:not(.home-page) header .plan-logo-tagline,
     body:not(.home-page) header .passport-brand-text small,
     body:not(.home-page) header .brand-tagline {
+        max-width: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .home-page .nav-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        gap: 8px;
+    }
+
+    .home-page .nav-container > .logo {
+        order: 1;
+        flex: 1 1 auto;
+        min-width: 0;
+        gap: 8px;
+    }
+
+    .home-page .nav-container > .language-switcher-wrap {
+        order: 2;
+        flex: 0 0 auto;
+        margin: 0;
+    }
+
+    .home-page .nav-container > .nav-actions {
+        order: 3;
+        flex: 0 0 auto;
+        justify-content: flex-end;
+        gap: 0;
+    }
+
+    .home-page .mobile-toggle {
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        font-size: 1.25rem;
+    }
+
+    body:not(.home-page) .nav-container[data-ananse-menu-host],
+    body:not(.home-page) .about-nav-container,
+    body:not(.home-page) .naa-header-container,
+    body:not(.home-page) .passport-nav-inner,
+    body:not(.home-page) .plan-nav[data-ananse-menu-host],
+    body:not(.home-page) .header-container[data-ananse-menu-host],
+    body.login-page-body .login-header-container,
+    body.signup-page .login-header-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        gap: 8px;
+        min-width: 0;
+    }
+
+    .home-page .nav-container,
+    body:not(.home-page) .nav-container[data-ananse-menu-host],
+    body:not(.home-page) .about-nav-container,
+    body:not(.home-page) .naa-header-container,
+    body:not(.home-page) .passport-nav-inner,
+    body:not(.home-page) .plan-nav[data-ananse-menu-host],
+    body:not(.home-page) .header-container[data-ananse-menu-host],
+    body.login-page-body .login-header-container,
+    body.signup-page .login-header-container {
+        box-sizing: border-box;
+        width: calc(100vw - 16px);
+        margin-left: calc(50% + 4px);
+        transform: translateX(-50%);
+        padding-right: 6px;
+        padding-left: 6px;
+    }
+
+    body:not(.home-page) .nav-container[data-ananse-menu-host] > .logo,
+    body:not(.home-page) .about-nav-container > .about-logo,
+    body:not(.home-page) .naa-header-container > .naa-logo,
+    body:not(.home-page) .passport-nav-inner > .passport-brand,
+    body:not(.home-page) .plan-nav[data-ananse-menu-host] > .plan-logo-container,
+    body:not(.home-page) .header-container[data-ananse-menu-host] > .logo,
+    body:not(.home-page) .login-header-container > .login-brand-logo {
+        order: 1;
+        flex: 1 1 auto;
+        min-width: 0;
+        gap: 8px;
+    }
+
+    body:not(.home-page) .nav-container[data-ananse-menu-host] > .language-switcher-wrap,
+    body:not(.home-page) .naa-header-container .language-switcher-wrap,
+    body:not(.home-page) .passport-nav-inner > .language-switcher-wrap,
+    body:not(.home-page) .plan-nav[data-ananse-menu-host] .language-switcher-wrap,
+    body:not(.home-page) .header-container[data-ananse-menu-host] .language-switcher-wrap,
+    body:not(.home-page) .login-header-container .language-switcher-wrap {
+        order: 2;
+        flex: 0 0 auto;
+        margin: 0;
+    }
+
+    body:not(.home-page) .about-nav-container > .about-nav-actions {
+        display: flex;
+        order: 2;
+        flex: 0 0 auto;
+        margin-left: auto;
+    }
+
+    body.about-page .about-nav-container .language-switcher-wrap {
+        margin: 0;
+    }
+
+    body:not(.home-page) .header-container[data-ananse-menu-host] > .header-controls,
+    body:not(.home-page) .plan-nav[data-ananse-menu-host] > .plan-nav-right,
+    body:not(.home-page) .login-header-container > .login-nav-controls {
+        display: flex;
+        order: 3;
+        flex: 0 0 auto;
+        align-items: center;
+        gap: 8px;
+        margin-left: auto;
+    }
+
+    body:not(.home-page) [data-ananse-menu-toggle] {
+        order: 3;
+        width: 44px !important;
+        height: 44px !important;
+        flex: 0 0 44px !important;
+        font-size: 1.25rem !important;
+    }
+
+    .home-page .tagline,
+    body.home-page header .logo .tagline,
+    body:not(.home-page) header .logo .tagline,
+    body:not(.home-page) header .naa-brand-tagline,
+    body:not(.home-page) header .login-brand-slogan,
+    body:not(.home-page) header .plan-logo-tagline,
+    body:not(.home-page) header .passport-brand-text small,
+    body:not(.home-page) header .brand-tagline {
+        max-width: none;
+        margin: 0;
+        font-size: clamp(7px, 2.05vw, 10.4px) !important;
+        line-height: 1.1;
+        white-space: nowrap;
+    }
+
+    .home-page .language-select,
+    body:not(.home-page) header .language-select {
+        flex-shrink: 0;
+        font-size: 0.65rem;
+        padding: 0.35rem 1.45rem 0.35rem 0.5rem;
+    }
+
+    body:not(.home-page) .login-header-container {
+        position: relative;
+    }
+
+    body:not(.home-page) header .logo,
+    body:not(.home-page) header .about-logo,
+    body:not(.home-page) header .login-brand-logo,
+    body:not(.home-page) header .passport-brand,
+    body:not(.home-page) header .plan-logo-container {
+        max-width: 100%;
+    }
+
+    body:not(.home-page) header .logo-text,
+    body:not(.home-page) header .login-brand-text,
+    body:not(.home-page) header .passport-brand-text,
+    body:not(.home-page) header .plan-logo-text {
+        min-width: 0;
+    }
+
+    body:not(.home-page) header .logo,
+    body:not(.home-page) header .about-logo,
+    body:not(.home-page) header .naa-logo,
+    body:not(.home-page) header .login-brand-logo,
+    body:not(.home-page) header .passport-brand,
+    body:not(.home-page) header .plan-logo-container {
+        flex: 1 1 auto;
+        gap: 8px;
+        min-width: 0;
+    }
+
+    body.about-page .about-menu-toggle {
+        order: 3;
+        flex: 0 0 44px;
+        width: 44px;
+        height: 44px;
+        margin-left: 0;
+    }
+
+    body:not(.home-page) header .logo-placeholder-icon,
+    body:not(.home-page) header .naa-logo-icon,
+    body:not(.home-page) header .login-logo-icon,
+    body:not(.home-page) header .passport-brand-icon {
+        font-size: 1.2rem;
+    }
+
+    body:not(.home-page) header .brand-name,
+    body:not(.home-page) header .login-brand-title,
+    body:not(.home-page) header .passport-brand-text strong,
+    body:not(.home-page) header .plan-logo-title {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .home-page .navbar {
+        padding: 8px 4px;
+    }
+
+    .home-page .nav-container {
+        padding: 0;
+        gap: 2px;
+    }
+
+    body:not(.home-page) .nav-container[data-ananse-menu-host],
+    body:not(.home-page) .about-nav-container,
+    body:not(.home-page) .naa-header-container,
+    body:not(.home-page) .passport-nav-inner,
+    body:not(.home-page) .plan-nav[data-ananse-menu-host],
+    body:not(.home-page) .header-container[data-ananse-menu-host],
+    body.login-page-body .login-header-container,
+    body.signup-page .login-header-container {
+        gap: 2px;
+        padding-right: 2px;
+        padding-left: 4px;
+    }
+
+    .home-page .nav-container > .logo {
+        gap: 4px;
+    }
+
+    .home-page .logo-placeholder-icon {
+        font-size: 1rem;
+    }
+
+    .home-page .brand-name {
+        font-size: 0.9rem;
+    }
+
+    .home-page .language-select,
+    body:not(.home-page) header .language-select {
+        width: 64px;
+        padding-right: 1rem;
+        padding-left: 0.35rem;
         font-size: 0.55rem;
+    }
+
+    body:not(.home-page) header .logo,
+    body:not(.home-page) header .about-logo,
+    body:not(.home-page) header .naa-logo,
+    body:not(.home-page) header .login-brand-logo,
+    body:not(.home-page) header .passport-brand,
+    body:not(.home-page) header .plan-logo-container {
+        gap: 4px;
+    }
+
+    body:not(.home-page) .header-container[data-ananse-menu-host] > .header-controls,
+    body:not(.home-page) .plan-nav[data-ananse-menu-host] > .plan-nav-right,
+    body:not(.home-page) .login-header-container > .login-nav-controls {
+        gap: 6px;
+    }
+
+    body:not(.home-page) header .logo-placeholder-icon,
+    body:not(.home-page) header .naa-logo-icon,
+    body:not(.home-page) header .login-logo-icon,
+    body:not(.home-page) header .passport-brand-icon {
+        font-size: 1rem;
+    }
+
+    body:not(.home-page) header .brand-name,
+    body:not(.home-page) header .login-brand-title,
+    body:not(.home-page) header .passport-brand-text strong,
+    body:not(.home-page) header .plan-logo-title {
+        font-size: 0.9rem;
+    }
+
+    body.admin-page .admin-brand__tagline {
+        white-space: nowrap;
     }
 }

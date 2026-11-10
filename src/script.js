@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
             navMenu.classList.toggle("active");
 
             // Toggle icon between bars and times (close X)
-            const icon = mobileToggle.querySelector("i");
+            const icon = mobileToggle.querySelector(".fa-bars, .fa-xmark");
             if (icon) {
                 if (navMenu.classList.contains("active")) {
                     icon.classList.remove("fa-bars");
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Close mobile menu when a link is clicked
             if (window.innerWidth <= 768) {
                 navMenu.classList.remove("active");
-                const icon = mobileToggle.querySelector("i");
+                const icon = mobileToggle.querySelector(".fa-bars, .fa-xmark");
                 if (icon) {
                     icon.classList.remove("fa-xmark");
                     icon.classList.add("fa-bars");
@@ -1280,6 +1280,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("resize", () => {
 
         if (
+            passportNav &&
             window.innerWidth > 760 &&
             passportNav.classList.contains("open")
         ) {
