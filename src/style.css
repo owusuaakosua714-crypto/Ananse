@@ -3021,6 +3021,24 @@ body.about-page .about-quote-author {
 }
 
 /* ------------------ HERITAGE STORYTELLING SECTION ------------------ */
+body.story-page .s-story-image {
+    margin: 1.6rem 0;
+}
+
+body.story-page .s-story-image img {
+    display: block;
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+body.story-page .s-story-image figcaption {
+    margin-top: 0.45rem;
+    color: var(--s-muted);
+    font-size: 0.9rem;
+}
+
 body.about-page .about-story-section {
   padding: 70px 0;
   background-color: #F7F2EC;
@@ -3912,6 +3930,16 @@ body.about-page .about-btn-gold:hover {
   margin: 0 0 10px; font-family: var(--font-body); font-weight: 700;
 }
 .explore-page .modal-section p { font-size: 14.5px; color: var(--text-dark); line-height: 1.65; margin: 0; }
+.explore-page .managed-story { display: grid; gap: 12px; }
+.explore-page .managed-story-image { margin: 0; }
+.explore-page .managed-story-image img {
+    display: block;
+    width: 100%;
+    max-height: 340px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+.explore-page .managed-story-image figcaption { margin-top: 5px; color: var(--text-muted); font-size: 12px; }
 
 .explore-page .modal-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 .explore-page .action-btn {

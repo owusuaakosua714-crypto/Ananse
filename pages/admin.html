@@ -68,40 +68,40 @@
                         aria-hidden="true"></i> Open site directory</a>
             </section>
 
+            <section class="admin-analytics" aria-labelledby="analyticsTitle">
+                <div class="admin-section__heading">
+                    <div>
+                        <p class="admin-eyebrow">AUDIENCE</p>
+                        <h2 id="analyticsTitle">Visitor analytics</h2>
+                    </div>
+                    <span class="admin-local-note">Recorded in this browser</span>
+                </div>
+                <div class="admin-metrics" aria-live="polite">
+                    <article class="admin-metric"><span>Unique browsers</span><strong id="visitorCount">0</strong></article>
+                    <article class="admin-metric"><span>Page views</span><strong id="pageViewCount">0</strong></article>
+                    <article class="admin-metric"><span>Story views</span><strong id="storyViewCount">0</strong></article>
+                    <article class="admin-metric"><span>Last 7 days</span><strong id="recentViewCount">0</strong></article>
+                </div>
+                <div class="admin-top-sites">
+                    <h3>Most viewed sites</h3>
+                    <ol id="mostViewedSites" class="admin-ranking"></ol>
+                </div>
+            </section>
+
             <section class="admin-section" aria-labelledby="sitesTitle">
                 <div class="admin-section__heading">
                     <div>
                         <p class="admin-eyebrow">CONTENT</p>
-                        <h2 id="sitesTitle">Heritage pages</h2>
+                        <h2 id="sitesTitle">Manage heritage sites</h2>
                     </div>
-                    <a href="explore.html">View all sites <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    <button class="admin-primary-action" id="addSiteButton" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add site</button>
                 </div>
-                <div class="admin-site-list">
-                    <a class="admin-site-row" href="capecoast.html"><span class="admin-site-icon"><i
-                                class="fa-solid fa-fort" aria-hidden="true"></i></span><span><strong>Cape Coast
-                                Castle</strong><small>Fortress and coastal heritage</small></span><span
-                            class="admin-site-state">Open page</span><i
-                            class="fa-solid fa-chevron-right admin-row-arrow" aria-hidden="true"></i></a>
-                    <a class="admin-site-row" href="independence.html"><span class="admin-site-icon"><i
-                                class="fa-solid fa-monument" aria-hidden="true"></i></span><span><strong>Independence
-                                Arch</strong><small>Independence-era landmark</small></span><span
-                            class="admin-site-state">Open page</span><i
-                            class="fa-solid fa-chevron-right admin-row-arrow" aria-hidden="true"></i></a>
-                    <a class="admin-site-row" href="kwamepark.html"><span class="admin-site-icon"><i
-                                class="fa-solid fa-landmark" aria-hidden="true"></i></span><span><strong>Kwame Nkrumah
-                                Memorial Park</strong><small>Memorial and national history</small></span><span
-                            class="admin-site-state">Open page</span><i
-                            class="fa-solid fa-chevron-right admin-row-arrow" aria-hidden="true"></i></a>
-                    <a class="admin-site-row" href="manhyia.html"><span class="admin-site-icon"><i
-                                class="fa-solid fa-building-columns" aria-hidden="true"></i></span><span><strong>Manhyia
-                                Palace</strong><small>Asante royal heritage</small></span><span
-                            class="admin-site-state">Open page</span><i
-                            class="fa-solid fa-chevron-right admin-row-arrow" aria-hidden="true"></i></a>
-                    <a class="admin-site-row" href="osucastle.html"><span class="admin-site-icon"><i
-                                class="fa-solid fa-fort" aria-hidden="true"></i></span><span><strong>Osu
-                                Castle</strong><small>Historic coastal landmark</small></span><span
-                            class="admin-site-state">Open page</span><i
-                            class="fa-solid fa-chevron-right admin-row-arrow" aria-hidden="true"></i></a>
+                <p id="siteSaveStatus" class="admin-form-status" role="status" aria-live="polite"></p>
+                <div class="admin-table-wrap">
+                    <table class="admin-sites-table">
+                        <thead><tr><th scope="col">Site</th><th scope="col">Category</th><th scope="col">Views</th><th scope="col">Actions</th></tr></thead>
+                        <tbody id="adminSiteRows"></tbody>
+                    </table>
                 </div>
             </section>
 
@@ -118,7 +118,42 @@
             </section>
         </main>
     </div>
+    <dialog class="admin-site-dialog" id="siteDialog" aria-labelledby="siteDialogTitle">
+        <form id="siteForm" method="dialog">
+            <div class="admin-dialog-heading">
+                <div><p class="admin-eyebrow">SITE CONTENT</p><h2 id="siteDialogTitle">Add heritage site</h2></div>
+                <button class="admin-icon-button" type="button" id="closeSiteDialog" aria-label="Close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+            </div>
+            <input id="siteId" name="id" type="hidden">
+            <div class="admin-form-grid">
+                <label>Site name<input id="siteName" name="name" required maxlength="100"></label>
+                <label>Location<input id="siteLocation" name="location" required maxlength="120" placeholder="Town, Region"></label>
+                <label>Region<select id="siteRegion" name="region"><option value="central">Central</option><option value="ashanti">Ashanti</option><option value="greater-accra">Greater Accra</option><option value="western">Western</option><option value="western-north">Western North</option><option value="eastern">Eastern</option><option value="volta">Volta</option><option value="oti">Oti</option><option value="northern">Northern</option><option value="savannah">Savannah</option><option value="north-east">North East</option><option value="upper-east">Upper East</option><option value="upper-west">Upper West</option><option value="bono">Bono</option><option value="bono-east">Bono East</option><option value="ahafo">Ahafo</option></select></label>
+                <label>Category<select id="siteCategory" name="category"><option value="historical">Historical site</option><option value="palaces">Palace</option><option value="monuments">Monument</option></select></label>
+                <label>Latitude<input id="siteLatitude" name="latitude" type="number" min="-90" max="90" step="any" required></label>
+                <label>Longitude<input id="siteLongitude" name="longitude" type="number" min="-180" max="180" step="any" required></label>
+                <label class="admin-form-wide">Short description<textarea id="siteDescription" name="description" required minlength="10" rows="3" maxlength="500"></textarea></label>
+                <label class="admin-form-wide">Cover image URL or project path<input id="siteCoverImage" name="coverImage" required placeholder="../images/site-photo.jpeg"></label>
+                <label class="admin-form-wide">Story text <small>Use a blank line between paragraphs. Leave empty to keep the existing story.</small><textarea id="siteStory" name="story" rows="6" placeholder="Write the story in paragraphs..."></textarea></label>
+            </div>
+            <div class="admin-image-editor">
+                <div class="admin-image-editor__heading"><div><h3>Story images</h3><p>Add images and choose where each appears in the story.</p></div><button class="admin-secondary-action" id="addStoryImage" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add image</button></div>
+                <div id="storyImageRows" class="admin-image-rows"></div>
+            </div>
+            <p class="admin-form-hint">Changes publish to the shared catalog when available; offline changes stay in this browser. Add map coordinates for each site. Image paths should be relative to the pages folder or a complete image URL.</p>
+            <div class="admin-dialog-actions"><button class="admin-secondary-action" type="button" id="cancelSiteEdit">Cancel</button><button class="admin-primary-action" type="submit"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save site</button></div>
+        </form>
+    </dialog>
+    <template id="storyImageTemplate">
+        <div class="admin-image-row">
+            <label>Image URL or path<input class="story-image-src" type="text" placeholder="../images/photo.jpeg or https://..." inputmode="url"></label>
+            <label>Caption<input class="story-image-caption" type="text" maxlength="140" placeholder="Image description"></label>
+            <label>Insert after<select class="story-image-position"><option value="0">Before story text</option><option value="1">Paragraph 1</option><option value="2">Paragraph 2</option><option value="3">Paragraph 3</option><option value="4">Paragraph 4</option><option value="5">Paragraph 5</option><option value="6">Paragraph 6</option><option value="7">Paragraph 7</option><option value="8">Paragraph 8</option></select></label>
+            <button type="button" class="admin-icon-button remove-story-image" aria-label="Remove image"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
+        </div>
+    </template>
     <script src="../src/auth-session.js"></script>
+    <script src="../src/site-content.js"></script>
     <script src="../src/admin.js"></script>
 </body>
 

@@ -1,3 +1,103 @@
+(function () {
+    const ANALYTICS_KEY = "ananseAdminAnalyticsV1";
+
+    function recordView(siteId, page) {
+        try {
+            let visitorId = localStorage.getItem("ananseVisitorId");
+            if (!visitorId) {
+                visitorId = window.crypto && typeof window.crypto.randomUUID === "function"
+                    ? window.crypto.randomUUID()
+                    : "visitor-" + Date.now().toString(36) + Math.random().toString(36).slice(2);
+                localStorage.setItem("ananseVisitorId", visitorId);
+            }
+            const data = JSON.parse(localStorage.getItem(ANALYTICS_KEY) || "{}");
+            data.visitors = Array.isArray(data.visitors) ? data.visitors : [];
+            data.views = Array.isArray(data.views) ? data.views : [];
+            if (data.visitors.indexOf(visitorId) === -1) data.visitors.push(visitorId);
+            data.views.push({ siteId: siteId || "", page: page || "", at: new Date().toISOString() });
+            if (data.views.length > 5000) data.views = data.views.slice(-5000);
+            localStorage.setItem(ANALYTICS_KEY, JSON.stringify(data));
+        } catch (error) {
+            // Analytics are optional when browser storage is unavailable.
+        }
+    }
+
+    window.ananseAnalytics = {
+        recordSiteView: function (siteId, page) { recordView(siteId, page || location.pathname); }
+    };
+
+    function createStoryImage(image) {
+        const figure = document.createElement("figure");
+        figure.className = "s-story-image";
+        figure.dataset.adminManagedImage = "true";
+        const photo = document.createElement("img");
+        photo.src = image.src;
+        photo.alt = image.caption || "Heritage site photograph";
+        photo.loading = "lazy";
+        const caption = document.createElement("figcaption");
+        caption.textContent = image.caption || "";
+        figure.append(photo, caption);
+        return figure;
+    }
+
+    function applyManagedStory(site) {
+        const hero = document.querySelector(".s-hero");
+        const prose = document.querySelector("#story .s-prose");
+        if (!site || !prose) return;
+
+        if (site.name) {
+            const title = hero && hero.querySelector("h1");
+            if (title) title.textContent = site.name;
+            document.title = site.name + ": The Story — ANANSE";
+        }
+        if (site.description && hero) {
+            const intro = hero.querySelector("p");
+            if (intro) intro.textContent = site.description;
+        }
+
+        if (site.story) {
+            prose.replaceChildren();
+            site.story.split(/\n\s*\n/).map(function (paragraph) { return paragraph.trim(); }).filter(Boolean).forEach(function (text) {
+                const paragraph = document.createElement("p");
+                paragraph.textContent = text;
+                prose.appendChild(paragraph);
+            });
+        }
+
+        const images = (site.images || []).slice().sort(function (left, right) { return left.after - right.after; });
+        if (!images.length) return;
+        const paragraphs = Array.from(prose.children).filter(function (child) { return child.tagName === "P"; });
+        images.filter(function (image) { return image.after === 0; }).forEach(function (image) {
+            prose.insertBefore(createStoryImage(image), prose.firstChild);
+        });
+        images.filter(function (image) { return image.after > 0; }).forEach(function (image) {
+            const paragraph = paragraphs[Math.min(image.after, paragraphs.length) - 1];
+            if (paragraph && paragraph.nextSibling) prose.insertBefore(createStoryImage(image), paragraph.nextSibling);
+            else if (paragraph) prose.appendChild(createStoryImage(image));
+            else prose.appendChild(createStoryImage(image));
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", async function () {
+        const page = location.pathname.split("/").pop() || "index.html";
+        const storySiteIds = {
+            "capecoast.html": "cape-coast",
+            "manhyia.html": "manhyia",
+            "osucastle.html": "osu",
+            "independence.html": "independence",
+            "kwamepark.html": "kwame-nkrumah"
+        };
+        const querySite = new URLSearchParams(location.search).get("site");
+        const siteId = storySiteIds[page] || (page === "explore.html" ? querySite : "");
+        recordView(siteId, page);
+        if (storySiteIds[page] && window.ananseSiteContent) {
+            await window.ananseSiteContent.ready;
+            const site = window.ananseSiteContent.getSite(storySiteIds[page]);
+            applyManagedStory(site);
+        }
+    });
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
     if (!document.body.classList.contains("home-page")) {
         const menuToggleSelector = "[data-ananse-menu-toggle]";
@@ -577,10 +677,113 @@ document.addEventListener('DOMContentLoaded', function () {
 // ANANSE — EXPLORE PAGE: HERITAGE SITES
 // ==========================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     const cardGrid = document.getElementById("cardGrid");
     if (!cardGrid) return; // only run on explore.html
+    if (window.ananseSiteContent) await window.ananseSiteContent.ready;
 
+    function syncManagedSiteCards() {
+        const api = window.ananseSiteContent;
+        if (!api) return;
+        const sites = api.getSites();
+        const byId = new Map(sites.map(function (site) { return [site.id, site]; }));
+        const existingIds = new Set();
+
+        Array.from(cardGrid.querySelectorAll(".heritage-card")).forEach(function (card) {
+            const site = byId.get(card.dataset.siteId);
+            if (!site) {
+                card.remove();
+                return;
+            }
+            existingIds.add(site.id);
+            card.dataset.name = site.name;
+            card.dataset.location = site.location;
+            card.dataset.region = site.region;
+            card.dataset.category = site.category;
+            card.dataset.categoryLabel = site.category.replace(/-/g, " ");
+            card.dataset.description = site.description;
+            card.querySelector(".card-body h3").textContent = site.name;
+            card.querySelector(".card-loc span").textContent = site.location;
+            card.querySelector(".card-desc").textContent = site.description;
+            card.querySelector(".category-badge").textContent = site.category.replace(/-/g, " ");
+            const image = card.querySelector(".card-media img");
+            if (site.coverImage) {
+                image.src = site.coverImage;
+                image.alt = site.name;
+                image.hidden = false;
+            } else {
+                image.removeAttribute("src");
+                image.hidden = true;
+            }
+            [".card-body h3", ".card-loc span", ".card-desc", ".category-badge"].forEach(function (selector) {
+                const element = card.querySelector(selector);
+                if (element) element.removeAttribute("data-i18n");
+            });
+        });
+
+        sites.filter(function (site) { return !existingIds.has(site.id); }).forEach(function (site) {
+            const categoryLabel = site.category.replace(/-/g, " ");
+            const mediaClass = "media--managed-" + site.category;
+            const card = document.createElement("article");
+            card.className = "heritage-card";
+            card.dataset.siteId = site.id;
+            card.dataset.name = site.name;
+            card.dataset.location = site.location;
+            card.dataset.region = site.region;
+            card.dataset.category = site.category;
+            card.dataset.categoryLabel = categoryLabel;
+            card.dataset.mediaClass = mediaClass;
+            card.dataset.description = site.description;
+            card.dataset.didYouKnow = site.description;
+
+            const media = document.createElement("div");
+            media.className = "card-media " + mediaClass;
+            const image = document.createElement("img");
+            if (site.coverImage) image.src = site.coverImage;
+            else image.hidden = true;
+            image.alt = site.name;
+            image.loading = "lazy";
+            const badge = document.createElement("span");
+            badge.className = "category-badge";
+            badge.textContent = categoryLabel;
+            const bookmark = document.createElement("button");
+            bookmark.type = "button";
+            bookmark.className = "bookmark-btn";
+            bookmark.dataset.siteId = site.id;
+            bookmark.setAttribute("aria-pressed", "false");
+            bookmark.setAttribute("aria-label", "Save " + site.name + " to favourites");
+            bookmark.innerHTML = '<i class="fa-regular fa-heart" aria-hidden="true"></i>';
+            media.append(image, badge, bookmark);
+
+            const body = document.createElement("div");
+            body.className = "card-body";
+            const title = document.createElement("h3");
+            title.textContent = site.name;
+            const location = document.createElement("p");
+            location.className = "card-loc";
+            location.innerHTML = '<i class="fa-solid fa-location-dot" aria-hidden="true"></i>';
+            const locationText = document.createElement("span");
+            locationText.textContent = site.location;
+            location.appendChild(locationText);
+            const description = document.createElement("p");
+            description.className = "card-desc";
+            description.textContent = site.description;
+            const footer = document.createElement("div");
+            footer.className = "card-foot";
+            const learn = document.createElement("button");
+            learn.type = "button";
+            learn.className = "explore-story-btn";
+            learn.dataset.siteId = site.id;
+            learn.textContent = "Learn the Story ";
+            learn.insertAdjacentHTML("beforeend", '<i class="fa-solid fa-arrow-right" aria-hidden="true"></i>');
+            footer.appendChild(learn);
+            body.append(title, location, description, footer);
+            card.append(media, body);
+            cardGrid.appendChild(card);
+        });
+    }
+
+    syncManagedSiteCards();
     const cards = Array.from(cardGrid.querySelectorAll(".heritage-card"));
     let visibleCount = cards.length;
 
@@ -622,6 +825,9 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     function getStoryUrl(siteId) {
+        const managedSite = window.ananseSiteContent && window.ananseSiteContent.getSite(siteId);
+        if (managedSite && managedSite.storyPage) return managedSite.storyPage;
+        if (managedSite) return "explore.html?site=" + encodeURIComponent(siteId);
         return STORY_PAGES[siteId] || "site.html?site=" + siteId;
     }
 
@@ -685,6 +891,33 @@ document.addEventListener("DOMContentLoaded", function () {
                 favBtn.setAttribute("aria-label", t("explorePage.saveFavourite", "Save " + name + " to favourites", { name: name }));
             }
         });
+    }
+
+    function escapeHTML(value) {
+        return String(value == null ? "" : value).replace(/[&<>"']/g, function (character) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character];
+        });
+    }
+
+    function managedStoryMarkup(site) {
+        if (!site || (!site.story && !(site.images && site.images.length))) return "";
+        const paragraphs = (site.story || "").split(/\n\s*\n/).map(function (text) { return text.trim(); }).filter(Boolean);
+        const images = (site.images || []).slice().sort(function (left, right) { return left.after - right.after; });
+        const content = [];
+        function addImages(after) {
+            images.filter(function (image) { return image.after === after; }).forEach(function (image) {
+                content.push('<figure class="managed-story-image"><img src="' + escapeHTML(image.src) + '" alt="' + escapeHTML(image.caption || site.name) + '" loading="lazy"><figcaption>' + escapeHTML(image.caption) + '</figcaption></figure>');
+            });
+        }
+        addImages(0);
+        paragraphs.forEach(function (paragraph, index) {
+            content.push("<p>" + escapeHTML(paragraph) + "</p>");
+            addImages(index + 1);
+        });
+        images.filter(function (image) { return image.after > paragraphs.length; }).forEach(function (image) {
+            content.push('<figure class="managed-story-image"><img src="' + escapeHTML(image.src) + '" alt="' + escapeHTML(image.caption || site.name) + '" loading="lazy"><figcaption>' + escapeHTML(image.caption) + '</figcaption></figure>');
+        });
+        return '<div class="modal-section managed-story"><h4>Story</h4>' + content.join("") + "</div>";
     }
 
     // ---- Filtering: search + category + region ----
@@ -839,6 +1072,7 @@ document.addEventListener("DOMContentLoaded", function () {
         lastFocusedCard = card;
 
         const d = card.dataset;
+        const managedSite = window.ananseSiteContent && window.ananseSiteContent.getSite(d.siteId);
         const img = card.querySelector(".card-media img");
         const imageSrc = img ? img.getAttribute("src") : "";
         const imageAlt = img ? img.getAttribute("alt") : "";
@@ -852,6 +1086,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const learnLabel = t("explorePage.learnStory", "Learn the Story");
         const listenLabel = t("explorePage.listenStory", "Listen to the Story");
+        if (window.ananseAnalytics) window.ananseAnalytics.recordSiteView(d.siteId, location.pathname);
 
         // Listen: real link if the site has a Listen page, otherwise a "coming soon" button
         const listenUrl = getListenUrl(d.siteId);
@@ -865,17 +1100,18 @@ document.addEventListener("DOMContentLoaded", function () {
             '<button type="button" class="modal-close" aria-label="' + t("explorePage.close", "Close") + '">' +
                 '<i class="fa-solid fa-xmark"></i>' +
             '</button>' +
-            '<div class="modal-hero ' + d.mediaClass + '">' +
-                '<img src="' + imageSrc + '" alt="' + imageAlt + '" onerror="this.style.display=\'none\'">' +
-                '<span class="category-badge">' + categoryLabel + '</span>' +
+            '<div class="modal-hero ' + escapeHTML(d.mediaClass) + '">' +
+                '<img src="' + escapeHTML(imageSrc) + '" alt="' + escapeHTML(imageAlt) + '" onerror="this.style.display=\'none\'">' +
+                '<span class="category-badge">' + escapeHTML(categoryLabel) + '</span>' +
                 '<div>' +
-                    '<h2>' + name + '</h2>' +
-                    '<p class="loc"><i class="fa-solid fa-location-dot"></i> ' + location + '</p>' +
+                    '<h2>' + escapeHTML(name) + '</h2>' +
+                    '<p class="loc"><i class="fa-solid fa-location-dot"></i> ' + escapeHTML(location) + '</p>' +
                 '</div>' +
             '</div>' +
             '<div class="modal-body">' +
-                '<div class="modal-section"><h4>' + t("explorePage.aboutSite", "About this site") + '</h4><p>' + description + '</p></div>' +
-                '<div class="modal-section"><h4>' + t("explorePage.didYouKnow", "Did You Know?") + '</h4><p>' + didYouKnow + '</p></div>' +
+                '<div class="modal-section"><h4>' + t("explorePage.aboutSite", "About this site") + '</h4><p>' + escapeHTML(description) + '</p></div>' +
+                managedStoryMarkup(managedSite) +
+                '<div class="modal-section"><h4>' + t("explorePage.didYouKnow", "Did You Know?") + '</h4><p>' + escapeHTML(didYouKnow) + '</p></div>' +
                 '<div class="modal-actions">' +
                     '<a class="action-btn action-btn--learn" href="' + getStoryUrl(d.siteId) + '">' +
                         '<i class="fa-solid fa-book-open"></i> ' + learnLabel + '</a>' +
@@ -937,6 +1173,18 @@ document.addEventListener("DOMContentLoaded", function () {
     syncFavourites();
     updateCardLabels();
     applyFilters();
+    const requestedSite = new URLSearchParams(location.search).get("site");
+    const exploreSiteAliases = {
+        "cape-coast-castle": "cape-coast",
+        "manhyia-palace": "manhyia",
+        "osu-castle": "osu",
+        "independence-arch": "independence"
+    };
+    if (requestedSite) {
+        const requestedSiteId = exploreSiteAliases[requestedSite] || requestedSite;
+        const requestedCard = cards.find(function (card) { return card.dataset.siteId === requestedSiteId; });
+        if (requestedCard) openModal(requestedCard);
+    }
 });
 
     // ---- Journey strip: smooth-scroll links (Discover, Learn) ----
@@ -2034,9 +2282,10 @@ document.addEventListener("DOMContentLoaded", () => {
 // untouched, map styling is updated to an earthy theme, and popups now fully translate.
 // ==========================================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     const mapContainer = document.getElementById("mapbox-container");
     if (!mapContainer) return; // only run on map.html
+    if (window.ananseSiteContent) await window.ananseSiteContent.ready;
 
     // ----------------------------------------------------------------------
     // LANGUAGE STATE & TRANSLATION HELPER
@@ -2070,7 +2319,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "kwame-nkrumah": "kwame-nkrumah"
     };
 
-    const SITES = [
+    const DEFAULT_MAP_SITES = [
         {
             id: "cape-coast-castle",
             name: "mapPage.site.capeCoast.name",
@@ -2177,6 +2426,102 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     ];
+
+    const CONTENT_TO_MAP_ID = {
+        "cape-coast": "cape-coast-castle",
+        "manhyia": "manhyia-palace",
+        "osu": "osu-castle",
+        "independence": "independence-arch",
+        "kwame-nkrumah": "kwame-nkrumah"
+    };
+    const CATEGORY_CONFIG = {
+        historical: { category: "castles", label: "mapPage.categoryCastle" },
+        palaces: { category: "palaces", label: "mapPage.categoryPalace" },
+        monuments: { category: "monuments", label: "mapPage.categoryMonument" }
+    };
+    const managedSites = window.ananseSiteContent ? window.ananseSiteContent.getSites() : [];
+    const managedById = new Map(managedSites.map(function (site) { return [site.id, site]; }));
+    const DEFAULT_CONTENT_IDS = new Set(Object.keys(CONTENT_TO_MAP_ID));
+    const SITES = DEFAULT_MAP_SITES.map(function (mapSite) {
+        const contentId = Object.keys(CONTENT_TO_MAP_ID).find(function (id) {
+            return CONTENT_TO_MAP_ID[id] === mapSite.id;
+        });
+        const content = contentId && managedById.get(contentId);
+        if (!content) return null;
+        const category = CATEGORY_CONFIG[content.category] || CATEGORY_CONFIG.historical;
+        return Object.assign({}, mapSite, {
+            name: content.name,
+            location: content.location,
+            shortLocation: content.location.split(",")[0],
+            category: category.category,
+            categoryLabel: content.apiCategory || category.label,
+            lat: content.lat,
+            lng: content.lng,
+            image: content.coverImage,
+            description: content.description
+        });
+    }).filter(Boolean).concat(managedSites.filter(function (site) {
+        return !DEFAULT_CONTENT_IDS.has(site.id);
+    }).map(function (site) {
+        const category = CATEGORY_CONFIG[site.category] || CATEGORY_CONFIG.historical;
+        return {
+            id: site.id,
+            name: site.name,
+            location: site.location,
+            shortLocation: site.location.split(",")[0],
+            category: category.category,
+            categoryLabel: site.apiCategory || category.label,
+            lat: site.lat,
+            lng: site.lng,
+            image: site.coverImage,
+            description: site.description
+        };
+    }));
+
+    const featuredGrid = document.querySelector(".featured-cards-grid");
+    if (featuredGrid) {
+        const originalCard = featuredGrid.querySelector(".site-card");
+        SITES.forEach(function (site) {
+            let card = Array.from(featuredGrid.querySelectorAll(".site-card")).find(function (item) {
+                return item.dataset.siteId === site.id;
+            });
+            if (!card && originalCard) {
+                card = originalCard.cloneNode(true);
+                featuredGrid.appendChild(card);
+            }
+            if (!card) return;
+            card.dataset.siteId = site.id;
+            const image = card.querySelector(".card-media img");
+            if (image && site.image) {
+                image.src = site.image;
+                image.alt = site.name;
+                image.removeAttribute("data-i18n-alt");
+                image.hidden = false;
+            } else if (image) {
+                image.removeAttribute("src");
+                image.hidden = true;
+            }
+            const title = card.querySelector(".card-titles h3");
+            if (title) {
+                title.dataset.siteTitleId = site.id;
+                title.removeAttribute("data-i18n");
+                title.textContent = site.name;
+            }
+            const location = card.querySelector(".card-titles .card-loc span");
+            if (location) {
+                location.dataset.siteShortlocId = site.id;
+                location.removeAttribute("data-i18n");
+                location.textContent = site.shortLocation;
+            }
+            const categoryLabel = card.querySelector(".card-category-tag");
+            if (categoryLabel) {
+                categoryLabel.removeAttribute("data-i18n");
+                categoryLabel.textContent = site.categoryLabel.indexOf("mapPage.") === 0
+                    ? getI18nVal(site.categoryLabel)
+                    : site.categoryLabel;
+            }
+        });
+    }
 
     let activeCategory = "all";
     let activeSiteId = null;
@@ -2456,6 +2801,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const canonicalSiteId = SITE_ALIASES[siteId] || siteId;
         const site = SITES.find(function (s) { return s.id === canonicalSiteId; });
         if (!site || !sitePopupCard) return;
+
+        if (window.ananseAnalytics) {
+            const contentSiteId = Object.keys(CONTENT_TO_MAP_ID).find(function (id) {
+                return CONTENT_TO_MAP_ID[id] === canonicalSiteId;
+            }) || canonicalSiteId;
+            window.ananseAnalytics.recordSiteView(contentSiteId, location.pathname);
+        }
 
         activeSiteId = canonicalSiteId;
         const lang = getCurrentLang();
