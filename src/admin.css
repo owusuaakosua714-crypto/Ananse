@@ -528,6 +528,32 @@
     font-size: 0.8rem;
 }
 
+.admin-form-grid input[type="file"],
+.admin-image-row input[type="file"],
+.admin-managed-story-image input[type="file"],
+.admin-trail-stop input[type="file"] {
+    padding: 7px;
+    cursor: pointer;
+}
+
+.admin-image-preview {
+    display: block;
+    width: min(100%, 240px);
+    max-height: 150px;
+    border-radius: 5px;
+    object-fit: cover;
+    background: rgba(6, 46, 53, 0.08);
+}
+
+.admin-image-preview[hidden] {
+    display: none;
+}
+
+.admin-form-grid .admin-image-preview {
+    width: min(100%, 340px);
+    max-height: 190px;
+}
+
 .admin-form-grid textarea {
     resize: vertical;
 }
@@ -685,6 +711,18 @@
     border: 1px solid rgba(6, 46, 53, 0.12);
     border-radius: 5px;
     background: rgba(6, 46, 53, 0.025);
+}
+
+.admin-managed-story-image .admin-image-preview {
+    grid-column: 1 / -2;
+}
+
+.admin-image-row .admin-image-preview {
+    grid-column: 1 / 4;
+}
+
+.admin-trail-stop .admin-image-preview {
+    grid-column: 1 / -1;
 }
 
 .admin-trail-editor > label,
@@ -1063,6 +1101,11 @@
     .admin-managed-story-image .remove-managed-image {
         grid-column: 2;
         grid-row: 1;
+    }
+
+    .admin-managed-story-image .admin-image-preview,
+    .admin-image-row .admin-image-preview {
+        grid-column: 1 / -1;
     }
 
     .admin-image-row {

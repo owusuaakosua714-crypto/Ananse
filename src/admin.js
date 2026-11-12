@@ -72,6 +72,50 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     let knownSiteIds = new Set((siteContent?.getAllSites() || []).map(site => site.id));
     let siteViewCounts = new Map();
+    const MAX_EMBEDDED_IMAGE_BYTES = 2 * 1024 * 1024;
+
+    async function optimizeImageFile(file) {
+        if (!file) return '';
+        if (!file.type.startsWith('image/')) throw new Error('Choose an image file.');
+        if (file.size > 25 * 1024 * 1024) throw new Error('Choose an image smaller than 25 MB.');
+        const bitmap = await createImageBitmap(file);
+        const maxDimension = 1600;
+        const scale = Math.min(1, maxDimension / Math.max(bitmap.width, bitmap.height));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+        canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+        const context = canvas.getContext('2d');
+        context.fillStyle = '#fff';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+        bitmap.close();
+
+        let imageData = '';
+        for (const quality of [0.82, 0.7, 0.58, 0.46]) {
+            imageData = canvas.toDataURL('image/webp', quality);
+            if (!imageData.startsWith('data:image/webp')) imageData = canvas.toDataURL('image/jpeg', quality);
+            if (imageData.length * 0.75 <= 480 * 1024) return imageData;
+        }
+        throw new Error('This image is still too large after optimization. Choose a smaller image file.');
+    }
+
+    function embeddedImageBytes(site) {
+        const sources = [site.coverImage, ...(site.images || []).map(image => image.src),
+            ...(site.storyContent?.images || []).map(image => image.src),
+            ...(site.trail?.stops || []).map(stop => stop.image)];
+        return sources.filter(source => source && source.startsWith('data:image/'))
+            .reduce((total, source) => total + Math.ceil(source.length * 0.75), 0);
+    }
+
+    async function imageSource(fileInput, previousSource) {
+        return fileInput.files?.[0] ? optimizeImageFile(fileInput.files[0]) : previousSource || '';
+    }
+
+    function showFilePreview(input, preview, previousSource) {
+        const file = input.files?.[0];
+        preview.src = file ? URL.createObjectURL(file) : previousSource || '';
+        preview.hidden = !preview.src;
+    }
 
     function renderAnalytics(summary, users) {
         const eventCounts = summary?.eventsByType || {};
@@ -179,14 +223,22 @@ document.addEventListener('DOMContentLoaded', () => {
         row.querySelector('.trail-stop-name').value = stop?.name || '';
         row.querySelector('.trail-stop-blurb').value = stop?.blurb || '';
         row.querySelector('.trail-stop-content').value = stop?.content || '';
-        row.querySelector('.trail-stop-image').value = stop?.image || '';
+        row.dataset.currentImageSrc = stop?.image || '';
+        const imageInput = row.querySelector('.trail-stop-image-file');
+        const preview = row.querySelector('.trail-stop-preview');
+        showFilePreview(imageInput, preview, row.dataset.currentImageSrc);
+        imageInput.addEventListener('change', () => showFilePreview(imageInput, preview, row.dataset.currentImageSrc));
         row.querySelector('.trail-stop-caption').value = stop?.caption || '';
         trailStopRows.appendChild(row);
     }
 
     function addImageRow(image) {
         const row = imageTemplate.content.firstElementChild.cloneNode(true);
-        row.querySelector('.story-image-src').value = image?.src || '';
+        row.dataset.currentImageSrc = image?.src || '';
+        const imageInput = row.querySelector('.story-image-file');
+        const preview = row.querySelector('.story-image-preview');
+        showFilePreview(imageInput, preview, row.dataset.currentImageSrc);
+        imageInput.addEventListener('change', () => showFilePreview(imageInput, preview, row.dataset.currentImageSrc));
         row.querySelector('.story-image-caption').value = image?.caption || '';
         row.querySelector('.story-image-position').value = String(image?.after || 0);
         row.querySelector('.remove-story-image').addEventListener('click', () => row.remove());
@@ -245,7 +297,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function addManagedStoryImage(image, sections) {
         const row = managedStoryImageTemplate.content.firstElementChild.cloneNode(true);
-        row.querySelector('.managed-image-src').value = image?.src || '';
+        row.dataset.currentImageSrc = image?.src || '';
+        const imageInput = row.querySelector('.managed-image-file');
+        const preview = row.querySelector('.managed-image-preview');
+        showFilePreview(imageInput, preview, row.dataset.currentImageSrc);
+        imageInput.addEventListener('change', () => showFilePreview(imageInput, preview, row.dataset.currentImageSrc));
         row.querySelector('.managed-image-alt').value = image?.alt || '';
         row.querySelector('.managed-image-caption').value = image?.caption || '';
         row.querySelector('.managed-image-after').value = String(image?.after || 0);
@@ -278,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
         (content?.images || []).forEach(image => addManagedStoryImage(image, content.sections || []));
     }
 
-    function collectManagedStoryContent() {
+    async function collectManagedStoryContent() {
         return {
             sections: Array.from(storySectionRows.querySelectorAll('.admin-story-section')).map(row => ({
                 id: row.dataset.sectionId,
@@ -294,13 +350,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 title: row.querySelector('.story-entry-title-input').value.trim(),
                 body: row.querySelector('.story-entry-body-input').value.trim()
             })),
-            images: Array.from(managedStoryImageRows.querySelectorAll('.admin-managed-story-image')).map(row => ({
-                src: row.querySelector('.managed-image-src').value.trim(),
+            images: (await Promise.all(Array.from(managedStoryImageRows.querySelectorAll('.admin-managed-story-image')).map(async row => ({
+                src: await imageSource(row.querySelector('.managed-image-file'), row.dataset.currentImageSrc),
                 alt: row.querySelector('.managed-image-alt').value.trim(),
                 caption: row.querySelector('.managed-image-caption').value.trim(),
                 sectionId: row.querySelector('.managed-image-section').value,
                 after: Math.max(0, Number(row.querySelector('.managed-image-after').value) || 0)
-            })).filter(image => image.src)
+            })))).filter(image => image.src)
         };
     }
 
@@ -316,7 +372,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('siteLatitude').value = site?.lat ?? '';
         document.getElementById('siteLongitude').value = site?.lng ?? '';
         document.getElementById('siteDescription').value = site?.description || '';
-        document.getElementById('siteCoverImage').value = site?.coverImage || '';
+        const coverInput = document.getElementById('siteCoverImage');
+        const coverPreview = document.getElementById('siteCoverPreview');
+        coverInput.value = '';
+        coverInput.dataset.currentImageSrc = site?.coverImage || '';
+        showFilePreview(coverInput, coverPreview, coverInput.dataset.currentImageSrc);
         document.getElementById('siteStory').value = site?.story || '';
         document.getElementById('siteLegacyStoryField').hidden = Boolean(site?.storyPage);
         document.getElementById('siteNaaNotes').value = site?.naaNotes || '';
@@ -451,6 +511,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('addSiteButton').addEventListener('click', () => openSiteEditor(null));
+    document.getElementById('siteCoverImage').addEventListener('change', event => {
+        const input = event.currentTarget;
+        showFilePreview(input, document.getElementById('siteCoverPreview'), input.dataset.currentImageSrc);
+    });
     document.getElementById('addStoryImage').addEventListener('click', () => addImageRow(null));
     document.getElementById('addTimelineEntry').addEventListener('click', () => addStoryEntry(storyTimelineRows, null, 'timeline'));
     document.getElementById('addPlaceEntry').addEventListener('click', () => addStoryEntry(storyPlaceRows, null, 'place'));
@@ -469,13 +533,37 @@ document.addEventListener('DOMContentLoaded', () => {
         const name = document.getElementById('siteName').value.trim();
         const existingId = document.getElementById('siteId').value;
         const id = existingId || name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-        const images = Array.from(imageRows.querySelectorAll('.admin-image-row')).map(row => ({
-            src: row.querySelector('.story-image-src').value.trim(),
-            caption: row.querySelector('.story-image-caption').value.trim(),
-            after: Number(row.querySelector('.story-image-position').value)
-        })).filter(image => image.src);
         const previousSite = siteContent.getSiteForAdmin(id);
-        const managedStoryContent = storyEditorReady && previousSite?.storyPage ? collectManagedStoryContent() : previousSite?.storyContent || null;
+        let coverImage;
+        let images;
+        let managedStoryContent;
+        let trail;
+        try {
+            coverImage = await imageSource(document.getElementById('siteCoverImage'), document.getElementById('siteCoverImage').dataset.currentImageSrc);
+            images = await Promise.all(Array.from(imageRows.querySelectorAll('.admin-image-row')).map(async row => ({
+                src: await imageSource(row.querySelector('.story-image-file'), row.dataset.currentImageSrc),
+                caption: row.querySelector('.story-image-caption').value.trim(),
+                after: Number(row.querySelector('.story-image-position').value)
+            })));
+            images = images.filter(image => image.src);
+            managedStoryContent = storyEditorReady && previousSite?.storyPage ? await collectManagedStoryContent() : previousSite?.storyContent || null;
+            trail = TRAIL_STOP_IDS[id] ? {
+                title: document.getElementById('trailTitle').value.trim(),
+                introduction: document.getElementById('trailIntroduction').value.trim(),
+                highlights: document.getElementById('trailHighlights').value.split(/\r?\n/).map(line => line.trim()).filter(Boolean),
+                stops: await Promise.all(Array.from(trailStopRows.querySelectorAll('.admin-trail-stop')).map(async row => ({
+                    id: row.dataset.stopId,
+                    name: row.querySelector('.trail-stop-name').value.trim(),
+                    blurb: row.querySelector('.trail-stop-blurb').value.trim(),
+                    content: row.querySelector('.trail-stop-content').value.trim(),
+                    image: await imageSource(row.querySelector('.trail-stop-image-file'), row.dataset.currentImageSrc),
+                    caption: row.querySelector('.trail-stop-caption').value.trim()
+                })))
+            } : null;
+        } catch (error) {
+            siteStatus.textContent = error.message || 'Could not prepare the selected image files.';
+            return;
+        }
         const site = {
             id,
             slug: previousSite?.slug || id,
@@ -491,26 +579,19 @@ document.addEventListener('DOMContentLoaded', () => {
             apiCategory: previousSite?.apiCategory || '',
             apiRegion: previousSite?.apiRegion || '',
             description: document.getElementById('siteDescription').value.trim(),
-            coverImage: document.getElementById('siteCoverImage').value.trim(),
+            coverImage,
             storyPage: siteContent.getSiteForAdmin(id)?.storyPage || '',
             story: managedStoryContent?.sections.find(section => section.id === 'story')?.body || document.getElementById('siteStory').value.trim(),
             images,
             storyContent: managedStoryContent,
             naaNotes: document.getElementById('siteNaaNotes').value.trim(),
-            trail: TRAIL_STOP_IDS[id] ? {
-                title: document.getElementById('trailTitle').value.trim(),
-                introduction: document.getElementById('trailIntroduction').value.trim(),
-                highlights: document.getElementById('trailHighlights').value.split(/\r?\n/).map(line => line.trim()).filter(Boolean),
-                stops: Array.from(trailStopRows.querySelectorAll('.admin-trail-stop')).map(row => ({
-                    id: row.dataset.stopId,
-                    name: row.querySelector('.trail-stop-name').value.trim(),
-                    blurb: row.querySelector('.trail-stop-blurb').value.trim(),
-                    content: row.querySelector('.trail-stop-content').value.trim(),
-                    image: row.querySelector('.trail-stop-image').value.trim(),
-                    caption: row.querySelector('.trail-stop-caption').value.trim()
-                }))
-            } : null
+            trail
         };
+
+        if (embeddedImageBytes(site) > MAX_EMBEDDED_IMAGE_BYTES) {
+            siteStatus.textContent = 'The optimized images for one site exceed the 2 MB limit. Remove an image or choose smaller files.';
+            return;
+        }
 
         if (!existingId && knownSiteIds.has(id)) {
             siteStatus.textContent = 'A site with that name already exists.';
