@@ -317,7 +317,6 @@
 
         .managed-trail-image {
             margin: 1rem 0 0;
-            aspect-ratio: 16 / 9;
             overflow: hidden;
             border-radius: 12px;
             background: #e8eeeb;
@@ -326,8 +325,8 @@
         .managed-trail-image img {
             display: block;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: clamp(220px, 34vw, 420px);
+            object-fit: contain;
         }
 
         .managed-trail-image figcaption {

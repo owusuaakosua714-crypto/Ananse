@@ -3037,15 +3037,18 @@ body.about-page .about-quote-author {
 
 /* ------------------ HERITAGE STORYTELLING SECTION ------------------ */
 body.story-page .s-story-image {
-    margin: 1.6rem 0;
+    width: min(100%, 780px);
+    margin: 1.6rem auto;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #f0eee9;
 }
 
 body.story-page .s-story-image img {
     display: block;
     width: 100%;
-    max-height: 420px;
-    object-fit: cover;
-    border-radius: 12px;
+    height: clamp(240px, 42vw, 500px);
+    object-fit: contain;
 }
 
 body.story-page .s-story-image figcaption {
@@ -3950,9 +3953,10 @@ body.about-page .about-btn-gold:hover {
 .explore-page .managed-story-image img {
     display: block;
     width: 100%;
-    max-height: 340px;
+    height: clamp(220px, 34vw, 420px);
     border-radius: 8px;
-    object-fit: cover;
+    object-fit: contain;
+    background: #f0eee9;
 }
 .explore-page .managed-story-image figcaption { margin-top: 5px; color: var(--text-muted); font-size: 12px; }
 
