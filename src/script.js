@@ -78,7 +78,43 @@
         });
     }
 
-    function createStoryDetails(title, body, year) {
+    function appendStoryBlocks(container, blocks) {
+        container.replaceChildren();
+        (blocks || []).forEach(function (block) {
+            if (block.type === "image" || block.type === "video") {
+                const figure = document.createElement("figure");
+                figure.className = "s-story-image";
+                if (block.type === "video") {
+                    const video = document.createElement("video");
+                    video.src = block.src;
+                    video.controls = true;
+                    video.preload = "metadata";
+                    video.setAttribute("aria-label", block.caption || "Heritage story video");
+                    figure.appendChild(video);
+                } else {
+                    const image = document.createElement("img");
+                    image.src = block.src;
+                    image.alt = block.alt || block.caption || "Heritage site photograph";
+                    image.loading = "lazy";
+                    figure.appendChild(image);
+                }
+                if (block.caption) {
+                    const caption = document.createElement("figcaption");
+                    caption.textContent = block.caption;
+                    figure.appendChild(caption);
+                }
+                container.appendChild(figure);
+                return;
+            }
+            if (block.text) {
+                const paragraph = document.createElement("p");
+                paragraph.textContent = block.text;
+                container.appendChild(paragraph);
+            }
+        });
+    }
+
+    function createStoryDetails(title, body, year, blocks) {
         const details = document.createElement("details");
         const summary = document.createElement("summary");
         if (year !== undefined) {
@@ -93,11 +129,16 @@
             summary.textContent = title;
         }
         details.appendChild(summary);
-        String(body || "").split(/\n\s*\n/).map(function (paragraph) { return paragraph.trim(); }).filter(Boolean).forEach(function (paragraphText) {
-            const paragraph = document.createElement("p");
-            paragraph.textContent = paragraphText;
-            details.appendChild(paragraph);
-        });
+        if (Array.isArray(blocks)) {
+            const content = document.createElement("div");
+            appendStoryBlocks(content, blocks);
+            details.append.apply(details, Array.from(content.childNodes));
+        }
+        else String(body || "").split(/\n\s*\n/).map(function (paragraph) { return paragraph.trim(); }).filter(Boolean).forEach(function (paragraphText) {
+                const paragraph = document.createElement("p");
+                paragraph.textContent = paragraphText;
+                details.appendChild(paragraph);
+            });
         return details;
     }
 
@@ -131,6 +172,7 @@
 
         if (site.storyContent) {
             const content = site.storyContent;
+            document.querySelectorAll(".s-main figure.s-story-image:not([data-admin-managed-image])").forEach(function (figure) { figure.remove(); });
             (content.sections || []).forEach(function (item) {
                 const section = document.getElementById(item.id);
                 if (!section) return;
@@ -141,7 +183,7 @@
                     if (list) {
                         list.replaceChildren();
                         (content.timeline || []).forEach(function (entry, index) {
-                            const details = createStoryDetails(entry.title, entry.body, entry.year);
+                            const details = createStoryDetails(entry.title, entry.body, entry.year, entry.blocks);
                             if (index === 0) details.open = true;
                             list.appendChild(details);
                         });
@@ -150,7 +192,7 @@
                     const list = section.querySelector(".s-places");
                     if (list) {
                         list.replaceChildren();
-                        (content.places || []).forEach(function (entry) { list.appendChild(createStoryDetails(entry.title, entry.body)); });
+                        (content.places || []).forEach(function (entry) { list.appendChild(createStoryDetails(entry.title, entry.body, undefined, entry.blocks)); });
                     }
                 } else {
                     let body = section.querySelector(".s-prose");
@@ -159,10 +201,10 @@
                         body.className = "s-prose";
                         section.appendChild(body);
                     }
-                    appendStoryParagraphs(body, item.body);
+                    if (Array.isArray(item.blocks)) appendStoryBlocks(body, item.blocks);
+                    else appendStoryParagraphs(body, item.body);
                 }
             });
-            document.querySelectorAll(".s-main figure.s-story-image:not([data-admin-managed-image])").forEach(function (figure) { figure.remove(); });
             (content.images || []).forEach(function (image) {
                 const section = document.getElementById(image.sectionId);
                 if (section) insertStoryImage(section, image);

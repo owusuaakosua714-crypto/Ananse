@@ -47,8 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const siteRows = document.getElementById('adminSiteRows');
     const siteDialog = document.getElementById('siteDialog');
     const siteForm = document.getElementById('siteForm');
-    const imageRows = document.getElementById('storyImageRows');
-    const imageTemplate = document.getElementById('storyImageTemplate');
     const trailEditor = document.getElementById('trailEditor');
     const trailStopRows = document.getElementById('trailStopRows');
     const trailStopTemplate = document.getElementById('trailStopTemplate');
@@ -56,10 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const storySectionRows = document.getElementById('storySectionRows');
     const storyTimelineRows = document.getElementById('storyTimelineRows');
     const storyPlaceRows = document.getElementById('storyPlaceRows');
-    const managedStoryImageRows = document.getElementById('managedStoryImageRows');
     const storySectionTemplate = document.getElementById('storySectionTemplate');
     const storyEntryTemplate = document.getElementById('storyEntryTemplate');
-    const managedStoryImageTemplate = document.getElementById('managedStoryImageTemplate');
     let storyEditorRequest = 0;
     let storyEditorReady = false;
     const siteStatus = document.getElementById('siteSaveStatus');
@@ -72,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     let knownSiteIds = new Set((siteContent?.getAllSites() || []).map(site => site.id));
     let siteViewCounts = new Map();
-    const MAX_EMBEDDED_IMAGE_BYTES = 2 * 1024 * 1024;
+    const MAX_EMBEDDED_MEDIA_BYTES = 2 * 1024 * 1024;
 
     async function optimizeImageFile(file) {
         if (!file) return '';
@@ -100,10 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function embeddedImageBytes(site) {
+        const storyBlocks = [...(site.storyContent?.sections || []), ...(site.storyContent?.timeline || []), ...(site.storyContent?.places || [])]
+            .flatMap(entry => entry.blocks || []);
         const sources = [site.coverImage, ...(site.images || []).map(image => image.src),
-            ...(site.storyContent?.images || []).map(image => image.src),
+            ...(site.storyContent?.images || []).map(image => image.src), ...storyBlocks.map(block => block.src),
             ...(site.trail?.stops || []).map(stop => stop.image)];
-        return sources.filter(source => source && source.startsWith('data:image/'))
+        return sources.filter(source => source && (source.startsWith('data:image/') || source.startsWith('data:video/')))
             .reduce((total, source) => total + Math.ceil(source.length * 0.75), 0);
     }
 
@@ -115,6 +113,174 @@ document.addEventListener('DOMContentLoaded', () => {
         const file = input.files?.[0];
         preview.src = file ? URL.createObjectURL(file) : previousSource || '';
         preview.hidden = !preview.src;
+    }
+
+    function textBlocks(text) {
+        return String(text || '').split(/\n\s*\n/).map(value => value.trim()).filter(Boolean).map(text => ({ type: 'text', text }));
+    }
+
+    function createInlineMedia(block) {
+        const figure = document.createElement('figure');
+        figure.className = 'admin-inline-media';
+        figure.contentEditable = 'true';
+        figure.dataset.inlineMedia = block.type;
+        figure.dataset.src = block.src;
+        if (block.type === 'video') {
+            const video = document.createElement('video');
+            video.src = block.src;
+            video.controls = true;
+            video.preload = 'metadata';
+            video.contentEditable = 'false';
+            figure.appendChild(video);
+        } else {
+            const image = document.createElement('img');
+            image.src = block.src;
+            image.alt = block.alt || block.caption || '';
+            image.contentEditable = 'false';
+            figure.appendChild(image);
+        }
+        const caption = document.createElement('figcaption');
+        caption.contentEditable = 'true';
+        caption.textContent = block.caption || '';
+        figure.appendChild(caption);
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'admin-inline-media__remove';
+        remove.contentEditable = 'false';
+        remove.setAttribute('aria-label', 'Remove this media');
+        remove.innerHTML = '<i class="fa-solid fa-xmark" aria-hidden="true"></i>';
+        remove.addEventListener('click', () => figure.remove());
+        figure.appendChild(remove);
+        return figure;
+    }
+
+    function renderEditorBlocks(canvas, blocks) {
+        canvas.replaceChildren();
+        (blocks || []).forEach(block => {
+            if (block.type === 'image' || block.type === 'video') {
+                canvas.appendChild(createInlineMedia(block));
+            } else {
+                const paragraph = document.createElement('p');
+                paragraph.textContent = block.text || '';
+                canvas.appendChild(paragraph);
+            }
+        });
+        if (!canvas.childElementCount) canvas.appendChild(document.createElement('p'));
+    }
+
+    function collectEditorBlocks(canvas) {
+        const blocks = [];
+        Array.from(canvas.childNodes).forEach(node => {
+            if (node.nodeType === Node.ELEMENT_NODE && node.matches('[data-inline-media]')) {
+                blocks.push({
+                    type: node.dataset.inlineMedia,
+                    src: node.dataset.src,
+                    alt: node.querySelector('img')?.alt || '',
+                    caption: node.querySelector('figcaption')?.textContent.trim() || ''
+                });
+                return;
+            }
+            const parts = (node.textContent || '').split(/\n+/).map(value => value.trim()).filter(Boolean);
+            parts.forEach(text => blocks.push({ type: 'text', text }));
+        });
+        return blocks;
+    }
+
+    function insertAtCaret(canvas, figure, range) {
+        const selection = window.getSelection();
+        if (range && canvas.contains(range.startContainer)) {
+            range.deleteContents();
+            const start = range.startContainer;
+            const paragraph = (start.nodeType === Node.ELEMENT_NODE ? start : start.parentElement)?.closest('p');
+            if (paragraph && canvas.contains(paragraph)) {
+                const before = document.createRange();
+                before.selectNodeContents(paragraph);
+                before.setEnd(range.startContainer, range.startOffset);
+                const after = document.createRange();
+                after.selectNodeContents(paragraph);
+                after.setStart(range.startContainer, range.startOffset);
+                const beforeText = before.toString();
+                const afterText = after.toString();
+                const fragment = document.createDocumentFragment();
+                if (beforeText) {
+                    const beforeParagraph = document.createElement('p');
+                    beforeParagraph.textContent = beforeText;
+                    fragment.appendChild(beforeParagraph);
+                }
+                fragment.appendChild(figure);
+                if (afterText) {
+                    const afterParagraph = document.createElement('p');
+                    afterParagraph.textContent = afterText;
+                    fragment.appendChild(afterParagraph);
+                }
+                paragraph.replaceWith(fragment);
+            } else {
+                range.insertNode(figure);
+            }
+        } else {
+            canvas.appendChild(figure);
+        }
+        const caret = document.createRange();
+        caret.setStartAfter(figure);
+        caret.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(caret);
+        canvas.focus();
+    }
+
+    function setupInlineEditor(row, canvas) {
+        let savedRange = null;
+        const saveRange = () => {
+            const selection = window.getSelection();
+            if (selection?.rangeCount && canvas.contains(selection.getRangeAt(0).startContainer)) {
+                savedRange = selection.getRangeAt(0).cloneRange();
+            }
+        };
+        canvas.addEventListener('keyup', saveRange);
+        canvas.addEventListener('mouseup', saveRange);
+        canvas.addEventListener('focus', saveRange);
+        row.querySelector('.insert-story-image').addEventListener('mousedown', event => event.preventDefault());
+        row.querySelector('.insert-story-video').addEventListener('mousedown', event => event.preventDefault());
+        row.querySelector('.insert-story-image').addEventListener('click', () => row.querySelector('.story-image-file').click());
+        row.querySelector('.insert-story-video').addEventListener('click', () => row.querySelector('.story-video-file').click());
+        row.querySelector('.story-image-file').addEventListener('change', async event => {
+            const file = event.currentTarget.files?.[0];
+            if (!file) return;
+            try {
+                insertAtCaret(canvas, createInlineMedia({ type: 'image', src: await optimizeImageFile(file), alt: file.name.replace(/\.[^.]+$/, ''), caption: file.name.replace(/\.[^.]+$/, '') }), savedRange);
+                savedRange = null;
+            } catch (error) {
+                document.getElementById('storyEditorStatus').textContent = error.message || 'Could not add this image.';
+            }
+            event.currentTarget.value = '';
+        });
+        row.querySelector('.story-video-file').addEventListener('change', async event => {
+            const file = event.currentTarget.files?.[0];
+            if (!file) return;
+            if (!['video/mp4', 'video/webm', 'video/ogg'].includes(file.type)) {
+                document.getElementById('storyEditorStatus').textContent = 'Choose an MP4, WebM, or Ogg video.';
+                event.currentTarget.value = '';
+                return;
+            }
+            if (file.size > 1.2 * 1024 * 1024) {
+                document.getElementById('storyEditorStatus').textContent = 'Choose a video smaller than 1.2 MB.';
+                event.currentTarget.value = '';
+                return;
+            }
+            try {
+                const src = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = () => reject(new Error('Could not read this video file.'));
+                    reader.readAsDataURL(file);
+                });
+                insertAtCaret(canvas, createInlineMedia({ type: 'video', src, caption: file.name.replace(/\.[^.]+$/, '') }), savedRange);
+                savedRange = null;
+            } catch (error) {
+                document.getElementById('storyEditorStatus').textContent = error.message || 'Could not add this video.';
+            }
+            event.currentTarget.value = '';
+        });
     }
 
     function renderAnalytics(summary, users) {
@@ -232,19 +398,6 @@ document.addEventListener('DOMContentLoaded', () => {
         trailStopRows.appendChild(row);
     }
 
-    function addImageRow(image) {
-        const row = imageTemplate.content.firstElementChild.cloneNode(true);
-        row.dataset.currentImageSrc = image?.src || '';
-        const imageInput = row.querySelector('.story-image-file');
-        const preview = row.querySelector('.story-image-preview');
-        showFilePreview(imageInput, preview, row.dataset.currentImageSrc);
-        imageInput.addEventListener('change', () => showFilePreview(imageInput, preview, row.dataset.currentImageSrc));
-        row.querySelector('.story-image-caption').value = image?.caption || '';
-        row.querySelector('.story-image-position').value = String(image?.after || 0);
-        row.querySelector('.remove-story-image').addEventListener('click', () => row.remove());
-        imageRows.appendChild(row);
-    }
-
     async function loadStoryContent(site) {
         if (site?.storyContent) return site.storyContent;
         if (!site?.storyPage) return null;
@@ -255,31 +408,52 @@ document.addEventListener('DOMContentLoaded', () => {
         const sections = sectionNodes.map(section => {
             const heading = section.querySelector('h2');
             const prose = section.querySelector('.s-prose');
-            const paragraphs = prose ? Array.from(prose.querySelectorAll('p')) : Array.from(section.querySelectorAll(':scope > p'));
-            return { id: section.id, title: heading?.textContent.trim() || '', body: paragraphs.map(item => item.textContent.trim()).filter(Boolean).join('\n\n') };
+            const blocks = prose ? Array.from(prose.children).flatMap(child => {
+                if (child.matches('p')) return textBlocks(child.textContent);
+                if (child.matches('figure.s-story-image')) {
+                    const image = child.querySelector('img');
+                    return image ? [{ type: 'image', src: image.getAttribute('src') || '', alt: image.alt || '', caption: child.querySelector('figcaption')?.textContent.trim() || '' }] : [];
+                }
+                return [];
+            }) : textBlocks(Array.from(section.querySelectorAll(':scope > p')).map(item => item.textContent.trim()).join('\n\n'));
+            return { id: section.id, title: heading?.textContent.trim() || '', body: blocks.filter(block => block.type === 'text').map(block => block.text).join('\n\n'), blocks };
         });
         if (site.story) {
             const opening = sections.find(section => section.id === 'story');
-            if (opening) opening.body = site.story;
+            if (opening) {
+                let after = 0;
+                const media = opening.blocks.reduce((items, block) => {
+                    if (block.type === 'text') after++;
+                    else items.push({ ...block, after });
+                    return items;
+                }, []);
+                opening.blocks = addLegacyImages(textBlocks(site.story), media);
+                opening.body = site.story;
+            }
         }
-        const timeline = Array.from(parsed.querySelectorAll('#timeline .s-timeline details')).map(entry => ({
-            year: entry.querySelector('.yr')?.textContent.trim() || '',
-            title: entry.querySelector('.t')?.textContent.trim() || '',
-            body: Array.from(entry.querySelectorAll(':scope > p')).map(item => item.textContent.trim()).join('\n\n')
-        }));
-        const places = Array.from(parsed.querySelectorAll('#inside .s-places details')).map(entry => ({
-            title: entry.querySelector('summary')?.textContent.trim() || '',
-            body: Array.from(entry.querySelectorAll(':scope > p')).map(item => item.textContent.trim()).join('\n\n')
-        }));
-        const images = Array.from(parsed.querySelectorAll('.s-main figure.s-story-image')).map(figure => {
-            const section = figure.closest('section');
-            const imageContainer = section?.querySelector('.s-prose, .s-timeline, .s-places') || section;
-            const after = imageContainer ? Array.from(imageContainer.querySelectorAll('p')).filter(paragraph =>
-                paragraph.compareDocumentPosition(figure) & Node.DOCUMENT_POSITION_FOLLOWING).length : 0;
-            const image = figure.querySelector('img');
-            return { src: image?.getAttribute('src') || '', alt: image?.getAttribute('alt') || '', caption: figure.querySelector('figcaption')?.textContent.trim() || '', sectionId: section?.id || 'story', after };
-        }).filter(image => image.src);
-        return { sections, timeline, places, images };
+        const timeline = Array.from(parsed.querySelectorAll('#timeline .s-timeline details')).map(entry => {
+            const blocks = Array.from(entry.children).flatMap(child => {
+                if (child.matches('p')) return textBlocks(child.textContent);
+                if (child.matches('figure.s-story-image')) {
+                    const image = child.querySelector('img');
+                    return image ? [{ type: 'image', src: image.getAttribute('src') || '', alt: image.alt || '', caption: child.querySelector('figcaption')?.textContent.trim() || '' }] : [];
+                }
+                return [];
+            });
+            return { year: entry.querySelector('.yr')?.textContent.trim() || '', title: entry.querySelector('.t')?.textContent.trim() || '', body: blocks.filter(block => block.type === 'text').map(block => block.text).join('\n\n'), blocks };
+        });
+        const places = Array.from(parsed.querySelectorAll('#inside .s-places details')).map(entry => {
+            const blocks = Array.from(entry.children).flatMap(child => {
+                if (child.matches('p')) return textBlocks(child.textContent);
+                if (child.matches('figure.s-story-image')) {
+                    const image = child.querySelector('img');
+                    return image ? [{ type: 'image', src: image.getAttribute('src') || '', alt: image.alt || '', caption: child.querySelector('figcaption')?.textContent.trim() || '' }] : [];
+                }
+                return [];
+            });
+            return { title: entry.querySelector('summary')?.textContent.trim() || '', body: blocks.filter(block => block.type === 'text').map(block => block.text).join('\n\n'), blocks };
+        });
+        return { sections, timeline, places, images: [] };
     }
 
     function addStoryEntry(container, entry, type) {
@@ -290,80 +464,92 @@ document.addEventListener('DOMContentLoaded', () => {
         year.hidden = type !== 'timeline';
         row.querySelector('.story-entry-year-input').value = entry?.year || '';
         row.querySelector('.story-entry-title-input').value = entry?.title || '';
-        row.querySelector('.story-entry-body-input').value = entry?.body || '';
+        const canvas = row.querySelector('.story-entry-canvas');
+        renderEditorBlocks(canvas, entry?.blocks || textBlocks(entry?.body));
+        setupInlineEditor(row, canvas);
         row.querySelector('.remove-story-entry').addEventListener('click', () => row.remove());
         container.appendChild(row);
     }
 
-    function addManagedStoryImage(image, sections) {
-        const row = managedStoryImageTemplate.content.firstElementChild.cloneNode(true);
-        row.dataset.currentImageSrc = image?.src || '';
-        const imageInput = row.querySelector('.managed-image-file');
-        const preview = row.querySelector('.managed-image-preview');
-        showFilePreview(imageInput, preview, row.dataset.currentImageSrc);
-        imageInput.addEventListener('change', () => showFilePreview(imageInput, preview, row.dataset.currentImageSrc));
-        row.querySelector('.managed-image-alt').value = image?.alt || '';
-        row.querySelector('.managed-image-caption').value = image?.caption || '';
-        row.querySelector('.managed-image-after').value = String(image?.after || 0);
-        const select = row.querySelector('.managed-image-section');
-        sections.forEach(section => {
-            const option = document.createElement('option');
-            option.value = section.id;
-            option.textContent = section.title || section.id;
-            select.appendChild(option);
+    function addLegacyImages(blocks, images) {
+        const output = blocks.slice();
+        images.slice().sort((left, right) => Number(left.after || 0) - Number(right.after || 0)).forEach(image => {
+            let textCount = 0;
+            let insertAt = 0;
+            while (insertAt < output.length && textCount < Number(image.after || 0)) {
+                if (output[insertAt].type === 'text') textCount++;
+                insertAt++;
+            }
+            output.splice(insertAt, 0, { type: image.type || 'image', src: image.src, alt: image.alt || image.caption || '', caption: image.caption || '' });
         });
-        select.value = image?.sectionId || sections[0]?.id || 'story';
-        row.querySelector('.remove-managed-image').addEventListener('click', () => row.remove());
-        managedStoryImageRows.appendChild(row);
+        return output;
     }
 
-    function renderManagedStoryEditor(content) {
+    function distributeLegacyImages(entries, images) {
+        const result = entries.map(entry => ({ ...entry, blocks: entry.blocks || textBlocks(entry.body) }));
+        images.slice().sort((left, right) => Number(left.after || 0) - Number(right.after || 0)).forEach(image => {
+            let remaining = Math.max(0, Number(image.after) || 0);
+            let target = result[0];
+            for (const entry of result) {
+                const paragraphCount = entry.blocks.filter(block => block.type === 'text').length;
+                target = entry;
+                if (remaining <= paragraphCount) break;
+                remaining -= paragraphCount;
+            }
+            if (target) target.blocks = addLegacyImages(target.blocks, [{ ...image, after: remaining }]);
+        });
+        return result;
+    }
+
+    function renderManagedStoryEditor(content, site) {
         storySectionRows.replaceChildren();
         storyTimelineRows.replaceChildren();
         storyPlaceRows.replaceChildren();
-        managedStoryImageRows.replaceChildren();
         (content?.sections || []).forEach(section => {
             const row = storySectionTemplate.content.firstElementChild.cloneNode(true);
             row.dataset.sectionId = section.id;
             row.querySelector('.story-section-title').value = section.title || '';
-            row.querySelector('.story-section-text').value = section.body || '';
+            if (section.id === 'timeline' || section.id === 'inside') row.querySelector('.story-section-body').hidden = true;
+            let blocks = section.blocks || textBlocks(section.body);
+            const oldImages = (content.images || []).filter(image => image.sectionId === section.id);
+            if (section.id === 'story') oldImages.push(...(site?.images || []));
+            blocks = addLegacyImages(blocks, oldImages);
+            const canvas = row.querySelector('.story-section-canvas');
+            renderEditorBlocks(canvas, blocks);
+            setupInlineEditor(row, canvas);
             storySectionRows.appendChild(row);
         });
-        (content?.timeline || []).forEach(entry => addStoryEntry(storyTimelineRows, entry, 'timeline'));
-        (content?.places || []).forEach(entry => addStoryEntry(storyPlaceRows, entry, 'place'));
-        (content?.images || []).forEach(image => addManagedStoryImage(image, content.sections || []));
+        const timelineEntries = distributeLegacyImages(content?.timeline || [], (content?.images || []).filter(image => image.sectionId === 'timeline'));
+        const placeEntries = distributeLegacyImages(content?.places || [], (content?.images || []).filter(image => image.sectionId === 'inside'));
+        timelineEntries.forEach(entry => addStoryEntry(storyTimelineRows, entry, 'timeline'));
+        placeEntries.forEach(entry => addStoryEntry(storyPlaceRows, entry, 'place'));
     }
 
     async function collectManagedStoryContent() {
         return {
-            sections: Array.from(storySectionRows.querySelectorAll('.admin-story-section')).map(row => ({
-                id: row.dataset.sectionId,
-                title: row.querySelector('.story-section-title').value.trim(),
-                body: row.querySelector('.story-section-text').value.trim()
-            })),
+            sections: Array.from(storySectionRows.querySelectorAll('.admin-story-section')).map(row => {
+                const blocks = collectEditorBlocks(row.querySelector('.story-section-canvas'));
+                return { id: row.dataset.sectionId, title: row.querySelector('.story-section-title').value.trim(),
+                    body: blocks.filter(block => block.type === 'text').map(block => block.text).join('\n\n'), blocks };
+            }),
             timeline: Array.from(storyTimelineRows.querySelectorAll('.admin-story-entry')).map(row => ({
                 year: row.querySelector('.story-entry-year-input').value.trim(),
                 title: row.querySelector('.story-entry-title-input').value.trim(),
-                body: row.querySelector('.story-entry-body-input').value.trim()
+                body: collectEditorBlocks(row.querySelector('.story-entry-canvas')).filter(block => block.type === 'text').map(block => block.text).join('\n\n'),
+                blocks: collectEditorBlocks(row.querySelector('.story-entry-canvas'))
             })),
             places: Array.from(storyPlaceRows.querySelectorAll('.admin-story-entry')).map(row => ({
                 title: row.querySelector('.story-entry-title-input').value.trim(),
-                body: row.querySelector('.story-entry-body-input').value.trim()
+                body: collectEditorBlocks(row.querySelector('.story-entry-canvas')).filter(block => block.type === 'text').map(block => block.text).join('\n\n'),
+                blocks: collectEditorBlocks(row.querySelector('.story-entry-canvas'))
             })),
-            images: (await Promise.all(Array.from(managedStoryImageRows.querySelectorAll('.admin-managed-story-image')).map(async row => ({
-                src: await imageSource(row.querySelector('.managed-image-file'), row.dataset.currentImageSrc),
-                alt: row.querySelector('.managed-image-alt').value.trim(),
-                caption: row.querySelector('.managed-image-caption').value.trim(),
-                sectionId: row.querySelector('.managed-image-section').value,
-                after: Math.max(0, Number(row.querySelector('.managed-image-after').value) || 0)
-            })))).filter(image => image.src)
+            images: []
         };
     }
 
     async function openSiteEditor(site) {
         const requestId = ++storyEditorRequest;
         siteForm.reset();
-        imageRows.replaceChildren();
         document.getElementById('siteId').value = site?.id || '';
         document.getElementById('siteName').value = site?.name || '';
         document.getElementById('siteLocation').value = site?.location || '';
@@ -388,14 +574,13 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const content = await loadStoryContent(site);
                 if (requestId !== storyEditorRequest) return;
-                renderManagedStoryEditor(content);
+                renderManagedStoryEditor(content, site);
                 storyEditorReady = true;
             } catch (error) {
                 if (requestId !== storyEditorRequest) return;
                 document.getElementById('storyEditorStatus').textContent = 'Could not load the current story template, so this editor will leave the published story unchanged. Reopen the editor when connected.';
             }
         }
-        (site?.images || []).forEach(addImageRow);
         const trailStopIds = TRAIL_STOP_IDS[site?.id] || [];
         trailEditor.hidden = trailStopIds.length === 0;
         trailStopRows.replaceChildren();
@@ -515,16 +700,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const input = event.currentTarget;
         showFilePreview(input, document.getElementById('siteCoverPreview'), input.dataset.currentImageSrc);
     });
-    document.getElementById('addStoryImage').addEventListener('click', () => addImageRow(null));
     document.getElementById('addTimelineEntry').addEventListener('click', () => addStoryEntry(storyTimelineRows, null, 'timeline'));
     document.getElementById('addPlaceEntry').addEventListener('click', () => addStoryEntry(storyPlaceRows, null, 'place'));
-    document.getElementById('addManagedStoryImage').addEventListener('click', () => {
-        const sections = Array.from(storySectionRows.querySelectorAll('.admin-story-section')).map(row => ({
-            id: row.dataset.sectionId,
-            title: row.querySelector('.story-section-title').value.trim()
-        }));
-        addManagedStoryImage(null, sections);
-    });
     document.getElementById('closeSiteDialog').addEventListener('click', () => siteDialog.close());
     document.getElementById('cancelSiteEdit').addEventListener('click', () => siteDialog.close());
 
@@ -535,17 +712,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const id = existingId || name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
         const previousSite = siteContent.getSiteForAdmin(id);
         let coverImage;
-        let images;
         let managedStoryContent;
         let trail;
         try {
             coverImage = await imageSource(document.getElementById('siteCoverImage'), document.getElementById('siteCoverImage').dataset.currentImageSrc);
-            images = await Promise.all(Array.from(imageRows.querySelectorAll('.admin-image-row')).map(async row => ({
-                src: await imageSource(row.querySelector('.story-image-file'), row.dataset.currentImageSrc),
-                caption: row.querySelector('.story-image-caption').value.trim(),
-                after: Number(row.querySelector('.story-image-position').value)
-            })));
-            images = images.filter(image => image.src);
             managedStoryContent = storyEditorReady && previousSite?.storyPage ? await collectManagedStoryContent() : previousSite?.storyContent || null;
             trail = TRAIL_STOP_IDS[id] ? {
                 title: document.getElementById('trailTitle').value.trim(),
@@ -582,14 +752,14 @@ document.addEventListener('DOMContentLoaded', () => {
             coverImage,
             storyPage: siteContent.getSiteForAdmin(id)?.storyPage || '',
             story: managedStoryContent?.sections.find(section => section.id === 'story')?.body || document.getElementById('siteStory').value.trim(),
-            images,
+            images: [],
             storyContent: managedStoryContent,
             naaNotes: document.getElementById('siteNaaNotes').value.trim(),
             trail
         };
 
-        if (embeddedImageBytes(site) > MAX_EMBEDDED_IMAGE_BYTES) {
-            siteStatus.textContent = 'The optimized images for one site exceed the 2 MB limit. Remove an image or choose smaller files.';
+        if (embeddedImageBytes(site) > MAX_EMBEDDED_MEDIA_BYTES) {
+            siteStatus.textContent = 'Images and videos for one site exceed the 2 MB limit. Remove media or choose smaller files.';
             return;
         }
 

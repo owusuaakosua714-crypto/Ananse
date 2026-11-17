@@ -3044,11 +3044,13 @@ body.story-page .s-story-image {
     background: #f0eee9;
 }
 
-body.story-page .s-story-image img {
+body.story-page .s-story-image img,
+body.story-page .s-story-image video {
     display: block;
     width: 100%;
     height: clamp(240px, 42vw, 500px);
     object-fit: contain;
+    background: #f0eee9;
 }
 
 body.story-page .s-story-image figcaption {

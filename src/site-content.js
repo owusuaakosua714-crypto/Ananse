@@ -138,13 +138,17 @@
             } : null,
             storyContent: site.storyContent && typeof site.storyContent === "object" ? {
                 sections: Array.isArray(site.storyContent.sections) ? site.storyContent.sections.map(function (section) {
-                    return { id: String(section.id || ""), title: String(section.title || ""), body: String(section.body || "") };
+                    const cleanBlocks = function (list) { return Array.isArray(list) ? list.map(function (block) {
+                        return { type: String(block.type || "text"), text: String(block.text || ""), src: String(block.src || ""), alt: String(block.alt || ""), caption: String(block.caption || "") };
+                    }) : null; };
+                    const blocks = cleanBlocks(section.blocks);
+                    return { id: String(section.id || ""), title: String(section.title || ""), body: String(section.body || ""), blocks: blocks };
                 }) : [],
                 timeline: Array.isArray(site.storyContent.timeline) ? site.storyContent.timeline.map(function (entry) {
-                    return { year: String(entry.year || ""), title: String(entry.title || ""), body: String(entry.body || "") };
+                    return { year: String(entry.year || ""), title: String(entry.title || ""), body: String(entry.body || ""), blocks: Array.isArray(entry.blocks) ? entry.blocks.map(function (block) { return { type: String(block.type || "text"), text: String(block.text || ""), src: String(block.src || ""), alt: String(block.alt || ""), caption: String(block.caption || "") }; }) : null };
                 }) : [],
                 places: Array.isArray(site.storyContent.places) ? site.storyContent.places.map(function (entry) {
-                    return { title: String(entry.title || ""), body: String(entry.body || "") };
+                    return { title: String(entry.title || ""), body: String(entry.body || ""), blocks: Array.isArray(entry.blocks) ? entry.blocks.map(function (block) { return { type: String(block.type || "text"), text: String(block.text || ""), src: String(block.src || ""), alt: String(block.alt || ""), caption: String(block.caption || "") }; }) : null };
                 }) : [],
                 images: Array.isArray(site.storyContent.images) ? site.storyContent.images.map(function (image) {
                     return { src: String(image.src || ""), alt: String(image.alt || ""), caption: String(image.caption || ""), sectionId: String(image.sectionId || "story"), after: Math.max(0, Number(image.after) || 0) };
