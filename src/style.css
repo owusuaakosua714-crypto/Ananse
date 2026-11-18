@@ -18,6 +18,15 @@
     --text-muted: #64748B;
     --text-light: #F8FAFC;
     --white: #FFFFFF;
+    --story-blue: var(--dark-teal);
+    --story-deep: var(--medium-teal);
+    --story-gold: var(--accent-gold);
+    --story-teal: var(--medium-teal);
+    --story-bg: var(--bg-light);
+    --story-ink: var(--text-dark);
+    --story-muted: var(--text-muted);
+    --story-line: rgba(6, 46, 53, 0.14);
+    --success-green: #1F8F5F;
     --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
     --transition: all 0.3s ease;
 }
@@ -907,7 +916,7 @@ button {
 body.naa-page {
     margin: 0;
     padding: 0;
-    background-color: #081d24;
+    background-color: var(--medium-teal);
     color: #e2e8f0;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     min-height: 100vh;
@@ -923,7 +932,7 @@ body.naa-page {
 .naa-page .naa-header {
     background-color: rgba(9, 32, 40, 0.95);
     backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(212, 163, 115, 0.2);
+    border-bottom: 1px solid rgba(234, 168, 53, 0.2);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -987,7 +996,7 @@ body.naa-page {
 
 .naa-page .naa-nav-link:hover,
 .naa-page .naa-nav-link.active {
-    color: #e2a048;
+    color: var(--accent-gold);
 }
 
 .naa-page .naa-header-actions {
@@ -1009,7 +1018,7 @@ body.naa-page {
 }
 
 .naa-page .naa-icon-btn:hover {
-    color: #e2a048;
+    color: var(--accent-gold);
 }
 
 .naa-page .naa-profile-avatar img {
@@ -1017,7 +1026,7 @@ body.naa-page {
     height: 36px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #e2a048;
+    border: 2px solid var(--accent-gold);
     display: block;
 }
 
@@ -1041,8 +1050,8 @@ body.naa-page {
 
 /* Hero Section */
 .naa-page .naa-hero {
-    background: linear-gradient(135deg, #0d2c36 0%, #081d24 100%);
-    border: 1px solid rgba(212, 163, 115, 0.25);
+    background: linear-gradient(135deg, var(--dark-teal) 0%, var(--medium-teal) 100%);
+    border: 1px solid rgba(234, 168, 53, 0.25);
     border-radius: 16px;
     padding: 1.75rem 2rem;
     margin-bottom: 2rem;
@@ -1062,8 +1071,8 @@ body.naa-page {
     flex-shrink: 0;
     border-radius: 50%;
     overflow: hidden;
-    border: 3px solid #e2a048;
-    box-shadow: 0 0 20px rgba(226, 160, 72, 0.3);
+    border: 3px solid var(--accent-gold);
+    box-shadow: 0 0 20px rgba(234, 168, 53, 0.3);
 }
 
 .naa-page .naa-video,
@@ -1074,7 +1083,7 @@ body.naa-page {
     object-position: center;
     display: block;
     border-radius: 50%;
-    background: #0b1f29;
+    background: var(--medium-teal);
 }
 
 .naa-page .naa-hero-info {
@@ -1083,17 +1092,17 @@ body.naa-page {
 
 .naa-page .naa-badge-pill {
     display: inline-block;
-    border: 1px solid #e2a048;
+    border: 1px solid var(--accent-gold);
     border-radius: 20px;
     padding: 0.2rem 1.1rem;
     margin-bottom: 0.5rem;
-    background: rgba(226, 160, 72, 0.1);
+    background: rgba(234, 168, 53, 0.1);
 }
 
 .naa-page .naa-badge-pill span {
-    color: #e2a048;
+    color: var(--accent-gold);
     font-size: 1.1rem;
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: var(--site-font-family);
     font-style: italic;
     font-weight: bold;
 }
@@ -1117,8 +1126,8 @@ body.naa-page {
 .naa-page .naa-hero-greeting {
     margin: 0;
     font-size: 1.15rem;
-    color: #e2a048;
-    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--accent-gold);
+    font-family: var(--site-font-family);
 }
 
 /* Grid Layout */
@@ -1148,7 +1157,7 @@ body.naa-page {
 }
 
 .naa-page .naa-card-title i {
-    color: #e2a048;
+    color: var(--accent-gold);
 }
 
 /* Sidebar Left: Suggested Questions */
@@ -1180,15 +1189,15 @@ body.naa-page {
 }
 
 .naa-page .naa-suggested-btn:hover {
-    background: rgba(226, 160, 72, 0.12);
-    border-color: rgba(226, 160, 72, 0.4);
+    background: rgba(234, 168, 53, 0.12);
+    border-color: rgba(234, 168, 53, 0.4);
     color: #ffffff;
     transform: translateX(2px);
 }
 
 .naa-page .naa-suggested-btn i {
     font-size: 0.75rem;
-    color: #e2a048;
+    color: var(--accent-gold);
     flex-shrink: 0;
 }
 
@@ -1202,12 +1211,12 @@ body.naa-page {
 
 .naa-page .naa-quote-icon {
     font-size: 1.8rem;
-    color: rgba(226, 160, 72, 0.3);
+    color: rgba(234, 168, 53, 0.3);
     margin-bottom: 0.75rem;
 }
 
 .naa-page .naa-quote-text {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: var(--site-font-family);
     font-style: italic;
     font-size: 1.05rem;
     color: #f1f5f9;
@@ -1218,7 +1227,7 @@ body.naa-page {
 .naa-page .naa-quote-accent-line {
     width: 40px;
     height: 2px;
-    background: #e2a048;
+    background: var(--accent-gold);
     margin: 0 auto;
 }
 
@@ -1240,7 +1249,7 @@ body.naa-page {
 
 /* Chat Header */
 .naa-page .naa-chat-header {
-    background: #092028;
+    background: var(--medium-teal);
     padding: 0.9rem 1.25rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
@@ -1265,14 +1274,14 @@ body.naa-page {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 1px solid #e2a048;
+    border: 1px solid var(--accent-gold);
 }
 
 .naa-page .naa-online-dot {
     width: 10px;
     height: 10px;
     background-color: #22c55e;
-    border: 2px solid #092028;
+    border: 2px solid var(--medium-teal);
     border-radius: 50%;
     position: absolute;
     bottom: 0;
@@ -1359,7 +1368,7 @@ body.naa-page {
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1px solid #e2a048;
+    border: 1px solid var(--accent-gold);
 }
 
 .naa-page .naa-msg-content-wrapper {
@@ -1409,7 +1418,7 @@ body.naa-page {
 .naa-page .naa-sources-title {
     font-size: 0.75rem;
     font-weight: 600;
-    color: #e2a048;
+    color: var(--accent-gold);
     margin-bottom: 0.3rem;
     display: flex;
     align-items: center;
@@ -1461,7 +1470,7 @@ body.naa-page {
 .naa-page .naa-typing-bubbles span {
     width: 6px;
     height: 6px;
-    background: #e2a048;
+    background: var(--accent-gold);
     border-radius: 50%;
     animation: naaBounce 1.4s infinite ease-in-out both;
 }
@@ -1482,7 +1491,7 @@ body.naa-page {
 
 /* Chat Input Form */
 .naa-page .naa-input-form {
-    background: #092028;
+    background: var(--medium-teal);
     padding: 0.85rem 1.25rem;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
@@ -1501,7 +1510,7 @@ body.naa-page {
 }
 
 .naa-page .naa-attach-btn:hover {
-    color: #e2a048;
+    color: var(--accent-gold);
 }
 
 .naa-page .naa-input-field {
@@ -1517,7 +1526,7 @@ body.naa-page {
 }
 
 .naa-page .naa-input-field:focus {
-    border-color: #e2a048;
+    border-color: var(--accent-gold);
 }
 
 .naa-page .naa-input-field::placeholder {
@@ -1525,9 +1534,9 @@ body.naa-page {
 }
 
 .naa-page .naa-send-btn {
-    background: #e2a048;
+    background: var(--accent-gold);
     border: none;
-    color: #081d24;
+    color: var(--medium-teal);
     width: 40px;
     height: 40px;
     border-radius: 8px;
@@ -1563,7 +1572,7 @@ body.naa-page {
 
 .naa-page .naa-star-icon {
     font-size: 1.5rem;
-    color: #e2a048;
+    color: var(--accent-gold);
     margin-bottom: 0.4rem;
 }
 
@@ -1606,18 +1615,18 @@ body.naa-page {
 .naa-page .naa-info-callout p {
     margin: 0 0 0.4rem 0;
     font-size: 0.85rem;
-    color: #d4a373;
+    color: var(--accent-gold);
 }
 
 .naa-page .naa-heart-icon {
-    color: #e2a048;
+    color: var(--accent-gold);
     font-size: 0.9rem;
 }
 
 .naa-page .naa-motif-decoration {
     text-align: center;
     margin-top: 1rem;
-    color: rgba(226, 160, 72, 0.15);
+    color: rgba(234, 168, 53, 0.15);
     font-size: 2rem;
 }
 
@@ -1656,7 +1665,7 @@ body.naa-page {
 }
 
 .naa-page .naa-footer-logo i {
-    color: #e2a048;
+    color: var(--accent-gold);
 }
 
 .naa-page .naa-footer-tagline {
@@ -1677,7 +1686,7 @@ body.naa-page {
 }
 
 .naa-page .naa-footer-socials a:hover {
-    color: #e2a048;
+    color: var(--accent-gold);
 }
 
 .naa-page .naa-footer-links {
@@ -1694,7 +1703,7 @@ body.naa-page {
 }
 
 .naa-page .naa-footer-links a:hover {
-    color: #e2a048;
+    color: var(--accent-gold);
 }
 
 /* ==========================================================================
@@ -1766,8 +1775,8 @@ body.naa-page {
         top: 100%;
         left: 0;
         right: 0;
-        background: #092028;
-        border-bottom: 1px solid rgba(212, 163, 115, 0.2);
+        background: var(--medium-teal);
+        border-bottom: 1px solid rgba(234, 168, 53, 0.2);
         flex-direction: column;
         padding: 1.25rem;
         gap: 1rem;
@@ -1838,8 +1847,8 @@ body.naa-page {
 .login-page-body {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-    background-color: #05242C;
+    font-family: var(--site-font-family);
+    background-color: var(--dark-teal);
     color: #FFFFFF;
     min-height: 100vh;
     display: flex;
@@ -1858,9 +1867,9 @@ body.naa-page {
    HEADER & NAVIGATION
    ========================================================================== */
 .login-site-header {
-    background-color: rgba(5, 36, 44, 0.95);
+    background-color: rgba(6, 46, 53, 0.95);
     backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    border-bottom: 1px solid rgba(234, 168, 53, 0.2);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -1942,7 +1951,7 @@ body.naa-page {
 }
 
 .login-nav-link:hover {
-    color: #E6C200;
+    color: var(--accent-gold);
 }
 
 .login-nav-link::after {
@@ -1952,7 +1961,7 @@ body.naa-page {
     left: 0;
     width: 0;
     height: 2px;
-    background-color: #E6C200;
+    background-color: var(--accent-gold);
     transition: width 0.25s ease;
 }
 
@@ -2009,7 +2018,7 @@ body.naa-page {
     left: 0;
     right: 0;
     width: 100%;
-    background-color: rgba(5, 36, 44, 0.98);
+    background-color: rgba(6, 46, 53, 0.98);
     border-top: 1px solid rgba(234, 168, 53, 0.2);
     border-bottom: 1px solid rgba(234, 168, 53, 0.2);
     padding: 1.1rem 0 1.25rem;
@@ -2038,7 +2047,7 @@ body.naa-page {
 }
 
 .login-mobile-link:hover {
-    color: #E6C200;
+    color: var(--accent-gold);
     opacity: 1;
 }
 
@@ -2051,9 +2060,9 @@ body.naa-page {
     align-items: center;
     justify-content: center;
     position: relative;
-    background: linear-gradient(135deg, #03181E 0%, #08343F 50%, #05242C 100%);
+    background: linear-gradient(135deg, var(--dark-teal) 0%, var(--medium-teal) 50%, var(--dark-teal) 100%);
     background-image: 
-        linear-gradient(to right, rgba(5, 36, 44, 0.85), rgba(5, 36, 44, 0.7)),
+        linear-gradient(to right, rgba(6, 46, 53, 0.85), rgba(6, 46, 53, 0.7)),
         url('https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?auto=format&fit=crop&w=1600&q=80');
     background-size: cover;
     background-position: center;
@@ -2081,7 +2090,7 @@ body.naa-page {
     top: 0;
     bottom: 0;
     width: 4px;
-    background: linear-gradient(180deg, #D4AF37 0%, #E6C200 50%, #D4AF37 100%);
+    background: linear-gradient(180deg, var(--accent-gold-hover) 0%, var(--accent-gold) 50%, var(--accent-gold-hover) 100%);
     border-radius: 2px;
 }
 
@@ -2089,7 +2098,7 @@ body.naa-page {
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 2px;
-    color: #E6C200;
+    color: var(--accent-gold);
     margin-bottom: 0.75rem;
 }
 
@@ -2126,12 +2135,12 @@ body.naa-page {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background-color: rgba(212, 175, 55, 0.15);
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    background-color: rgba(234, 168, 53, 0.15);
+    border: 1px solid rgba(234, 168, 53, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #E6C200;
+    color: var(--accent-gold);
     flex-shrink: 0;
 }
 
@@ -2148,9 +2157,9 @@ body.naa-page {
 
 .login-hero-quote {
     font-style: italic;
-    font-family: Georgia, serif;
+    font-family: var(--site-font-family);
     font-size: 1.1rem;
-    color: #E6C200;
+    color: var(--accent-gold);
     margin-top: 1rem;
 }
 
@@ -2183,14 +2192,14 @@ body.naa-page {
     width: 32px;
     height: 12px;
     margin: 0 auto 0.75rem;
-    background-image: radial-gradient(circle, #D4AF37 2px, transparent 2px);
+    background-image: radial-gradient(circle, var(--accent-gold-hover) 2px, transparent 2px);
     background-size: 8px 8px;
 }
 
 .login-card-header h2 {
     font-size: 1.65rem;
     font-weight: 700;
-    color: #05242C;
+    color: var(--dark-teal);
     margin: 0 0 0.4rem 0;
 }
 
@@ -2240,15 +2249,15 @@ body.naa-page {
     border: 1px solid #CBD5E1;
     border-radius: 8px;
     background-color: #F8FAFC;
-    color: #0F172A;
+    color: var(--text-dark);
     outline: none;
     transition: all 0.2s ease;
 }
 
 .login-input-wrapper input:focus {
-    border-color: #05242C;
+    border-color: var(--dark-teal);
     background-color: #FFFFFF;
-    box-shadow: 0 0 0 3px rgba(5, 36, 44, 0.1);
+    box-shadow: 0 0 0 3px rgba(6, 46, 53, 0.1);
 }
 
 .login-password-toggle {
@@ -2290,7 +2299,7 @@ body.naa-page {
 }
 
 .login-checkbox-label input[type="checkbox"] {
-    accent-color: #05242C;
+    accent-color: var(--dark-teal);
     width: 16px;
     height: 16px;
     cursor: pointer;
@@ -2310,7 +2319,7 @@ body.naa-page {
 .login-submit-btn {
     width: 100%;
     padding: 0.8rem;
-    background-color: #05242C;
+    background-color: var(--dark-teal);
     color: #FFFFFF;
     border: none;
     border-radius: 8px;
@@ -2330,7 +2339,7 @@ body.naa-page {
 }
 
 .login-submit-btn:hover {
-    background-color: #08343F;
+    background-color: var(--medium-teal);
     opacity: 0.95;
 }
 
@@ -2404,8 +2413,8 @@ body.naa-page {
    FOOTER
    ========================================================================== */
 .login-site-footer {
-    background-color: #03181E;
-    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    background-color: var(--dark-teal);
+    border-top: 1px solid rgba(234, 168, 53, 0.2);
     padding: 1.5rem;
 }
 
@@ -2454,9 +2463,9 @@ body.naa-page {
 
 .login-footer-script {
     font-style: italic;
-    font-family: Georgia, serif;
+    font-family: var(--site-font-family);
     font-size: 0.9rem;
-    color: #E6C200;
+    color: var(--accent-gold);
     margin: 0;
 }
 
@@ -2471,7 +2480,7 @@ body.naa-page {
 }
 
 .login-social-links a:hover {
-    color: #E6C200;
+    color: var(--accent-gold);
     opacity: 0.9;
 }
 
@@ -2490,7 +2499,7 @@ body.naa-page {
 }
 
 .login-footer-links a:hover {
-    color: #E6C200;
+    color: var(--accent-gold);
 }
 
 /* ==========================================================================
@@ -2787,7 +2796,7 @@ body.about-page .about-hero-content p {
 }
 
 body.about-page .about-hero-motto {
-  font-family: Georgia, serif;
+  font-family: var(--site-font-family);
   font-style: italic;
   font-size: 1.2rem !important;
   color: #EAA835 !important;
@@ -2959,9 +2968,9 @@ body.about-page .about-quote-mark {
 }
 
 body.about-page .about-quote-text {
-  font-family: Georgia, serif;
+  font-family: var(--site-font-family);
   font-style: italic;
-  color: #0F172A !important;
+  color: var(--text-dark) !important;
   font-size: 1rem !important;
   margin-bottom: 12px !important;
 }
@@ -3058,7 +3067,7 @@ body.about-page .about-banner-overlay {
 body.about-page .about-banner-side h2 {
   position: relative;
   z-index: 2;
-  font-family: Georgia, serif;
+  font-family: var(--site-font-family);
   font-style: italic;
   font-size: clamp(2rem, 3.5vw, 3rem);
   color: #ffffff;
@@ -3280,25 +3289,25 @@ body.about-page .about-btn-gold:hover {
 
 /* ---------- Design tokens (scoped so they don't override other pages) ---------- */
 .explore-page {
-  --deep-teal: #073B40;
-  --dark-blue: #0F4C81;
-  --teal:      #168B9F;
-  --green:     #2E8B57;
-  --gold:      #D9A21B;
-  --orange:    #E58A00;
-  --bg-light:  #F5F5F5;
+  --deep-teal: var(--dark-teal);
+  --dark-blue: var(--dark-teal);
+  --teal:      var(--medium-teal);
+  --green:     var(--success-green);
+  --gold:      var(--accent-gold);
+  --orange:    var(--accent-gold);
+  --bg-light:  #FAF7F2;
   --white:     #FFFFFF;
-  --text-dark: #1F2937;
-  --text-sec:  #6B7280;
+  --text-dark: #1E293B;
+  --text-sec:  var(--text-muted);
 
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 22px;
-  --shadow-sm: 0 2px 10px rgba(7,59,64,.08);
-  --shadow-md: 0 10px 30px rgba(7,59,64,.14);
+  --shadow-sm: 0 2px 10px rgba(6,46,53,.08);
+  --shadow-md: 0 10px 30px rgba(6,46,53,.14);
 
-  --font-display: "Fraunces", Georgia, serif;
-  --font-body: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: var(--site-font-family);
+  --font-body: var(--site-font-family);
 
   width: 100%;
   overflow-x: hidden;
@@ -3769,11 +3778,11 @@ body.about-page .about-btn-gold:hover {
 }
 .explore-page .explore-story-btn:hover { background: var(--deep-teal); }
 
-.explore-page .media--cape-coast-castle { background: linear-gradient(135deg,#073B40,#168B9F); }
-.explore-page .media--independence-arch { background: linear-gradient(135deg,#0F4C81,#3C7FBF); }
-.explore-page .media--kwame-nkrumah-memorial-park { background: linear-gradient(135deg,#0F4C81,#2E8B57); }
-.explore-page .media--osu-castle { background: linear-gradient(135deg,#073B40,#0F4C81); }
-.explore-page .media--manhyia-palace { background: linear-gradient(135deg,#B9820E,#D9A21B); }
+.explore-page .media--cape-coast-castle { background: linear-gradient(135deg,var(--dark-teal),var(--medium-teal)); }
+.explore-page .media--independence-arch { background: linear-gradient(135deg,var(--dark-teal),var(--medium-teal)); }
+.explore-page .media--kwame-nkrumah-memorial-park { background: linear-gradient(135deg,var(--dark-teal),var(--success-green)); }
+.explore-page .media--osu-castle { background: linear-gradient(135deg,var(--dark-teal),var(--medium-teal)); }
+.explore-page .media--manhyia-palace { background: linear-gradient(135deg,var(--accent-gold-hover),var(--accent-gold)); }
 
 .explore-page .no-results {
   display: none; text-align: center; padding: 60px 20px; color: var(--text-sec);
@@ -4261,7 +4270,7 @@ body.about-page .about-btn-gold:hover {
 
     color: var(--white);
 
-    font-family: Georgia, serif;
+    font-family: var(--site-font-family);
 
     font-size: clamp(42px, 6vw, 76px);
 
@@ -4275,7 +4284,7 @@ body.about-page .about-btn-gold:hover {
 
     color: var(--accent-gold);
 
-    font-family: Georgia, serif;
+    font-family: var(--site-font-family);
 
     font-size: clamp(25px, 3vw, 40px);
 
@@ -4542,7 +4551,7 @@ body.about-page .about-btn-gold:hover {
 
     margin: 9px 0 0;
 
-    font-family: Georgia, serif;
+    font-family: var(--site-font-family);
 
     font-size: 11px;
 
@@ -4599,7 +4608,7 @@ body.about-page .about-btn-gold:hover {
 
     color: var(--dark-teal);
 
-    font-family: Georgia, serif;
+    font-family: var(--site-font-family);
 
 }
 
@@ -4778,7 +4787,7 @@ body.about-page .about-btn-gold:hover {
 
     margin: 12px 0 3px;
 
-    font-family: Georgia, serif;
+    font-family: var(--site-font-family);
 
     font-size: 25px;
 
@@ -5299,7 +5308,7 @@ body.about-page .about-btn-gold:hover {
 
     margin: 0;
 
-    font-family: Georgia, serif;
+    font-family: var(--site-font-family);
 
     font-size: 21px;
 
@@ -5391,7 +5400,7 @@ body.about-page .about-btn-gold:hover {
 
     color: var(--dark-teal);
 
-    font-family: Georgia, serif;
+    font-family: var(--site-font-family);
 
     font-size: 20px;
 
@@ -5539,7 +5548,7 @@ body.about-page .about-btn-gold:hover {
 
     color: var(--white);
 
-    font-family: Georgia, serif;
+    font-family: var(--site-font-family);
 
     font-size: clamp(27px, 4vw, 42px);
 
@@ -5714,7 +5723,7 @@ body.about-page .about-btn-gold:hover {
 
     color: var(--dark-teal);
 
-    font-family: Georgia, serif;
+    font-family: var(--site-font-family);
 
 }
 
@@ -5791,7 +5800,7 @@ body.about-page .about-btn-gold:hover {
 
 .mini-passport strong {
 
-    font-family: Georgia, serif;
+    font-family: var(--site-font-family);
 
     font-size: 24px;
 
@@ -6214,7 +6223,7 @@ body.about-page .about-btn-gold:hover {
 
     color: var(--dark-teal);
 
-    font-family: Georgia, serif;
+    font-family: var(--site-font-family);
 
 }
 
@@ -7714,7 +7723,7 @@ body.about-page .about-btn-gold:hover {
 .ananse-map-page .promo-text-content p {
     margin: 0;
     font-size: 1.25rem;
-    font-family: Georgia, serif;
+    font-family: var(--site-font-family);
     font-style: italic;
     color: var(--ananse-yellow);
 }
@@ -7905,7 +7914,7 @@ body.about-page .about-btn-gold:hover {
     --signup-gold-hover: #C59336;
     --signup-cream: #FDFBF7;
     --signup-card-bg: #FAF8F5;
-    --signup-text-dark: #1F2937;
+    --signup-text-dark: #1E293B;
     --signup-text-muted: #6B7280;
     --signup-input-bg: #F3F4F6;
     --signup-border-color: #E5E7EB;
