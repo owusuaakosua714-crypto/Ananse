@@ -11,22 +11,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:wght@600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="../src/style.css" />
 
     <style>
         :root {
-            --trail-blue: #0f4c81;
-            --trail-deep: #062a36;
-            --trail-gold: #d9a21b;
-            --trail-teal: #168b9f;
-            --trail-bg: #f4f7fa;
-            --trail-card: #ffffff;
-            --trail-text: #1f2937;
-            --trail-muted: #5f6b7a;
-            --trail-line: #e1e7ee;
-            --trail-success: #1f8f5f;
+            --trail-blue: var(--story-blue);
+            --trail-deep: var(--story-deep);
+            --trail-gold: var(--story-gold);
+            --trail-teal: var(--story-teal);
+            --trail-bg: var(--story-bg);
+            --trail-card: var(--white);
+            --trail-text: var(--story-ink);
+            --trail-muted: var(--story-muted);
+            --trail-line: var(--story-line);
+            --trail-success: var(--success-green);
         }
 
         * {
@@ -37,7 +37,7 @@
             margin: 0;
             background: var(--trail-bg);
             color: var(--trail-text);
-            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+            font-family: var(--site-font-family);
         }
 
         .trail-page a {
@@ -60,10 +60,10 @@
             padding: 3rem clamp(1.1rem, 2vw, 2rem);
             border-radius: 24px;
             background:
-                linear-gradient(120deg, rgba(6, 42, 54, 0.9), rgba(15, 76, 129, 0.8)),
+                linear-gradient(120deg, rgba(6, 46, 53, 0.9), rgba(10, 60, 68, 0.8)),
                 url('../images/kwame Nkrumah memorial park.jpeg') center/cover no-repeat;
             color: #fff;
-            box-shadow: 0 18px 40px rgba(15, 76, 129, 0.18);
+            box-shadow: 0 18px 40px rgba(6, 46, 53, 0.18);
         }
 
         .trail-crumb {
@@ -89,7 +89,7 @@
 
         .trail-hero h1 {
             margin: 0;
-            font-family: 'Fraunces', Georgia, serif;
+            font-family: var(--site-font-family);
             font-size: clamp(2.3rem, 5vw, 4rem);
             line-height: 1.1;
         }
@@ -168,7 +168,7 @@
             border: 1px solid var(--trail-line);
             border-radius: 18px;
             padding: 1.1rem 1.2rem;
-            box-shadow: 0 6px 24px rgba(15, 76, 129, 0.05);
+            box-shadow: 0 6px 24px rgba(6, 46, 53, 0.05);
         }
 
         .progress-row {
@@ -210,7 +210,7 @@
             background: #fff;
             border: 1px solid var(--trail-line);
             border-radius: 18px;
-            box-shadow: 0 8px 22px rgba(15, 76, 129, 0.05);
+            box-shadow: 0 8px 22px rgba(6, 46, 53, 0.05);
         }
 
         .summary-card {
@@ -273,7 +273,7 @@
             width: 42px;
             height: 42px;
             border-radius: 12px;
-            background: rgba(22, 139, 159, 0.12);
+            background: rgba(10, 60, 68, 0.12);
             color: var(--trail-teal);
             font-weight: 800;
             flex-shrink: 0;
@@ -368,7 +368,7 @@
             border-radius: 18px;
             padding: 1rem;
             color: var(--trail-text);
-            box-shadow: 0 8px 22px rgba(15, 76, 129, 0.04);
+            box-shadow: 0 8px 22px rgba(6, 46, 53, 0.04);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -378,7 +378,7 @@
         .trail-choice h4 {
             margin: 0 0 .5rem;
             color: var(--trail-blue);
-            font-family: 'Fraunces', Georgia, serif;
+            font-family: var(--site-font-family);
             font-size: 1.25rem;
         }
 
