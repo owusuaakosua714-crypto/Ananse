@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heritage Story — ANANSE</title>
+    <meta name="description" content="Read the story of a Ghanaian heritage site on ANANSE.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../src/style.css">
+    <style>
+        body.story-page { margin: 0; background: var(--story-bg); color: var(--story-ink); font-family: var(--site-font-family); }
+        .story-return { position: absolute; z-index: 2; top: 24px; left: max(24px, calc((100vw - 1200px) / 2)); color: #fff; font-weight: 700; text-decoration: none; }
+        .s-hero { position: relative; display: flex; min-height: min(70vh, 680px); align-items: flex-end; overflow: hidden; background: var(--dark-teal); color: #fff; }
+        .s-hero-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .s-hero::after { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,46,53,.18), rgba(6,46,53,.9)); content: ""; }
+        .s-hero-inner { position: relative; z-index: 1; width: min(1100px, calc(100% - 48px)); margin: 0 auto; padding: 90px 0 64px; }
+        .s-hero h1 { max-width: 850px; margin: 0 0 14px; font-size: clamp(2.6rem, 7vw, 5.2rem); line-height: 1.06; }
+        .s-hero p { max-width: 680px; margin: 0; color: rgba(255,255,255,.86); font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.7; }
+        .s-go { display: inline-flex; align-items: center; gap: 9px; margin-top: 24px; padding: 12px 18px; border-radius: 999px; background: var(--accent-gold); color: var(--dark-teal); font-weight: 800; text-decoration: none; }
+        .s-chapters { position: sticky; top: 0; z-index: 5; display: flex; gap: 8px; overflow-x: auto; padding: 12px max(24px, calc((100vw - 1100px) / 2)); border-bottom: 1px solid var(--story-line); background: #fff; }
+        .s-chapters a { flex: 0 0 auto; padding: 8px 13px; border-radius: 999px; color: var(--story-muted); font-size: .9rem; font-weight: 700; text-decoration: none; }
+        .s-chapters a:hover { background: var(--story-blue); color: #fff; }
+        .s-main { width: min(1000px, calc(100% - 48px)); margin: 0 auto; padding-bottom: 72px; }
+        .s-main section { padding: 54px 0 14px; scroll-margin-top: 72px; }
+        .s-main h2 { margin: 0 0 20px; color: var(--story-blue); font-size: clamp(1.7rem, 4vw, 2.35rem); }
+        .s-prose { max-width: 72ch; }
+        .s-prose p { margin: 0 0 1.15rem; color: var(--story-ink); font-size: 1.05rem; line-height: 1.85; white-space: pre-line; }
+        .s-story-image { margin: 26px 0; }
+        .s-story-image img, .s-story-image video { display: block; width: 100%; max-height: 620px; border-radius: 10px; background: rgba(6,46,53,.06); object-fit: contain; }
+        .s-story-image figcaption { padding-top: 8px; color: var(--story-muted); font-size: .9rem; }
+        .s-timeline { border-left: 3px solid var(--story-blue); margin-left: 6px; }
+        .s-timeline details, .s-places details { margin: 0 0 12px; padding: 15px 18px; border: 1px solid var(--story-line); border-radius: 8px; background: #fff; }
+        .s-timeline summary, .s-places summary { color: var(--story-blue); cursor: pointer; font-weight: 800; }
+        .s-timeline details > p, .s-places details > p { margin: 12px 0 0; line-height: 1.8; }
+        @media (max-width: 600px) { .story-return { top: 16px; left: 18px; } .s-hero { min-height: 460px; } .s-hero-inner { padding-bottom: 42px; } .s-main { width: calc(100% - 36px); } .s-main section { padding-top: 40px; } }
+    </style>
+</head>
+<body class="story-page">
+    <a class="story-return" href="explore.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Explore heritage sites</a>
+    <header class="s-hero">
+        <img class="s-hero-image" alt="" aria-hidden="true">
+        <div class="s-hero-inner">
+            <h1>Heritage story</h1>
+            <p></p>
+            <a class="s-go" href="#story">Read the story <i class="fa-solid fa-arrow-down" aria-hidden="true"></i></a>
+        </div>
+    </header>
+    <nav class="s-chapters" aria-label="Story sections">
+        <a href="#story">The Story</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#inside">The Place</a>
+        <a href="#remembering">Remembering Today</a>
+    </nav>
+    <main class="s-main">
+        <section id="story"><h2>The Story</h2><div class="s-prose"></div></section>
+        <section id="timeline"><h2>Timeline</h2><div class="s-timeline"></div></section>
+        <section id="inside"><h2>The Place</h2><div class="s-places"></div></section>
+        <section id="remembering"><h2>Remembering Today</h2><div class="s-prose"></div></section>
+    </main>
+    <script src="../src/auth-session.js"></script>
+    <script src="../src/site-content.js"></script>
+    <script src="../src/script.js"></script>
+</body>
+</html>

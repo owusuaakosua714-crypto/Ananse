@@ -6874,6 +6874,19 @@ body.about-page .about-btn-gold:hover {
 
 }
 
+/* Give the passport hero copy a clear inset from the image edges. */
+.passport-page .passport-hero .hero-copy {
+    width: min(670px, calc(100% - 40px));
+    margin-left: clamp(16px, 3vw, 40px);
+}
+
+@media (max-width: 760px) {
+    .passport-page .passport-hero .hero-copy {
+        width: calc(100% - 32px);
+        margin-left: 16px;
+    }
+}
+
 
 /* =========================================================
    SMALL PHONES

@@ -156,7 +156,7 @@
             } : null,
             description: String(site.description || ""),
             coverImage: String(site.coverImage || ""),
-            storyPage: String(site.storyPage || ""),
+            storyPage: String(site.storyPage || "story.html"),
             story: String(site.story || ""),
             images: Array.isArray(site.images) ? site.images.map(function (image) {
                 return {
@@ -208,7 +208,7 @@
             storyContent: storyContent,
             description: record.summary,
             coverImage: content.coverImage || (defaultSite && defaultSite.coverImage) || "",
-            storyPage: defaultSite && defaultSite.storyPage,
+            storyPage: defaultSite && defaultSite.storyPage || "story.html",
             story: Array.isArray(record.history) ? record.history.join("\n\n") : "",
             images: content.images || []
         });

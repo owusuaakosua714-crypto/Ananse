@@ -400,7 +400,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadStoryContent(site) {
         if (site?.storyContent) return site.storyContent;
-        if (!site?.storyPage) return null;
+        if (!site?.storyPage) {
+            return {
+                sections: [
+                    { id: 'story', title: 'The Story', body: site?.story || '', blocks: textBlocks(site?.story) },
+                    { id: 'timeline', title: 'Timeline', body: '', blocks: [] },
+                    { id: 'inside', title: 'The Place', body: '', blocks: [] },
+                    { id: 'remembering', title: 'Remembering Today', body: '', blocks: [] }
+                ],
+                timeline: [], places: [], images: []
+            };
+        }
         const response = await fetch(site.storyPage);
         if (!response.ok) throw new Error('Could not load the story page template.');
         const parsed = new DOMParser().parseFromString(await response.text(), 'text/html');
@@ -564,22 +574,20 @@ document.addEventListener('DOMContentLoaded', () => {
         coverInput.dataset.currentImageSrc = site?.coverImage || '';
         showFilePreview(coverInput, coverPreview, coverInput.dataset.currentImageSrc);
         document.getElementById('siteStory').value = site?.story || '';
-        document.getElementById('siteLegacyStoryField').hidden = Boolean(site?.storyPage);
+        document.getElementById('siteLegacyStoryField').hidden = true;
         document.getElementById('siteNaaNotes').value = site?.naaNotes || '';
-        managedStoryEditor.hidden = !site?.storyPage;
+        managedStoryEditor.hidden = false;
         document.getElementById('storyEditorStatus').textContent = '';
         storyEditorReady = false;
         renderManagedStoryEditor(null);
-        if (site?.storyPage) {
-            try {
-                const content = await loadStoryContent(site);
-                if (requestId !== storyEditorRequest) return;
-                renderManagedStoryEditor(content, site);
-                storyEditorReady = true;
-            } catch (error) {
-                if (requestId !== storyEditorRequest) return;
-                document.getElementById('storyEditorStatus').textContent = 'Could not load the current story template, so this editor will leave the published story unchanged. Reopen the editor when connected.';
-            }
+        try {
+            const content = await loadStoryContent(site);
+            if (requestId !== storyEditorRequest) return;
+            renderManagedStoryEditor(content, site);
+            storyEditorReady = true;
+        } catch (error) {
+            if (requestId !== storyEditorRequest) return;
+            document.getElementById('storyEditorStatus').textContent = 'Could not load the current story template, so this editor will leave the published story unchanged. Reopen the editor when connected.';
         }
         const trailStopIds = TRAIL_STOP_IDS[site?.id] || [];
         trailEditor.hidden = trailStopIds.length === 0;
@@ -716,7 +724,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let trail;
         try {
             coverImage = await imageSource(document.getElementById('siteCoverImage'), document.getElementById('siteCoverImage').dataset.currentImageSrc);
-            managedStoryContent = storyEditorReady && previousSite?.storyPage ? await collectManagedStoryContent() : previousSite?.storyContent || null;
+            managedStoryContent = storyEditorReady ? await collectManagedStoryContent() : previousSite?.storyContent || null;
             trail = TRAIL_STOP_IDS[id] ? {
                 title: document.getElementById('trailTitle').value.trim(),
                 introduction: document.getElementById('trailIntroduction').value.trim(),
@@ -750,7 +758,7 @@ document.addEventListener('DOMContentLoaded', () => {
             apiRegion: previousSite?.apiRegion || '',
             description: document.getElementById('siteDescription').value.trim(),
             coverImage,
-            storyPage: siteContent.getSiteForAdmin(id)?.storyPage || '',
+            storyPage: siteContent.getSiteForAdmin(id)?.storyPage || 'story.html',
             story: managedStoryContent?.sections.find(section => section.id === 'story')?.body || document.getElementById('siteStory').value.trim(),
             images: [],
             storyContent: managedStoryContent,

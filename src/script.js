@@ -22,7 +22,7 @@
         }
 
         if (window.ananseAuth && typeof window.ananseAuth.api === "function") {
-            const storyPages = ["capecoast.html", "manhyia.html", "osucastle.html", "independence.html", "kwamepark.html"];
+            const storyPages = ["capecoast.html", "manhyia.html", "osucastle.html", "independence.html", "kwamepark.html", "story.html"];
             const pageName = String(page || location.pathname).split("/").pop();
             const recordRemoteEvent = function () {
                 const site = siteId && window.ananseSiteContent && window.ananseSiteContent.getSite(siteId);
@@ -242,7 +242,8 @@
             "kwamepark.html": "kwame-nkrumah"
         };
         const querySite = new URLSearchParams(location.search).get("site");
-        const siteId = storySiteIds[page] || (page === "explore.html" ? querySite : "");
+        const isGenericStory = page === "story.html";
+        const siteId = storySiteIds[page] || ((page === "explore.html" || isGenericStory) ? querySite : "");
         recordView(siteId, page);
         if (page === "index.html" && window.ananseSiteContent) {
             await window.ananseSiteContent.ready;
@@ -251,12 +252,19 @@
                 card.style.display = publicSiteIds.has(card.dataset.siteId) ? "" : "none";
             });
         }
-        if (storySiteIds[page] && window.ananseSiteContent) {
+        if ((storySiteIds[page] || isGenericStory) && window.ananseSiteContent) {
             await window.ananseSiteContent.ready;
-            const site = window.ananseSiteContent.getSite(storySiteIds[page]);
+            const site = window.ananseSiteContent.getSite(siteId);
             if (!site) {
                 window.location.replace("explore.html");
                 return;
+            }
+            if (isGenericStory) {
+                const cover = document.querySelector(".s-hero-image");
+                if (cover && site.coverImage) {
+                    cover.src = site.coverImage;
+                    cover.alt = site.name;
+                }
             }
             applyManagedStory(site);
         }
@@ -991,9 +999,13 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     function getStoryUrl(siteId) {
         const managedSite = window.ananseSiteContent && window.ananseSiteContent.getSite(siteId);
-        if (managedSite && managedSite.storyPage) return managedSite.storyPage;
-        if (managedSite) return "explore.html?site=" + encodeURIComponent(siteId);
-        return STORY_PAGES[siteId] || "site.html?site=" + siteId;
+        if (managedSite && managedSite.storyPage) {
+            if (managedSite.storyPage.split(/[?#]/)[0] === "story.html") {
+                return "story.html?site=" + encodeURIComponent(siteId);
+            }
+            return managedSite.storyPage;
+        }
+        return STORY_PAGES[siteId] || "story.html?site=" + encodeURIComponent(siteId);
     }
 
     // ---- Pages with a Listen experience (others show "coming soon") ----
